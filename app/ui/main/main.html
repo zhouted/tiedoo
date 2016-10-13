@@ -1,23 +1,17 @@
-<div class="container-fluid">
+<!-- <link rel="stylesheet" href="ui/common/navbar.css"> -->
+<div id="main">
     <!-- <div class="pull-right">
         <button type="button" class="btn login btn-primary">登录</button>
     </div> -->
-    <include src="ui/common/header.html" data-id="ahead"></include>
-    <div class="row">
-        <aside class="col-xs-2">
-            <include src="ui/main/main-navbar.html"></include>
-        </aside>
-        <main class="col-xs-10">
-            <!-- Tab panes -->
-            <include src="ui/welcome/welcome.html"></include>
-            <div class="tab-content">
-              <script type="text/html" role="template">
-                  <div role="tabpanel" class="tab-pane" id="${data.id}" data-src="${data.src}">
-                  </div>
-              </script>
+    <include src="ui/main/main-topbar.html" data-id="topbar"></include>
+    <include src="ui/main/main-navbar.html" data-id="sidebar"></include>
+    <main class="tab-content">
+        <!-- Tab panes -->
+        <include src="ui/welcome/welcome.html"></include>
+        <script type="text/html" role="template">
+            <div role="tabpanel" class="tab-pane" id="${data.id}" data-src="${data.src}">
             </div>
-        </main>
-    </div>
-    <include src="ui/common/footer.html"></include>
+        </script>
+    </main>
+    <!-- <include src="ui/common/footer.html"></include> -->
 </div>
-<script src="ui/main/main.js"></script>

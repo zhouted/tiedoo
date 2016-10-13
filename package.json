@@ -28,7 +28,7 @@
       "app": "app"
   },
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall?": "install-app-deps",
     "start": "electron ./app",
     "dist": "build --dir",
     "pack": "build"

@@ -1,0 +1,11 @@
+#main>#sidebar {
+    float: left;
+    width: 100px;
+    padding: 0 10px 0 10px;
+    overflow: hidden;
+}
+
+#main>main {
+    margin-left: 100px;
+    overflow: auto;
+}

@@ -1,9 +1,11 @@
-$(function(){
+function init(){
     $(window).on('resize', onResize);
     function onResize(){
-        let height = window.innerHeight - $('#ahead').height() - $('#footer').height() - 100;
-        $('aside').css('height', height);
-        $('main').css('height', height);
+        let height = window.innerHeight - $('#topbar').height() - 20;
+        $('#sidebar').css('height', height);
+        $('main.tab-content').css('height', height);
     }
     onResize();
-});
+}
+
+module.exports = {init}

@@ -1,0 +1,19 @@
+@charset "utf-8";
+/*
+* Base styles, based on/for bootstrap
+*/
+body{font-family:Microsoft YaHei,SimSun;}
+
+.abs{position: absolute;}
+.rel{position: relative;}
+.tpl, .sample{display:none;}
+.dot{overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.no-margin, .margin0{margin:0;}
+.no-padding, .padding0{padding:0;}
+.reddot{position:absolute; background:#fa3131; width:7px; height:7px; border-radius:3px 3px;}
+
+.progress{position:absolute; margin:0; left:0; width:100%}
+.progress .progress-bar{width:0%;}
+
+.text-red{color:red;}
+.text-alert{color:#fa702a;}

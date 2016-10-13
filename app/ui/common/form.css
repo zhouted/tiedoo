@@ -1,0 +1,12 @@
+@charset "utf-8";
+.form-horizontal fieldset{margin:10px 0;}
+.form-horizontal fieldset>legend{font-size:15px; margin:0 0 10px 0;}
+.form-horizontal fieldset fieldset{margin:10px 20px;}
+.form-horizontal fieldset fieldset>legend{font-size:14px;}
+.form-horizontal .form-group.form-group-sm{margin-bottom:8px;}
+.form-horizontal .form-group.form-group-sm .control-label{padding-top:5px; padding-left:0; padding-right:0; font-size:13px; font-weight:normal; text-align:right; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.form-horizontal .form-group.form-group-sm .control-label.for-edit{padding-left:15px; padding-right:15px; text-align:left;}
+/* .form-horizontal .form-group.form-group-sm .control-label.for-edit>input{margin:0;} */
+.form-horizontal .form-group.form-group-sm .form-control{font-size:13px; height:auto;}
+.form-horizontal .form-group.form-group-sm .form-control-static{padding-bottom:0px; font-size:13px; min-height:18px; height:auto;}
+.form-horizontal .form-control-static.for-readonly pre{margin-bottom:0; padding:0; border:none; background-color:inherit; font-family:inherit}

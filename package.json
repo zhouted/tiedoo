@@ -1,0 +1,42 @@
+{
+  "name": "tiedoo",
+  "version": "0.1.0",
+  "description": "Tiedoo desktop app",
+  "build": {
+    "appId": "com.tiedoo.desktop",
+    "app-category-type": "desktop",
+    "asar": false,
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/windows/logo.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerHeaderIcon": "build/windows/setup-icon.ico"
+    },
+    "mac": {
+      "icon": "build/osx/logo.icns"
+    },
+    "dmg": {
+      "icon": "build/osx/dmg-icon.icns",
+      "background": "build/osx/dmg-background.png"
+    }
+  },
+  "directories": {
+      "buildResources": "build",
+      "output": "dist",
+      "app": "app"
+  },
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron ./app",
+    "dist": "build --dir",
+    "pack": "build"
+  },
+  "author": "Tiedoo",
+  "license": "Unlicense",
+  "devDependencies": {
+    "electron": "^1.4.3",
+    "electron-builder": "^7.11.4"
+  }
+}

@@ -1,5 +1,5 @@
 /*
-* 加载和处理页面框架
+* 加载和处理UI(html+css+js)框架
 */
 
 // 处理html文档中的<include>标签
@@ -54,67 +54,82 @@ function loader(filename, opts){
     let deferred = $.Deferred();
     console.debug('loading '+filename);
     $.ajax(filename).then((data)=>{
-        let $scope = data;//.toString();
-        try{
-            $scope = $($scope);
-        }catch(e){
-            console.log(e);
-        }finally{
-            appendScript($scope, opts&&opts.id);
-            if ($scope instanceof $){
-                includer($scope).then(()=>{
-                    resolve($scope)
-                }).catch((err)=>{
-                    resolve($scope)
-                    console.log(err);
-                });
-            }else{//TODO: 不合法的html格式？
-                resolve($scope);
+        let contents = data;//.toString();
+        let css, cssname = filename.replace(/.html$/, '.css')
+        $.ajax(cssname).then((data)=>{
+            css = data;
+        }).always(()=>{
+            if (css){
+                contents += `<style>${css}</style>`
             }
-        }
+            tryLoadAll(contents)
+        // }).catch((err)=>{//TODO: ignore?
+        //     console.debug(err);
+        })
     }).catch((err)=>{
         deferred.reject(err);
     });
     return deferred.promise();
 
-    function resolve($content){
-        deferred.resolve($content);
+    function resolve(data){
+        deferred.resolve(data);
         console.debug(filename + ' loaded!');
     }
     function reject(err){
         deferred.reject(err);
     }
-
-    function appendScript($scope, id){// 为加载内容附加关联脚本
-        let oid // 存放原有id
-        if ($scope instanceof $ && $scope[0]){
-            oid = $scope[0].id
+    // 尝试加载进一步包含的文件
+    function tryLoadAll($contents){
+        try{
+            $contents = $($contents);
+        }catch(e){
+            console.log(e);
+        }finally{
+            addScript($contents, opts&&opts.id);
+            if ($contents instanceof $){ // 递归加载
+                includer($contents).then(()=>{
+                    resolve($contents)
+                }).catch((err)=>{
+                    resolve($contents)
+                    console.log(err);
+                });
+            }else{//TODO: 不合法的html格式？
+                resolve($contents);
+            }
         }
-        id = id || oid || 'undef' // 指定id 或 原有id //TODO uuid
-        let aScript = `<script>
-            $(function(){
-                //try{
-                    const ${id} = require('./${filename.replace(/.html$/, '.js')}');
-                    ${id} && ${id}.init && ${id}.init('#${id}');
-                //}catch(e){
-                //    console.debug(e);
-                //}
-            })
-        </script>`
-        if ($scope instanceof $){
-            if (oid){// 替换内嵌脚本可能用到的scope id
-                $scope.siblings('script').each(function(){
+    }
+    // 为加载内容附加同名js文件，同时处理content's id
+    function addScript($contents, id){
+        let oid = setContentId($contents, id)
+        let aScript = `<script>$(function(){
+                const ${id} = require('./${filename.replace(/.html$/, '.js')}');
+                ${id} && ${id}.init && ${id}.init('#${id}');
+            })</script>`
+        if ($contents instanceof $){
+            if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
+                $contents.siblings('script,style').each(function(){
                     let $script = $(this);
                     $script.text($script.text().replace('#'+oid, '#'+id));
                 });
             }
-            if (id && id !== 'undef'){// 重设scope id
-                $scope[0].id = id;
-            }
-            $.merge($scope, $(aScript));
+            $.merge($contents, $(aScript));
         }else{
-            $scope += aScript;
+            $contents += aScript;
         }
+    }
+
+    function setContentId($contents, id){
+        let oid
+        if ($contents instanceof $){
+            let $first = $contents.filter('[id]').first()
+            if ($first.length){
+                oid = $first.attr('id')
+            }else{
+                $first = $contents.first()
+            }
+            id && $first.attr('id', id);// 如果指定了新的id则设置到第一个元素上
+        }
+        return oid //返回原oid
     }
 }
 

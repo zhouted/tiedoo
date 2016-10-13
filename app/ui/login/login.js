@@ -1,36 +1,30 @@
-const {login} = require(appPath+'/mdl/user.js')
+const mUser = require(appPath+'/mdl/user.js')
 
-function init(modalId){
-   console.log('login loaded!'+modalId);
-   let $modal = $(modalId);
-   let $form = $modal.find('form');
-   let $confirm = $modal.find('.btn.confirm')
-   $confirm.click(onLogin);
+function init(loginId){
+   console.log('login loaded!'+loginId);
+   let $login = $(loginId);
+   let $form = $login.find('form');
+   $form.find('input[name=email]').val('ted@concordtools.cn')
+   let $confirm = $login.find('.btn.confirm')
+   $confirm.click(doLogin);
 
-   function onLogin(){
-       let $btn = $(this);
-       $btn.button('loading');
+   function doLogin(){
+       $confirm.button('loading');
        let data = toPO($form);
-       let promise = login(data);
-       promise.then((rst)=>{
+       let p = mUser.login(data);
+       p.then((rst)=>{
            console.log(rst);
            if (rst.ok){
                router.loadMain()
-               $modal.modal('hide');
+               $login.remove();
            }else{
                alert(rst.ok);
            }
-       }).finally((a)=>{
-           console.log(a);
-           $btn.button('reset');
+       }).finally(()=>{
+           $confirm.button('reset');
        }).catch((err)=>{
            console.log(err);
        });
-   }
-
-   $modal.on('show.bs.modal', onShow)
-   function onShow(){
-       $form.find('input[name=email]').val('ted@concordtools.cn')
    }
 }
 

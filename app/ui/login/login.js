@@ -1,4 +1,5 @@
-const mUser = require(appPath + '/mdl/user.js')
+const mUser = require(appPath+'/mdl/user.js')
+const mCur = require(appPath+'/mdl/current.js')
 
 function init(loginId) {
     console.log('login loaded!' + loginId);
@@ -15,13 +16,16 @@ function init(loginId) {
 
     function doLogin() {
         $confirm.button('loading');
-        let data = toPO($form);
+        let data = $form.input('values');
         let p = mUser.login(data);
         p.then(rst => {
             console.log(rst)
-            if (rst.passed) {
-                //router.loadMain(rst.user)
-                router.showProfile()
+            if (rst.passed && rst.user) {
+                if (rst.user.isNew){
+                    router.showProfile()
+                }else{
+                    router.loadMain();
+                }
             } else if (rst.user) {
                 alert('密码错误！')
             } else {
@@ -40,14 +44,14 @@ function init(loginId) {
 
 }
 
-function toPO($form) { //TODO: move to jquery.forms plugin
-    let po = {}
-    let values = $form.serializeArray();
-    for (value of values) {
-        po[value.name] = value.value;
-    }
-    return po;
-}
+// function toPO($form) { //TODO: move to jquery.forms plugin
+//     let po = {}
+//     let values = $form.serializeArray();
+//     for (value of values) {
+//         po[value.name] = value.value;
+//     }
+//     return po;
+// }
 
 module.exports = {
     init

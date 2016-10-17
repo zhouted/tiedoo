@@ -1,0 +1,53 @@
+<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modalLabel">请完善您的资料</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form form-horizontal">
+                    <input type="hidden" name="_id" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">您的姓名</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">公司名称</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" name="compName" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">联系电话</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" name="tel" id="name">
+                        </div>
+                        <label class="control-label col-xs-2" for="name">传真</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" name="fax" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">联系地址</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" name="addr" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">公司网址</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" name="site" id="name">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel btn-default" data-dismiss="modal">跳过</button>
+                <button type="button" class="btn confirm btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

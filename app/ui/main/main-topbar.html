@@ -10,17 +10,18 @@
         </div>
         <ul class="nav navbar-nav pull-right">
             <li class="nav-info">
-                <a href="javascript:;">
-                    <span class="glyphicon glyphicon-user"></span> 铁道
+                <a href="javascript:;" onclick="router.showProfile()">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="user-name">User</span>
                 </a>
             </li>
             <li class="nav-help">
-                <a href="javascript:;">
+                <a href="javascript:;" onclick="">
                     <span class="glyphicon glyphicon-info-sign"></span> 帮助
                 </a>
             </li>
             <li calss="nav-logout">
-                <a href="javascript:;" onclick="router.showLogin()">
+                <a href="javascript:;" onclick="router.logout()">
                     <span class="glyphicon glyphicon-off"></span> 退出
                 </a>
             </li>

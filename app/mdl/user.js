@@ -15,7 +15,7 @@ function login(data) {
         }).then(user => {
             if (user && checkPasswd(data.pwd, user.pwd)) { // 用户密码检查通过，记下当前登录用户
                 return setCurUser(user)
-            }// else 登录失败
+            } // else 登录失败
             resolve({
                 passed: false,
                 user
@@ -48,11 +48,20 @@ function register(data) {
     })
 }
 
+function logout() {
+    return dsCur.update({}, {
+        $set: {
+            active: false
+        }
+    })
+}
+
 function setCurUser(user) {
     return new Promise((resolve, reject) => {
         let run = {
             _id: 'onlyone',
             uid: user._id,
+            active: true,
             isNewUser: user.isNew
         }
         dsCur.save(run).then(a => {
@@ -78,10 +87,15 @@ function getCurUser() {
             reject(err)
         })
     })
-    return
+}
+
+function save(user) {
+    return dsUser.save(user)
 }
 
 module.exports = {
     login,
+    logout,
+    save,
     getCurUser
 }

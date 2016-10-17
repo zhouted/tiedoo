@@ -11,7 +11,7 @@ $.fn.loadIncludes = function(){
 // 加载html文件覆盖this下的内容
 // usage: $('#div').loadFile('a.html');
 $.fn.loadFile = function(filename, opts){
-    return loader(filename, opts).then(($content)=>{
+    return loader(filename, opts).then($content => {
         this.empty().append($content);
     });
 }
@@ -28,7 +28,7 @@ $.fn.addFile = function(filename, opts){
             return deferred.promise();
         }
     }
-    return loader(filename, opts).then(($content)=>{
+    return loader(filename, opts).then($content => {
         this.append($content);
     });
 }
@@ -40,7 +40,7 @@ function includer($scope){
         let $inc = $(this); opts = $inc.data();
         let filename = $inc.attr('src');
         let promise = loader(filename, opts);
-        promise.then(($content)=>{
+        promise.then($content => {
             $inc.replaceWith($content);
         });
         return promise;
@@ -53,18 +53,16 @@ function includer($scope){
 function loader(filename, opts){
     let deferred = $.Deferred();
     console.debug('loading '+filename);
-    $.ajax(filename).then((data)=>{
+    $.ajax(filename).then(data => {
         let contents = data;//.toString();
         let css, cssname = filename.replace(/.html$/, '.css')
-        $.ajax(cssname).then((data)=>{
+        $.ajax(cssname).then(data => {
             css = data;
         }).always(()=>{
             if (css){
                 contents += `<style>${css}</style>`
             }
             tryLoadAll(contents)
-        // }).catch((err)=>{//TODO: ignore?
-        //     console.debug(err);
         })
     }).catch((err)=>{
         deferred.reject(err);
@@ -87,9 +85,9 @@ function loader(filename, opts){
         }finally{
             addScript($contents, opts&&opts.id);
             if ($contents instanceof $){ // 递归加载
-                includer($contents).then(()=>{
+                includer($contents).then(() => {
                     resolve($contents)
-                }).catch((err)=>{
+                }).catch(err => { // ignore errors
                     resolve($contents)
                     console.log(err);
                 });
@@ -101,9 +99,10 @@ function loader(filename, opts){
     // 为加载内容附加同名js文件，同时处理content's id
     function addScript($contents, id){
         let oid = setContentId($contents, id)
+        id = id || oid
         let aScript = `<script>$(function(){
-                const ${id} = require('./${filename.replace(/.html$/, '.js')}');
-                ${id} && ${id}.init && ${id}.init('#${id}');
+                const a = require('./${filename.replace(/.html$/, '.js')}');
+                a && a.init && a.init('#${id}');
             })</script>`
         if ($contents instanceof $){
             if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id

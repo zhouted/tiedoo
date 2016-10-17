@@ -1,14 +1,28 @@
-function loadMain(){
-    return $('body').loadFile('ui/main/main.html').catch((err)=>{
-        alert(JSON.stringify(err))
+function loadMain() {
+    return $('body').loadFile('ui/main/main.html').catch(err => {
+        console.error(err)
     })
 }
 
-function showLogin(){
-    let id = 'logon'
-    $('body').loadFile('ui/login/login.html', {id}).catch((err)=>{
-        alert(JSON.stringify(err))
+function showLogin() {
+    $('body').loadFile('ui/login/login.html').catch(err => {
+        console.error(err)
     })
 }
 
-module.exports = {loadMain, showLogin}
+function showProfile() {
+    let id = 'profile'
+    $('body').addFile('ui/profile/profile.html', {
+        id
+    }).then(() => {
+        $('#id').modal('show')
+    }).catch(err => {
+        console.error(err)
+    })
+}
+
+module.exports = {
+    loadMain,
+    showLogin,
+    showProfile
+}

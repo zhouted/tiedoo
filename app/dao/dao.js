@@ -53,10 +53,10 @@ class DataStore{
     update(){
         return this.ds.updateAsync(...arguments);
     }
-    save(doc){
+    save(doc, opts = {upsert: true}){
         if (!doc) return;
         if (doc._id){// 使用$set保存
-            return this.ds.updateAsync({_id: doc._id}, {$set:doc});
+            return this.ds.updateAsync({_id: doc._id}, {$set:doc}, opts);
         }else{
             delete doc._id; // 避免空字符串
             return this.ds.insertAsync(doc);

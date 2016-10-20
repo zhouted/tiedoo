@@ -10,7 +10,7 @@ function open(){
     }
     browser.loadURL(`file://${appPath}/index.html`)
     browser.maximize()
-    browser.openDevTools()
+    // browser.openDevTools()
     browser.on('close', ()=>{
         browser = null
     })

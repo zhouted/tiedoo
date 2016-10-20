@@ -4,6 +4,8 @@ html {
     background-size: cover;
 }
 
-#login>.middle-block {
-    width: 300px;
+#first>.middle-block {
+    background-color: #fff;
+    padding: 0 10px;
+    width: 600px;
 }

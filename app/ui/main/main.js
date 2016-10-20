@@ -1,6 +1,6 @@
 const mUser = require(appPath+'/mdl/user.js')
 
-function init(){
+exports.init = function(binds){
     mUser.getCurUser().then(user =>{
         showUsername(user)
     })
@@ -15,12 +15,10 @@ function init(){
 
     $(window).on('resize', onResize)
     function onResize(){
-        let height = window.innerHeight - $('#topbar').height() - 20;
+        let height = window.innerHeight - $('#topbar').height() - 2 - 2;
         $('#sidebar').css('height', height);
         $('main.tab-content').css('height', height);
-        $('main.tab-content>.tab-pane').css('height', height - 20);
+        $('main.tab-content>.tab-pane').css('height', height);
     }
     onResize();
 }
-
-module.exports = {init}

@@ -99,10 +99,10 @@ function loader(filename, opts){
     // 为加载内容附加同名js文件，同时处理content's id
     function addScript($contents, id){
         let oid = setContentId($contents, id)
-        id = id || oid
+        let pid = id||oid
         let aScript = `<script>$(function(){
                 const a = require('./${filename.replace(/.html$/, '.js')}');
-                a && a.init && a.init('#${id}');
+                a && a.init && a.init({pid:'${pid}'});
             })</script>`
         if ($contents instanceof $){
             if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id

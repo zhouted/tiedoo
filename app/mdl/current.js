@@ -1,16 +1,14 @@
-const DataStore = require(appPath + '/dao/dao.js')
+const dsCur = require(appPath + '/dao/current.js')
+// const DataStore = require(appPath + '/dao/dao.js')
 
-let dsCur = new DataStore('current')
+let mCur = {_dao: dsCur}
 
-function getCur(){
+mCur.getCur = function(){
     return dsCur.findOne({})
 }
 
-function save(cur){
+mCur.save = function(cur){
     return dsCur.save(cur)
 }
 
-module.exports = {
-    getCur,
-    save
-}
+module.exports = mCur

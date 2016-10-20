@@ -1,10 +1,10 @@
 @charset "utf-8";
 
 /*
-* Base styles, based on/for bootstrap
+* Base styles, under bootstrap
 */
-
 body {
+    background-color: #4e5f6f;
     font-family: Microsoft YaHei, SimSun;
 }
 

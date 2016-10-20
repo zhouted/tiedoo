@@ -1,11 +1,17 @@
 #main>#sidebar {
     float: left;
     width: 100px;
-    padding: 0 10px 0 10px;
+    padding: 0 1px 0 1px;
     overflow: hidden;
 }
 
+
 #main>main {
     margin-left: 100px;
+    margin-right: 2px;
     overflow: auto;
+}
+
+#main>main.tab-content>.tab-pane{
+    margin-bottom:0;
 }

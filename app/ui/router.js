@@ -1,54 +1,44 @@
-const dsCur = require(appPath+'/mdl/current.js')
-const dsUser = require(appPath+'/mdl/user.js')
+const mCur = require(appPath+'/mdl/current.js')
+const mUser = require(appPath+'/mdl/user.js')
 
-function gohome(){
-    dsCur.getCur().then(cur => {
+var router = {}
+router.gohome = function(){
+    mCur.getCur().then(cur => {
         if (cur && cur.active){
-            dsCur.save(cur)
-            loadMain()
+            mCur.save(cur)
+            router.loadMain()
         }else{
-            showLogin()
+            router.showLogin()
         }
     }).catch(err => {
         console.error(err)
     })
 }
 
-function showLogin() {
+router.showLogin = function() {
     $('body').loadFile('ui/login/login.html').catch(err => {
         console.error(err)
     })
 }
 
-function logout(){
-    dsUser.logout().then(() => {
-        showLogin()
+router.logout = function(){
+    mUser.logout().then(() => {
+        router.showLogin()
     }).catch(err => {
         console.error(err)
     })
 }
 
-function showProfile() {
-    let id = 'profile'
-    $('body').addFile('ui/profile/profile.html', {
-        id
-    }).then(() => {
-        $('#'+id).modal('show')
-    }).catch(err => {
-        console.error(err)
-    })
-}
-
-function loadMain() {
+router.loadMain = function () {
     return $('body').loadFile('ui/main/main.html').catch(err => {
         console.error(err)
     })
 }
-function isLoadMain() {
+router.isLoadMain = function() {
     return $('body>#main').length
 }
 
-function loadMainProduct() {
+router.loadMainProduct = function() {
     return $('#main>main.tab-content').loadFile('ui/product/product.html').then(() => {
         $(window).trigger('resize');
     }).catch(err => {
@@ -56,7 +46,7 @@ function loadMainProduct() {
     })
 }
 
-function loadMainQuota() {
+router.loadMainQuota = function() {
     return $('#main>main.tab-content').loadFile('ui/quota/quota.html').then(() => {
         $(window).trigger('resize');
     }).catch(err => {
@@ -64,12 +54,12 @@ function loadMainQuota() {
     })
 }
 
-module.exports = {
-    gohome,
-    showLogin,
-    logout,
-    showProfile,
-    loadMain, isLoadMain,
-    loadMainProduct,
-    loadMainQuota
+router.loadMainSetting = function() {
+    return $('#main>main.tab-content').loadFile('ui/setting/setting.html').then(() => {
+         $(window).trigger('resize');
+    }).catch(err => {
+        console.error(err)
+    })
 }
+
+module.exports = router

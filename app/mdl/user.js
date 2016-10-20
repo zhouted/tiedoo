@@ -1,19 +1,24 @@
-const DataStore = require(appPath + '/dao/dao.js')
+const daoUser = require(appPath + '/dao/user.js')
+const daoCurr = require(appPath + '/dao/current.js')
+const md5 = require('md5')
 
-let dsUser = new DataStore('user')
-let dsCur = new DataStore('current')
+// let daoUser = new DataStore('user')
+// let daoCurr = new DataStore('current')
 
-function login(data) {
+let mUser = {_dao: daoUser}
+
+mUser.login = function(data) {
+    let pwd = data.pwd
     return new Promise((resolve, reject) => {
-        dsUser.findOne({
-            email: data.email
+        daoUser.findOne({
+            account: data.account
         }).then(user => {
             if (!user && data.pwdAg) { // 新用户先注册
                 return register(data)
             }
             return user
         }).then(user => {
-            if (user && checkPasswd(data.pwd, user.pwd)) { // 用户密码检查通过，记下当前登录用户
+            if (user && checkPasswd(pwd, user)) { // 用户密码检查通过，记下当前登录用户
                 return setCurUser(user)
             } // else 登录失败
             resolve({
@@ -30,14 +35,14 @@ function login(data) {
         })
     })
 }
-
-function checkPasswd(pwd1, pwd2) {
-    return pwd1 == pwd2
+function checkPasswd(pwd, user) {
+    return md5(pwd) == user.pwd
 }
-
 function register(data) {
     return new Promise((resolve, reject) => {
-        dsUser.insert(data).then(user => {
+        data.pwd = md5(data.pwd)
+        delete data.pwdAg
+        daoUser.insert(data).then(user => {
             if (user) {
                 user.isNew = true
                 resolve(user)
@@ -47,24 +52,14 @@ function register(data) {
         })
     })
 }
-
-function logout() {
-    return dsCur.update({}, {
-        $set: {
-            active: false
-        }
-    })
-}
-
 function setCurUser(user) {
     return new Promise((resolve, reject) => {
         let run = {
-            _id: 'onlyone',
             uid: user._id,
             active: true,
             isNewUser: user.isNew
         }
-        dsCur.save(run).then(a => {
+        daoCurr.save(run).then(a => {
             resolve(user)
         }).catch(err => {
             reject(err)
@@ -72,11 +67,19 @@ function setCurUser(user) {
     })
 }
 
-function getCurUser() {
+mUser.logout = function() {
+    return daoCurr.update({}, {
+        $set: {
+            active: false
+        }
+    })
+}
+
+mUser.getCurUser = function() {
     return new Promise((resolve, reject) => {
-        dsCur.findOne({}).then(run => {
+        daoCurr.findOne({}).then(run => {
             if (run) {
-                return dsUser.findOne({
+                return daoUser.findOne({
                     _id: run.uid
                 })
             }
@@ -89,13 +92,8 @@ function getCurUser() {
     })
 }
 
-function save(user) {
-    return dsUser.save(user)
+mUser.save = function(user) {
+    return daoUser.save(user)
 }
 
-module.exports = {
-    login,
-    logout,
-    save,
-    getCurUser
-}
+module.exports = mUser

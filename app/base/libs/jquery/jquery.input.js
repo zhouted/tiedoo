@@ -17,8 +17,6 @@
 		switch (act){
 		case 'c'://check valid
 			return checkValids(this, options);
-		case 's'://strict press key
-			setStrict(this); break;
 		case 'v'://get/set values
 			if (options){
 				setValues(this, options); break;
@@ -28,8 +26,10 @@
 		case 'r'://readonly
 			setReadonly(this); break;
 		case 'e'://edit | enable
+			setEditing(this); break;
+		case 'i'://init
 		default:
-			setEditing(this);
+			doInit(this);
 		}
 		return this;
 	}
@@ -89,7 +89,7 @@
 		return valid;
 	}
 
-	function setStrict($form){
+	function doInit($form){
 		//限制输入
 		var modes = [
 		 	{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
@@ -137,6 +137,8 @@
 				$ipt.val(val);
 			}
 		});
+
+		//TODO: 为input自动生成id，使用lable.for?
 	}
 
 	function setReadonly($form){

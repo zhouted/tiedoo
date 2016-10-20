@@ -1,4 +1,4 @@
-// Base Data Access Objects: DataStore...
+// Base Data Access Objects
 const datPath = app.getPath('userData')
 const Nedb = require('nedb');
 
@@ -31,7 +31,7 @@ let {openDs,  closeDs} = (function (Nedb){
     return {openDs, closeDs};
 })(Nedb);
 
-class DataStore{
+class Dao{
     constructor(name){
         this._name = name;
     }
@@ -67,4 +67,4 @@ class DataStore{
     }
 }
 
-module.exports = DataStore
+module.exports = Dao

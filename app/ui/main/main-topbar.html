@@ -1,4 +1,4 @@
-<nav class="main navbar navbar-default" id="navbar" role="navigation">
+<nav class="main navbar" id="topbar" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header" onclick="router.loadMain()">
             <div class="navbar-brand">
@@ -10,7 +10,7 @@
         </div>
         <ul class="nav navbar-nav pull-right">
             <li class="nav-info">
-                <a href="javascript:;" onclick="router.showProfile()">
+                <a href="javascript:;" onclick="router.loadMainSetting()">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="user-name">User</span>
                 </a>
@@ -28,8 +28,3 @@
         </ul>
     </div>
 </nav>
-<style>
-#navbar{
-    margin-bottom: 10px;
-}
-</style>

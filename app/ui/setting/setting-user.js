@@ -27,7 +27,6 @@ exports.init = function({pid}){
         let data = $form.input('values');
         let p = srvUser.save(data);
         p.then(user => {
-            router.loadMain()
             //$('body').trigger('changed.profile', [data])
         }).finally(a => {
             $confirm.button('reset')
@@ -35,11 +34,5 @@ exports.init = function({pid}){
             console.log(err)
         })
     }
-
-    // 跳过
-    let $cancel = $form.find('.btn.cancel').click(onCancel)
-    function onCancel(){
-        router.loadMain()
-    }
-
+    console.log($confirm)
 }

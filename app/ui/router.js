@@ -1,11 +1,12 @@
-const mCur = require(appPath+'/mdl/current.js')
-const mUser = require(appPath+'/mdl/user.js')
+const srvCurr = require(appPath+'/service/current.js')
+const srvLogin = require(appPath+'/service/login.js')
 
 var router = {}
+
 router.gohome = function(){
-    mCur.getCur().then(cur => {
-        if (cur && cur.active){
-            mCur.save(cur)
+    srvCurr.load().then(curr => {
+        if (curr && curr.active){
+            srvLogin.autoLogin(curr)
             router.loadMain()
         }else{
             router.showLogin()
@@ -22,7 +23,7 @@ router.showLogin = function() {
 }
 
 router.logout = function(){
-    mUser.logout().then(() => {
+    srvLogin.logout().then(() => {
         router.showLogin()
     }).catch(err => {
         console.error(err)

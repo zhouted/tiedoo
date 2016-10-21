@@ -1,7 +1,7 @@
-const mUser = require(appPath+'/mdl/user.js')
+const srvLogin = require(appPath+'/service/login.js')
 
 exports.init = function(binds){
-    mUser.getCurUser().then(user =>{
+    srvLogin.loadLoginUser().then(user =>{
         showUsername(user)
     })
 

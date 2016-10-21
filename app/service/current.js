@@ -1,14 +1,37 @@
-const dsCur = require(appPath + '/dao/current.js')
-// const DataStore = require(appPath + '/dao/dao.js')
+const daoCurr = require(appPath + '/dao/current.js')
+const daoUser = require(appPath + '/dao/user.js')
+const md5 = require('md5')
 
-let mCur = {_dao: dsCur}
-
-mCur.getCur = function(){
-    return dsCur.findOne({})
+let srvCurr = {
+    _dao: daoCurr,
 }
 
-mCur.save = function(cur){
-    return dsCur.save(cur)
+srvCurr.load = function() {
+    return daoCurr.findOne({})
 }
 
-module.exports = mCur
+srvCurr.loadCurrUser = function() {
+    return new Promise((resolve, reject) => {
+        daoCurr.findOne({}).then(curr => {
+            if (curr) {
+                return daoUser.findOne({
+                    _id: curr.uid
+                })
+            }
+            resolve(null)
+        }).then(user => {
+            resolve(user)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+// srvCurr.save = function(cur) {
+//     return daoCurr.save(cur)
+//         // .then(rst => {
+//         //     Object.assign(srvCurr, cur)
+//         // })
+// }
+
+module.exports = srvCurr

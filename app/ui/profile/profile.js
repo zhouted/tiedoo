@@ -1,4 +1,4 @@
-const mUser = require(appPath+'/mdl/user.js')
+const mUser = require(appPath+'/service/user.js')
 
 function init(modalId){
     let $modal = $(modalId), $form = $modal.find('form')

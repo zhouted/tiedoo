@@ -92,10 +92,10 @@
 	function doInit($form){
 		//限制输入
 		var modes = [
-		 	{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
- 		    {cls: 'integer', keys:/[\d+-]/,  pattern:'[+-\\d]?\\d*'},
-		    {cls: 'numeric', keys:/[\d+-.]/, pattern:'[+-\\d]?\\d*\\.?\\d*'},
-			{cls: 'english', keys:/[\w\s+-,.#\*\[\]\(\)]/,  pattern:'[\\w\\s+-,.#\\*\\[\\]\\(\\)]*'},
+			{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
+ 		    {cls: 'integer', keys:/[\d\+-]/,  pattern:'[\\+-]?\\d*'},
+		    {cls: 'numeric', keys:/[\d\+-.]/, pattern:'[\\+-]?\\d*\\.?\\d*'},
+			{cls: 'english', keys:/[\w\s\+-,\.#\*\[\]\(\)]/,  pattern:'[\\w\\s\\+-,\\.#\\*\\[\\]\\(\\)]*'},
 		];
 		modes.forEach(function(mode){
 			var $ipts = $form.find('.form-control.'+mode.cls);
@@ -117,7 +117,8 @@
 			var pattern = $ipt.attr('pattern');
 			if (!RegExp(pattern).test(val)){
 				pattern = $ipt.data('pattern');
-				$ipt.val(RegExp(pattern).exec(val));
+				var vals = RegExp(pattern).exec(val);
+				vals && $ipt.val(vals[0]);
 			}
 		}
 

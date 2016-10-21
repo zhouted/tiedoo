@@ -1,5 +1,5 @@
 // Base Data Access Objects
-const datPath = app.getPath('userData')
+const datPath = app.getPath('userData')+'/dbs/'
 const Nedb = require('nedb');
 
 // Promisify Nedb&Cursor
@@ -8,27 +8,34 @@ const Cursor = dummyDb.find().constructor;
 Promise.promisifyAll(Nedb.prototype);
 Promise.promisifyAll(Cursor.prototype);
 
-let {openDs,  closeDs} = (function (Nedb){
+// DataStore
+let {openDs, setUserId} = (function (Nedb){
     let _opts = {
         autoload: true,
         timestampData: true,
         onload(err){
-            err && console.log(err);
+            err && console.error(err);
         }
     }
     let dsCaches = {};
+    let dsGlobal = ['current','user']; // 不分用户存放的全局dat
+    let userId = ''
     function openDs(name){
-        let ds = dsCaches[name];
+        let datFile = name + '.dat'
+        if (!dsGlobal.includes(name)){// 按用户id分目录存放数据
+            datFile = userId + '/' + datFile
+        }
+        let ds = dsCaches[datFile]
         if (!ds){
-            let opts = Object.assign({filename: `${datPath}/dbs/${name}.dat`}, _opts);
-            ds = dsCaches[name] = new Nedb(opts);
+            let opts = Object.assign({filename: datPath + datFile}, _opts);
+            ds = dsCaches[datFile] = new Nedb(opts);
         }
         return ds;
     }
-    function closeDs(name){//没用处？
-        delete dsCaches[name];
+    function setUserId(uid){
+        userId = uid
     }
-    return {openDs, closeDs};
+    return {openDs, setUserId};
 })(Nedb);
 
 class Dao{
@@ -55,6 +62,9 @@ class Dao{
     }
     save(doc, opts = {upsert: true}){
         if (!doc) return;
+        if (this._name == 'current' && doc.uid){
+            setUserId(doc.uid);
+        }
         if (doc._id){// 使用$set保存
             return this.ds.updateAsync({_id: doc._id}, {$set:doc}, opts);
         }else{

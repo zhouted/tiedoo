@@ -1,5 +1,4 @@
-const srvLogin = require(appPath+'/service/login.js')
-const srvUser = require(appPath+'/service/user.js')
+const srvComp = require(appPath+'/service/comp.js')
 
 exports.init = function({pid}){
     let $p = $('#'+pid), $form = $p.find('form')
@@ -7,8 +6,8 @@ exports.init = function({pid}){
     //加载数据
     doLoad()
     function doLoad(){
-        srvLogin.loadLoginUser().then(user => {
-            $form.input('values', user)
+        srvComp.load().then(comp => {
+            $form.input('values', comp)
         }).catch(err => {
             console.log(err)
         })
@@ -25,9 +24,8 @@ exports.init = function({pid}){
     function doSave(){
         $confirm.button('loading');
         let data = $form.input('values');
-        let p = srvUser.save(data);
+        let p = srvComp.save(data);
         p.then(user => {
-            router.loadMain()
             //$('body').trigger('changed.profile', [data])
         }).finally(a => {
             $confirm.button('reset')
@@ -35,11 +33,5 @@ exports.init = function({pid}){
             console.log(err)
         })
     }
-
-    // 跳过
-    let $cancel = $form.find('.btn.cancel').click(onCancel)
-    function onCancel(){
-        router.loadMain()
-    }
-
+    console.log($confirm)
 }

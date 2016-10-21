@@ -1,4 +1,4 @@
-const srvComp = require(appPath+'/service/comp.js')
+const srvComp = require(appPath+'/service/company.js')
 
 exports.init = function({pid}){
     let $p = $('#'+pid), $form = $p.find('form')

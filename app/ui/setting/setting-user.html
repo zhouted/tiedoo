@@ -3,13 +3,30 @@
         <form class="form form-horizontal">
             <input type="hidden" name="_id" />
             <fieldset>
-                <!-- <legend>
-                    <h4>请完善您的资料</h4>
-                </legend> -->
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="name">账号</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" name="account" id="account" readonly>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label col-xs-2" for="name">中文名</label>
                     <div class="col-xs-10">
                         <input type="text" class="form-control" name="name" id="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">性别</label>
+                    <div class="col-xs-10">
+                        <label class="control-label"><input type="radio" name="sex" value="male">先生</label>
+                        <label class="control-label"><input type="radio" name="sex" value="female">女士</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">兴趣</label>
+                    <div class="col-xs-10">
+                        <label class="control-label"><input type="checkbox" name="interest" value="male">先生</label>
+                        <label class="control-label"><input type="checkbox" name="interest" value="female">女士</label>
                     </div>
                 </div>
                 <div class="form-group">

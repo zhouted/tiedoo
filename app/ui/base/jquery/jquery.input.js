@@ -36,25 +36,71 @@
 
 	function getValues($form) {
 	    var doc = {}
-	    let values = $form.serializeArray();
-	    for (let {name,value} of values) {
-	        doc[name] = value;
-	    }
-	    return doc;
+		$form.find('input[name]').each(function(){
+			let $ipt = $(this)//, val = $ipt.val(), orgval = $ipt.data('_orgval')
+			let name = $ipt.attr('name-map')||$ipt.attr('name')
+			let ns = $ipt.attr('name-space')
+			if (ns) {
+				doc[ns] = doc[ns]||{}
+				getValue($ipt, doc[ns], name)
+			}else{
+				getValue($ipt, doc, name)
+			}
+		})
+		function getValue($ipt, doc, name){
+			let type = $ipt.attr('type')
+			if (type == 'radio' && !$ipt.prop('checked')){ // 跳过没选中的radio
+				return
+			}
+			if (doc.hasOwnProperty(name)){// 同名出现多次转为数组
+				if (!Array.isArray(doc[name])){
+					if (doc[name] === null){// null值不放入数组，使单checkbox保持单值属性，多checkbox转为数组属性
+						doc[name] = []
+					}else{
+						doc[name] = [doc[name]]
+					}
+				}
+				if (type !== 'checkbox' || $ipt.prop('checked')){ // 跳过没选中的checkbox
+					doc[name].push($ipt.val())
+				}
+			}else{
+				if (type === 'checkbox' && !$ipt.prop('checked')){ // 单checkbox没选中返回null
+					doc[name] = null
+				}else{
+					doc[name] = $ipt.val()
+				}
+			}
+		}
+		return doc
 	}
 
 	function setValues($form, doc){
-		for (let name in doc) {
-            if (!doc.hasOwnProperty(name)){
-                continue;
-            }
-            let $ipt = $form.find(`input[name=${name}]`);
-            if ($ipt.is('[type=checkbox]')){
-                $ipt.prop('checked', !!doc[name]);
-            }else{
-                $ipt.val(doc[name]);
-            }
-        }
+		$form.find('input[name]').each(function(){
+			let $ipt = $(this)
+			let name = $ipt.attr('name-map')||$ipt.attr('name')
+			let ns = $ipt.attr('name-space')
+			if (ns) {
+				if (doc[ns]) {
+					setValue($ipt, doc[ns][name])
+				}
+			} else {
+				setValue($ipt, doc[name])
+			}
+		})
+		function setValue($ipt, val){
+			if ($ipt.is('[type=checkbox],[type=radio]')){
+				let checked = false
+				if (Array.isArray(val)){
+					checked = val.includes($ipt.val())
+				}else{
+					checked = ($ipt.val() === val)
+				}
+				$ipt.prop('checked', checked);
+			}else{
+				$ipt.val(val);
+			}
+			// $ipt.data('_orgval', val)
+		}
 	}
 
 	function checkValids($inputs, quiet){

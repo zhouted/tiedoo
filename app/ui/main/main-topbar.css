@@ -8,6 +8,6 @@
     color: #fefefe;
 }
 
-#topbar .active a, #topbar a:hover {
+#topbar .active a, #topbar a:hover, #topbar a:focus {
     background-color: #000;
 }

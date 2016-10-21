@@ -1,7 +1,7 @@
 // This is the main process, started as first thing when your
 // app starts. This script is running through entire life of your application.
 const {app} = require('electron')
-const window = require('./base/apps/window.js');
+const window = require('./apps/window.js');
 
 // makeSingleInstance
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {

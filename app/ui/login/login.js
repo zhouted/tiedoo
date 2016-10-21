@@ -1,6 +1,6 @@
 const srvLogin = require(appPath+'/service/login.js')
 const srvCurr = require(appPath+'/service/current.js')
-const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/base/pubs/consts.js')
+const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
 exports.init = function({pid}) {
     let $login = $('#'+pid)

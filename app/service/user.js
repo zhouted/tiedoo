@@ -1,4 +1,5 @@
 const daoUser = require(appPath + '/dao/user.js')
+const daoUserImg = require(appPath + '/dao/user-img.js')
 const md5 = require('md5')
 
 let srvUser = {_dao: daoUser}
@@ -22,6 +23,14 @@ let srvUser = {_dao: daoUser}
 
 srvUser.save = function(user) {
     return daoUser.save(user)
+}
+
+srvUser.saveImg = function(file){
+    return daoUserImg.fsave(file)
+}
+
+srvUser.loadImg = function(id){
+    return daoUserImg.findOne({_id: id})
 }
 
 module.exports = srvUser

@@ -52,6 +52,7 @@
 			if (type == 'radio' && !$ipt.prop('checked')){ // 跳过没选中的radio
 				return
 			}
+			let val = getVal($ipt, type)
 			if (doc.hasOwnProperty(name)){// 同名出现多次转为数组
 				if (!Array.isArray(doc[name])){
 					if (doc[name] === null){// null值不放入数组，使单checkbox保持单值属性，多checkbox转为数组属性
@@ -60,16 +61,20 @@
 						doc[name] = [doc[name]]
 					}
 				}
-				if (type !== 'checkbox' || $ipt.prop('checked')){ // 跳过没选中的checkbox
+				if (val !== null){ // 跳过空值：没选中的checkbox
 					doc[name].push($ipt.val())
 				}
 			}else{
-				if (type === 'checkbox' && !$ipt.prop('checked')){ // 单checkbox没选中返回null
-					doc[name] = null
-				}else{
-					doc[name] = $ipt.val()
-				}
+				doc[name] = getVal($ipt, type)
 			}
+		}
+		function getVal($ipt, type){
+			if (type === 'checkbox'){ // 单checkbox没选中返回null
+				return $ipt.prop('checked')? $ipt.val() : null
+			} if (type === 'file'){ // input file 的id保存在data里
+				return $ipt.data('fileId')
+			}
+			return $ipt.val()
 		}
 		return doc
 	}
@@ -96,8 +101,10 @@
 					checked = ($ipt.val() === val)
 				}
 				$ipt.prop('checked', checked);
+			}else if ($ipt.is('[type=file]')){
+				$ipt.data('fileId', val)
 			}else{
-				$ipt.val(val);
+				$ipt.val(val)
 			}
 			// $ipt.data('_orgval', val)
 		}

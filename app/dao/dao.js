@@ -1,12 +1,19 @@
 // Base Data Access Objects
 const datPath = app.getPath('userData')+'/dbs/'
-const Nedb = require('nedb');
+const Nedb = require('nedb')
+const md5 = require('md5')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
 
 // Promisify Nedb&Cursor
-const dummyDb = new Nedb();
-const Cursor = dummyDb.find().constructor;
-Promise.promisifyAll(Nedb.prototype);
-Promise.promisifyAll(Cursor.prototype);
+const dummyDb = new Nedb()
+const Cursor = dummyDb.find().constructor
+Promise.promisifyAll(Nedb.prototype)
+Promise.promisifyAll(Cursor.prototype)
+
+// Promisify fs
+Promise.promisifyAll(fs)
+const mkdir = Promise.promisify(mkdirp)
 
 // DataStore
 let {openDs, setUserId} = (function (Nedb){
@@ -14,11 +21,11 @@ let {openDs, setUserId} = (function (Nedb){
         autoload: true,
         timestampData: true,
         onload(err){
-            err && console.error(err);
+            err && console.error(err)
         }
     }
-    let dsCaches = {};
-    let dsGlobal = ['current','user']; // 不分用户存放的全局dat
+    let dsCaches = {}
+    let dsGlobal = ['current','user'] // 不分用户存放的全局dat
     let userId = ''
     function openDs(name){
         let datFile = name + '.dat'
@@ -27,10 +34,10 @@ let {openDs, setUserId} = (function (Nedb){
         }
         let ds = dsCaches[datFile]
         if (!ds){
-            let opts = Object.assign({filename: datPath + datFile}, _opts);
-            ds = dsCaches[datFile] = new Nedb(opts);
+            let opts = Object.assign({filename: datPath + datFile}, _opts)
+            ds = dsCaches[datFile] = new Nedb(opts)
         }
-        return ds;
+        return ds
     }
     function setUserId(uid){
         userId = uid
@@ -61,7 +68,9 @@ class Dao{
         return this.ds.updateAsync(...arguments);
     }
     save(doc, opts = {upsert: true}){
-        if (!doc) return;
+        if (!doc) {
+            return Promise.reject(new Error('no data!'));
+        }
         if (this._name == 'current' && doc.uid){
             setUserId(doc.uid);
         }
@@ -74,6 +83,33 @@ class Dao{
     }
     remove(){
         return this.ds.removeAsync(...arguments);
+    }
+    //files' save method
+    fsave(file){
+        if (!file || !file.path){
+            return this.save(file)
+        }
+        let doc = {}, buf //文件内容
+        return fs.readFileAsync(file.path).then(data => { //读取文件内容并得到hashId
+            buf = data
+            doc.md5 = md5(data)
+            return this.findOne({md5: doc.md5}) //查出相同文件
+        }).then(exists => {
+            if (exists){
+                return Promise.resolve(exists)
+            }else{
+                doc._id = this.ds.createNewId()
+                doc.name = file.name.replace(/^.*\./, doc._id+'.')
+                let dir = this.ds.filename.replace('.dat', '.files/')
+                return mkdir(dir).then(()=>{
+                    doc.path = this.ds.filename.replace('.dat', '.files/'+doc.name)
+                    return fs.writeFileAsync(doc.path, buf)
+                }).then(()=>{
+                    doc.type = file.type, doc.size =  file.size
+                    return this.insert(doc)
+                })
+            }
+        })
     }
 }
 

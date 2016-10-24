@@ -9,6 +9,7 @@ exports.init = function({pid}){
     function doLoad(){
         srvLogin.loadLoginUser().then(user => {
             $form.input('values', user)
+            loadImg()
         }).catch(err => {
             console.log(err)
         })
@@ -34,5 +35,27 @@ exports.init = function({pid}){
             console.log(err)
         })
     }
-    console.log($confirm)
+
+    let $img = $form.find('#img')
+    let $imgId = $form.find('input[name=imgId]')
+    $imgId.change(function(){
+        $img.attr('src', this.files[0].path)
+        srvUser.saveImg(this.files[0]).then(file => {
+            console.log(file)
+            $imgId.data('fileId', file._id)
+            $img.attr('src', file.path)
+        })
+        // let file = new FileReader()
+        // file.onload = function(e){
+        //      $img.attr('src', e.target.result)
+        // }
+        // file.readAsDataURL(this.files[0])
+    })
+    function loadImg(){
+        srvUser.loadImg($imgId.data('fileId')).then(file => {
+            $img.attr('src', file.path)
+        })
+    }
+
+
 }

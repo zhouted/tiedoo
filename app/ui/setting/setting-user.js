@@ -45,16 +45,12 @@ exports.init = function({pid}){
             $imgId.data('fileId', file._id)
             $img.attr('src', file.path)
         })
-        // let file = new FileReader()
-        // file.onload = function(e){
-        //      $img.attr('src', e.target.result)
-        // }
-        // file.readAsDataURL(this.files[0])
     })
     function loadImg(){
         srvUser.loadImg($imgId.data('fileId')).then(file => {
             $img.attr('src', file.path)
         })
+
     }
 
 

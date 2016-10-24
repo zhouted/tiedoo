@@ -33,5 +33,4 @@ exports.init = function({pid}){
             console.log(err)
         })
     }
-    console.log($confirm)
 }

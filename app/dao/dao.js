@@ -1,19 +1,12 @@
 // Base Data Access Objects
 const datPath = app.getPath('userData')+'/dbs/'
 const Nedb = require('nedb')
-const md5 = require('md5')
-const fs = require('fs')
-const mkdirp = require('mkdirp')
 
 // Promisify Nedb&Cursor
 const dummyDb = new Nedb()
 const Cursor = dummyDb.find().constructor
 Promise.promisifyAll(Nedb.prototype)
 Promise.promisifyAll(Cursor.prototype)
-
-// Promisify fs
-Promise.promisifyAll(fs)
-const mkdir = Promise.promisify(mkdirp)
 
 // DataStore
 let {openDs, setUserId} = (function (Nedb){
@@ -55,6 +48,9 @@ class Dao{
     get ds(){
         return openDs(this._name);
     }
+    newId(){
+        return this.ds.createNewId()
+    }
     find(){
         return this.ds.findAsync(...arguments);
     }
@@ -83,33 +79,6 @@ class Dao{
     }
     remove(){
         return this.ds.removeAsync(...arguments);
-    }
-    //files' save method
-    fsave(file){
-        if (!file || !file.path){
-            return this.save(file)
-        }
-        let doc = {}, buf //文件内容
-        return fs.readFileAsync(file.path).then(data => { //读取文件内容并得到hashId
-            buf = data
-            doc.md5 = md5(data)
-            return this.findOne({md5: doc.md5}) //查出相同文件
-        }).then(exists => {
-            if (exists){
-                return Promise.resolve(exists)
-            }else{
-                doc._id = this.ds.createNewId()
-                doc.name = file.name.replace(/^.*\./, doc._id+'.')
-                let dir = this.ds.filename.replace('.dat', '.files/')
-                return mkdir(dir).then(()=>{
-                    doc.path = this.ds.filename.replace('.dat', '.files/'+doc.name)
-                    return fs.writeFileAsync(doc.path, buf)
-                }).then(()=>{
-                    doc.type = file.type, doc.size =  file.size
-                    return this.insert(doc)
-                })
-            }
-        })
     }
 }
 

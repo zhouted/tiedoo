@@ -1,12 +1,9 @@
-const Dao = require('./dao.js')
+const FileDao = require('./dao-file.js')
 
-class UserImg extends Dao{
+class UserImg extends FileDao{
     constructor(){
         super('user-img')
     }
-    // fsave(file){
-    //     super.fsave(doc)
-    // }
 }
 
 module.exports = new UserImg()

@@ -10,11 +10,15 @@ exports.init = function({pid}) {
         aspectRatio: 16 / 9,
         minCropBoxWidth: 100,
         crop: function(e) {
-            //console.log(e)
             rect.x = e.x
             rect.y = e.y
             rect.width = e.width
             rect.height = e.height
+            console.log(rect)
+            // if (e.width < 200 || e.hegiht < 200){
+            //     e.preventDefault()
+            //     $(this).cropper('setCropBoxData', {left:e.x, top:e.y, width:200, height:200})
+            // }
         }
     }
 

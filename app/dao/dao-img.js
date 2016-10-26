@@ -18,14 +18,28 @@ function cropsize(image, rect){
     return {image, size}
 }
 
+function createImage(file){
+    if (file.buf){
+        return nativeImage.createFromBuffer(file.buf)
+    }else if (file.data){
+        return nativeImage.createFromDataURL(file.data)
+    }else{
+        return nativeImage.createFromPath(file.path)
+    }
+}
+
 class DaoImg extends DaoFile {
-    fsave(file, rect){
-        if (!file || !rect){
+    fsave(file, toSize){
+        if (!file || !toSize){
             return super.fsave(file)
         }
-        let image = nativeImage.createFromPath(file.path)
-        image = image.crop({x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height)})
-        file.buf = image.toPNG()
+        let image = createImage(file)
+        image = image.resize(toSize)
+        if (file.ext === '.jpg' || file.ext === '.jpeg'){
+            file.buf = image.toJPEG()
+        }else{
+            file.buf = image.toPNG()
+        }
         return super.fsave(file)
     }
     findById(id, size){

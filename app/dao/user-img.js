@@ -5,9 +5,9 @@ class UserImg extends DaoImg{
     constructor(){
         super('user-img')
     }
-    // fsave(file, rect = Object.assign({x:0,y:0}, defaultSize)){
-    //     return super.fsave(file, rect)
-    // }
+    fsave(file, size = defaultSize){
+        return super.fsave(file, size)
+    }
     findById(id, size = defaultSize){
         return super.findById(id, size)
     }

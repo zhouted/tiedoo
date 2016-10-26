@@ -1,4 +1,5 @@
 // Base Data Access Objects
+const path = require('path')
 const datPath = app.getPath('userData')+'/dbs/'
 const Nedb = require('nedb')
 
@@ -21,14 +22,14 @@ let {openDs, setUserId} = (function (Nedb){
     let dsGlobal = ['current','user'] // 不分用户存放的全局dat
     let userId = ''
     function openDs(name){
-        let datFile = name + '.dat'
+        let filename = name + '.dat'
         if (!dsGlobal.includes(name)){// 按用户id分目录存放数据
-            datFile = userId + '/' + datFile
+            filename = path.join(userId, filename)
         }
-        let ds = dsCaches[datFile]
+        let ds = dsCaches[filename]
         if (!ds){
-            let opts = Object.assign({filename: datPath + datFile}, _opts)
-            ds = dsCaches[datFile] = new Nedb(opts)
+            let opts = Object.assign({filename: datPath + filename}, _opts)
+            ds = dsCaches[filename] = new Nedb(opts)
         }
         return ds
     }
@@ -44,6 +45,9 @@ class Dao{
     }
     get name(){
         return this._name;
+    }
+    get filename(){
+        return this.ds.filename
     }
     get ds(){
         return openDs(this._name);

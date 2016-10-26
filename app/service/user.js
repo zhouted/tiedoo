@@ -25,12 +25,12 @@ srvUser.save = function(user) {
     return daoUser.save(user)
 }
 
-srvUser.saveImg = function(file){
-    return daoUserImg.fsave(file)
+srvUser.saveImg = function(file, rect){
+    return daoUserImg.fsave(file, rect)
 }
 
 srvUser.loadImg = function(id){
-    return daoUserImg.findOne({_id: id})
+    return daoUserImg.findById(id, null)
 }
 
 module.exports = srvUser

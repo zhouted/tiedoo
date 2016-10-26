@@ -1,39 +1,70 @@
 const Dao = require('./dao.js')
 const md5 = require('md5')
 const fs = require('fs')
+const path = require('path')
 const mkdirp = require('mkdirp')
 // Promisify fs
 Promise.promisifyAll(fs)
 const mkdir = Promise.promisify(mkdirp)
 
-class FileDao extends Dao {
+class DaoFile extends Dao {
+    // 文件实际存放在该路径下
+    get filepath(){
+        let paths = path.parse(super.filename) // 数据文件路径信息
+        return path.join(paths.dir, paths.name+'.files') // 文件实际存放在dat文件对应的.files下
+    }
     //files' save method
     fsave(file){
-        if (!file || !file.path){
+        if (!file || !(file.path || file.buf || file.data)){
             return super.save(file)
         }
-        let doc = {}, buf //文件内容
-        return fs.readFileAsync(file.path).then(data => { //读取文件内容并得到hashId
-            buf = data
-            doc.md5 = md5(data)
-            return super.findOne({md5: doc.md5}) //查出相同文件
-        }).then(exists => {
-            if (exists){
+        let doc = {}, pExists
+        let buf = file.buf //文件内容
+        if (buf || file.data) { // 已带有数据
+            if (file.data) {//data:image/png;base64,iVB......ggg==
+                let matches = file.data.match((/^data:(.+)\/(.+);(.+),(.+)$/))
+                doc.type = matches[1]+'/'+matches[2]
+                doc.ext = '.'+matches[2]
+                buf = new Buffer(matches[4], matches[3])
+            }
+            doc.md5 = md5(buf)
+            pExists = super.findOne({md5: doc.md5}) //查出相同文件
+        } else { // 只有文件路径
+            doc.type = file.type
+            doc.ext = path.extname(file.path)
+            pExists = fs.readFileAsync(file.path).then(data => { //读取文件内容并得到hashId
+                buf = data
+                doc.md5 = md5(data)
+                return super.findOne({md5: doc.md5}) //查出相同文件
+            })
+        }
+        return pExists.then(exists => {
+            if (exists){ // 已存在文件，直接返回
                 return Promise.resolve(exists)
             }
             // insert new file
             doc._id = super.newId()
-            doc.name = file.name.replace(/^.*\./, doc._id+'.') //_id用做文件名
-            let dir = super.ds.filename.replace('.dat', '.files/')//文件存放在dat文件对应的.files下
-            return mkdir(dir).then(()=>{//创建路径、保存文件
-                doc.path = dir + doc.name
-                return fs.writeFileAsync(doc.path, buf)
-            }).then(()=>{//插入文件记录
-                doc.type = file.type, doc.size = file.size
-                return super.insert(doc)
+            doc.name = doc._id + doc.ext //_id用做文件名
+            doc.size = buf.size
+            doc.filename = path.basename(file.path) //保留原文件名备查
+            let pSave = super.insert(doc) //插入文件信息记录
+            let pWrite = mkdir(this.filepath).then(()=>{//创建路径、保存文件
+                let filepath = path.join(this.filepath, doc.name)
+                return fs.writeFileAsync(filepath, buf)
             })
+            return Promise.all([pSave, pWrite]).then(()=>{
+                return pSave
+            })
+        })
+    }
+    findById(id){
+        return super.findOne({_id: id}).then(file => {
+            if (file){
+                file.path = path.join(this.filepath, file.name)//重置路径
+            }
+            return Promise.resolve(file)
         })
     }
 }
 
-module.exports = FileDao
+module.exports = DaoFile

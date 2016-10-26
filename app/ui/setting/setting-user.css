@@ -1,0 +1,14 @@
+#setUserInfo .right-side{
+    float: right;
+    width: 200px;
+}
+
+#setUserInfo .right-side .thumbnail{
+    margin: 0 10px 20px 10px;
+    border:none;
+}
+
+#setUserInfo .right-side .thumbnail .caption{
+    padding: 10px 0;
+    border:none;
+}

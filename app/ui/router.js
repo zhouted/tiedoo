@@ -63,4 +63,15 @@ router.loadMainSetting = function() {
     })
 }
 
+// 图片剪裁弹窗(传入file input)
+router.showCropper = function(ipt){
+    return $('body').addFile('ui/common/crop-modal.html').then(() => {
+        let $modal = $('#cropModal')
+        $modal.find('#image').attr('src', ipt.files[0].path).data('srcIpt', ipt)
+        $modal.modal('show')
+    }).catch(err => {
+        console.error(err)
+    })
+}
+
 module.exports = router

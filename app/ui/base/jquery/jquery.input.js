@@ -6,7 +6,9 @@
 (function($){
 	//缺省选项
 	var _options = {
-		clsForEdit: 'for-edit',
+		clsEditing: 'on-editing',
+		clsForEditonly: 'for-editonly',
+		clsReading: 'on-reading',
 		clsForReadonly: 'for-readonly',
 	}
 
@@ -23,13 +25,14 @@
 			}else{
 				return getValues(this);
 			}
-		case 'r'://readonly
-			setReadonly(this); break;
-		case 'e'://edit | enable
-			setEditing(this); break;
+		case 'r'://to reading model
+			toReading(this, options); break;
+		case 'e'://to editing | enable
+			toEditing(this, options); break;
 		case 'i'://init
 		default:
-			doInit(this);
+			initReading(this, options);
+			initEditing(this, options)
 		}
 		return this;
 	}
@@ -92,6 +95,7 @@
 				setValue($ipt, doc[name])
 			}
 		})
+		initReading($form, true)
 		function setValue($ipt, val){
 			if ($ipt.is('[type=checkbox],[type=radio]')){
 				let checked = false
@@ -142,7 +146,8 @@
 		return valid;
 	}
 
-	function doInit($form){
+	function initEditing($form, values){
+		//values && setValues($form, values)
 		//限制输入
 		var modes = [
 			{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
@@ -195,9 +200,10 @@
 		//TODO: 为input自动生成id，使用lable.for?
 	}
 
-	function setReadonly($form){
-		$form.find('.input-group-addon.before-input.'+_options.clsForEdit).each(addOn).hide();
-		$form.find('.form-control.'+_options.clsForEdit+'[name]').each(function(){
+	function initReading($form, values){
+		//values && setValues($form, values)
+		$form.find('.input-group-addon.before-input.'+_options.clsForEditonly).each(addOn)//.hide();
+		$form.find('.form-control.'+_options.clsForEditonly+'[name]').each(function(){
 			var $ipt = $(this);
 			var $p = getReadonlyP($ipt);
 			var $span = getReadonlySpan($p, 'form-control-'+this.name, (this.tagName=='TEXTAREA'?'pre':'span'));
@@ -206,10 +212,10 @@
 				value = $ipt.find('option[value='+value+']').text();
 			}
 			$span.text(value);
-			$p.show();
-		}).hide();
-		$form.find('.input-group-addon.after-input.'+_options.clsForEdit).each(addOn).hide();
-		$form.find('.control-label.'+_options.clsForEdit).each(function(){
+			//$p.show();
+		})//.hide();
+		$form.find('.input-group-addon.after-input.'+_options.clsForEditonly).each(addOn)//.hide();
+		$form.find('.control-label.'+_options.clsForEditonly).each(function(){
 			var $label = $(this);
 			var $ipt = $label.children('input');
 			if ($ipt.prop('checked')){
@@ -228,7 +234,7 @@
 			$addon.is('.affter-input') && (addCls+='.affter-input');
 			var $span = getReadonlySpan($p, addCls);
 			$span.text($addon.text());
-			$p.show();
+			//$p.show();
 		}
 
 		function getReadonlyP($ctrl){
@@ -251,10 +257,14 @@
 		}
 	}
 
-	function setEditing($form){
-		$form.find('.'+_options.clsForReadonly).hide();
-		$form.find('.'+_options.clsForEdit).show().children('input').show();
-		setStrict($form);
+	function toReading($form, init){
+		$form.addClass(_options.clsReading).removeClass(_options.clsEditing)
+		init && initReading($form)
+	}
+
+	function toEditing($form, init){
+		$form.removeClass(_options.clsReading).addClass(_options.clsEditing)
+		init && initEditing($form);
 	}
 
 })(jQuery);

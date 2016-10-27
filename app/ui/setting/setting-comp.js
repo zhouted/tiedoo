@@ -2,6 +2,7 @@ const srvComp = require(appPath+'/service/company.js')
 
 exports.init = function({pid}){
     let $p = $('#'+pid), $form = $p.find('form')
+    $form.input('init')
 
     //加载数据
     doLoad()
@@ -14,8 +15,14 @@ exports.init = function({pid}){
         })
     }
 
-    // 保存数据
-    let $confirm = $form.find('.btn.confirm').click(onSave)
+    // 编辑、保存数据
+    let $edit = $form.find('.btn.edit').click(function(){
+        $form.input('edit')
+    })
+    let $back = $form.find('.btn.back').click(function(){
+        $form.input('read')
+    })
+    let $save = $form.find('.btn.save').click(onSave)
     function onSave(){
         // if (!checkValid()){
         //     return;
@@ -23,13 +30,14 @@ exports.init = function({pid}){
         doSave()
     }
     function doSave(){
-        $confirm.button('loading');
+        $save.button('loading');
         let data = $form.input('values');
         let p = srvComp.save(data);
         p.then(user => {
+            $form.input('read', true)
             //$('body').trigger('changed.profile', [data])
         }).finally(a => {
-            $confirm.button('reset')
+            $save.button('reset')
         }).catch(err => {
             console.log(err)
         })
@@ -45,6 +53,7 @@ exports.init = function({pid}){
             console.log(file)
             $imgIpt.data('fileId', file._id)
             $imgIpt.val('') //reset file input
+            $form.input('edit')
         })
     })
 

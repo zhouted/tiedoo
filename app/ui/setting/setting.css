@@ -1,3 +1,7 @@
 #setting>.setting>.tab-content>.tab-pane {
     max-width: 800px;
 }
+
+.on-reading .for-editonly, .on-editing .for-readonly {
+    display: none;
+}

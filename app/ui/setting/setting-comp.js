@@ -8,6 +8,7 @@ exports.init = function({pid}){
     function doLoad(){
         srvComp.load().then(comp => {
             $form.input('values', comp)
+            loadImg()
         }).catch(err => {
             console.log(err)
         })
@@ -33,4 +34,24 @@ exports.init = function({pid}){
             console.log(err)
         })
     }
+
+    let $img = $form.find('img.image-preview')
+    let $imgIpt = $form.find('input[name=imgId]')
+    $imgIpt.inputImg().change(function(){
+        let file = this.files[0]
+        if (!file || !file.path) return
+        $img.attr('src', file.path);
+        srvComp.saveImg(file).then(file => {
+            console.log(file)
+            $imgIpt.data('fileId', file._id)
+            $imgIpt.val('') //reset file input
+        })
+    })
+
+    function loadImg(){
+        srvComp.loadImg($imgIpt.data('fileId')).then(file => {
+            file && $img.attr('src', file.path)
+        })
+    }
+
 }

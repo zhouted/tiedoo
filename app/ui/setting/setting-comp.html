@@ -2,10 +2,16 @@
     <div class="panel-body">
         <form class="form form-horizontal">
             <input type="hidden" name="_id" />
+            <fieldset class="right-side pull-right">
+                <div class="thumbnail">
+                    <input type="file" class="hidden" name="imgId" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
+                    <img class="image-preview image-trigger" src="ui/images/logo.png" title="点击设置公司LOGO"/>
+                    <div class="caption">
+                        <button type="button" class="image-trigger btn-primary btn-block">点击设置公司LOGO</button>
+                    </div>
+                </div>
+            </fieldset>
             <fieldset>
-                <!-- <legend>
-                    <h4>请完善您的资料</h4>
-                </legend> -->
                 <div class="form-group">
                     <label class="control-label col-xs-2" for="name">公司名称</label>
                     <div class="col-xs-10">
@@ -47,7 +53,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset class="text-right">
+            <fieldset class="text-center">
                 <button type="button" class="btn confirm btn-primary">保存</button>
             </fieldset>
         </form>

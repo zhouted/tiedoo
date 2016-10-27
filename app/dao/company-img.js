@@ -4,7 +4,7 @@ let defaultSize = {width:180, height:180}
 
 class UserImg extends DaoImg{
     constructor(){
-        super('user-img')
+        super('company-img')
     }
     fsave(file, size = defaultSize){
         return super.fsave(file, size)

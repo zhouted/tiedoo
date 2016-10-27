@@ -63,7 +63,7 @@ exports.init = function({pid}) {
         let p = srvLogin.login(data)
         p.then(rst => {
             if (rst.passed && rst.user) {
-                if (rst.user/*.isNew*/){
+                if (rst.user.isNew){
                     loginFirst()
                 }else{
                     router.loadMain()

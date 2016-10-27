@@ -2,12 +2,12 @@
     <div class="panel-body">
         <form class="form form-horizontal">
             <input type="hidden" name="_id" />
-            <fieldset class="right-side pull-right">
+            <fieldset class="right-side pull-right text-center rel">
                 <div class="thumbnail">
-                    <input type="file" class="hidden" name="imgId" id="imgId" accept="image/png,image/jpeg">
-                    <img src="ui/images/user.jpg" id="img" onclick="$('#imgId').click()" title="点击设置头像"/>
+                    <input type="file" class="hidden" name="imgId" accept="image/png,image/jpeg" alt-trigger=".image-trigger" alt-change="cropper">
+                    <img class="image-preview image-trigger" src="ui/images/user.jpg" title="点击设置头像"/>
                     <div class="caption">
-                        <button type="button" class="btn-primary btn-block" onclick="$('#imgId').click()">点击设置头像</button>
+                        <button type="button" class="image-trigger btn-primary btn-block" onclick="$('#imgId').click()">点击设置头像</button>
                     </div>
                 </div>
             </fieldset>
@@ -48,9 +48,9 @@
                         <input type="text" class="form-control" name="tel" id="tel">
                     </div>
                 </div>
-                <div class="text-right">
-                    <button type="button" class="btn confirm btn-primary">保存</button>
-                </div>
+            </fieldset>
+            <fieldset class="text-center">
+                <button type="button" class="btn confirm btn-primary">保存</button>
             </fieldset>
         </form>
     </div>

@@ -1,8 +1,6 @@
 const srvLogin = require(appPath+'/service/login.js')
 const srvUser = require(appPath+'/service/user.js')
 
-require(appPath+'/ui/base/jquery/jquery.crop-image.js')//$.fn.cropInput
-
 exports.init = function({pid}){
     let $p = $('#'+pid), $form = $p.find('form')
 
@@ -38,9 +36,9 @@ exports.init = function({pid}){
         })
     }
 
-    let $img = $form.find('#img')
+    let $img = $form.find('img.image-preview')
     let $imgIpt = $form.find('input[name=imgId]')
-    $imgIpt.cropImage({
+    $imgIpt.inputImg({
         aspectRatio: 1 / 1
     }).on('done.cropper', function(e, file){
         $img.attr('src', file.data);
@@ -50,12 +48,11 @@ exports.init = function({pid}){
             //loadImg()
         })
     })
-    
+
     function loadImg(){
         srvUser.loadImg($imgIpt.data('fileId')).then(file => {
             file && $img.attr('src', file.path)
         })
     }
-
 
 }

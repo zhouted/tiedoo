@@ -1,13 +1,22 @@
 const daoComp = require(appPath + '/dao/company.js')
+const daoCompImg = require(appPath + '/dao/company-img.js')
 
-let mComp = {_dao: daoComp}
+let srvComp = {_dao: daoComp, _daoImage: daoCompImg}
 
-mComp.load = function(){
+srvComp.load = function(){
     return daoComp.findOne({})
 }
 
-mComp.save = function(doc){
+srvComp.save = function(doc){
     return daoComp.save(doc)
 }
 
-module.exports = mComp
+srvComp.saveImg = function(file){
+    return daoCompImg.fsave(file)
+}
+
+srvComp.loadImg = function(id){
+    return daoCompImg.findById(id)
+}
+
+module.exports = srvComp

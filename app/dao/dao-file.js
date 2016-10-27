@@ -18,8 +18,8 @@ class DaoFile extends Dao {
         if (!file || !(file.path || file.buf || file.data)){
             return super.save(file)
         }
-        let doc = {}, pExists
-        let buf = file.buf //文件内容
+        let doc = {type: file.type, ext: path.extname(file.path)}
+        let pExists, buf = file.buf //文件内容
         if (buf || file.data) { // 已带有数据
             if (file.data) {//data:image/png;base64,iVB......ggg==
                 let matches = file.data.match((/^data:(.+)\/(.+);(.+),(.+)$/))
@@ -30,8 +30,6 @@ class DaoFile extends Dao {
             doc.md5 = md5(buf)
             pExists = super.findOne({md5: doc.md5}) //查出相同文件
         } else { // 只有文件路径
-            doc.type = file.type
-            doc.ext = path.extname(file.path)
             pExists = fs.readFileAsync(file.path).then(data => { //读取文件内容并得到hashId
                 buf = data
                 doc.md5 = md5(data)

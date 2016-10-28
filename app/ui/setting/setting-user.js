@@ -73,4 +73,13 @@ exports.init = function({pid}){
         })
     }
 
+    //修改密码按钮
+    let $passwd = $form.find('.btn.passwd').click(function(){
+        $p.addFile('ui/setting/setting-pwd.html').then(() => {
+            let $modal = $('#passwdModal')
+            $modal.modal('show')
+        }).catch(err => {
+            console.error(err)
+        })
+    })
 }

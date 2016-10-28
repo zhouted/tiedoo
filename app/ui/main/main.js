@@ -1,16 +1,20 @@
 const srvLogin = require(appPath+'/service/login.js')
+const srvUser = require(appPath+'/service/user.js')
 
 exports.init = function(binds){
     srvLogin.loadLoginUser().then(user =>{
-        showUsername(user)
+        showUserInfo(user)
     })
 
-    $('body').on('changed.profile', (e, user) => {
-        showUsername(user)
+    $('body').on('changed.user', (e, user) => {
+        showUserInfo(user)
     })
 
-    function showUsername(user){
+    function showUserInfo(user){
         user.name && $('.user-name').text(user.name)
+        srvUser.loadImg(user.imageId).then(file => {
+            file && $('.main .nav-user img').attr('src', file.path)
+        })
     }
 
     $(window).on('resize', onResize)

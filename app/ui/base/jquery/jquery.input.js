@@ -146,8 +146,7 @@
 		return valid;
 	}
 
-	function initEditing($form, values){
-		//values && setValues($form, values)
+	function initEditing($form){
 		//限制输入
 		var modes = [
 			{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
@@ -200,8 +199,7 @@
 		//TODO: 为input自动生成id，使用lable.for?
 	}
 
-	function initReading($form, values){
-		//values && setValues($form, values)
+	function initReading($form){
 		$form.find('.input-group-addon.before-input.'+_options.clsForEditonly).each(addOn)//.hide();
 		$form.find('.form-control.'+_options.clsForEditonly+'[name]').each(function(){
 			var $ipt = $(this);

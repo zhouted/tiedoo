@@ -1,5 +1,6 @@
 const srvLogin = require(appPath+'/service/login.js')
 const srvUser = require(appPath+'/service/user.js')
+const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
 exports.init = function({pid}){
     let $p = $('#'+pid), $form = $p.find('form')
@@ -10,7 +11,6 @@ exports.init = function({pid}){
     function doLoad(){
         srvLogin.loadLoginUser().then(user => {
             $form.input('values', user)
-            // $form.input('reading', true)
             loadImg()
         }).catch(err => {
             console.log(err)
@@ -26,9 +26,18 @@ exports.init = function({pid}){
     })
     let $save = $form.find('.btn.save').click(onSave)
     function onSave(){
-        // if (!checkValid()){
-        //     return;
-        // }
+        let $account = $form.find('input[name=account]')
+        let account = $account.val()
+        if (!$account.val()){
+            return $account.focus()
+        }
+        if (!reEmail.test(account) && !reMobile.test(account)){
+            alert('输入的账号不是合法的手机号或邮箱地址！')
+            return $account.focus()
+        }
+        if (!$form.input('check')){
+            return;
+        }
         doSave()
     }
     function doSave(){
@@ -37,7 +46,7 @@ exports.init = function({pid}){
         let p = srvUser.save(data);
         p.then(user => {
             $form.input('read', true)
-            //$('body').trigger('changed.profile', [data])
+            $('body').trigger('changed.user', [data])
         }).finally(a => {
             $save.button('reset')
         }).catch(err => {
@@ -47,7 +56,7 @@ exports.init = function({pid}){
 
     // 设置头像
     let $img = $form.find('img.image-preview')
-    let $imgIpt = $form.find('input[name=imgId]')
+    let $imgIpt = $form.find('input[name=imageId]')
     $imgIpt.inputImg({
         aspectRatio: 1 / 1
     }).on('done.cropper', function(e, file){

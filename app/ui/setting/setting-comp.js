@@ -44,7 +44,7 @@ exports.init = function({pid}){
     }
 
     let $img = $form.find('img.image-preview')
-    let $imgIpt = $form.find('input[name=imgId]')
+    let $imgIpt = $form.find('input[name=imageId]')
     $imgIpt.inputImg().change(function(){
         let file = this.files[0]
         if (!file || !file.path) return

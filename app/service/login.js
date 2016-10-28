@@ -1,6 +1,7 @@
 const daoUser = require(appPath + '/dao/user.js')
 const daoCurr = require(appPath + '/dao/current.js')
 const md5 = require('md5')
+const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
 let srvLogin = {
     current: {} // 记录当前登录信息
@@ -41,9 +42,14 @@ srvLogin.login = function(data) {
     }
 
     function register(data) {
+        if (reEmail.test(data.account)){
+            data.email = data.account
+        }else if (reMobile.test(data.account)){
+            data.mobile = data.account
+        }
+        data.pwd = md5(data.pwd)
+        delete data.pwdAg
         return new Promise((resolve, reject) => {
-            data.pwd = md5(data.pwd)
-            delete data.pwdAg
             daoUser.insert(data).then(user => {
                 if (user) {
                     user.isNew = true

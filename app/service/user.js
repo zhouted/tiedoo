@@ -1,10 +1,33 @@
 const daoUser = require(appPath + '/dao/user.js')
 const daoUserImg = require(appPath + '/dao/user-img.js')
-const daoCurr = require(appPath + '/dao/current.js')
+const daoToken = require(appPath + '/dao/token.js')
 const md5 = require('md5')
 
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
-let srvUser = {}
+let srvUser = {
+    _token: {}, //存放用户登录信息
+}
+
+srvUser.loadToken = function() {
+    return daoToken.findOne({})
+}
+
+srvUser.loadLastUser = function() { //读取最后登录用户
+    return new Promise((resolve, reject) => {
+        daoToken.findOne({}).then(token => {
+            if (token) {
+                return daoUser.findOne({
+                    _id: token.uid
+                })
+            }
+            resolve(null)
+        }).then(user => {
+            resolve(user)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
 
 srvUser.login = function(data) {
     let pwd = data.pwd
@@ -17,8 +40,8 @@ srvUser.login = function(data) {
             }
             return user
         }).then(user => {
-            if (user && checkPasswd(pwd, user)) { // 用户密码检查通过，记下当前登录用户
-                return setCurUser(user)
+            if (user && validPasswd(pwd, user)) { // 用户密码检查通过，记下当前登录用户
+                return setUserToken(user)
             } // else 登录失败
             resolve({
                 passed: false,
@@ -35,18 +58,13 @@ srvUser.login = function(data) {
     })
 
     // inner funs:
-
-    function checkPasswd(pwd, user) {
-        return md5(pwd) == user.pwd
-    }
-
     function register(data) {
         if (reEmail.test(data.account)){
             data.email = data.account
         }else if (reMobile.test(data.account)){
             data.mobile = data.account
         }
-        data.pwd = md5(data.pwd)
+        data.pwd = encrypt(data.pwd)
         delete data.pwdAg
         return new Promise((resolve, reject) => {
             daoUser.insert(data).then(user => {
@@ -60,14 +78,14 @@ srvUser.login = function(data) {
         })
     }
 
-    function setCurUser(user) {
-        let curr = {
+    function setUserToken(user) {
+        let token = {
             uid: user._id,
             active: true,
             isNewUser: user.isNew
         }
         return new Promise((resolve, reject) => {
-            srvUser.autoLogin(curr).then(a => {
+            srvUser.autoLogin(token).then(a => {
                 resolve(user)
             }).catch(err => {
                 reject(err)
@@ -76,35 +94,39 @@ srvUser.login = function(data) {
     }
 }
 
-srvUser.autoLogin = function(curr){
-    return daoCurr.save(curr)
+srvUser.checkPasswd = function(pwd){
+    return srvUser.load(user => {
+        return validPasswd(pwd, user)
+    })
+}
+function validPasswd(pwd, user) {
+    return md5(pwd) == user.pwd
+}
+
+srvUser.changePasswd = function(pwd){
+    let user = {
+        _id: srvUser._token.uid,
+        pwd: encrypt(pwd)
+    }
+    return daoUser.save(user)
+}
+function encrypt(pwd){//加密
+    return md5(pwd)
+}
+
+srvUser.autoLogin = function(token){
+    Object.assign(srvUser._token, token)
+    return daoToken.save(token)
 }
 
 srvUser.logout = function() {
-    return daoCurr.save({
+    return daoToken.save({
         active: false
     })
 }
 
-srvUser.loadCurrUser = function() {
-    return new Promise((resolve, reject) => {
-        daoCurr.findOne({}).then(curr => {
-            if (curr) {
-                return daoUser.findOne({
-                    _id: curr.uid
-                })
-            }
-            resolve(null)
-        }).then(user => {
-            resolve(user)
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
-
-srvUser.loadCurrent = function() {
-    return daoCurr.findOne({})
+srvUser.load = function() {// 只读取当前登录用户
+    return daoUser.findOne({_id: srvUser._token.uid})
 }
 
 srvUser.save = function(user) {

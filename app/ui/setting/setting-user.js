@@ -8,7 +8,7 @@ exports.init = function({pid}){
     // 加载数据
     doLoad()
     function doLoad(){
-        srvUser.loadCurrUser().then(user => {
+        srvUser.load().then(user => {
             $form.input('values', user)
             loadImg()
         }).catch(err => {

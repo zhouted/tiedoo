@@ -9,7 +9,7 @@ exports.init = function({pid}) {
     let $pwd = $form.find('input[name=pwd]')
 
     // 显示上次登录用户
-    srvUser.loadCurrUser().then(user => {
+    srvUser.loadLastUser().then(user => {
         if (user){
             $account.val(user.account)
             $pwd.focus()

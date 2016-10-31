@@ -3,9 +3,9 @@ const srvUser = require(appPath+'/service/user.js')
 var router = {}
 
 router.gohome = function(){
-    srvUser.loadCurrent().then(curr => {
-        if (curr && curr.active){
-            srvUser.autoLogin(curr)
+    srvUser.loadToken().then(token => {
+        if (token && token.active){
+            srvUser.autoLogin(token)
             router.loadMain()
         }else{
             router.showLogin()

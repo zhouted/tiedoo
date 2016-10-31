@@ -1,7 +1,7 @@
 const srvUser = require(appPath+'/service/user.js')
 
 exports.init = function(binds){
-    srvUser.loadCurrUser().then(user =>{
+    srvUser.load().then(user =>{
         showUserInfo(user)
     })
 

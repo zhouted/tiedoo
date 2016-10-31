@@ -19,11 +19,12 @@ let {openDs, setUserId} = (function (Nedb){
         }
     }
     let dsCaches = {}
-    let dsGlobal = ['current','user'] // 不分用户存放的全局dat
+    let dsGlobal = ['user','token'] // 不分用户存放的全局dat
     let userId = ''
     function openDs(name){
         let filename = name + '.dat'
         if (!dsGlobal.includes(name)){// 按用户id分目录存放数据
+            // if (!userId) return null
             filename = path.join(userId, filename)
         }
         let ds = dsCaches[filename]
@@ -71,7 +72,7 @@ class Dao{
         if (!doc) {
             return Promise.reject(new Error('no data!'));
         }
-        if (this._name == 'current' && doc.uid){
+        if (this._name == 'token' && doc.uid){//save token's uid
             setUserId(doc.uid);
         }
         if (doc._id){// 使用$set保存

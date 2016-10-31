@@ -7,7 +7,7 @@ exports.init = function({pid}){
     //加载数据
     doLoad()
     function doLoad(){
-        let pUser = srvUser.loadCurrUser()
+        let pUser = srvUser.load()
         let pComp = srvComp.load()
         $.when(pUser, pComp).then((user, comp) => {
             $form.input('values', {user, comp})

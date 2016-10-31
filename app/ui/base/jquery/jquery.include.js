@@ -101,7 +101,7 @@ function loader(filename, opts){
         let oid = setContentId($contents, id)
         let pid = id||oid
         let aScript = `<script>(function(){
-            const p = require('./${filename.replace(/.html$/, '.js')}');
+            let p = require('./${filename.replace(/.html$/, '.js')}');
             if (typeof(p)=='function'){
                 p = new p({pid:'${pid}'})
             }

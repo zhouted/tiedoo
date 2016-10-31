@@ -100,10 +100,14 @@ function loader(filename, opts){
     function addScript($contents, id){
         let oid = setContentId($contents, id)
         let pid = id||oid
-        let aScript = `<script>$(function(){
-                const a = require('./${filename.replace(/.html$/, '.js')}');
-                a && a.init && a.init({pid:'${pid}'});
-            })</script>`
+        let aScript = `<script>(function(){
+            const p = require('./${filename.replace(/.html$/, '.js')}');
+            if (typeof(p)=='function'){
+                p = new p({pid:'${pid}'})
+            }
+            p && $(function(){
+                p.init && p.init({pid:'${pid}'});
+            })})()</script>`
         if ($contents instanceof $){
             if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
                 $contents.siblings('script,style').each(function(){

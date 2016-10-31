@@ -1,5 +1,4 @@
-const srvLogin = require(appPath+'/service/login.js')
-const srvCurr = require(appPath+'/service/current.js')
+const srvUser = require(appPath+'/service/user.js')
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
 exports.init = function({pid}) {
@@ -10,7 +9,7 @@ exports.init = function({pid}) {
     let $pwd = $form.find('input[name=pwd]')
 
     // 显示上次登录用户
-    srvCurr.loadCurrUser().then(user => {
+    srvUser.loadCurrUser().then(user => {
         if (user){
             $account.val(user.account)
             $pwd.focus()
@@ -60,7 +59,7 @@ exports.init = function({pid}) {
     function doLogin() {
         $confirm.button('loading')
         let data = $form.input('values')
-        let p = srvLogin.login(data)
+        let p = srvUser.login(data)
         p.then(rst => {
             if (rst.passed && rst.user) {
                 if (rst.user.isNew){

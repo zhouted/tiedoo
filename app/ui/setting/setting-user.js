@@ -1,4 +1,3 @@
-const srvLogin = require(appPath+'/service/login.js')
 const srvUser = require(appPath+'/service/user.js')
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
@@ -9,7 +8,7 @@ exports.init = function({pid}){
     // 加载数据
     doLoad()
     function doLoad(){
-        srvLogin.loadLoginUser().then(user => {
+        srvUser.loadCurrUser().then(user => {
             $form.input('values', user)
             loadImg()
         }).catch(err => {

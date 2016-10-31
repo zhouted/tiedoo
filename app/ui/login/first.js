@@ -1,4 +1,3 @@
-const srvLogin = require(appPath+'/service/login.js')
 const srvUser = require(appPath+'/service/user.js')
 const srvComp = require(appPath+'/service/company.js')
 
@@ -8,7 +7,7 @@ exports.init = function({pid}){
     //加载数据
     doLoad()
     function doLoad(){
-        let pUser = srvLogin.loadLoginUser()
+        let pUser = srvUser.loadCurrUser()
         let pComp = srvComp.load()
         $.when(pUser, pComp).then((user, comp) => {
             $form.input('values', {user, comp})

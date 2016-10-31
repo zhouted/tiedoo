@@ -1,8 +1,7 @@
-const srvLogin = require(appPath+'/service/login.js')
 const srvUser = require(appPath+'/service/user.js')
 
 exports.init = function(binds){
-    srvLogin.loadLoginUser().then(user =>{
+    srvUser.loadCurrUser().then(user =>{
         showUserInfo(user)
     })
 

@@ -95,7 +95,7 @@ srvUser.login = function(data) {
 }
 
 srvUser.checkPasswd = function(pwd){
-    return srvUser.load(user => {
+    return srvUser.load().then(user => {
         return validPasswd(pwd, user)
     })
 }
@@ -103,12 +103,17 @@ function validPasswd(pwd, user) {
     return md5(pwd) == user.pwd
 }
 
-srvUser.changePasswd = function(pwd){
-    let user = {
-        _id: srvUser._token.uid,
-        pwd: encrypt(pwd)
-    }
-    return daoUser.save(user)
+srvUser.changePasswd = function(old, pwd){
+    return srvUser.load().then(user => {
+        if (!validPasswd(old, user)){
+            return Promise.reject(new Error('原密码错误！'))
+        }
+        let data = {
+            _id: user._id,
+            pwd: encrypt(pwd)
+        }
+        return daoUser.save(data)
+    })
 }
 function encrypt(pwd){//加密
     return md5(pwd)

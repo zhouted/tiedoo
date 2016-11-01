@@ -2,6 +2,7 @@
 window.electron = require('electron')
 window.app = window.electron.remote.app
 window.$ = window.jQuery = require('./ui/base/jquery/jquery.js')
+window.tfn = require('./ui/base/tiedoo-fn.js')
 
 // replace Promise with bluebird
 Promise = require('bluebird');

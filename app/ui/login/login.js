@@ -30,7 +30,7 @@ class LoginForm extends BaseForm{
         if (valid && this.$agree.is(':visible')){
             valid = this.$agree.prop('checked')
             if (!valid){
-                alert('您必须同意服务协议才能使用本软件！')
+                tfn.tips('您必须同意服务协议才能使用本软件！', 'warning')// alert('您必须同意服务协议才能使用本软件！')
                 this.$agree.focus()
             }
         }
@@ -56,7 +56,8 @@ class LoginForm extends BaseForm{
                     router.loadMain()
                 }
             } else if (rst.user) {
-                alert('密码错误') // this.$pwd.focus().popover("show")
+                tfn.tips('密码错误', 'warning')// alert('密码错误')
+                this.$pwd.focus()//.popover("show")
             } else { // 用户未注册
                 this.showRegister()
             }

@@ -10,14 +10,16 @@
                     <form class="form">
                         <fieldset>
                             <div class="form-group">
-                                <!-- <label class="control-label col-xs-2" for="name">账号</label> -->
-                                <input type="password" class="form-control" name="pwdOld" placeholder="请输入原密码">
+                                <input type="password" class="form-control check-on-change" name="pwdOld" placeholder="请输入原密码"
+                                    data-content="原密码错误" data-placement="top">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="pwd" placeholder="请输入新密码">
+                                <input type="password" class="form-control" name="pwd" placeholder="请输入新密码" required
+                                     data-content="请输入新密码" data-placement="top">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="pwdAg" placeholder="请确认新密码">
+                                <input type="password" class="form-control check-on-change" name="pwdAg" placeholder="请确认新密码" required
+                                    data-content="两次输入的密码不一致" data-placement="bottom">
                             </div>
                         </fieldset>
                         <fieldset>

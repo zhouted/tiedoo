@@ -1,91 +1,77 @@
+const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvUser = require(appPath+'/service/user.js')
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
-exports.init = function({pid}) {
-    let $login = $('#'+pid)
-    let $form = $login.find('form');
-    let $confirm = $login.find('.btn.confirm')
-    let $account = $form.find('input[name=account]').focus()
-    let $pwd = $form.find('input[name=pwd]')
-
-    // 显示上次登录用户
-    srvUser.loadLastUser().then(user => {
-        if (user){
-            $account.val(user.account)
-            $pwd.focus()
-        }
-    })
-
-    // 按回车键触发确认按钮
-    $form.on('keyup', '.form-control', onKeyup);
-    function onKeyup(e){
-        let code = e.which
-        if (code == 13){
-            $confirm.trigger('click')
-        }
+class LoginForm extends BaseForm{
+    get $account(){
+        return this._$account || (this._$account = this.$form.find('input[name=account]'))
     }
-
-     // 登录和注册 交互处理
-    $confirm.click(onLogin);
-    function onLogin(){
-        let account = $account.val()
-        if (!$account.val()){
-            return $account.focus()
-        }
-        if (!reEmail.test(account) && !reMobile.test(account)){
-            alert('输入的账号不是合法的手机号或邮箱地址！')
-            return $account.focus()
-        }
-
-        if (!$pwd.val()){
-            return $pwd.focus()
-        }
-        let $pwdAg = $form.find('input[name=pwdAg]')
-        if ($pwdAg.is(':visible')){
-            if (!$pwdAg.val()){
-                return $pwdAg.focus()
-            }
-            if ($pwdAg.val() !== $pwd.val()){
-                alert('密码不一致！')
-                return $pwdAg.focus()
-            }
-            let $agree = $form.find('input[name=agree]')
-            if (!$agree.prop('checked')){
-                return alert('您必须同意服务协议才能使用本软件！')
-            }
-        }
-        doLogin()
+    get $pwd(){
+        return this._$pwd || (this._$pwd = this.$form.find('input[name=pwd]'))
     }
-    function doLogin() {
-        $confirm.button('loading')
-        let data = $form.input('values')
-        let p = srvUser.login(data)
-        p.then(rst => {
+    get $pwdAg(){
+        return this._$pwdAg || (this._$pwdAg = this.$form.find('input[name=pwdAg]'))
+    }
+    get $agree(){
+        return this._$agree || (this._$agree = this.$form.find('input[name=agree]'))
+    }
+    initValidators(){
+        super.initValidators()
+        this.$account.data('validator', (ipt) => {
+            let val = ipt.value
+            return reEmail.test(val) || reMobile.test(ipt, val)
+        })
+        this.$pwdAg.data('validator', (ipt) => {
+            return !this.$pwdAg.is(':visible') || (this.$pwdAg.val()===this.$pwd.val())
+        })
+    }
+    checkFormData(){
+        let valid = super.checkFormData()
+        if (valid && this.$agree.is(':visible')){
+            valid = this.$agree.prop('checked')
+            if (!valid){
+                alert('您必须同意服务协议才能使用本软件！')
+                this.$agree.focus()
+            }
+        }
+        return valid
+    }
+    doLoad(){
+        return srvUser.loadLastUser().then(user => {
+            if (user){// 显示上次登录用户
+                this.$account.val(user.account)
+                this.$pwd.focus()
+            }else{
+                this.$account.focus()
+            }
+        })
+    }
+    doSave(){ //doLogin 登录和注册 交互处理
+        let data = this.getFormData()
+        return srvUser.login(data).then(rst => {
             if (rst.passed && rst.user) {
                 if (rst.user.isNew){
-                    loginFirst()
+                    this.showFirst()
                 }else{
                     router.loadMain()
                 }
             } else if (rst.user) {
-                alert('密码错误！')
+                alert('密码错误') // this.$pwd.focus().popover("show")
             } else { // 用户未注册
-                showRegister()
+                this.showRegister()
             }
-        }).finally(a => {
-            $confirm.button('reset')
-        }).catch(err => {
-            console.log(err)
         })
     }
-    function showRegister() { // 显示隐藏的注册输入项
-        $login.find('.register-more').removeClass('hidden')
+    showRegister() { // 显示隐藏的注册输入项
+        this.$page.find('.register-more').removeClass('hidden')
         setTimeout(()=>{
-            $form.find('input[name=pwdAg]').focus()
+            this.$pwdAg.focus()
         })
     }
-    function loginFirst(){ // 首次登录 完善资料
+    showFirst(){ // 首次登录 完善资料
         $('body').loadFile('ui/login/first.html')
     }
 
 }
+
+module.exports = LoginForm

@@ -13,9 +13,10 @@
             </fieldset>
             <fieldset>
                 <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">账号</label>
+                    <label class="control-label col-xs-2">账号</label>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control for-editonly" name="account" id="account">
+                        <input type="text" class="form-control for-editonly check-on-change" name="account" id="account" required
+                            data-content="请输入合法的手机号或邮箱地址" data-placement="top">
                     </div>
                     <div class="col-xs-2">
                         <button type="button" class="btn passwd btn-default">修改密码</button>

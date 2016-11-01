@@ -119,23 +119,27 @@
 		if ($inputs.prop('tagName') != 'INPUT'){
 			$inputs = $inputs.find("input");
 		}
-		if (typeof(quiet) == 'object'){
-			var options = quiet;
-			quiet = options.quiet;
-		}
+		// if (typeof(quiet) == 'object'){
+		// 	var options = quiet;
+		// 	quiet = options.quiet;
+		// }
 		$inputs.each(function(){
-			valid && (valid = checkValid(this, quiet, options));
+			valid && (valid = checkValid(this, quiet));
 		});
 		return valid;
 	}
-	function checkValid(input, quiet, options){
+	function checkValid(input, quiet){
 		if (!input || !input.checkValidity) return true;//!this.validity || (this.validity && this.validity.valid);
+		var $ipt = $(input);
 		var valid = input.checkValidity();
-		if (valid && options && options.validator){
-			valid = options.validator(input);
+		if (valid){
+			let validator = $ipt.data('validator')
+			if (typeof(validator) == 'function') {
+				valid = validator(input)
+			}
 		}
 		if (!valid){
-			var $ipt = $(input), $panel = $ipt.closest('.tab-pane');
+			var $panel = $ipt.closest('.tab-pane');
 			if ($panel.length && !$panel.is('.active')){
 				$('a[href="#'+$panel.attr('id')+'"]').tab('show');
 			}

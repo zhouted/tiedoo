@@ -95,10 +95,12 @@ srvUser.login = function(data) {
 }
 
 srvUser.checkPasswd = function(pwd){
-    return srvUser.load().then(user => {
+    let user = daoUser.findOneSync({})//deasync not working https://github.com/abbr/deasync/issues/64
+    // return srvUser.load().then(user => {
         return validPasswd(pwd, user)
-    })
+    // })
 }
+srvUser.validPasswd = validPasswd
 function validPasswd(pwd, user) {
     return md5(pwd) == user.pwd
 }

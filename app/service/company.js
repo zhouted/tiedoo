@@ -1,7 +1,7 @@
 const daoComp = require(appPath + '/dao/company.js')
 const daoCompImg = require(appPath + '/dao/company-img.js')
 
-let srvComp = {_dao: daoComp, _daoImage: daoCompImg}
+let srvComp = {}
 
 srvComp.load = function(){
     return daoComp.findOne({}) // 用户公司信息只有一条记录

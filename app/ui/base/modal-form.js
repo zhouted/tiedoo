@@ -4,8 +4,8 @@ class ModalForm extends BaseForm{
     get $modal(){
         return this.$page
     }
-    // get clicks(){
-    //     return Object.assign(super.clicks, {onConfirm: '.btn.confirm'})
+    // get btns(){
+    //     return Object.assign({}, super.btns, {onConfirm: '.btn.confirm'})
     // }
     // onConfirm(e, btn){
     //     super.onSave(e, btn)

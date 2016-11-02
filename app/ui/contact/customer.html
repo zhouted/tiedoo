@@ -1,5 +1,9 @@
 <div id="customer">
     <div class="panel-heading">
+        <div class="pull-right">
+            <a class="btn add-new btn-primary">AddNew</a>
+            <a class="btn delete btn-primary">Delete</a>
+        </div>
         <h3 class="panel-title">客户管理</h3>
     </div>
     <div class="panel-body">
@@ -17,7 +21,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <script type="text/html" role="template" data-bind="customer">
+                  <tr data-id="${customer._id}">
                     <td><input type="checkbox"></td>
                     <td>${customer.name}</td>
                     <td>${customer.addr}</td>
@@ -26,7 +31,8 @@
                     <td>${customer.first}</td>
                     <td>${customer.timeQuota}</td>
                     <td>${customer.createAt}</td>
-                </tr>
+                  </tr>
+                </script>
             </tbody>
         </table>
     </div>

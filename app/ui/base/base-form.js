@@ -1,42 +1,21 @@
-class BaseForm{
-    constructor({pid}){
-        this._pid = '#'+pid
-    }
-    get pid(){
-        return this._pid
-    }
-    get $page(){
-        return this._$page || (this._$page = $(this._pid))
-    }
+const BasePage = require(appPath+'/ui/base/base-page.js')
+
+class BaseForm extends BasePage{
     get $form(){
         return this._$form || (this._$form = this.$page.find('form'))
     }
     init(){
         this.$form.input('init')
-        this.load()
-        this.initClicks()
+        super.init()
         this.initValidators()
     }
-    get clicks(){
-        return this._clicks || (this._clicks = {
+    get btns(){
+        return Object.assign({}, super.btns, {
             onEdit: '.btn.edit',
             onSave: '.btn.save',
-            onBack: '.btn.back',
             onConfirm: '.btn.confirm',
             onCancel: '.btn.cancel',
         })
-    }
-    initClicks(){
-        let self = this
-        for (let btn in this.clicks){
-            let cls = this.clicks[btn]
-            let click = self[btn]
-            if (typeof(self[btn]) === 'function'){
-                self.$page.off('click', cls).on('click', cls, function(e){
-                    self[btn](e, this)
-                })
-            }
-        }
     }
     initValidators(){
         this.$form.find('.form-control.check-on-change').change(function(e){
@@ -48,24 +27,6 @@ class BaseForm{
     }
     onBack(e, btn){
         this.$form.input('read')
-    }
-    load(){
-        let p = this.doLoad()
-        if (!(p instanceof Promise)) {
-            this.onLoaded()
-            return
-        }
-        p.catch(err => {
-            console.log(err)
-        }).finally(() => {
-            this.onLoaded()
-        })
-    }
-    doLoad(){
-        // this.setFormData(data)
-    }
-    onLoaded(){
-
     }
     checkFormData(){
         return this.$form.input('check')

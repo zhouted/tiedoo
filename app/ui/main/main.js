@@ -21,7 +21,7 @@ exports.init = function(binds){
         let height = window.innerHeight - $('#topbar').height() - 2 - 2;
         $('#sidebar').css('height', height);
         $('main.tab-content').css('height', height);
-        $('main.tab-content>.tab-pane').css('height', height);
+        //$('main.tab-content>.tab-pane').css('height', height);
     }
     onResize();
 }

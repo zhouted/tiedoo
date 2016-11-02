@@ -56,8 +56,9 @@ class UserForm extends BaseForm{
         })
     }
     onPasswd(){
-        this.$page.addFile('ui/setting/setting-pwd.html').then(() => {
-            let $modal = $('#passwdModal')
+        let opts = {id: 'passwdModal', append: true}
+        this.$page.loadFile('ui/setting/setting-pwd.html', opts).then(() => {
+            let $modal = $('#'+opts.id)
             $modal.modal('show')
         })
     }

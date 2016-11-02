@@ -4,24 +4,19 @@
 
 // 处理html文档中的<include>标签
 // usage: $(document).loadIncludes();
-$.fn.loadIncludes = function(){
-    return includer(this);
-}
+// $.fn.loadIncludes = function(){
+//     return includer(this);
+// }
 
-// 加载html文件覆盖this下的内容
+// 加载文件：如果指定id则检查唯一性（即只加载一次）；默认覆盖this下的内容（可指定jQuery DOM操作方法）
 // usage: $('#div').loadFile('a.html');
 $.fn.loadFile = function(filename, opts){
-    return loader(filename, opts).then($content => {
-        this.empty().append($content);
-    });
-}
-
-// 把html文件追加到this下，如果指定id则检查唯一性（即只加载一次）
-// usage: $('body').addFile('a.html');
-$.fn.addFile = function(filename, opts){
-    let id = opts&&opts.id;
-    if (id){// 如果指定id则检查唯一性
-        let $exists = this.find('#'+id);
+    opts = opts || {}
+    if (typeof(opts) == 'string'){
+        opts = {id: opts}
+    }
+    if (opts.id){// 如果指定id则检查唯一性
+        let $exists = this.find('#'+opts.id);
         if ($exists && $exists.length){//存在即不再加载
             let deferred = $.Deferred();
             deferred.resolve($exists);
@@ -29,9 +24,32 @@ $.fn.addFile = function(filename, opts){
         }
     }
     return loader(filename, opts).then($content => {
-        this.append($content);
+        if (opts.append){
+            this.append($content);
+        }else if (opts.prepend){
+            this.prepend($content);
+        }else{
+            this.empty().append($content);
+        }
     });
 }
+
+// 把html文件追加到this下，如果指定id则检查唯一性（即只加载一次）
+// usage: $('body').addFile('a.html');
+// $.fn.addFile = function(filename, opts){
+//     let id = opts&&opts.id;
+//     if (id){// 如果指定id则检查唯一性
+//         let $exists = this.find('#'+id);
+//         if ($exists && $exists.length){//存在即不再加载
+//             let deferred = $.Deferred();
+//             deferred.resolve($exists);
+//             return deferred.promise();
+//         }
+//     }
+//     return loader(filename, opts).then($content => {
+//         this.append($content);
+//     });
+// }
 
 // 处理 $scope 下的所有<include>标签：用src指向的文件内容替换之
 function includer($scope){
@@ -136,6 +154,6 @@ function loader(filename, opts){
     }
 }
 
-if (module){
-    module.exports = {loader};
-}
+// if (module){
+//     module.exports = {loader};
+// }

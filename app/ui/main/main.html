@@ -1,17 +1,20 @@
 <!-- <link rel="stylesheet" href="ui/common/navbar.css"> -->
 <div id="main">
-    <!-- <div class="pull-right">
-        <button type="button" class="btn login btn-primary">登录</button>
-    </div> -->
     <include src="ui/main/main-topbar.html" data-id="topbar"></include>
     <include src="ui/main/main-sidebar.html" data-id="sidebar"></include>
+    <ul class="nav nav-tabs hidden" role="tablist" id="mainTab">
+        <li role="presentation"><a href="#productPanel" src="ui/product/product.html" role="tab" data-toggle="tab">产品</a></li>
+        <li role="presentation"><a href="#quotaPanel" src="ui/quota/quota.html" role="tab" data-toggle="tab">报价</a></li>
+        <li role="presentation"><a href="#customerPanel" src="ui/contact/customer.html" role="tab" data-toggle="tab">客户</a></li>
+        <li role="presentation"><a href="#supplierPanel" src="ui/contact/supplier.html" role="tab" data-toggle="tab">供应商</a></li>
+        <li role="presentation"><a href="#settingPanel" src="ui/setting/setting.html" role="tab" data-toggle="tab">设置</a></li>
+    </ul>
     <main class="tab-content">
         <!-- Tab panes -->
-        <include src="ui/welcome/welcome.html"></include>
+        <!-- <include src="ui/setting/setting.html"></include> -->
         <!-- <script type="text/html" role="template">
             <div role="tabpanel" class="tab-pane" id="${data.id}" data-src="${data.src}">
             </div>
         </script> -->
     </main>
-    <!-- <include src="ui/common/footer.html"></include> -->
 </div>

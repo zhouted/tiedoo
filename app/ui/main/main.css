@@ -14,4 +14,5 @@
 
 #main>main.tab-content>.tab-pane{
     margin-bottom:0;
+    height:inherit;
 }

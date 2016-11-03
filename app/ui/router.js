@@ -38,8 +38,8 @@ router.loadMain = function () {
     })
 }
 
-router.loadMainPanel = function(panelId) {
-    $('#main').spv('open', panelId)
+router.loadMainPanel = function(panelId, data) {
+    $('#main').spv('open', panelId, data)
     tfn.store('mainPanel', panelId)
 }
 

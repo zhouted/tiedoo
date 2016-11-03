@@ -3,8 +3,8 @@ const srvUser = require(appPath+'/service/user.js')
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
 class UserForm extends BaseForm{
-    get clicks(){
-        return Object.assign(super.clicks, {onPasswd: '.btn.passwd'})
+    get btns(){
+        return Object.assign(super.btns, {onPasswd: '.btn.passwd'})
     }
     get $img(){
         return this._$img || (this._$img = this.$form.find('img.image-preview'))

@@ -12,23 +12,31 @@ class CustomerPage extends BasePage{
         let ids = []
         let $checks = this.$table.find('input[type=checkbox]:checked')
         for (let check of $checks){
-            let $tr = $(check).closest('tr')
-            let id = $tr.data('id')
+            let id = this.getItemId(check)
             id && ids.push(id)
         }
         return ids
     }
-    // get btns(){
-    //     return Object.assign({}, super.btns, {
-    //         onDelete: '.btn.delete',
-    //     })
-    // }
+    getItemId(item){
+        let $item = (item instanceof jQuery)? item : $(item)
+        $item = $item.closest('tr')
+        return $item.data('id')
+    }
+    get btns(){
+        return Object.assign({}, super.btns, {
+            onDetail: '.customer-item',
+        })
+    }
     doLoad(){
         srvCust.load({}).then(custs => {
-            // custs = [{},{},{},{},{}]
             this.$tplTr.siblings().remove()
             this.$tplTr.renderTpl(custs)
         })
+    }
+    onDetail(e, target){
+        let id = this.getItemId(target)
+        if (!id) return
+        router.loadMainPanel('customerDetailPanel', id)
     }
     onAddNew(){
         let n = Math.ceil(Math.random()*100)
@@ -38,9 +46,6 @@ class CustomerPage extends BasePage{
         })
     }
     onDelete(){
-        // for (let id of this.selectedIds){
-        //     srvCust.delete({_id: id})
-        // }
         let p = this.selectedIds.map(id => srvCust.delete({_id: id}))
         Promise.all(p).then(() => {
             this.doLoad()

@@ -1,0 +1,21 @@
+<div id="customerDetail">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation"><a href="#customerInfoPanel" data-src="ui/contact/customer-detail-info.html" role="tab" data-toggle="tab">客户信息</a></li>
+      <li role="presentation"><a href="#customerContactPanel" data-src="ui/contact/customer-detail-contact.html" role="tab" data-toggle="tab">联系人</a></li>
+      <li role="presentation"><a href="#customerQuotation" data-src="ui/contact/customer-detail-quotation.html" role="tab" data-toggle="tab">报价记录</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="customerInfoPanel">
+            <include src="ui/contact/customer-detail-info.html"></include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="customerContactPanel">
+            <include src="ui/contact/customer-detail-contact.html"></include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="customerQuotationPanel">
+            <include src="ui/contact/customer-detail-quotation.html"></include>
+        </div>
+    </div>
+
+</div>

@@ -7,7 +7,7 @@
         <h3 class="panel-title">客户管理</h3>
     </div>
     <div class="panel-body">
-        <table class="table table-hover">
+        <table class="table customer-list table-hover">
             <thead>
                 <tr>
                     <th width="20px"><input type="checkbox"></th>
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 <script type="text/html" role="template" data-bind="customer">
-                  <tr data-id="${customer._id}">
+                  <tr class="customer-item" data-id="${customer._id}">
                     <td><input type="checkbox"></td>
                     <td>${customer.name}</td>
                     <td>${customer.addr}</td>
@@ -30,7 +30,7 @@
                     <td>${customer.fax}</td>
                     <td>${customer.first}</td>
                     <td>${customer.timeQuota}</td>
-                    <td>${customer.createAt}</td>
+                    <td>${customer.createdAt}</td>
                   </tr>
                 </script>
             </tbody>

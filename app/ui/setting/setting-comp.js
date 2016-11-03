@@ -27,7 +27,7 @@ class CompForm extends BaseForm{
     }
     doLoad(){
         srvComp.load().then(comp => {
-            this.$form.input('values', comp)
+            this.setFormData(comp)
             this.loadImg()
         })
     }

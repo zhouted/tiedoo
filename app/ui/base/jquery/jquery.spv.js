@@ -8,7 +8,7 @@
  * @url         www.tiedoo.com
  * @inspiration Single Page app's Views plugin for Tiedoo,  based on jquery & bootstrap.
  * @usage:
- * $("#tabPanel").spv("open", 'panelId');//显示视图
+ * $(".tab-content").spv("open", 'panelId');//打开（加载并显示）视图（tabpanel）
  *****************************************************************************/
 $.fn.spv = function(act, id, data) {
     let $content = this.first() // 只支持一个
@@ -16,12 +16,6 @@ $.fn.spv = function(act, id, data) {
         $content = $content.children('.tab-content').first() // 仅直接下级
     }
     if (!$content.length) return this // 不是tab-content
-
-    // opts = opts || {}
-    // if (typeof(opts) == 'string') {
-    //     opts = {id: opts}
-    // }
-    // if (!id) return this // 没指定id
 
     switch (act) {
         case 'open':
@@ -43,9 +37,6 @@ function openPanel($content, panelId, data){
             $content.append($panel)
             $tab.tab('show')
         })
-        // $tab.on('show.bs.tab', (e) => {
-        //     $panel.trigger('show.bs.panel', [data])
-        // })
     }else{
         $tab.tab('show')
     }

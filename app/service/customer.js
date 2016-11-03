@@ -7,6 +7,10 @@ srvCust.load = function(){
     return daoCust.find(...arguments)
 }
 
+srvCust.loadById = function(id, p){
+    return daoCust.findById(id, p)
+}
+
 srvCust.save = function(doc){
     return daoCust.save(doc)
 }

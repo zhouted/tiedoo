@@ -27,6 +27,12 @@ class CustomerPage extends BasePage{
             onDetail: '.customer-item',
         })
     }
+    prepareEvents(){
+        super.prepareEvents()
+        $('body').on('changed.customer', (e, data) => {
+            this.reload(data)
+        })
+    }
     doLoad(){
         srvCust.load({}).then(custs => {
             this.$tplTr.siblings().remove()

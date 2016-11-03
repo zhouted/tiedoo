@@ -62,6 +62,9 @@ class Dao{
     findOne(){
         return this.ds.findOneAsync(...arguments);
     }
+    findById(id, p){
+        return this.ds.findOneAsync({_id: id}, p);
+    }
     insert(){
         return this.ds.insertAsync(...arguments);
     }

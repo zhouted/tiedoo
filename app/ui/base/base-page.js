@@ -3,26 +3,27 @@ class BasePage {
         this._pid = '#'+pid
         this.prepare()
     }
-    get pid(){
+    get pid(){// page id
         return this._pid
     }
-    get $page(){
+    get $page(){// this page
         return this._$page || (this._$page = $(this._pid))
     }
-    get $parent(){
-        return this._$parent || (this._$parent = this.$page.parent().closest('.tab-pane'))
+    get $tabpanel(){// 页面上级tabpanel
+        return this._$tabpanel || (this._$tabpanel = this.$page.parent().closest('.tab-pane'))
     }
-    get $subtabs(){
+    get $subtabs(){// 页面内的子nav-tabs
         return this._$subtabs || (this._$subtabs = $(this.$page.find('.nav-tabs>li>a[role=tab]')))
     }
-    get $spvtab(){
-        if (this._$spvtab) return this._$spvtab
-        let panelId = this.$parent.attr('id')
-        return (this._$spvtab = $('a[href="#'+panelId+'"]'))
+    get $navtab(){// 导引页面的标签(anchor)
+        return this._$navtab || (this._$navtab = $('a[href="#'+this.$tabpanel.attr('id')+'"]'))
     }
     prepare(){ //do prepare on document loading(before init())
+        this.prepareEvents()
+    }
+    prepareEvents(){
         // on parent panel showing...
-        this.$spvtab.on('show.bs.tab', (e)=>{
+        this.$navtab.on('show.bs.tab', (e)=>{
             let data = $(e.target).data('_spv')
             this.onShow(data)
         })
@@ -31,7 +32,7 @@ class BasePage {
         this.load()
         this.initBtns()
     }
-    get btns(){
+    get btns(){// buttons click handler map
         return {
             onAddNew: '.btn.add-new',
             onDelete: '.btn.delete',
@@ -39,7 +40,7 @@ class BasePage {
             onBack: '.btn.back',
         }
     }
-    initBtns(){
+    initBtns(){// bind buttons click handler
         let self = this
         for (let btn in this.btns){
             let cls = this.btns[btn]

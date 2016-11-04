@@ -1,38 +1,45 @@
 <div class="" id="customerDetailContact">
     <div class="panel-body">
-        <form class="form form-horizontal on-reading">
+        <form class="on-reading">
             <input type="hidden" name="_id" />
             <script type="text/html" id="tplFs" role="template" data-bind="contact">
-              <fieldset class="contact-item">
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">姓名</label>
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="name" id="name">
+              <form class="form form-horizontal contact-item">
+                <fieldset class="">
+                    <legend>
+                        <h5>联系人
+                            <a class="btn-add-new for-editonly" href="javascript:;"><span class="glyphicon glyphicon-plus"></span>增加</a>
+                            <a class="btn-delete for-editonly" href="javascript:;"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                        </h5>
+                    </legend>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">姓名</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control for-editonly" name="name" id="name">
+                        </div>
+                        <label class="control-label col-xs-2" for="sex">性别</label>
+                        <label class="control-label col-xs-2">
+                            <input type="radio" class="" name="sex" value="male">先生
+                        </label>
+                        <label class="control-label col-xs-2">
+                            <input type="radio" class="" name="sex" value="female">女士
+                        </label>
                     </div>
-                    <label class="control-label col-xs-2" for="sex">性别</label>
-                    <label class="control-label col-xs-2">
-                        <input type="radio" class="" name="sex" value="male">先生
-                    </label>
-                    <label class="control-label col-xs-2">
-                        <input type="radio" class="" name="sex" value="female">女士
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">电话</label>
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="tel" id="name">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="name">电话</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control for-editonly" name="tel" id="name">
+                        </div>
+                        <label class="control-label col-xs-2" for="name">email</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control for-editonly" name="fax" id="name">
+                        </div>
                     </div>
-                    <label class="control-label col-xs-2" for="name">email</label>
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="fax" id="name">
-                    </div>
-                </div>
-              </fieldset>
+                </fieldset>
+              </form>
             </script>
             <fieldset class="text-center">
                 <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
                 <button type="button" class="btn back btn-default for-editonly">返回</button>
-                <button type="button" class="btn add-new btn-primary for-editonly">新增</button>
                 <button type="button" class="btn save btn-primary for-editonly">保存</button>
             </fieldset>
         </form>

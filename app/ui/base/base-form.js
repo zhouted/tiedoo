@@ -2,7 +2,7 @@ const BasePage = require(appPath+'/ui/base/base-page.js')
 
 class BaseForm extends BasePage{
     get $form(){
-        return this._$form || (this._$form = this.$page.find('form'))
+        return this._$form || (this._$form = this.$page.find('form').first())
     }
     init(){
         this.$form.input('init')

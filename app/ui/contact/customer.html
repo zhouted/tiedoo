@@ -24,13 +24,13 @@
                 <script type="text/html" id="tplTr" role="template" data-bind="customer">
                   <tr class="customer-item" data-id="${customer._id}">
                     <th><input type="checkbox"></th>
-                    <td>${customer.name}</td>
-                    <td>${customer.addr}</td>
-                    <td>${customer.tel}</td>
-                    <td>${customer.fax}</td>
-                    <td>${customer.first}</td>
-                    <td>${customer.timeQuota}</td>
-                    <td>${customer.createdAt}</td>
+                    <td>${tfn.fstr(customer.name)}</td>
+                    <td>${tfn.fstr(customer.addr)}</td>
+                    <td>${tfn.fstr(customer.tel)}</td>
+                    <td>${tfn.fstr(customer.fax)}</td>
+                    <td>${tfn.fstr(customer.first)}</td>
+                    <td>${tfn.ftime(customer.timeQuota)}</td>
+                    <td>${tfn.fdate(customer.createdAt)}</td>
                   </tr>
                 </script>
             </tbody>

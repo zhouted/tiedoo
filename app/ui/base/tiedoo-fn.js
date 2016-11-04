@@ -1,3 +1,29 @@
+//formaters:
+exports.fstr = exports.escapeHtml = escapeHtml
+function escapeHtml(str) {
+    if (str === null || str === undefined) return ''
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return str.replace(/[&<>"']/g, m => map[m]);
+}
+exports.fdate = dateToStr
+function dateToStr(date){
+    return (date instanceof Date) && date.toLocaleDateString() || ''
+}
+exports.ftime = timeToStr
+function timeToStr(date){
+    return (date instanceof Date) && date.toLocaleTimeString() || ''
+}
+exports.fdatetime = dateToLStr
+function dateToLStr(date){
+    return (date instanceof Date) && date.toLocaleString() || ''
+}
+
 exports.tips = tips // 弹出提示信息（几秒钟后自动消失）
 function tips(msg, type, complete) {//type:对应bootstrap的alert-*：'success'是成功信息，'danger'是失败信息,'info'是普通信息,'warning'是警告信息
     var $tip = $("#_tip");//已经有了重用

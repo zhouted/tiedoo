@@ -35,10 +35,10 @@ class BasePage {
     }
     get btns(){// buttons click handler map
         return {
-            onAddNew: '.btn.add-new',
-            onDelete: '.btn.delete',
-            onSearch: '.btn.search',
-            onBack: '.btn.back',
+            onAddNew: '.btn.add-new, .btn-add-new',
+            onDelete: '.btn.delete, .btn-delete',
+            onSearch: '.btn.search, .btn-search',
+            onBack: '.btn.back, .btn-back',
         }
     }
     initBtns(){// bind buttons click handler

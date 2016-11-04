@@ -17,11 +17,11 @@ class CustomerDetailContactForm extends BaseForm {
         let $tpl = this.$tpl
         return srvCust.loadById(_id).then(data => {
             let contacts = data&&data.contacts
-            $tpl.siblings('fieldset.contact-item').remove()
+            $tpl.siblings('.contact-item').remove()
             if (contacts && contacts.length){
                 let $contacts = tfn.template($tpl, contacts)
                 $contacts = $($contacts.join(''))
-                this.setFormDataArray(contacts, 'fieldset.contact-item', $contacts)
+                this.setFormDataArray(contacts, '.contact-item', $contacts)
                 $tpl.before($contacts)
                 this.$form.input('read', true)
             }else{
@@ -32,7 +32,7 @@ class CustomerDetailContactForm extends BaseForm {
     }
     doSave(){
         let _id = this.$id.val()
-        let contacts = this.getFormDataArray('fieldset.contact-item')
+        let contacts = this.getFormDataArray('.contact-item')
         return srvCust.save({_id, contacts})
     }
     onAddNew(){

@@ -1,6 +1,7 @@
 class BasePage {
     constructor({pid}){
-        this._pid = '#'+pid
+        this._pid = '#'+pid //page identify
+        this._stub = null //存根数据
         this.prepare()
     }
     get pid(){// page id
@@ -52,7 +53,10 @@ class BasePage {
         }
     }
     onShow(data){
-        data && this.reload(data)
+        if (!Object.is(data, this._stub)){
+            this.reload(data)
+            this._stub = data
+        }
         if (this.$subtabs.length){
             this.doSubtabs(data)
         }

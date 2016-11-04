@@ -2,6 +2,7 @@
 const path = require('path')
 const datPath = app.getPath('userData')+'/dbs/'
 const Nedb = require('nedb')
+// const deasync = require('deasync')
 
 // Promisify Nedb&Cursor
 const dummyDb = new Nedb()
@@ -62,6 +63,10 @@ class Dao{
     findOne(){
         return this.ds.findOneAsync(...arguments);
     }
+    // findOneSync(){
+    //     let findOne = deasync(this.ds.findOne)
+    //     return findOne(...arguments)
+    // }
     findById(id, p){
         return this.ds.findOneAsync({_id: id}, p);
     }

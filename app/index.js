@@ -13,7 +13,7 @@ require('./ui/base/jquery/jquery.include.js')
 require('./ui/base/jquery/jquery.input.js')
 require('./ui/base/jquery/jquery.input-img.js')
 require('./ui/base/jquery/jquery.spv.js')
-require('./ui/base/jquery/jquery.template.js')
+window.tfn.template = require('./ui/base/jquery/jquery.template.js')
 
 // globals router for ui
 const appPath = window.app.getAppPath()

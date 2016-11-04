@@ -35,7 +35,30 @@ class BaseForm extends BasePage{
         return this.$form.input('values')
     }
     setFormData(data){
-        this.$form.input('values', data)
+        this.$form.input('values', data||{})
+        this.$form.input('read', true)
+    }
+    getFormDataArray(groupBy = 'fieldset'){
+        let datas = []
+        let $groups = this.$form.find(groupBy)
+        for (let group of $groups){
+            let data = $(group).input('values')
+            !$.isEmptyObject(data) && datas.push(data)
+        }
+        return datas
+    }
+    setFormDataArray(datas, groupBy = 'fieldset', $scope = null){
+        if (!datas || !datas.length) return
+        let $groups = $scope || this.$form
+        if (!$groups.is(groupBy)){
+            $groups = $scope.find(groupBy)
+        }
+        for (let group of $groups){
+            let $group = $(group)
+            let data = datas[$group.index()]
+            data && $group.input('values', data)
+        }
+        this.$form.input('read', true)
     }
     onSave(e, btn){
         let valid = this.checkFormData()
@@ -59,6 +82,7 @@ class BaseForm extends BasePage{
     }
     doSave(){
         // let data = this.getFormData()
+        // return srvXXX.save(data)
     }
     onSaved(e, btn){
         $(btn).button('reset')

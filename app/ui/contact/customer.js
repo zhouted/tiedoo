@@ -6,7 +6,7 @@ class CustomerPage extends BasePage{
         return this._$table || (this._$table = this.$page.find('.table'))
     }
     get $tplTr(){
-        return this._$tplTr || (this._$tplTr = this.$table.find('script[role=template]'))
+        return this._$tplTr || (this._$tplTr = this.$table.find('#tplTr'))
     }
     get selectedIds(){
         let ids = []
@@ -24,7 +24,7 @@ class CustomerPage extends BasePage{
     }
     get btns(){
         return Object.assign({}, super.btns, {
-            onDetail: '.customer-item',
+            onDetail: '.customer-item>td',
         })
     }
     prepareEvents(){
@@ -39,17 +39,16 @@ class CustomerPage extends BasePage{
             this.$tplTr.renderTpl(custs)
         })
     }
+    toDetail(id){
+        router.loadMainPanel('customerDetailPanel', {_id:id})
+    }
     onDetail(e, target){
         let id = this.getItemId(target)
         if (!id) return
-        router.loadMainPanel('customerDetailPanel', id)
+        this.toDetail(id)
     }
     onAddNew(){
-        let n = Math.ceil(Math.random()*100)
-        srvCust.save({name: '客户'+n, addr: '地址'+n}).then(rst => {
-            console.log(rst)
-            this.doLoad()
-        })
+        this.toDetail()
     }
     onDelete(){
         let p = this.selectedIds.map(id => srvCust.delete({_id: id}))

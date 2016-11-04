@@ -5,13 +5,14 @@ class CustomerDetailInfoForm extends BaseForm {
     get $id(){
         return this._$id || (this._$id = this.$page.find('input[name=_id]'))
     }
-    onShow(data){
-        this.$id.val(data)
-        data && this.load()
+    reload(data){
+        this.$id.val(data&&data._id||'')
+        super.reload()
     }
     doLoad(){
         return srvCust.loadById(this.$id.val()).then(data => {
             this.setFormData(data)
+            !data && this.$form.input('edit')
         })
     }
     doSave(){

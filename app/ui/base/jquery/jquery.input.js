@@ -95,7 +95,7 @@
 				setValue($ipt, doc[name])
 			}
 		})
-		initReading($form, true)
+		// initReading($form, true)
 		function setValue($ipt, val){
 			if ($ipt.is('[type=checkbox],[type=radio]')){
 				let checked = false
@@ -106,7 +106,7 @@
 				}
 				$ipt.prop('checked', checked);
 			}else if ($ipt.is('[type=file]')){
-				$ipt.data('fileId', val)
+				$ipt.data('fileId', val) // input file 的id保存到data里
 			}else{
 				$ipt.val(val)
 			}
@@ -266,7 +266,7 @@
 
 	function toEditing($form, init){
 		$form.removeClass(_options.clsReading).addClass(_options.clsEditing)
-		init && initEditing($form);
+		//init && initEditing($form); //do not reinit
 	}
 
 })(jQuery);

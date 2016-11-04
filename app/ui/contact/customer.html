@@ -1,8 +1,8 @@
 <div id="customer">
     <div class="panel-heading">
         <div class="pull-right">
-            <a class="btn add-new btn-primary">AddNew</a>
-            <a class="btn delete btn-primary">Delete</a>
+            <a class="btn add-new btn-primary">新增</a>
+            <a class="btn delete btn-primary">删除</a>
         </div>
         <h3 class="panel-title">客户管理</h3>
     </div>
@@ -21,9 +21,9 @@
                 </tr>
             </thead>
             <tbody>
-                <script type="text/html" role="template" data-bind="customer">
+                <script type="text/html" id="tplTr" role="template" data-bind="customer">
                   <tr class="customer-item" data-id="${customer._id}">
-                    <td><input type="checkbox"></td>
+                    <th><input type="checkbox"></th>
                     <td>${customer.name}</td>
                     <td>${customer.addr}</td>
                     <td>${customer.tel}</td>

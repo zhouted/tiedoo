@@ -46,7 +46,7 @@ function compile($tpl){
     if ($tpl.data(TPL_RENDER)){
         return $tpl.data(TPL_RENDER);
     }
-    let tpl = $tpl.html();
+    let tpl = $.trim($tpl.html());
     let bind = $tpl.data('bind')||'data';
     let render = new Function(bind, 'return '+bind+'&&`'+tpl+'`');
     $tpl.data(TPL_RENDER, render);
@@ -74,5 +74,5 @@ function template($tpl, data){
 }
 
 if (module){
-    module.exports = {template};
+    module.exports = template
 }

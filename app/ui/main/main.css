@@ -16,3 +16,8 @@
     margin-bottom:0;
     height:inherit;
 }
+
+#main .rel-fixed{
+    position: relative;
+    background-color: #fff;
+}

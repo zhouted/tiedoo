@@ -35,7 +35,7 @@ class CustomerDetailContactForm extends BaseForm {
         let contacts = this.getFormDataArray('.contact-item')
         return srvCust.save({_id, contacts})
     }
-    onAddNew(){
+    onAddNew(e, btn){
         this.addNew()
     }
     addNew(){
@@ -43,6 +43,10 @@ class CustomerDetailContactForm extends BaseForm {
         let $contact = $(tfn.template(this.$tpl, contact))
         $contact.input('values', contact)
         this.$tpl.before($contact)
+    }
+    onDelete(e, btn){
+        let $contact = $(btn).closest('.contact-item')
+        $contact.remove()
     }
 }
 

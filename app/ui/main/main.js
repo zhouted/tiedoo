@@ -24,4 +24,8 @@ exports.init = function(binds){
         //$('main.tab-content>.tab-pane').css('height', height);
     }
     onResize();
+
+    $('#main>main.tab-content').scroll(function(){
+		$(this).find('.rel-fixed').css('top', this.scrollTop);
+	});
 }

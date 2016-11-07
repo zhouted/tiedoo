@@ -8,6 +8,9 @@ class CustomerDetailContactForm extends BaseForm {
     get $tpl(){
         return this._$tpl || (this._$tpl = this.$form.find('#tplFs'))
     }
+    get btns(){
+        return Object.assign({}, super.btns, {onMoveUp: '.btn-move-up'})
+    }
     reload(data){
         this.$id.val(data&&data._id)
         super.reload()
@@ -29,6 +32,7 @@ class CustomerDetailContactForm extends BaseForm {
                 this.addNew()
                 this.$form.input('edit')
             }
+            this.reindex()
         })
     }
     doSave(){
@@ -37,17 +41,40 @@ class CustomerDetailContactForm extends BaseForm {
         return srvCust.save({_id, contacts})
     }
     onAddNew(e, btn){
-        this.addNew()
+        this.addNew(btn)
     }
-    addNew(){
+    addNew(btn){
         let contact = {name: ''}
         let $contact = $(tfn.template(this.$tpl, contact))
         $contact.input('values', contact)
-        this.$tpl.before($contact)
+        if (btn) {
+            $(btn).closest('.contact-item').after($contact)
+        }else{
+            this.$tpl.before($contact)
+        }
+        this.reindex()
     }
     onDelete(e, btn){
         let $contact = $(btn).closest('.contact-item')
         $contact.remove()
+        this.reindex()
+    }
+    onMoveUp(e, btn){
+        let $item = $(btn).closest('.contact-item')
+        $item.after($item.prev('.contact-item'))
+        this.reindex()
+    }
+    reindex(){
+        let $items = this.$form.find('.contact-item');
+        for (let item of $items){
+            let $item = $(item)
+            $item.find('.item-index').text($item.index())
+        }
+        if ($items.length <= 1){
+            $items.find('.btn-delete').addClass('hidden')
+        }else{
+            $items.find('.btn-delete').removeClass('hidden')
+        }
     }
 }
 

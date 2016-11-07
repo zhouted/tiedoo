@@ -51,7 +51,15 @@ class CustomerPage extends BasePage{
         this.toDetail()
     }
     onDelete(){
-        let p = this.selectedIds.map(id => srvCust.delete({_id: id}))
+        let ids = this.selectedIds
+        if (!ids.length){
+            tfn.tips('请先选择要删除的记录！', 'warning')
+            return
+        }
+        if (!window.confirm(`确认删除这个${ids.length}客户吗？`)){
+            return
+        }
+        let p = ids.map(id => srvCust.delete({_id: id}))
         Promise.all(p).then(() => {
             this.doLoad()
         })

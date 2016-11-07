@@ -21,11 +21,12 @@ exports.init = function(binds){
         let height = window.innerHeight - $('#topbar').height() - 2 - 2;
         $('#sidebar').css('height', height);
         $('main.tab-content').css('height', height);
-        //$('main.tab-content>.tab-pane').css('height', height);
+        $('main.tab-content>.tab-pane').css('height', height).trigger('resize.td.page');
     }
     onResize();
 
-    $('#main>main.tab-content').scroll(function(){
-		$(this).find('.rel-fixed').css('top', this.scrollTop);
-	});
+    //  the scroll(as load and error) event do not bubble:(
+    // $('#main>main.tab-content').on('scroll', '.auto-scroll', function(){
+	// 	$(this).find('.rel-fixed').css('top', this.scrollTop);
+	// });
 }

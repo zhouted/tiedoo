@@ -12,6 +12,7 @@ class CustomerDetailContactForm extends BaseForm {
         this.$id.val(data&&data._id)
         super.reload()
     }
+    // doResize(){null;}
     doLoad(){
         let _id = this.$id.val()
         let $tpl = this.$tpl

@@ -1,6 +1,6 @@
-const BasePage = require(appPath+'/ui/base/base-page.js')
+const BasePane = require(appPath+'/ui/base/base-pane.js')
 
-class BaseForm extends BasePage{
+class BaseForm extends BasePane{
     get $form(){
         return this._$form || (this._$form = this.$page.find('form').first())
     }

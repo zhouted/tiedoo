@@ -1,65 +1,64 @@
-class BasePage {
-    constructor({pid}){
-        this._pid = '#'+pid //page identify
-        this._stub = null //存根数据
-        this.prepare()
-    }
-    get pid(){// page id
-        return this._pid
-    }
-    get $page(){// this page
-        return this._$page || (this._$page = $(this._pid))
-    }
-    get $tabpanel(){// 页面上级tabpanel
-        return this._$tabpanel || (this._$tabpanel = this.$page.parent().closest('.tab-pane'))
+const BasePane = require(appPath+'/ui/base/base-pane.js')
+class BasePage extends BasePane{
+    get $topbar(){// 页面上的工具栏
+        return  this._$topbar || (this._$topbar = $(this.$page.find('.panel-heading, .nav.nav-tabs')))
     }
     get $subtabs(){// 页面内的子nav-tabs
         return this._$subtabs || (this._$subtabs = $(this.$page.find('.nav-tabs>li>a[role=tab]')))
     }
-    get $navtab(){// 导引页面的标签(anchor)
-        return this._$navtab || (this._$navtab = $('a[href="#'+this.$tabpanel.attr('id')+'"]'))
+    get $subcont(){// 页面内的子tab-content
+        return this._$subcont || (this._$subcont = this.$page.find('.tab-content'))
     }
-    prepare(){ //do prepare on document loading(before init())
-        this.prepareEvents()
+    get $scroll(){// 页面内的滚动区域
+        return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
     }
     prepareEvents(){
-        // on parent panel showing...
-        this.$navtab.on('show.bs.tab', (e)=>{
-            let data = $(e.target).data('_spv')
-            this.onShow(data)
+        super.prepareEvents()
+        // on resize
+        let resizing = false
+        this.$tabpanel.on('resize.td.page', (e) => {
+            if (resizing) return
+            if (!this.$tabpanel.is(':visible')) return
+            resizing = true; console.log(e)
+            setTimeout(() => {
+                this.doResize()
+                resizing = false
+            })
         })
+        // on scroll
+        if (this.$scroll.length){
+            let $fixed = this.$scroll.find('.rel-fixed')
+            if (!$fixed.length) return
+            this.$scroll.scroll(function(e){
+        		$fixed.css('top', this.scrollTop);
+        	});
+        }
+
     }
     init(){ // do init on document ready
-        this.load()
-        this.initBtns()
+        super.init()
+        this.doResize()
     }
-    get btns(){// buttons click handler map
-        return {
-            onAddNew: '.btn.add-new, .btn-add-new',
-            onDelete: '.btn.delete, .btn-delete',
-            onSearch: '.btn.search, .btn-search',
-            onBack: '.btn.back, .btn-back',
-        }
+    doResize(){
+        let height = this.$tabpanel.height() - 15
+        height -= this.getFixedHeight()
+        this.$scroll.css('max-height', height)
+        this.$subcont.css('height', height)
     }
-    initBtns(){// bind buttons click handler
-        let self = this
-        for (let btn in this.btns){
-            let cls = this.btns[btn]
-            if (typeof(self[btn]) === 'function'){
-                self.$page.off('click', cls).on('click', cls, function(e){
-                    self[btn](e, this)
-                })
-            }
-        }
+    getFixedHeight(){
+        if (!this.$topbar.length) return 0
+        let height = this.$topbar.outerHeight(true)
+        return height
     }
     onShow(data){
-        if (!Object.is(data, this._stub)){
-            this.reload(data)
-            this._stub = data
-        }
+        super.onShow(data)
         if (this.$subtabs.length){
             this.doSubtabs(data)
         }
+    }
+    onShown(data){
+        super.onShown(data)
+        this.doResize()
     }
     doSubtabs(data){
         let tab = this.$subtabs.filter('[aria-expanded=true]')
@@ -70,27 +69,6 @@ class BasePage {
         tab.parent().removeClass('active')
         this.$subtabs.data('_spv', data)
         tab.tab('show')
-    }
-    load(){
-        let p = this.doLoad()
-        if (!(p instanceof Promise)) {
-            this.onLoaded()
-            return
-        }
-        p.catch(err => {
-            console.log(err)
-        }).finally(() => {
-            this.onLoaded()
-        })
-    }
-    reload(data){
-        this.load()
-    }
-    doLoad(){
-        // this.setFormData(data)
-    }
-    onLoaded(){
-        // do sth. after doLoad()
     }
 }
 

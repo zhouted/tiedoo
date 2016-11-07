@@ -1,5 +1,5 @@
 <div id="customer">
-    <div class="panel-heading rel-fixed">
+    <div class="panel-heading">
         <div class="pull-right">
             <a class="btn add-new btn-primary">新增</a>
             <a class="btn delete btn-primary">删除</a>
@@ -7,12 +7,13 @@
         <h3 class="panel-title">客户管理</h3>
     </div>
     <div class="panel-body">
-        <table class="table customer-list table-hover">
+      <div class="auto-scroll">
+        <table class="table customer-list table-hover" style="table-layout:fixed;">
             <thead>
                 <tr>
                     <th class="rel-fixed" width="20px"><input type="checkbox"></th>
                     <th class="rel-fixed" width="200px">客户名称</th>
-                    <th class="rel-fixed" width="auto">联系地址</th>
+                    <th class="rel-fixed" width="300px">联系地址</th>
                     <th class="rel-fixed" width="120px">联系电话</th>
                     <th class="rel-fixed" width="120px">传真</th>
                     <th class="rel-fixed" width="120px">首要联系人</th>
@@ -35,5 +36,6 @@
                 </script>
             </tbody>
         </table>
+      </div>
     </div>
 </div>

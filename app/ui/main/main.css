@@ -9,12 +9,18 @@
 #main>main {
     margin-left: 100px;
     margin-right: 2px;
-    overflow: auto;
+    overflow: hidden;
 }
 
-#main>main.tab-content>.tab-pane{
+#main .tab-content>.tab-pane{
     margin-bottom:0;
     height:inherit;
+}
+
+#main .panel-body>.auto-scroll{
+    width: 100%;
+    max-height: 250px;
+    overflow: auto;
 }
 
 #main .rel-fixed{

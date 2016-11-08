@@ -2,8 +2,14 @@ const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvCust = require(appPath+'/service/customer.js')
 
 class CustomerDetailContactForm extends BaseForm {
-    get $id(){
-        return this._$id || (this._$id = this.$page.find('input[name=_id]'))
+    get _id(){// customerId
+        return this._param && this._param._id
+    }
+    set _id(id){
+        if (!this._param){
+            this._param = {}
+        }
+        this._param._id = id
     }
     get $tpl(){
         return this._$tpl || (this._$tpl = this.$form.find('#tplFs'))
@@ -11,15 +17,18 @@ class CustomerDetailContactForm extends BaseForm {
     get btns(){
         return Object.assign({}, super.btns, {onMoveUp: '.btn-move-up'})
     }
-    reload(data){
-        this.$id.val(data&&data._id)
-        super.reload()
+    prepareEvents(){
+        super.prepareEvents()
+        router.$main.on('changed.customer', (e, data) => {
+            if (data && data._id && !this._id){
+                this._id = data._id
+                this.setStub({_id: data._id})
+            }
+        })
     }
-    // doResize(){null;}
-    doLoad(){
-        let _id = this.$id.val()
+    doLoad(param){
         let $tpl = this.$tpl
-        return srvCust.loadById(_id).then(data => {
+        return srvCust.loadById(param._id).then(data => {
             let contacts = data&&data.contacts
             $tpl.siblings('.contact-item').remove()
             if (contacts && contacts.length){
@@ -36,9 +45,11 @@ class CustomerDetailContactForm extends BaseForm {
         })
     }
     doSave(){
-        let _id = this.$id.val()
         let contacts = this.getFormDataArray('.contact-item')
-        return srvCust.save({_id, contacts})
+        let data = {_id: this._id, contacts}
+        return srvCust.save(data).then(rst => {
+            router.$main.trigger('changed.customer', [rst])
+        })
     }
     onAddNew(e, btn){
         this.addNew(btn)
@@ -68,7 +79,7 @@ class CustomerDetailContactForm extends BaseForm {
         let $items = this.$form.find('.contact-item');
         for (let item of $items){
             let $item = $(item)
-            $item.find('.item-index').text($item.index())
+            $item.find('.item-index').text($item.index()+1)
         }
         if ($items.length <= 1){
             $items.find('.btn-delete').addClass('hidden')

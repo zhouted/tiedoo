@@ -41,7 +41,7 @@
                     <td>${tfn.fstr(customer.addr)}</td>
                     <td>${tfn.fstr(customer.tel)}</td>
                     <td>${tfn.fstr(customer.fax)}</td>
-                    <td>${tfn.fstr(customer.first)}</td>
+                    <td>${tfn.fstr(customer.contacts && customer.contacts[0].name)}</td>
                     <td>${tfn.ftime(customer.timeQuota)}</td>
                     <td>${tfn.fdate(customer.createdAt)}</td>
                   </tr>

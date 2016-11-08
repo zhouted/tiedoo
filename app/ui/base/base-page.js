@@ -83,6 +83,9 @@ class BasePage extends BasePane{
     }
     onSearch(e, btn){
         let text = this.$searchIpt.val()
+        this.doSearch(text)
+    }
+    doSearch(text){
         tfn.tips(text)
     }
 }

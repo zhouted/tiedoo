@@ -1,17 +1,16 @@
 {
-  "name": "tiedoo",
-  "productName": "Tiedoo",
-  "description": "Tiedoo",
-  "homepage": "http://www.tiedoo.com",
-  "version": "0.1.0",
-  "main": "app.js",
-  "author": "Tiedoo",
-  "copyright": "© 2016, Tiedoo Tech. Inc. Ltd.",
-  "license": "MIT",
-  "dependencies": {
-    "bluebird": "^3.4.6",
-    "deasync": "^0.1.9",
-    "md5": "^2.2.1",
-    "nedb": "^1.8.0"
-  }
+    "name": "tiedoo",
+    "productName": "Tiedoo",
+    "description": "Tiedoo",
+    "homepage": "http://www.tiedoo.com",
+    "version": "0.1.1",
+    "main": "app.js",
+    "author": "Tiedoo",
+    "copyright": "© 2016, Tiedoo Tech. Inc. Ltd.",
+    "license": "MIT",
+    "dependencies": {
+        "bluebird": "^3.4.6",
+        "md5": "^2.2.1",
+        "nedb": "^1.8.0"
+    }
 }

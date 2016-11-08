@@ -3,22 +3,27 @@ const srvCust = require(appPath+'/service/customer.js')
 
 class CustomerDetailInfoForm extends BaseForm {
     get $id(){
-        return this._$id || (this._$id = this.$page.find('input[name=_id]'))
+        return this._$id || (this._$id = this.$form.find('input[name=_id]'))
     }
-    reload(data){
-        this.$id.val(data&&data._id||'')
-        super.reload()
+    prepareEvents(){
+        super.prepareEvents()
+        router.$main.on('changed.customer', (e, data) => {
+            if (data && data._id && !this.$id.val()){
+                this.$id.val(data._id)
+                this.setStub({_id: data._id})
+            }
+        })
     }
-    doLoad(){
-        return srvCust.loadById(this.$id.val()).then(data => {
+    doLoad(param){
+        return srvCust.loadById(param._id).then(data => {
             this.setFormData(data)
             !data && this.$form.input('edit')
         })
     }
     doSave(){
         let data = this.getFormData()
-        return srvCust.save(data).then(cust => {
-            $('body').trigger('changed.customer', [data])
+        return srvCust.save(data).then(rst => {
+            router.$main.trigger('changed.customer', [rst])
         })
     }
 }

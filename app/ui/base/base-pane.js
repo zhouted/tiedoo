@@ -1,7 +1,8 @@
 class BasePane { // base page pane(panel view in tabpanel)
     constructor({pid}){
         this._pid = '#'+pid //page identify
-        this._stub = null //存根数据
+        this._stub = null //存根：上级(父窗口)传入的数据
+        this._param = null //保存页面加载参数，以便刷新(reload)
         this.prepare()
     }
     get pid(){// page id
@@ -22,16 +23,26 @@ class BasePane { // base page pane(panel view in tabpanel)
     prepareEvents(){
         // on parent panel show...
         this.$navtab.on('show.bs.tab', (e)=>{
-            let data = $(e.target).data('_spv')
-            this.onShow(data)
+            let stub = $(e.target).data('_spv')
+            this.onShow(stub)
         })
         this.$navtab.on('shown.bs.tab', (e)=>{
-            let data = $(e.target).data('_spv')
-            this.onShown(data)
+            this.onShown()
         })
     }
+    setStub(stub){
+        this.$navtab.data('_spv', stub)
+        if (this._stub){
+            this._stub = stub
+        }
+        if (this._param){
+            Object.assign(this._param, stub)
+        }
+    }
     init(){ // do init on document ready
-        this.load()
+        if (!this._param){
+            this.load(this._stub)
+        }
         this.initBtns()
     }
     get btns(){// buttons click handler map
@@ -53,33 +64,37 @@ class BasePane { // base page pane(panel view in tabpanel)
             }
         }
     }
-    onShow(data){//showing
-        if (!Object.is(data, this._stub)){
-            this.reload(data)
-            this._stub = data
+    onShow(stub = null){//showing
+        if (!Object.is(stub, this._stub)){
+            this._stub = stub
+            this._param = {}
+            this.load()
         }
     }
-    onShown(data){//after show
+    onShown(){//after show
     }
-    load(){
-        let p = this.doLoad()
+    load(exParam){
+        let param = Object.assign({}, this._stub, exParam)
+        let p = this.doLoad(param)
         if (!(p instanceof Promise)) {
-            this.onLoaded()
+            this.onLoaded(param)
             return
         }
         p.catch(err => {
             console.log(err)
         }).finally(() => {
-            this.onLoaded()
+            this.onLoaded(param)
         })
     }
-    reload(data){
-        this.load()
+    reload(exParam){
+        let param = Object.assign(this._param, exParam)
+        this.doLoad(param)
     }
-    doLoad(){
+    doLoad(param){
         // this.setFormData(data)
     }
-    onLoaded(){
+    onLoaded(param){
+        this._param = param
         // do sth. after doLoad()
     }
 }

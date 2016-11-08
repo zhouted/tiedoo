@@ -3,8 +3,13 @@ const daoCust = require(appPath + '/dao/customer.js')
 
 let srvCust = {}
 
-srvCust.load = function(){
-    return daoCust.find(...arguments)
+srvCust.load = function(param){
+    let cond = {}
+    if (param.key){
+        key = new RegExp(param.key)
+        cond.$or = [{name: key}, {addr: key}]
+    }
+    return daoCust.find(cond)
 }
 
 srvCust.loadById = function(id, p){

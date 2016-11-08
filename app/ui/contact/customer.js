@@ -29,15 +29,18 @@ class CustomerPage extends BasePage{
     }
     prepareEvents(){
         super.prepareEvents()
-        $('body').on('changed.customer', (e, data) => {
-            this.reload(data)
+        router.$main.on('changed.customer', (e, data) => {
+            this.reload()
         })
     }
-    doLoad(){
-        srvCust.load({}).then(custs => {
+    doLoad(param){
+        srvCust.load(param).then(custs => {
             this.$tplTr.siblings().remove()
             this.$tplTr.renderTpl(custs)
         })
+    }
+    doSearch(text){
+        this.load({key: text})
     }
     toDetail(id){
         router.loadMainPanel('customerDetailPanel', {_id:id})
@@ -61,7 +64,7 @@ class CustomerPage extends BasePage{
         }
         let p = ids.map(id => srvCust.delete({_id: id}))
         Promise.all(p).then(() => {
-            this.doLoad()
+            this.reload()
         })
     }
 }

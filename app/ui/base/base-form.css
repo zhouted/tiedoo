@@ -10,7 +10,7 @@
 }
 /*.control-label.for-readonly?*/
 
-.form-control {
+.form-control:not([type=search]) {
     border: none;
     border-bottom: 1px solid #ccc;
     border-radius: 0;

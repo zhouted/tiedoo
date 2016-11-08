@@ -4,9 +4,9 @@ class BaseForm extends BasePane{
     get $form(){
         return this._$form || (this._$form = this.$page.find('form').first())
     }
-    init(){
+    prepareEvents(){
+        super.prepareEvents()
         this.$form.input('init')
-        super.init()
         this.initValidators()
     }
     get btns(){

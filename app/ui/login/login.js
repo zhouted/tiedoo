@@ -15,6 +15,17 @@ class LoginForm extends BaseForm{
     get $agree(){
         return this._$agree || (this._$agree = this.$form.find('input[name=agree]'))
     }
+    get $confirm(){
+        return this._$confirm || (this._$confirm = this.$form.find('.btn.confirm'))
+    }
+    prepareEvents(){
+        super.prepareEvents()
+        this.$form.on('keyup', '.form-control', e => {
+            if (e && e.which == 13){
+                this.$confirm.click()
+            }
+        })
+    }
     initValidators(){
         super.initValidators()
         this.$account.data('validator', (ipt) => {

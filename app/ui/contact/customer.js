@@ -1,7 +1,7 @@
-const BasePage = require(appPath+'/ui/base/base-page.js')
+const ListPage = require(appPath+'/ui/base/list-page.js')
 const srvCust = require(appPath+'/service/customer.js')
 
-class CustomerPage extends BasePage{
+class CustomerPage extends ListPage{
     get $table(){
         return this._$table || (this._$table = this.$page.find('.table'))
     }

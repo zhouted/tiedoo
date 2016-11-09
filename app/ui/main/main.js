@@ -1,3 +1,6 @@
+require(appPath+'/ui/base/jquery/jquery.twbsPagination.js')
+Object.assign($.fn.twbsPagination.defaults, {first: '«', prev: '‹', next: '›', last: '»'})
+
 const srvUser = require(appPath+'/service/user.js')
 
 exports.init = function(binds){

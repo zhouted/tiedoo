@@ -57,8 +57,29 @@ class Dao{
     newId(){
         return this.ds.createNewId()
     }
-    find(){
-        return this.ds.findAsync(...arguments);
+    count(cond){
+        return this.ds.countAsync(cond)
+    }
+    find(cond, project, sortBy, paging){
+        let csr = this.ds.find(cond, project)
+        if (sortBy){
+            csr = csr.sort(sortBy)
+        }
+        if (paging){
+            paging.pageNo = paging.pageNo||1
+            paging.pageSize = paging.pageSize||2
+            let skip = paging.pageSize*paging.pageNo-paging.pageSize
+            if (skip){
+                csr = csr.skip(skip)
+            }
+            csr = csr.limit(paging.pageSize)
+            return this.count(cond).then(total => {
+                paging.total = total
+                paging.totalPages = Math.ceil(total/paging.pageSize)
+                return csr.execAsync()
+            })
+        }
+        return csr.execAsync()
     }
     findOne(){
         return this.ds.findOneAsync(...arguments);

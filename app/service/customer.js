@@ -3,17 +3,19 @@ const daoCust = require(appPath + '/dao/customer.js')
 
 let srvCust = {}
 
-srvCust.load = function(param){
+srvCust.load = function(param, project){
     let cond = {}
     if (param.key){
         key = new RegExp(param.key)
         cond.$or = [{name: key}, {addr: key}]
     }
-    return daoCust.find(cond)
+    let sortBy = param.sortBy = param.sortBy||{name:1}
+    let paging = param.paging = param.paging||{pageSize:2}
+    return daoCust.find(cond, project, sortBy, paging)
 }
 
-srvCust.loadById = function(id, p){
-    return daoCust.findById(id, p)
+srvCust.loadById = function(id, project){
+    return daoCust.findById(id, project)
 }
 
 srvCust.save = function(doc){

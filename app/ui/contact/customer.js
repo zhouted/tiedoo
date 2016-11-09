@@ -34,7 +34,7 @@ class CustomerPage extends ListPage{
         })
     }
     doLoad(param){
-        srvCust.load(param).then(custs => {
+        return srvCust.load(param).then(custs => {
             this.$tplTr.siblings().remove()
             this.$tplTr.renderTpl(custs)
         })

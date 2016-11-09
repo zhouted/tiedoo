@@ -75,6 +75,13 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     load(exParam){
         let param = Object.assign({}, this._stub, exParam)
+        this._load(param)
+    }
+    reload(exParam){
+        let param = Object.assign(this._param, exParam)
+        this._load(param)
+    }
+    _load(param){
         let p = this.doLoad(param)
         if (!(p instanceof Promise)) {
             this.onLoaded(param)
@@ -85,10 +92,6 @@ class BasePane { // base page pane(panel view in tabpanel)
         }).finally(() => {
             this.onLoaded(param)
         })
-    }
-    reload(exParam){
-        let param = Object.assign(this._param, exParam)
-        this.doLoad(param)
     }
     doLoad(param){
         // this.setFormData(data)

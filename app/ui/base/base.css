@@ -67,3 +67,13 @@ body {
 .text-alert {
     color: #fa702a;
 }
+
+.sortable{
+    cursor: pointer;
+    color: #337ab7;
+}
+
+.sortable:hover{
+    color: #23527c;
+    text-decoration: underline;
+}

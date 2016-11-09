@@ -33,6 +33,9 @@ class CustomerPage extends ListPage{
             this.reload()
         })
     }
+    get defaultParam(){
+        return tfn.merge(super.defaultParam, {paging:{pageSize:10}})
+    }
     doLoad(param){
         return srvCust.load(param).then(custs => {
             this.$tplTr.siblings().remove()

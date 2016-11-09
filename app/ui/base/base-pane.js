@@ -67,14 +67,17 @@ class BasePane { // base page pane(panel view in tabpanel)
     onShow(stub = null){//showing
         if (!Object.is(stub, this._stub)){
             this._stub = stub
-            this._param = {}
+            this._param = this.defaultParam
             this.load()
         }
     }
     onShown(){//after show
     }
+    get defaultParam(){
+        return {}
+    }
     load(exParam){
-        let param = tfn.merge({}, this._stub, exParam)
+        let param = tfn.merge({}, this.defaultParam, this._stub, exParam)
         this._load(param)
     }
     reload(exParam){

@@ -10,7 +10,7 @@ class BaseForm extends BasePane{
         this.initValidators()
     }
     get btns(){
-        return Object.assign({}, super.btns, {
+        return tfn.merge({}, super.btns, {
             onEdit: '.btn.edit',
             onSave: '.btn.save',
             onConfirm: '.btn.confirm',

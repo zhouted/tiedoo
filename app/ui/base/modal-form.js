@@ -5,7 +5,7 @@ class ModalForm extends BaseForm{
         return this.$page
     }
     // get btns(){
-    //     return Object.assign({}, super.btns, {onConfirm: '.btn.confirm'})
+    //     return tfn.merge({}, super.btns, {onConfirm: '.btn.confirm'})
     // }
     // onConfirm(e, btn){
     //     super.onSave(e, btn)

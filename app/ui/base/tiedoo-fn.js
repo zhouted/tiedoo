@@ -1,3 +1,26 @@
+exports.isObject = isObject
+function isObject(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+}
+
+exports.merge = merge
+function merge(){ //deep Object.assion, just recursive Object.assign
+    let merged = Object.assign({}, ...arguments)
+    for (let p in merged){
+        let o = merged[p]
+        if (isObject(o)){
+            let args = [] //arguments.map(a => a&&a[p])
+            for (let i in arguments){
+                if (arguments[i] && isObject(arguments[i][p])){
+                    args.push(arguments[i][p])
+                }
+            }
+            merged[p] = merge(o, ...args)
+        }
+    }
+    return Object.assign(arguments[0], merged)
+}
+
 //formaters:
 exports.fstr = exports.escapeHtml = escapeHtml
 function escapeHtml(str) {

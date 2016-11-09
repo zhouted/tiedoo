@@ -35,7 +35,7 @@ exports.init = function({pid}) {
     function initCropper(){
         $srcIpt = $($image.data('srcIpt'))
         let opts = $srcIpt.data('cropOpts')
-        opts = Object.assign({}, dftOpts, opts)
+        opts = tfn.merge({}, dftOpts, opts)
         $image.cropper(opts);
     }
 

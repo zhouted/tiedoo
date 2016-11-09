@@ -30,7 +30,7 @@ let {openDs, setUserId} = (function (Nedb){
         }
         let ds = dsCaches[filename]
         if (!ds){
-            let opts = Object.assign({filename: datPath + filename}, _opts)
+            let opts = tfn.merge({filename: datPath + filename}, _opts)
             ds = dsCaches[filename] = new Nedb(opts)
         }
         return ds
@@ -67,7 +67,7 @@ class Dao{
         }
         if (paging){
             paging.pageNo = paging.pageNo||1
-            paging.pageSize = paging.pageSize||2
+            paging.pageSize = paging.pageSize||20
             let skip = paging.pageSize*paging.pageNo-paging.pageSize
             if (skip){
                 csr = csr.skip(skip)

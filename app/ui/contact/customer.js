@@ -23,7 +23,7 @@ class CustomerPage extends ListPage{
         return $item.data('id')
     }
     get btns(){
-        return Object.assign({}, super.btns, {
+        return tfn.merge({}, super.btns, {
             onDetail: '.customer-item>td',
         })
     }

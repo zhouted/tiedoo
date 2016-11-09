@@ -122,7 +122,7 @@ function encrypt(pwd){//加密
 }
 
 srvUser.autoLogin = function(token){
-    Object.assign(srvUser._token, token)
+    tfn.merge(srvUser._token, token)
     return daoToken.save(token)
 }
 

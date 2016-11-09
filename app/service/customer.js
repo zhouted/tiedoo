@@ -10,7 +10,7 @@ srvCust.load = function(param, project){
         cond.$or = [{name: key}, {addr: key}]
     }
     let sortBy = param.sortBy = param.sortBy||{name:1}
-    let paging = param.paging = param.paging||{pageSize:2}
+    let paging = param.paging = param.paging||{pageSize:10}
     return daoCust.find(cond, project, sortBy, paging)
 }
 

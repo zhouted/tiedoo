@@ -36,7 +36,7 @@ class BasePane { // base page pane(panel view in tabpanel)
             this._stub = stub
         }
         if (this._param){
-            Object.assign(this._param, stub)
+            tfn.merge(this._param, stub)
         }
     }
     init(){ // do init on document ready
@@ -74,11 +74,11 @@ class BasePane { // base page pane(panel view in tabpanel)
     onShown(){//after show
     }
     load(exParam){
-        let param = Object.assign({}, this._stub, exParam)
+        let param = tfn.merge({}, this._stub, exParam)
         this._load(param)
     }
     reload(exParam){
-        let param = Object.assign(this._param, exParam)
+        let param = tfn.merge(this._param, exParam)
         this._load(param)
     }
     _load(param){

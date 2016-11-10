@@ -3,6 +3,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         this._pid = '#'+pid //page identify
         this._stub = null //存根：上级(父窗口)传入的数据
         this._param = null //保存页面加载参数，以便刷新(reload)
+        this._data = null //保存页面加载的数据
         this.prepare()
     }
     get pid(){// page id
@@ -18,6 +19,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         return this._$tabpanel || (this._$tabpanel = this.$page.parent().closest('.tab-pane'))
     }
     prepare(){ //do prepare on document loading(before init())
+        this.$page.data('page', this)
         this.prepareEvents()
     }
     prepareEvents(){

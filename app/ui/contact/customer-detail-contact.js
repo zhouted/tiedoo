@@ -17,32 +17,35 @@ class CustomerDetailContactForm extends BaseForm {
     get btns(){
         return tfn.merge({}, super.btns, {onMoveUp: '.btn-move-up'})
     }
-    prepareEvents(){
-        super.prepareEvents()
-        router.$main.on('changed.customer', (e, data) => {
-            if (data && data._id && !this._id){
-                this._id = data._id
-                this.setStub({_id: data._id})
-            }
-        })
-    }
-    doLoad(param){
+    // prepareEvents(){
+    //     super.prepareEvents()
+    //     router.$main.on('changed.customer', (e, data) => {
+    //         if (data && data._id && !this._id){
+    //             this._id = data._id
+    //             this.setStub({_id: data._id})
+    //         }
+    //     })
+    // }
+    doLoad(customer){
         let $tpl = this.$tpl
-        return srvCust.loadById(param._id).then(data => {
-            let contacts = data&&data.contacts
+        // return srvCust.loadById(param._id).then(data => {
+            let contacts = customer&&customer.contacts
             $tpl.siblings('.contact-item').remove()
             if (contacts && contacts.length){
                 let $contacts = tfn.template($tpl, contacts)
                 $contacts = $($contacts.join(''))
                 this.setFormDataArray(contacts, '.contact-item', $contacts)
                 $tpl.before($contacts)
-                this.$form.input('read', true)
+                // this.$form.input('read', true)
             }else{
                 this.addNew()
-                this.$form.input('edit')
+                // this.$form.input('edit')
             }
             this.reindex()
-        })
+        // })
+    }
+    getFormContacts(){
+        return this.getFormDataArray('.contact-item')
     }
     doSave(){
         let contacts = this.getFormDataArray('.contact-item')

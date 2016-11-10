@@ -1,4 +1,20 @@
-<div id="customerDetail">
+<div id="customerDetail" class="on-reading">
+    <!-- Header toolbar -->
+    <div class="panel-heading">
+        <div class="panel-title">
+            <label class="panel-title-main text-center"><span class="bind-customer-name">客户公司名称</span></label>
+            <span class="panel-title-sub">
+                <label>创建时间：</label><span class="bind-customer-createdAt">0000/00/00</span>
+                <label>首要联系人：</label><span class="bind-customer-contact-name">首要联系人</span>
+            </span>
+        </div>
+    </div>
+    <div class="pull-right">
+        <a class="btn edit for-readonly"><span class="glyphicon glyphicon-edit"></span>编辑</a>
+        <a class="btn add-new for-editonly"><span class="glyphicon glyphicon-plus"></span>新建</a>
+        <a class="btn save for-editonly"><span class="glyphicon glyphicon-edit"></span>保存</a>
+        <a class="btn back"><span class="glyphicon glyphicon-back"></span>返回</a>
+    </div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation"><a href="#customerInfoPanel" data-src="ui/contact/customer-detail-info.html" role="tab" data-toggle="tab">客户信息</a></li>

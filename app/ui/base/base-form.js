@@ -36,7 +36,7 @@ class BaseForm extends BasePane{
     }
     setFormData(data){
         this.$form.input('values', data||{})
-        this.$form.input('read', true)
+        // this.$form.input('read', true)
     }
     getFormDataArray(groupBy = 'fieldset'){
         let datas = []
@@ -58,7 +58,7 @@ class BaseForm extends BasePane{
             let data = datas[$group.index()]
             data && $group.input('values', data)
         }
-        this.$form.input('read', true)
+        // this.$form.input('read', true)
     }
     onSave(e, btn){
         let valid = this.checkFormData()

@@ -4,7 +4,11 @@ function isObject(item) {
 }
 
 exports.merge = merge
-function merge(){ //deep Object.assion, just recursive Object.assign
+function merge(){ //deep Object.assion
+    if ($ && $.extend){
+        return $.extend(true, ...arguments)
+    }
+    // just recursive Object.assign
     let merged = Object.assign({}, ...arguments)
     for (let p in merged){
         let o = merged[p]

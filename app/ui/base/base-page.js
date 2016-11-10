@@ -3,6 +3,9 @@ class BasePage extends BasePane{
     get $topbar(){// 页面上的工具栏
         return  this._$topbar || (this._$topbar = $(this.$page.find('.panel-heading, .nav.nav-tabs')))
     }
+    get autosubs(){// 自动传播到下级的事件
+        return {onShow:true}
+    }
     get $subtabs(){// 页面内的子nav-tabs
         return this._$subtabs || (this._$subtabs = $(this.$page.find('.nav-tabs>li>a[role=tab]')))
     }
@@ -63,16 +66,22 @@ class BasePage extends BasePane{
     }
     onShow(data){
         super.onShow(data)
-        if (this.$subtabs.length){
+        if (this.$subtabs.length && this.autosubs.onShow){
             this.doSubtabs(data)
         }
     }
-    onShown(data){
-        super.onShown(data)
+    onShown(){
+        super.onShown()
         this.doResize()
     }
+    onLoaded(param){
+        super.onLoaded(param)
+        if (this.autosubs.onLoaded){
+            this.doSubtabs(this._data)
+        }
+    }
     doSubtabs(data){
-        let tab = this.$subtabs.filter('[aria-expanded=true]')
+        let tab = this.$subtabs.filter('[aria-expanded=true]:first')
         if (!tab.length){
             tab = this.$subtabs.first()
         }

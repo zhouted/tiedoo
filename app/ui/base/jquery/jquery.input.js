@@ -95,7 +95,7 @@
 				setValue($ipt, doc[name])
 			}
 		})
-		// initReading($form, true)
+		initReading($form)
 		function setValue($ipt, val){
 			if ($ipt.is('[type=checkbox],[type=radio]')){
 				let checked = false
@@ -260,11 +260,15 @@
 	}
 
 	function toReading($form, init){
+		$form.find('.'+_options.clsReading).removeClass(_options.clsReading)
+		$form.find('.'+_options.clsEditing).removeClass(_options.clsEditing)
 		$form.addClass(_options.clsReading).removeClass(_options.clsEditing)
 		init && initReading($form)
 	}
 
 	function toEditing($form, init){
+		$form.find('.'+_options.clsReading).removeClass(_options.clsReading)
+		$form.find('.'+_options.clsEditing).removeClass(_options.clsEditing)
 		$form.removeClass(_options.clsReading).addClass(_options.clsEditing)
 		//init && initEditing($form); //do not reinit
 	}

@@ -9,14 +9,6 @@ class BaseForm extends BasePane{
         this.$form.input('init')
         this.initValidators()
     }
-    get btns(){
-        return tfn.merge({}, super.btns, {
-            onEdit: '.btn.edit',
-            onSave: '.btn.save',
-            onConfirm: '.btn.confirm',
-            onCancel: '.btn.cancel',
-        })
-    }
     initValidators(){
         this.$form.find('.form-control.check-on-change').change(function(e){
             return $(this).input('check')
@@ -28,15 +20,15 @@ class BaseForm extends BasePane{
     onBack(e, btn){
         this.$form.input('read')
     }
-    checkFormData(){
-        return this.$form.input('check')
-    }
-    getFormData(){
-        return this.$form.input('values')
+    render(data){
+        super.render(data)
+        this.setFormData(data)
     }
     setFormData(data){
         this.$form.input('values', data||{})
-        // this.$form.input('read', true)
+    }
+    getFormData(){
+        return this.$page.input('check')
     }
     getFormDataArray(groupBy = 'fieldset'){
         let datas = []
@@ -58,40 +50,6 @@ class BaseForm extends BasePane{
             let data = datas[$group.index()]
             data && $group.input('values', data)
         }
-        // this.$form.input('read', true)
-    }
-    onSave(e, btn){
-        let valid = this.checkFormData()
-        if (!valid){
-            return
-        }
-        $(btn).button('loading')
-        let p = this.doSave()
-        if (!(p instanceof Promise)) {
-            this.onSaved(e, btn)
-            return
-        }
-        p.then(rst => {
-            console.log(rst)
-            this.$form.input('read', true)
-        }).catch(err => {
-            console.log(err)
-        }).finally(() => {
-            this.onSaved(e, btn)
-        })
-    }
-    doSave(){
-        // let data = this.getFormData()
-        // return srvXXX.save(data)
-    }
-    onSaved(e, btn){
-        $(btn).button('reset')
-    }
-    onConfirm(e, btn){
-        this.onSave(e, btn)
-    }
-    onCancel(e, btn){
-        this.onBack(e, btn)
     }
 }
 

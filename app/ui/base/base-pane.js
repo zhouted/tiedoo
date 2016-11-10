@@ -53,6 +53,9 @@ class BasePane { // base page pane(panel view in tabpanel)
             onDelete: '.btn.delete, .btn-delete',
             onSearch: '.btn.search, .btn-search',
             onBack: '.btn.back, .btn-back',
+            onEdit: '.btn.edit, .btn-edit',
+            onSave: '.btn.save, .btn-save',
+            onClose: '.btn.close, .btn-close',
         }
     }
     initBtns(){// bind buttons click handler
@@ -88,22 +91,60 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     _load(param){
         let p = this.doLoad(param)
+        if (Object.is(p, undefined)) return
         if (!(p instanceof Promise)) {
+            this.render(p)
             this.onLoaded(param)
             return
         }
-        p.catch(err => {
+        p.then(data => this.render(data)).catch(err => {
             console.log(err)
-        }).finally(() => {
-            this.onLoaded(param)
+        }).finally((data) => {
+            this.onLoaded(param, data)
         })
     }
     doLoad(param){
         // this.setFormData(data)
     }
+    render(data){
+        this._data = data
+    }
     onLoaded(param){
         this._param = param
         // do sth. after doLoad()
+    }
+    checkPageData(){
+        return this.$page.input('check')
+    }
+    getPageData(){ //get data to save
+        return this.$page.input('values')
+    }
+    onSave(e, btn){
+        let valid = this.checkPageData()
+        if (!valid){
+            return
+        }
+        $(btn).button('loading')
+        let data = this.getPageData()
+        let p = this.doSave(data)
+        if (!(p instanceof Promise)) {
+            this.onSaved(e, btn)
+            return
+        }
+        p.then(rst => {
+            console.log(rst)
+            this.$page.input('read', true)
+        }).catch(err => {
+            console.log(err)
+        }).finally(() => {
+            this.onSaved(e, btn)
+        })
+    }
+    doSave(data){
+        // return srvXXX.save(data)
+    }
+    onSaved(e, btn){
+        $(btn).button('reset')
     }
 }
 

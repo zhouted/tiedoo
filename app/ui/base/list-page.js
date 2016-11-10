@@ -35,9 +35,9 @@ class ListPage extends BasePage{
     }
     onLoaded(param){
         super.onLoaded(param)
-        param.paging && this.updatePager(param.paging)
+        param.paging && this.renderPager(param.paging)
     }
-    updatePager(paging){
+    renderPager(paging){
         let pagination = this.$paging.data('twbs-pagination')
         if (pagination){
             if (pagination.options.totalPages == paging.totalPages){

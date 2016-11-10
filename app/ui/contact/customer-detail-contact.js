@@ -2,57 +2,28 @@ const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvCust = require(appPath+'/service/customer.js')
 
 class CustomerDetailContactForm extends BaseForm {
-    get _id(){// customerId
-        return this._param && this._param._id
-    }
-    set _id(id){
-        if (!this._param){
-            this._param = {}
-        }
-        this._param._id = id
-    }
     get $tpl(){
         return this._$tpl || (this._$tpl = this.$form.find('#tplFs'))
     }
     get btns(){
         return tfn.merge({}, super.btns, {onMoveUp: '.btn-move-up'})
     }
-    // prepareEvents(){
-    //     super.prepareEvents()
-    //     router.$main.on('changed.customer', (e, data) => {
-    //         if (data && data._id && !this._id){
-    //             this._id = data._id
-    //             this.setStub({_id: data._id})
-    //         }
-    //     })
-    // }
-    doLoad(customer){
+    render(customer){
         let $tpl = this.$tpl
-        // return srvCust.loadById(param._id).then(data => {
-            let contacts = customer&&customer.contacts
-            $tpl.siblings('.contact-item').remove()
-            if (contacts && contacts.length){
-                let $contacts = tfn.template($tpl, contacts)
-                $contacts = $($contacts.join(''))
-                this.setFormDataArray(contacts, '.contact-item', $contacts)
-                $tpl.before($contacts)
-                // this.$form.input('read', true)
-            }else{
-                this.addNew()
-                // this.$form.input('edit')
-            }
-            this.reindex()
-        // })
+        let contacts = customer&&customer.contacts
+        $tpl.siblings('.contact-item').remove()
+        if (contacts && contacts.length){
+            let $contacts = tfn.template($tpl, contacts)
+            $contacts = $($contacts.join(''))
+            this.setFormDataArray(contacts, '.contact-item', $contacts)
+            $tpl.before($contacts)
+        }else{
+            this.addNew()
+        }
+        this.reindex()
     }
     getFormContacts(){
         return this.getFormDataArray('.contact-item')
-    }
-    doSave(){
-        let contacts = this.getFormDataArray('.contact-item')
-        let data = {_id: this._id, contacts}
-        return srvCust.save(data).then(rst => {
-            router.$main.trigger('changed.customer', [rst])
-        })
     }
     onAddNew(e, btn){
         this.addNew(btn)

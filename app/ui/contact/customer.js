@@ -37,10 +37,12 @@ class CustomerPage extends ListPage{
         return tfn.merge(super.defaultParam, {paging:{pageSize:10}})
     }
     doLoad(param){
-        return srvCust.load(param).then(custs => {
-            this.$tplTr.siblings().remove()
-            this.$tplTr.renderTpl(custs)
-        })
+        return srvCust.load(param)
+    }
+    render(data){
+        super.render(data)
+        this.$tplTr.siblings().remove()
+        this.$tplTr.renderTpl(data)
     }
     doSearch(text){
         this.load({key: text})

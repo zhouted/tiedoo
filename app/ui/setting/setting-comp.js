@@ -26,10 +26,11 @@ class CompForm extends BaseForm{
         })
     }
     doLoad(){
-        srvComp.load().then(comp => {
-            this.setFormData(comp)
-            this.loadImg()
-        })
+        return srvComp.load()
+    }
+    render(comp){
+        this.setFormData(comp)
+        this.loadImg()
     }
     loadImg(){
         srvComp.loadImg(this.$imgIpt.data('fileId')).then(file => {

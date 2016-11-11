@@ -141,17 +141,26 @@ class BasePane { // base page pane(panel view in tabpanel)
         let data = this.getPageData()
         let p = this.doSave(data)
         if (!(p instanceof Promise)) {
+            this.rerender(data, p)
             this.onSaved(e, btn)
             return
         }
         p.then(rst => {
             console.log(rst)
+            this.rerender(data, rst)
             this.toRead()
         }).catch(err => {
             console.log(err)
         }).finally(() => {
             this.onSaved(e, btn)
         })
+    }
+    rerender(data, saved){
+        if (data && saved && saved._id){
+            tfn.merge(data, saved)
+        }
+        this.render(data)
+        this._data = data
     }
     doSave(data){
         // return srvXXX.save(data)

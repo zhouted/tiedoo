@@ -13,9 +13,9 @@ class ModalForm extends BaseForm{
     onConfirm(e, btn){
         this.onSave(e, btn)
     }
-    onCancel(e, btn){
-        this.onBack(e, btn)
-    }
+    // onCancel(e, btn){
+    //     this.onBack(e, btn)
+    // }
 }
 
 module.exports = ModalForm

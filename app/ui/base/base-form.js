@@ -18,6 +18,7 @@ class BaseForm extends BasePane{
         this.$form.input('edit')
     }
     toRead(){
+        this._modified = false
         this.$form.input('read')
     }
     render(data){

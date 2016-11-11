@@ -60,10 +60,6 @@ class CustomerDetailPage extends BasePage {
     }
     doSave(data){
         return srvCust.save(data).then(rst => {
-            if (!this._data || !this._data._id){
-                tfn.merge(data, rst)
-            }
-            this.render(data)
             router.$main.trigger('changed.customer', [data])
         })
     }

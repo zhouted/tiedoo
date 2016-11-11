@@ -14,7 +14,7 @@ class PwdForm extends ModalForm{
     initValidators(){
         super.initValidators()
         this.$pwdOld.data('validator', (ipt) => {
-            return srvUser.validPasswd(ipt.value, this._user) //TODO: use checkPasswd
+            return srvUser.validPasswd(ipt.value, this._data) //TODO: use checkPasswd
             // return srvUser.checkPasswd(ipt.value).then((pass) => {
                 // if (!pass){
                 //     window.alert('原密码错误！')
@@ -27,9 +27,10 @@ class PwdForm extends ModalForm{
         })
     }
     doLoad(){
-        srvUser.load().then(user => {
-            this._user = user
-        })
+        return srvUser.load()
+    }
+    render(){
+        null
     }
     doSave(){
         let pwdOld = this.$pwdOld.val()

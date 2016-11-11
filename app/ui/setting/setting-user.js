@@ -39,10 +39,11 @@ class UserForm extends BaseForm{
         })
     }
     doLoad(){
-        return srvUser.load().then(user => {
-            this.setFormData(user)
-            this.loadImg()
-        })
+        return srvUser.load()
+    }
+    render(user){
+        this.setFormData(user)
+        this.loadImg()
     }
     loadImg(){
         srvUser.loadImg(this.$imgIpt.data('fileId')).then(file => {

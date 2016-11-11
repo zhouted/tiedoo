@@ -5,8 +5,8 @@ class CustomerDetailPage extends BasePage {
     get $title(){
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
-    get autosubs(){
-        return {onLoaded:true}
+    get $btnAddContact(){
+        return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
     get $paneInfo(){
         return this._$paneInfo || (this._$paneInfo = this.$page.find('#customerDetailInfo'))
@@ -20,17 +20,27 @@ class CustomerDetailPage extends BasePage {
     get paneContact(){
         return this.$paneContact.data('page')
     }
-    onEdit(e, btn){
-        this.$page.input('edit')
+    prepareEvents(){
+        super.prepareEvents()
+        this.$btnAddContact.click(e => {
+            this.paneContact.addNew()
+        })
+        this.$subtabs.on('shown.bs.tab', (e)=>{
+            //显示联系人pane时才显示add-contact按钮
+            if (e.target === this.paneContact.$navtab[0]){
+                this.$btnAddContact.removeClass('hide')
+                return
+            }
+            this.$btnAddContact.addClass('hide')
+        })
     }
     onBack(e, btn){
-        this.$page.input('read')
+        router.loadMainPanel('customerPanel')
     }
     doLoad(param){
-        return srvCust.loadById(param._id)
+        return srvCust.loadById(param._id)//.then(data => this.render(data))
     }
     render(data){
-        super.render(data)
         this.renderTitle(data)
         this.paneInfo.render(data)
         this.paneContact.render(data)
@@ -44,18 +54,17 @@ class CustomerDetailPage extends BasePage {
     }
     getPageData(){
         let info = this.paneInfo.getFormData()
-        let contacts = this.paneContact.getFormContacts()
+        let contacts = this.paneContact.getFormData()
         let data = tfn.merge({}, info, {contacts})
         return data
     }
     doSave(data){
         return srvCust.save(data).then(rst => {
             if (!this._data || !this._data._id){
-                this.render(rst)
-            }else{
-                this.renderTitle(data)
+                tfn.merge(data, rst)
             }
-
+            this.render(data)
+            router.$main.trigger('changed.customer', [data])
         })
     }
 }

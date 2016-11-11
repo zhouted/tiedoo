@@ -33,9 +33,9 @@ class ListPage extends BasePage{
     get defaultParam(){
         return {orderBy:{name:1}, paging:{pageSize:20}}
     }
-    onLoaded(param){
-        super.onLoaded(param)
-        param.paging && this.renderPager(param.paging)
+    onLoaded({data, param}){
+        super.onLoaded({data, param})
+        param && param.paging && this.renderPager(param.paging)
     }
     renderPager(paging){
         let pagination = this.$paging.data('twbs-pagination')

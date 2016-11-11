@@ -14,21 +14,29 @@ class BaseForm extends BasePane{
             return $(this).input('check')
         })
     }
-    onEdit(e, btn){
+    toEdit(){
         this.$form.input('edit')
     }
-    onBack(e, btn){
+    toRead(){
         this.$form.input('read')
     }
     render(data){
-        super.render(data)
         this.setFormData(data)
+    }
+    checkPageData(){
+        return this.checkFormData()
+    }
+    getPageData(){ //get data to save
+        return this.getFormData()
+    }
+    checkFormData(){
+        return this.$form.input('check')
     }
     setFormData(data){
         this.$form.input('values', data||{})
     }
     getFormData(){
-        return this.$page.input('check')
+        return this.$form.input('values')
     }
     getFormDataArray(groupBy = 'fieldset'){
         let datas = []

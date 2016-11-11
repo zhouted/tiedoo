@@ -68,6 +68,10 @@ body {
     color: #fa702a;
 }
 
+.bg-fieldset{
+    background-color: #D3EBF7;
+}
+
 .sortable{
     cursor: pointer;
     color: #337ab7;

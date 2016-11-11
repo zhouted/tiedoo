@@ -40,7 +40,6 @@ class CustomerPage extends ListPage{
         return srvCust.load(param)
     }
     render(data){
-        super.render(data)
         this.$tplTr.siblings().remove()
         this.$tplTr.renderTpl(data)
     }

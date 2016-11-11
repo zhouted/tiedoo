@@ -8,7 +8,9 @@
 .on-reading .for-editonly, .on-editing .for-readonly {
     display: none;
 }
-/*.control-label.for-readonly?*/
+
+/*.on-reading .control-label:has(>input.for-readonly:checked)*/
+.on-reading .control-label.for-editonly[data-checked="true"]{display:inline-block;}
 
 .form-control:not([type=search]) {
     border: none;
@@ -17,6 +19,13 @@
     box-shadow: none;
 }
 
+fieldset.bg-fieldset{
+    padding: 10px 20px 10px 0;
+}
+
+.bg-fieldset .form-control{
+    background-color: transparent;
+}
 
 /*.form-control:focus {
     border: none;

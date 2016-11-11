@@ -60,8 +60,10 @@ class BasePage extends BasePane{
         this.$subcont.css('height', height)
     }
     getFixedHeight(){
-        if (!this.$topbar.length) return 0
-        let height = this.$topbar.outerHeight(true)
+        let height = 0
+        for (let bar of this.$topbar){
+            height += $(bar).outerHeight(true)
+        }
         return height
     }
     onShow(data){

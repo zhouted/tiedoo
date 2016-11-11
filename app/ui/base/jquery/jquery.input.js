@@ -105,6 +105,7 @@
 					checked = ($ipt.val() === val)
 				}
 				$ipt.prop('checked', checked);
+				$ipt.closest('label,.control-label').attr('data-checked', checked)
 			}else if ($ipt.is('[type=file]')){
 				$ipt.data('fileId', val) // input file 的id保存到data里
 			}else{
@@ -183,6 +184,14 @@
 			}
 		}
 
+		//checked label
+		$form.on('change', '.control-label.'+_options.clsForEditonly+'>input', function(){
+			var $ipt = $(this), $label = $ipt.closest('.control-label')
+			var $labels = $ipt.closest('form').find('input[name="'+this.name+'"]').closest('.control-label')
+			$labels.removeAttr('data-checked')
+			$label.attr('data-checked', $ipt.prop('checked'))
+		})
+
 		//自动补全url
 		$form.find('.form-control.url').change(function(){
 			var $ipt = $(this), val = $ipt.val();
@@ -217,16 +226,16 @@
 			//$p.show();
 		})//.hide();
 		$form.find('.input-group-addon.after-input.'+_options.clsForEditonly).each(addOn)//.hide();
-		$form.find('.control-label.'+_options.clsForEditonly).each(function(){
-			var $label = $(this);
-			var $ipt = $label.children('input');
-			if ($ipt.prop('checked')){
-				$label.show();
-				$ipt.hide();
-			}else{
-				$label.hide();
-			}
-		});
+		// $form.find('.control-label.'+_options.clsForEditonly).each(function(){
+		// 	var $label = $(this);
+		// 	var $ipt = $label.children('input');
+		// 	if ($ipt.prop('checked')){
+		// 		$label.show();
+		// 		$ipt.hide();
+		// 	}else{
+		// 		$label.hide();
+		// 	}
+		// });
 
 		function addOn(){
 			var $addon = $(this);

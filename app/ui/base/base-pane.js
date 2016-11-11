@@ -4,6 +4,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         this._stub = null //存根：上级(父窗口)传入的数据
         this._param = null //保存页面加载参数，以便刷新(reload)
         this._data = null //保存页面加载的数据
+        this._modified = false
         this.prepare()
     }
     get pid(){// page id
@@ -31,6 +32,11 @@ class BasePane { // base page pane(panel view in tabpanel)
         this.$navtab.on('shown.bs.tab', (e)=>{
             this.onShown()
         })
+
+        // on changed
+        this.$page.on('change', 'input.for-editonly, for-editonly', (e) => {
+            this._modified = true
+        })
     }
     setStub(stub){
         this.$navtab.data('_spv', stub)
@@ -54,6 +60,7 @@ class BasePane { // base page pane(panel view in tabpanel)
             onSearch: '.btn.search, .btn-search',
             onBack: '.btn.back, .btn-back',
             onEdit: '.btn.edit, .btn-edit',
+            onRead: '.btn.read, .btn-read',
             onSave: '.btn.save, .btn-save',
             onClose: '.btn.close, .btn-close',
         }
@@ -93,25 +100,31 @@ class BasePane { // base page pane(panel view in tabpanel)
         let p = this.doLoad(param)
         if (Object.is(p, undefined)) return
         if (!(p instanceof Promise)) {
-            this.render(p)
-            this.onLoaded(param)
+            this.onLoaded({data:p, param})
             return
         }
-        p.then(data => this.render(data)).catch(err => {
+        p.then(data => {
+            this.onLoaded({data})
+        }).catch(err => {
             console.log(err)
         }).finally((data) => {
-            this.onLoaded(param, data)
+            this.onLoaded({param})
         })
     }
     doLoad(param){
         // this.setFormData(data)
     }
     render(data){
-        this._data = data
     }
-    onLoaded(param){
-        this._param = param
+    onLoaded({data, param}){
         // do sth. after doLoad()
+        if (!Object.is(data, undefined)){
+            this.render(data)
+            this._data = data
+        }
+        if (!Object.is(param, undefined)){
+            this._param = param
+        }
     }
     checkPageData(){
         return this.$page.input('check')
@@ -133,7 +146,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
         p.then(rst => {
             console.log(rst)
-            this.$page.input('read', true)
+            this.toRead()
         }).catch(err => {
             console.log(err)
         }).finally(() => {
@@ -145,6 +158,23 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     onSaved(e, btn){
         $(btn).button('reset')
+    }
+    onEdit(e, btn){
+        this.toEdit()
+    }
+    toEdit(){
+        this.$page.input('edit')
+    }
+    onRead(e, btn){
+        if (this._modified){
+            if (!window.confirm('确认取消修改？')) return
+            this.render(this._data)
+        }
+        this.toRead()
+    }
+    toRead(){
+        this._modified = false
+        this.$page.input('read')
     }
 }
 

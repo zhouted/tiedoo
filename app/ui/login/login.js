@@ -1,8 +1,8 @@
-const BaseForm = require(appPath+'/ui/base/base-form.js')
+const ModalForm = require(appPath+'/ui/base/modal-form.js')
 const srvUser = require(appPath+'/service/user.js')
 const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
 
-class LoginForm extends BaseForm{
+class LoginForm extends ModalForm {
     get $account(){
         return this._$account || (this._$account = this.$form.find('input[name=account]'))
     }

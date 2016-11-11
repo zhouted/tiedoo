@@ -20,14 +20,14 @@ class CustomerDetailContactForm extends BaseForm {
         }else{
             this.addNew()
         }
-        this.reindex()
+        // this.reindex()
     }
-    getFormContacts(){
+    getFormData(){
         return this.getFormDataArray('.contact-item')
     }
-    onAddNew(e, btn){
-        this.addNew(btn)
-    }
+    // onAddNew(e, btn){
+    //     this.addNew(btn)
+    // }
     addNew(btn){
         let contact = {name: ''}
         let $contact = $(tfn.template(this.$tpl, contact))
@@ -37,30 +37,33 @@ class CustomerDetailContactForm extends BaseForm {
         }else{
             this.$tpl.before($contact)
         }
-        this.reindex()
+        $contact.find('input:first').focus()
+        // this.reindex()
     }
     onDelete(e, btn){
         let $contact = $(btn).closest('.contact-item')
         $contact.remove()
-        this.reindex()
+        // this.reindex()
     }
     onMoveUp(e, btn){
         let $item = $(btn).closest('.contact-item')
-        $item.after($item.prev('.contact-item'))
-        this.reindex()
+        $item.parent().prepend($item)
+        $item.find('input:first').focus()
+        // $item.after($item.prev('.contact-item'))
+        // this.reindex()
     }
-    reindex(){
-        let $items = this.$form.find('.contact-item');
-        for (let item of $items){
-            let $item = $(item)
-            $item.find('.item-index').text($item.index()+1)
-        }
-        if ($items.length <= 1){
-            $items.find('.btn-delete').addClass('hidden')
-        }else{
-            $items.find('.btn-delete').removeClass('hidden')
-        }
-    }
+    // reindex(){
+    //     let $items = this.$form.find('.contact-item');
+    //     for (let item of $items){
+    //         let $item = $(item)
+    //         $item.find('.item-index').text($item.index()+1)
+    //     }
+    //     if ($items.length <= 1){
+    //         $items.find('.btn-delete').addClass('hidden')
+    //     }else{
+    //         $items.find('.btn-delete').removeClass('hidden')
+    //     }
+    // }
 }
 
 module.exports = CustomerDetailContactForm

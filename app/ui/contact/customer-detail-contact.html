@@ -3,26 +3,21 @@
         <form class="auto-scroll">
             <!-- <input type="hidden" name="_id" /> -->
             <script type="text/html" id="tplFs" role="template" data-bind="contact">
-              <form class="form form-horizontal contact-item container-box">
-                <fieldset class="">
-                    <legend>
-                        <h5>联系人-<span class="item-index"> </span>
-                            <a class="btn-add-new for-editonly" href="javascript:;" title="增加"><span class="glyphicon glyphicon-plus"></span></a>
-                            <a class="btn-delete for-editonly" href="javascript:;" title="删除"><span class="glyphicon glyphicon-remove"></span></a>
-                            <a class="btn-move-up for-editonly" href="javascript:;" title="提前"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                        </h5>
-                    </legend>
-                    <div class="form-group">
+              <form class="form form-horizontal contact-item container-box ">
+                <fieldset class="bg-fieldset rel">
+                    <a class="btn-delete for-editonly abs" href="javascript:;" title="删除"><span class="glyphicon glyphicon-remove"></span></a>
+                    <div class="form-group rel">
+                        <a class="btn-move-up for-editonly abs" href="javascript:;" title="首要联系人"><span class="glyphicon glyphicon-circle-arrow-up"></span></a>
                         <label class="control-label col-xs-2" for="name">姓名</label>
                         <div class="col-xs-4">
                             <input type="text" class="form-control for-editonly" name="name" id="name">
                         </div>
                         <label class="control-label col-xs-2" for="sex">性别</label>
-                        <label class="control-label col-xs-2">
-                            <input type="radio" class="" name="sex" value="male">先生
+                        <label class="control-label col-xs-2 for-editonly">
+                            <input type="radio" class="for-editonly" name="sex" value="male"><span>先生</span>
                         </label>
-                        <label class="control-label col-xs-2">
-                            <input type="radio" class="" name="sex" value="female">女士
+                        <label class="control-label col-xs-2 for-editonly">
+                            <input type="radio" class="for-editonly" name="sex" value="female"><span>女士</span>
                         </label>
                     </div>
                     <div class="form-group">

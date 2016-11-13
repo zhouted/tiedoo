@@ -5,20 +5,14 @@ class CustomerDetailPage extends BasePage {
     get $title(){
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
-    get $btnAddContact(){
-        return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
-    }
-    get $paneInfo(){
-        return this._$paneInfo || (this._$paneInfo = this.$page.find('#customerDetailInfo'))
-    }
     get paneInfo(){
-        return this.$paneInfo.data('page')
-    }
-    get $paneContact(){
-        return this._$paneContact || (this._$paneContact = this.$page.find('#customerDetailContact'))
+        return this._paneInfo || (this._paneInfo = this.$page.find('#customerDetailInfo').data('page'))
     }
     get paneContact(){
-        return this.$paneContact.data('page')
+        return this._paneContact || (this._paneContact = this.$page.find('#customerDetailContact').data('page'))
+    }
+    get $btnAddContact(){
+        return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
     prepareEvents(){
         super.prepareEvents()
@@ -33,6 +27,14 @@ class CustomerDetailPage extends BasePage {
             }
             this.$btnAddContact.addClass('hide')
         })
+    }
+    onHide(){
+        if (this._modified){
+            if (!window.confirm('确认取消修改？')) return false
+            this._modified = false
+            this.render(this._data)
+        }
+        return true
     }
     onBack(e, btn){
         router.loadMainPanel('customerPanel')

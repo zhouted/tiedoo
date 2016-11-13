@@ -32,6 +32,13 @@ class BasePane { // base page pane(panel view in tabpanel)
         this.$navtab.on('shown.bs.tab', (e)=>{
             this.onShown()
         })
+        // on parent panel hide...
+        this.$navtab.on('hide.bs.tab', (e)=>{
+            return this.onHide()
+        })
+        this.$navtab.on('hidden.bs.tab', (e)=>{
+            this.onHidden()
+        })
 
         // on changed
         this.$page.on('change', 'input.for-editonly, for-editonly', (e) => {
@@ -77,13 +84,24 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
     }
     onShow(stub = null){//showing
-        if (!Object.is(stub, this._stub)){
+        if (!tfn.equals(stub, this._stub)){
             this._stub = stub
             this._param = this.defaultParam
             this.load()
         }
     }
+    onHide(){
+        // if (this._modified){
+        //     if (!window.confirm('确认取消修改？')) return false
+        //     this.render(this._data)
+        //     this._modified = false
+        // }
+        return true
+    }
     onShown(){//after show
+    }
+    onHidden(){
+
     }
     get defaultParam(){
         return {}

@@ -15,12 +15,6 @@ class BasePage extends BasePane{
     get $scroll(){// 页面内的滚动区域
         return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
     }
-    get $searchBtn(){
-        return this._$searchBtn || (this._$searchBtn = $(this.$page.find(this.btns.onSearch)))
-    }
-    get $searchIpt(){
-        return this._$searchIpt || (this._$searchIpt = $(this.$page.find('input[type=search]')))
-    }
     prepareEvents(){
         super.prepareEvents()
         // on resize
@@ -42,12 +36,6 @@ class BasePage extends BasePane{
                 $fixed.css('top', this.scrollTop);
             });
         }
-        // on search
-        this.$searchIpt.keyup(e => {
-            if (e && e.which == 13){
-                this.$searchBtn.click()
-            }
-        })
     }
     init(){ // do init on document ready
         super.init()
@@ -83,7 +71,7 @@ class BasePage extends BasePane{
         }
     }
     doSubtabs(data){
-        let tab = this.$subtabs.filter('[aria-expanded=true]:first')
+        let tab = this.$subtabs.parent('li.active').children('a[role=tab]')
         if (!tab.length){
             tab = this.$subtabs.first()
         }
@@ -91,13 +79,6 @@ class BasePage extends BasePane{
         tab.parent().removeClass('active')
         this.$subtabs.data('_spv', data)
         tab.tab('show')
-    }
-    onSearch(e, btn){
-        let text = this.$searchIpt.val()
-        this.doSearch(text)
-    }
-    doSearch(text){
-        tfn.tips(text)
     }
 }
 

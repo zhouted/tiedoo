@@ -16,7 +16,7 @@ body {
     position: relative;
 }
 
-.tpl, .sample {
+.dn {
     display: none;
 }
 
@@ -26,6 +26,13 @@ body {
     text-overflow: ellipsis;
 }
 
+.ts-x, .tsX{
+    transform:scaleX(-1);
+}
+
+.ts-y, .tsY{
+    transform:scaleY(-1);
+}
 .no-margin, .margin0 {
     margin: 0;
 }

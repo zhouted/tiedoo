@@ -15,6 +15,7 @@ class CustomerDetailPage extends BasePage {
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
     prepareEvents(){
+        this._forceLoad = true
         super.prepareEvents()
         this.$btnAddContact.click(e => {
             this.paneContact.addNew()
@@ -27,9 +28,6 @@ class CustomerDetailPage extends BasePage {
             }
             this.$btnAddContact.addClass('hide')
         })
-    }
-    onShow(stub){
-        this.load(stub)
     }
     onHide(){
         if (this._modified){

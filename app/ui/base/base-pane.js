@@ -5,6 +5,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         this._param = null //保存页面加载参数，以便刷新(reload)
         this._data = null //保存页面加载的数据
         this._modified = false
+        this._forceLoad = false
         this.prepare()
     }
     get pid(){// page id
@@ -84,7 +85,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
     }
     onShow(stub = null){//showing
-        if (!tfn.equals(stub, this._stub)){
+        if (!tfn.equals(stub, this._stub) || this._forceLoad){
             this._stub = stub
             this._param = this.defaultParam
             this.load()

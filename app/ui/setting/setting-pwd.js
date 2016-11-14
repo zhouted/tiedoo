@@ -39,6 +39,7 @@ class PwdForm extends ModalForm{
             console.log(rst)
             this.$form[0].reset()
             this.$modal.modal('hide')
+            return rst
         })
     }
 }

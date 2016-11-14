@@ -28,6 +28,9 @@ class CustomerDetailPage extends BasePage {
             this.$btnAddContact.addClass('hide')
         })
     }
+    onShow(stub){
+        this.load(stub)
+    }
     onHide(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return false
@@ -40,12 +43,18 @@ class CustomerDetailPage extends BasePage {
         router.loadMainPanel('customerPanel')
     }
     doLoad(param){
-        return srvCust.loadById(param._id)//.then(data => this.render(data))
+        return srvCust.loadById(param._id)
     }
     render(data){
         this.renderTitle(data)
         this.paneInfo.render(data)
         this.paneContact.render(data)
+        if (!data || !data._id){
+            this.toEdit()
+        }else{
+            this.toRead()
+        }
+        this.$subtabs.first().tab('show')
     }
     renderTitle(customer){
         customer = customer || {}
@@ -62,7 +71,8 @@ class CustomerDetailPage extends BasePage {
     }
     doSave(data){
         return srvCust.save(data).then(rst => {
-            router.$main.trigger('changed.customer', [data])
+            setTimeout(()=>router.$main.trigger('changed.customer', [data]))
+            return rst
         })
     }
 }

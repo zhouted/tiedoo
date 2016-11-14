@@ -48,14 +48,15 @@ class LoginForm extends ModalForm {
         return valid
     }
     doLoad(){
-        return srvUser.loadLastUser().then(user => {
-            if (user){// 显示上次登录用户
-                this.$account.val(user.account)
-                this.$pwd.focus()
-            }else{
-                this.$account.focus()
-            }
-        })
+        return srvUser.loadLastUser()
+    }
+    render(user){
+        if (user){// 显示上次登录用户
+            this.$account.val(user.account)
+            this.$pwd.focus()
+        }else{
+            this.$account.focus()
+        }
     }
     doSave(){ //doLogin 登录和注册 交互处理
         let data = this.getFormData()

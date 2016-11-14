@@ -41,6 +41,7 @@ class CompForm extends BaseForm{
         let data = this.getFormData()
         return srvComp.save(data).then(comp => {
             // $('body').trigger('changed.comp', [data])
+            return comp
         })
     }
 }

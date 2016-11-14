@@ -175,6 +175,7 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     rerender(data, saved){
         if (data && saved && saved._id){
+            this.setStub({_id: saved._id})
             tfn.merge(data, saved)
         }
         this.render(data)

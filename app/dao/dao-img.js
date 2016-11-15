@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const nativeImage = electron.nativeImage
 
+// Image File Data Access Object
 class DaoImg extends DaoFile {
     fsave(file, toSize){
         if (!file || !toSize){

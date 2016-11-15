@@ -1,0 +1,13 @@
+#productSpecModal .modal-dialog{
+    width: 800px;
+}
+
+#productSpecModal .right-side .thumbnail{
+    margin: 0 10px 20px 10px;
+    border:none;
+}
+
+#productSpecModal .right-side .thumbnail .caption{
+    padding: 10px 0;
+    border:none;
+}

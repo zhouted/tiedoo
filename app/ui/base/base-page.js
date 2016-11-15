@@ -1,7 +1,7 @@
 const BasePane = require(appPath+'/ui/base/base-pane.js')
 class BasePage extends BasePane{
     get $topbar(){// 页面上的工具栏
-        return  this._$topbar || (this._$topbar = $(this.$page.find('.panel-heading, .nav.nav-tabs')))
+        return  this._$topbar || (this._$topbar = $(this.$page.find('.topbar')))
     }
     get autosubs(){// 自动传播到下级的事件
         return {onShow:true}

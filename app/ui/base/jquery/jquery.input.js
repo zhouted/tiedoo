@@ -39,7 +39,7 @@
 
 	function getValues($form) {
 	    var doc = {}
-		$form.find('input[name]').each(function(){
+		$form.find('input[name], textarea[name]').each(function(){
 			let $ipt = $(this)//, val = $ipt.val(), orgval = $ipt.data('_orgval')
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
@@ -83,7 +83,7 @@
 	}
 
 	function setValues($form, doc){
-		$form.find('input[name]').each(function(){
+		$form.find('input[name], textarea[name]').each(function(){
 			let $ipt = $(this)
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')

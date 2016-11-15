@@ -1,0 +1,30 @@
+<div id="productSpecsInfo" >
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table data-list table-hover" style="table-layout:fixed;">
+                <thead>
+                    <tr>
+                        <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
+                        <th class="rel-fixed?" data-field="code" width="100px">编号</th>
+                        <th class="rel-fixed?" data-field="name" width="200px">规格</th>
+                        <th class="rel-fixed?" data-field="unit" width="100px">单位</th>
+                        <th class="rel-fixed?" data-field="desc" width="auto">描述</th>
+                        <th class="rel-fixed?" data-field="imageId" width="60">图片</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script type="text/html" role="template" data-bind="data">
+                        <tr class="data-item" data-id="${data._id}">
+                            <!-- <th><input type="checkbox"></th> -->
+                            <td>${tfn.fstr(data.code)}</td>
+                            <td>${tfn.fstr(data.name)}</td>
+                            <td>${tfn.fstr(data.unit)}</td>
+                            <td>${tfn.fstr(data.desc)}</td>
+                            <td><img src=""/></td>
+                        </tr>
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

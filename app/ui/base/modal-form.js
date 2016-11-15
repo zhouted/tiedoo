@@ -4,6 +4,9 @@ class ModalForm extends BaseForm{
     get $modal(){
         return this.$page.closest('.modal')
     }
+    get $parentPage(){
+        return this.$modal.closest('.ui-page')
+    }
     get btns(){
         return tfn.merge({}, super.btns, {
             onConfirm: '.btn.confirm, .btn-confirm',

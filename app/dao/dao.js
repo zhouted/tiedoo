@@ -1,4 +1,3 @@
-// Base Data Access Objects
 const path = require('path')
 const datPath = app.getPath('userData')+'/dbs/'
 const Nedb = require('nedb')
@@ -41,6 +40,7 @@ let {openDs, setUserId} = (function (Nedb){
     return {openDs, setUserId};
 })(Nedb);
 
+// Base Data Access Objects
 class Dao{
     constructor(name){
         this._name = name;

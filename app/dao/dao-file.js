@@ -7,6 +7,7 @@ const mkdirp = require('mkdirp')
 Promise.promisifyAll(fs)
 const mkdir = Promise.promisify(mkdirp)
 
+// File Data Access Object
 class DaoFile extends Dao {
     // 文件实际存放在该路径下
     get filepath(){

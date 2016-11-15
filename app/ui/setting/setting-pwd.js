@@ -20,7 +20,7 @@ class PwdForm extends ModalForm{
                 //     window.alert('原密码错误！')
                 //     $pwdOld.focus()
                 // }
-            //})
+            // })
         })
         this.$pwdAg.data('validator', (ipt) => {
             return this.$pwdAg.val() == this.$pwd.val()

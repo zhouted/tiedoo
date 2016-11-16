@@ -8,15 +8,7 @@
             <div class="modal-body">
                 <!-- <div class="container"> -->
                     <form class="form form-horizontal">
-                        <!-- <fieldset class="right-side pull-right text-center rel">
-                            <div class="thumbnail">
-                                <input type="file" class="hidden" name="imageId" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
-                                <img class="image-preview image-trigger" src="ui/images/nopic.jpg" title="点击设置规格图片"/>
-                                <div class="caption">
-                                    <button type="button" class="image-trigger btn-default btn-block for-editonly">点击设置规格图片</button>
-                                </div>
-                            </div>
-                        </fieldset> -->
+                        <input type="hidden" name="_id">
                         <fieldset class="bg-fieldset">
                             <div class="row">
                                 <div class="col-xs-9">
@@ -28,6 +20,21 @@
                                         <label class="control-label col-xs-2">规格</label>
                                         <div class="col-xs-4">
                                             <input type="text" class="form-control for-editonly" name="name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2">单位</label>
+                                        <div class="col-xs-3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control for-editonly" name="unit">
+                                                <span class="input-group-addon after-input for-editonly">(中文)</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control for-editonly" name="unitEn">
+                                                <span class="input-group-addon after-input for-editonly">(英文)</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -53,6 +60,31 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="bg-fieldset">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">成本价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control numeric for-editonly" name="cost">
+                                </div>
+                                <label class="control-label col-xs-2">起订量</label>
+                                <div class="col-xs-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control numeric for-editonly" name="moq">
+                                        <!-- <span class="input-group-addon after-input for-editonly">单位</span> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">销售价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control numeric for-editonly" name="price">
+                                </div>
+                                <label class="control-label col-xs-2">备注</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control for-editonly" name="priceRemark">
                                 </div>
                             </div>
                         </fieldset>

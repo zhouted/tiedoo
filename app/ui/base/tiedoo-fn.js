@@ -98,6 +98,14 @@ exports.fdatetime = dateToLStr
 function dateToLStr(date){
     return (date instanceof Date) && date.toLocaleString() || ''
 }
+exports.funit = funit
+function funit(unit1, unit2){
+    unit1 = escapeHtml(unit1)
+    unit2 = escapeHtml(unit2)
+    if (unit1 && unit2) return unit1+'('+unit2+')'
+    return unit1+unit2
+}
+
 
 exports.tips = tips // 弹出提示信息（几秒钟后自动消失）
 function tips(msg, type, complete) {//type:对应bootstrap的alert-*：'success'是成功信息，'danger'是失败信息,'info'是普通信息,'warning'是警告信息

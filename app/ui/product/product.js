@@ -11,23 +11,23 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
-    get selectedIds(){
+    get selectedPdIds(){
         let ids = []
         let $checks = this.$table.find('input[type=checkbox]:checked')
         for (let check of $checks){
-            let id = this.getItemId(check)
+            let id = this.getItemPdId(check)
             id && ids.push(id)
         }
         return ids
     }
-    getItemId(item){
+    getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
-        $item = $item.closest('tr')
+        $item = $item.closest('.product-item')
         return $item.data('id')
     }
     get btns(){
         return tfn.merge({}, super.btns, {
-            onDetail: '.product-item>td',
+            onDetail: '.product-item>tr>td',
         })
     }
     prepareEvents(){
@@ -44,7 +44,15 @@ class ProductPage extends ListPage{
     }
     render(data){
         this.$tplPd.siblings('tbody').remove()
-        this.$tplPd.renderTpl(data)
+        for (let pd of data) {
+            let $item = $(tfn.template(this.$tplPd, pd))
+            let specs = pd.specs
+            if (specs){
+                $item.append(tfn.template(this.$tplSpec, specs))
+            }
+            this.$tplPd.before($item)
+        }
+        // this.$tplPd.renderTpl(data)
     }
     doSearch(text){
         this.load({key: text})
@@ -53,7 +61,7 @@ class ProductPage extends ListPage{
         router.loadMainPanel('productDetailPanel', {_id:id})
     }
     onDetail(e, target){
-        let id = this.getItemId(target)
+        let id = this.getItemPdId(target)
         if (!id) return
         this.toDetail(id)
     }

@@ -1,4 +1,4 @@
-<div id="productSpecsInfo" >
+<div id="productSpecsPrice" >
     <div class="panel-body">
         <div class="table-responsive">
             <table class="table data-list table-hover" style="table-layout:fixed;">
@@ -6,10 +6,10 @@
                     <tr>
                         <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
                         <th class="rel-fixed?" data-field="code" width="100px">编号</th>
-                        <th class="rel-fixed?" data-field="name" width="200px">规格</th>
-                        <th class="rel-fixed?" data-field="unit" width="100px">单位</th>
-                        <th class="rel-fixed?" data-field="desc" width="auto">描述</th>
-                        <th class="rel-fixed?" data-field="imageId" width="60">图片</th>
+                        <th class="rel-fixed?" data-field="cost" width="100px">成本价</th>
+                        <th class="rel-fixed?" data-field="price" width="100px">销售价</th>
+                        <th class="rel-fixed?" data-field="moq" width="100">起订量</th>
+                        <th class="rel-fixed?" data-field="priceRemark" width="auto">备注</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,10 +17,10 @@
                         <tr class="data-item" data-id="${data._id}">
                             <!-- <th><input type="checkbox"></th> -->
                             <td>${tfn.fstr(data.code)}</td>
-                            <td>${tfn.fstr(data.name)}</td>
-                            <td>${tfn.funit(data.unit, data.unitEn)}</td>
-                            <td>${tfn.fstr(data.desc)}</td>
-                            <td><img class="img-responsive" src="ui/images/nopic.jpg" data-id="${data.imageId}"/></td>
+                            <td>${tfn.fstr(data.cost)}</td>
+                            <td>${tfn.fstr(data.price)}</td>
+                            <td>${tfn.fstr(data.moq)}</td>
+                            <td>${tfn.fstr(data.priceRemark)}</td>
                         </tr>
                     </script>
                 </tbody>

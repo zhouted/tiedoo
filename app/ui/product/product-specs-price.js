@@ -1,7 +1,7 @@
 const BasePane = require(appPath+'/ui/base/base-pane.js')
-const srvProduct = require(appPath+'/service/product.js')
+// const srvProduct = require(appPath+'/service/product.js')
 
-class ProductSpecsInfo extends BasePane{
+class ProductSpecsPrice extends BasePane{
     get $table(){
         return this._$table || (this._$table = this.$page.find('.table.data-list'))
     }
@@ -16,15 +16,6 @@ class ProductSpecsInfo extends BasePane{
     render(data){
         this.$tplTr.siblings('tr').remove()
         this.$tplTr.renderTpl(data)
-        this.loadImg()
-    }
-    loadImg(){
-        this.$table.find('.data-item img[data-id]').each((i, img) => {
-            let $img = $(img), imageId = $img.data('id')
-            srvProduct.loadImg(imageId).then(file => {
-                file && $img.attr('src', file.path)
-            })
-        })
     }
     getItemId(item){
         let $item = (item instanceof jQuery)? item : $(item)
@@ -38,4 +29,4 @@ class ProductSpecsInfo extends BasePane{
     }
 }
 
-module.exports = ProductSpecsInfo
+module.exports = ProductSpecsPrice

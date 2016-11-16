@@ -4,13 +4,28 @@ class ModalForm extends BaseForm{
     get $modal(){
         return this.$page.closest('.modal')
     }
-    get $parentPage(){
-        return this.$modal.closest('.ui-page')
-    }
     get btns(){
         return tfn.merge({}, super.btns, {
             onConfirm: '.btn.confirm, .btn-confirm',
             onCancel: '.btn.cancel, .btn-cancel',
+        })
+    }
+    prepareEvents(){
+        super.prepareEvents()
+        // on modal show...
+        this.$modal.on('show.bs.modal', (e)=>{
+            let stub = $(e.target).data('_spv')
+            this.onShow(stub)
+        })
+        this.$modal.on('shown.bs.modal', (e)=>{
+            this.onShown()
+        })
+        // on modal hide...
+        this.$modal.on('hide.bs.modal', (e)=>{
+            return this.onHide()
+        })
+        this.$modal.on('hidden.bs.modal', (e)=>{
+            this.onHidden()
         })
     }
     onConfirm(e, btn){

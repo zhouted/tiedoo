@@ -14,11 +14,17 @@ class BasePane { // base page pane(panel view in tabpanel)
     get $page(){// this page
         return this._$page || (this._$page = $(this._pid))
     }
+    get $parentPage(){// parent page
+        return this.$page.parent().closest('.ui-page')
+    }
     get $navtab(){// 导引进入页面的标签(anchor)
         return this._$navtab || (this._$navtab = $('a[href="#'+this.$tabpanel.attr('id')+'"]'))
     }
     get $tabpanel(){// 页面所在的tabpanel
         return this._$tabpanel || (this._$tabpanel = this.$page.parent().closest('.tab-pane'))
+    }
+    get isEditing(){
+        return this.$page.find('.for-editonly').is(':visible')
     }
     prepare(){ //do prepare on document loading(before init())
         this.$page.data('page', this)

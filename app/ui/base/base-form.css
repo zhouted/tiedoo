@@ -12,7 +12,7 @@
 /*.on-reading .control-label:has(>input.for-readonly:checked)*/
 .on-reading .control-label.for-editonly[data-checked="true"]{display:inline-block;}
 
-.form-control:not([type=search]) {
+.form-control:not([type=search]), .input-group-addon {
     border: none;
     border-bottom: 1px solid #ccc;
     border-radius: 0;
@@ -23,7 +23,7 @@ fieldset.bg-fieldset{
     padding: 10px 20px 10px 0;
 }
 
-.bg-fieldset .form-control{
+.bg-fieldset .form-control, .bg-fieldset .input-group-addon{
     background-color: transparent;
 }
 

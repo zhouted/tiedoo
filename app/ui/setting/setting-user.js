@@ -54,7 +54,7 @@ class UserForm extends BaseForm{
         let data = this.getFormData()
         return srvUser.save(data).then(user => {
             $('body').trigger('changed.user', [data])
-            return usr
+            return user
         })
     }
     onPasswd(){

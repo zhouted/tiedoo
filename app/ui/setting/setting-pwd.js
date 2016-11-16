@@ -32,6 +32,9 @@ class PwdForm extends ModalForm{
     render(){
         null
     }
+    rerender(){
+        null
+    }
     doSave(){
         let pwdOld = this.$pwdOld.val()
         let pwd = this.$pwd.val()

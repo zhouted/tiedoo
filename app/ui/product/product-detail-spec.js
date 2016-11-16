@@ -28,8 +28,8 @@ class ProductSpecForm extends ModalForm {
     // doLoad(){
     //     return srvProduct.load()
     // }
-    render(product){
-        this.setFormData(product)
+    render(spec){
+        this.setFormData(spec)
         this.loadImg()
     }
     loadImg(){
@@ -38,8 +38,10 @@ class ProductSpecForm extends ModalForm {
         })
     }
     onConfirm(){
-        let spec = this.getFormData()
-        this.$parentPage.trigger('changed.spec.product', [spec])
+        if (this.isEditing){
+            let spec = this.getFormData()
+            this.$parentPage.trigger('changed.spec.product', [spec])
+        }
         this.$modal.modal('hide')
     }
 }

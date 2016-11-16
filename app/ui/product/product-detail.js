@@ -17,6 +17,9 @@ class ProductDetailPage extends BasePage {
     get paneSpecsInfo(){
         return this._paneSpecsInfo || (this._paneSpecsInfo = this.$page.find('#productSpecsInfo').data('page'))
     }
+    get paneSpecsPrice(){
+        return this._paneSpecsPrice || (this._paneSpecsPrice = this.$page.find('#productSpecsPrice').data('page'))
+    }
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
@@ -25,6 +28,9 @@ class ProductDetailPage extends BasePage {
         super.prepareEvents()
         this.$page.on('changed.spec.product', (e, spec) => {
             this.renderSpec(spec)
+        })
+        this.$page.on('open.spec.product', (e, specId) => {
+            this.openSpec(specId)
         })
         // this.$btnAddContact.click(e => {
         //     this.paneContact.addNew()
@@ -56,6 +62,7 @@ class ProductDetailPage extends BasePage {
         this.renderTitle(data)
         this.paneBasic.render(data)
         this.paneSpecsInfo.render(data&&data.specs)
+        this.paneSpecsPrice.render(data&&data.specs)
         if (!data || !data._id){
             this.toEdit()
         }else{
@@ -74,11 +81,19 @@ class ProductDetailPage extends BasePage {
         console.log(spec)
         this._data = this._data||{}
         let specs = this._data.specs = this._data.specs||[]
-        specs.push(spec)
+        let found = this.getSpecById(spec&&spec._id)
+        if (found){
+            tfn.merge(found, spec)
+        }else{
+            spec._id = srvProduct.newSpecId()
+            specs.push(spec)
+        }
         this.paneSpecsInfo.render(specs)
+        this.paneSpecsPrice.render(specs)
     }
     getPageData(){
         let data = this.paneBasic.getFormData()
+        data = tfn.merge({}, this._data, data)
         // let contacts = this.paneContact.getFormData()
         // let data = tfn.merge({}, info, {contacts})
         return data
@@ -90,11 +105,27 @@ class ProductDetailPage extends BasePage {
         })
     }
     onAddSpec(){
+        this.openSpec('')
+    }
+    openSpec(specId){
         let opts = {id: 'productDetailSpecModal', append: true}
         this.$page.loadFile('ui/product/product-detail-spec.html', opts).then(() => {
             let $modal = $('#'+opts.id)
             $modal.modal('show')
+            let spec = this.getSpecById(specId)
+            let pane = $modal.data('page')
+            pane.render(spec)
         })
+    }
+    getSpecById(specId){
+        this._data = this._data||{}
+        let specs = this._data.specs = this._data.specs||[]
+        for (let item of specs) {
+            if (item._id === specId){
+                return item
+            }
+        }
+        return null
     }
 }
 

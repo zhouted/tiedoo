@@ -14,6 +14,10 @@ class CustomerDetailPage extends BasePage {
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
+    get $scroll(){// 页面内的滚动区域
+        // return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
+         return (this._$scroll = this.$page.find('.auto-scroll'))
+    }
     prepareEvents(){
         this._forceLoad = true
         super.prepareEvents()

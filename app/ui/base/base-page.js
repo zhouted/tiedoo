@@ -63,6 +63,7 @@ class BasePage extends BasePane{
     onShown(){
         super.onShown()
         this.doResize()
+        this.$scroll.scrollTop(0)
     }
     onLoaded(param){
         super.onLoaded(param)

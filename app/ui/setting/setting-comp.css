@@ -8,6 +8,10 @@
     border:none;
 }
 
+#setCompInfo .right-side .thumbnail .image-preview{
+    max-height: 200px;
+}
+
 #setCompInfo .right-side .thumbnail .caption{
     padding: 10px 0;
     border:none;

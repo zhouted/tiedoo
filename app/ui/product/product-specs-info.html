@@ -5,11 +5,11 @@
                 <thead>
                     <tr>
                         <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
-                        <th class="rel-fixed?" data-field="code" width="100px">编号</th>
-                        <th class="rel-fixed?" data-field="name" width="200px">规格</th>
-                        <th class="rel-fixed?" data-field="unit" width="100px">单位</th>
-                        <th class="rel-fixed?" data-field="desc" width="auto">描述</th>
-                        <th class="rel-fixed?" data-field="imageId" width="60">图片</th>
+                        <th class="rel-fixed? field-code">规格编号</th>
+                        <th class="rel-fixed? field-name">规格名称</th>
+                        <th class="rel-fixed? field-unit">计量单位</th>
+                        <th class="rel-fixed? field-auto">规格描述</th>
+                        <th class="rel-fixed? field-img">规格图片</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,9 +18,9 @@
                             <!-- <th><input type="checkbox"></th> -->
                             <td>${tfn.fstr(data.code)}</td>
                             <td>${tfn.fstr(data.name)}</td>
-                            <td>${tfn.funit(data.unit, data.unitEn)}</td>
+                            <td class="field-unit">${tfn.funit(data.unit, data.unitEn)}</td>
                             <td>${tfn.fstr(data.desc)}</td>
-                            <td><img class="img-responsive" src="ui/images/nopic.jpg" data-id="${data.imageId}"/></td>
+                            <th class="field-img"><img class="" src="ui/images/nopic.jpg" data-id="${data.imageId}"/></th>
                         </tr>
                     </script>
                 </tbody>

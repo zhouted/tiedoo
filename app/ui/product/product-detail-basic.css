@@ -11,6 +11,10 @@
     border:none;
 }
 
+#productDetailBasic .right-side .thumbnail .image-preview{
+    max-height: 300px;
+}
+
 #productDetailBasic .right-side .thumbnail .caption{
     padding: 10px 0;
     border:none;

@@ -52,7 +52,15 @@ class ProductPage extends ListPage{
             }
             this.$tplPd.before($item)
         }
-        // this.$tplPd.renderTpl(data)
+        this.loadImg()
+    }
+    loadImg(){
+        this.$table.find('img[data-id]').each((i, img) => {
+            let $img = $(img), imageId = $img.data('id')
+            srvProduct.loadImg(imageId).then(file => {
+                file && $img.attr('src', file.path)
+            })
+        })
     }
     doSearch(text){
         this.load({key: text})

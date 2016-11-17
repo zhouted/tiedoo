@@ -22,7 +22,8 @@ class ListPage extends BasePage{
         })
         // on check
         this.$page.on('change', 'thead>tr>th>input[type=checkbox]', e => this.onCheckAll(e))
-        this.$page.on('change', 'tbody>tr>th>input[type=checkbox]', e => this.onCheckOne(e))
+        this.$page.on('change', 'tbody>tr:not(.group)>th>input[type=checkbox]', e => this.onCheckOne(e))
+        this.$page.on('change', 'tbody>tr.group>th>input[type=checkbox]', e => this.onCheckGroup(e))
         // sortables
         this.$sortables.click(e => this.onSort(e))
     }
@@ -68,19 +69,64 @@ class ListPage extends BasePage{
     doSearch(text){
         tfn.tips(text)
     }
-    onCheckOne(e){
-        var $check = $(e.target), checked = $check.prop('checked');
-        var $checkAll = $check.closest('table').children('thead').find('input[type=checkbox]');
-        var $allChecks = $check.closest('tbody').find('input[type=checkbox]');
-        if ((checked && !$allChecks.filter(':not(:checked)').length)
-        || !(checked || $allChecks.filter(':checked').length)){
-            $checkAll.prop('checked', checked);
+    checkOne(checked, $check, $tr){
+        console.log('checkOne')
+    }
+    checkGroup(checked, $check, $tr){
+        console.log('checkGroup')
+    }
+    setCheckAll(checked){
+        var $allChecks = this.$table.find('tbody').find('input[type=checkbox]')
+        if (!checked || !$allChecks.filter(':not(:checked)').length){
+            this.$table.find('thead>tr>th>input[type=checkbox]').prop('checked', checked)
         }
+        // table.showSelectedbar();
+    }
+    onCheckOne(e){
+        let $check = $(e.target), checked = $check.prop('checked')
+        let $tr = $check.closest('tr'), $tb = $tr.closest('tbody')
+        this.checkOne(checked, $check, $tr)
+        let $allChecks = $tb.find('tr:not(.group)').find('input[type=checkbox]')
+        let $group = $tb.find('tr.group')
+        let $checkGroup = $group.find('input[type=checkbox]')
+        if ($checkGroup.length && $checkGroup.prop('checked') !== checked){// 有分组时，联动选中分组行
+            if (checked || !$allChecks.filter(':checked').length){
+                $checkGroup.prop('checked', checked)
+                this.checkGroup(checked, $checkGroup, $group)
+            }
+        }
+        this.setCheckAll(checked)
+    }
+    onCheckGroup(e){
+        let $checkGroup = $(e.target), checked = $checkGroup.prop('checked')
+        let $group = $checkGroup.closest('tr'), $tb = $group.closest('tbody')
+        this.checkGroup(checked, $checkGroup, $group)
+        let $allChecks = $tb.find('tr:not(.group)').find('input[type=checkbox]')
+        for (let check of $allChecks){
+            let $check = $(check)
+            if ($check.prop('checked') == checked) continue
+            $check.prop('checked', checked)
+            this.checkOne(checked, $check, $check.closest('tr'))
+        }
+        this.setCheckAll(checked)
     }
     onCheckAll(e){
-        var $checkAll = $(e.target), checked = $checkAll.prop('checked');
-        var $allChecks = $checkAll.closest('table').children('tbody').find('input[type=checkbox]');
-        $allChecks.prop('checked', checked);
+        let $checkAll = $(e.target), checked = $checkAll.prop('checked')
+        let $grpChecks = $checkAll.closest('table').children('tbody').find('tr.group').find('input[type=checkbox]')
+        for (let check of $grpChecks){
+            let $check = $(check)
+            if ($check.prop('checked') == checked) continue
+            $check.prop('checked', checked)
+            this.checkGroup(checked, $check, $check.closest('tr'))
+        }
+        let $allChecks = $checkAll.closest('table').children('tbody').find('tr').find('input[type=checkbox]')
+        for (let check of $allChecks){
+            let $check = $(check)
+            if ($check.prop('checked') == checked) continue
+            $check.prop('checked', checked)
+            this.checkOne(checked, $check, $check.closest('tr'))
+        }
+        // table.showSelectedbar();
     }
     onSort(e){
         let sortBy = {}

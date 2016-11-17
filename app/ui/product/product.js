@@ -82,11 +82,12 @@ class ProductPage extends ListPage{
             tfn.tips('请先选择要删除的记录！', 'warning')
             return
         }
-        if (!window.confirm(`确认删除这个${ids.length}客户吗？`)){
+        if (!window.confirm(`确认删除这个${ids.length}产品吗？`)){
             return
         }
-        let p = ids.map(id => srvProduct.delete({_id: id}))
-        Promise.all(p).then(() => {
+        let p = srvProduct.removeSpecs(ids)
+        p.then((rst) => {
+            console.log(rst)
             this.reload()
         })
     }

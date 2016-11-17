@@ -69,6 +69,20 @@ class ListPage extends BasePage{
     doSearch(text){
         tfn.tips(text)
     }
+    get selectedIds(){
+        let ids = []
+        let $checks = this.$table.find('input[type=checkbox]:checked')
+        for (let check of $checks){
+            let id = this.getItemId(check)
+            id && ids.push(id)
+        }
+        return ids
+    }
+    getItemId(item){
+        let $item = (item instanceof jQuery)? item : $(item)
+        $item = $item.closest('tr')
+        return $item.data('id')
+    }
     checkOne(checked, $check, $tr){
         console.log('checkOne')
     }

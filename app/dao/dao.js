@@ -37,22 +37,22 @@ let {openDs, setUserId} = (function (Nedb){
     function setUserId(uid){
         userId = uid
     }
-    return {openDs, setUserId};
+    return {openDs, setUserId}
 })(Nedb);
 
 // Base Data Access Objects
 class Dao{
     constructor(name){
-        this._name = name;
+        this._name = name
     }
     get name(){
-        return this._name;
+        return this._name
     }
     get filename(){
         return this.ds.filename
     }
     get ds(){
-        return openDs(this._name);
+        return openDs(this._name)
     }
     newId(){
         return this.ds.createNewId()
@@ -82,37 +82,43 @@ class Dao{
         return csr.execAsync()
     }
     findOne(){
-        return this.ds.findOneAsync(...arguments);
+        return this.ds.findOneAsync(...arguments)
     }
     // findOneSync(){
     //     let findOne = deasync(this.ds.findOne)
     //     return findOne(...arguments)
     // }
     findById(id, p){
-        return this.ds.findOneAsync({_id: id}, p);
+        return this.ds.findOneAsync({_id: id}, p)
     }
     insert(){
-        return this.ds.insertAsync(...arguments);
+        return this.ds.insertAsync(...arguments)
     }
     update(){
-        return this.ds.updateAsync(...arguments);
+        return this.ds.updateAsync(...arguments)
     }
     save(doc, opts = {upsert: true}){
         if (!doc) {
-            return Promise.reject(new Error('no data!'));
+            return Promise.reject(new Error('no data!'))
         }
         if (this._name == 'token' && doc.uid){//save token's uid
-            setUserId(doc.uid);
+            setUserId(doc.uid)
         }
         if (doc._id){// 使用$set保存
-            return this.ds.updateAsync({_id: doc._id}, {$set:doc}, opts);
+            return this.ds.updateAsync({_id: doc._id}, {$set:doc}, opts)
         }else{
             delete doc._id; // 避免空字符串
-            return this.ds.insertAsync(doc);
+            return this.ds.insertAsync(doc)
         }
     }
     remove(){
-        return this.ds.removeAsync(...arguments);
+        return this.ds.removeAsync(...arguments)
+    }
+    removeByIds(ids){
+        if (!Array.isArray(ids)){
+            return this.remove({_id: ids})
+        }
+        return this.remove({_id: {$in: ids}}, {multi: true})
     }
 }
 

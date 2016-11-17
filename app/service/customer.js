@@ -22,8 +22,8 @@ srvCust.save = function(doc){
     return daoCust.save(doc)
 }
 
-srvCust.delete = function(){
-    return daoCust.remove(...arguments)
+srvCust.removeByIds = function(ids){
+    return daoCust.removeByIds(ids)
 }
 
 module.exports = srvCust

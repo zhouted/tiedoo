@@ -8,20 +8,6 @@ class CustomerPage extends ListPage{
     get $tplTr(){
         return this._$tplTr || (this._$tplTr = this.$table.find('#tplTr'))
     }
-    get selectedIds(){
-        let ids = []
-        let $checks = this.$table.find('input[type=checkbox]:checked')
-        for (let check of $checks){
-            let id = this.getItemId(check)
-            id && ids.push(id)
-        }
-        return ids
-    }
-    getItemId(item){
-        let $item = (item instanceof jQuery)? item : $(item)
-        $item = $item.closest('tr')
-        return $item.data('id')
-    }
     get btns(){
         return tfn.merge({}, super.btns, {
             onDetail: '.customer-item>td',
@@ -66,8 +52,9 @@ class CustomerPage extends ListPage{
         if (!window.confirm(`确认删除这个${ids.length}客户吗？`)){
             return
         }
-        let p = ids.map(id => srvCust.delete({_id: id}))
-        Promise.all(p).then(() => {
+        let p = srvCust.removeByIds(ids)
+        p.then((rst) => {
+            console.log(rst)
             this.reload()
         })
     }

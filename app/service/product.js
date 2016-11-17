@@ -22,8 +22,22 @@ srvProduct.save = function(doc){
     return daoProduct.save(doc)
 }
 
-srvProduct.delete = function(){
-    return daoProduct.remove(...arguments)
+srvProduct.removeByIds = function(ids){
+    return daoProduct.removeByIds(ids)
+}
+
+srvProduct.removeSpecs = function(ids){//TODO:
+    let p = daoProduct.find({'specs._id': {$in: ids}}, {specs:1})
+    p.then(docs => {
+        if (!docs) return 0
+        let pIds = docs.map(doc => doc._id)
+        return daoProduct.update({_id: {$in: pIds}}, {$pull: {specs: {_id: {$in: ids}}}}, {multi: true}).then(cnt1 => {
+            return daoProduct.remove({_id: {$in: ids}, $or: [{specs: []}, {specs: null}]}, {mulit: true}).then(cnt2 => {
+                return cnt1+cnt2
+            })
+        })
+    })
+    return p
 }
 
 srvProduct.saveImg = function(file){

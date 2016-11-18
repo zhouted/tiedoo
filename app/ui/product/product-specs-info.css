@@ -7,5 +7,5 @@
 
 #productSpecsInfo .table>tbody>tr>td{cursor: pointer;}
 /*#productSpecsInfo .table>tbody>tr>th.field-check{text-align: center;}*/
-#productSpecsInfo .table>tbody>tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
-#productSpecsInfo .table>tbody>tr>th.field-img>img{max-width: 32px; max-height: 32px; }
+#productSpecsInfo .table>tbody>tr>td.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
+#productSpecsInfo .table>tbody>tr>td.field-img>img{max-width: 32px; max-height: 32px; }

@@ -9,7 +9,7 @@
                 <a class="btn read for-editonly"><span class="glyphicon glyphicon-share"></span>取消</a>
                 <a class="btn back for-readonly"><span class="glyphicon glyphicon-share ts-x"></span>返回</a>
             </div>
-            <label class="panel-title-main text-center"><span class="bind-product-detail">产品明细</span></label>
+            <label class="panel-title-main text-center"><span class="bind-product-detail">产品详情</span></label>
             <!-- <span class="panel-title-sub">
                 <label>创建时间：</label><span class="bind-product-createdAt">0000/00/00</span>
                 <label>首要联系人：</label><span class="bind-product-contact-name">首要联系人</span>
@@ -26,6 +26,7 @@
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation"><a href="#productSpecsInfoPanel" role="tab" data-toggle="tab">规格信息</a></li>
               <li role="presentation"><a href="#productSpecsPricePanel" role="tab" data-toggle="tab">价格信息</a></li>
+              <li role="presentation"><a href="#productSpecsPackPanel" role="tab" data-toggle="tab">包装信息</a></li>
               <li role="presentation"><a href="#productSpecsQuotaPanel" role="tab" data-toggle="tab">销售记录</a></li>
             </ul>
             <!-- Tab panes -->
@@ -35,6 +36,9 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="productSpecsPricePanel">
                     <include src="ui/product/product-specs-price.html" data-id="productSpecsPrice"></include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="productSpecsPackPanel">
+                    <include src="ui/product/product-specs-pack.html" data-id="productSpecsPack"></include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="productSpecsPricePanel">
                     <include src="ui/product/product-specs-quotation.html"></include>

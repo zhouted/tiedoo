@@ -6,9 +6,10 @@
                     <tr>
                         <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
                         <th class="field-code">编号</th>
-                        <th class="field-num">成本价</th>
-                        <th class="field-num">销售价</th>
-                        <th class="field-num">起订量</th>
+                        <th class="field-unit">包装单位</th>
+                        <th class="field-size">包装尺寸(cm)</th>
+                        <th class="field-weight">净/毛重(kg)</th>
+                        <th class="field-num">装箱数</th>
                         <th class="field-auto">备注</th>
                     </tr>
                 </thead>
@@ -17,10 +18,11 @@
                         <tr class="data-item" data-id="${data._id}">
                             <!-- <th><input type="checkbox"></th> -->
                             <td class="field-code">${tfn.fstr(data.code)}</td>
-                            <td class="field-num">${tfn.fnum(data.cost,2)}</td>
-                            <td class="field-num">${tfn.fnum(data.price,2)}</td>
-                            <td class="field-num">${tfn.fnum(data.moq)}</td>
-                            <td class="field-auto">${tfn.fstr(data.priceRemark)}</td>
+                            <td class="field-unit">${tfn.funit(data.packUnit, data.packUnitEn)}</td>
+                            <td class="field-size">${tfn.fsize(data.packLength, data.packWidth, data.packHeight)}</td>
+                            <td class="field-weight">${tfn.fweight(data.packNetWeight, data.packCrossWeight)}</td>
+                            <td class="field-num">${tfn.fstr(data.packNum)}</td>
+                            <td class="field-auto">${tfn.fstr(data.packRemark)}</td>
                         </tr>
                     </script>
                 </tbody>

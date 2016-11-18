@@ -25,12 +25,11 @@ class CustomerDetailPage extends BasePage {
             this.paneContact.addNew()
         })
         this.$subtabs.on('shown.bs.tab', (e)=>{
+            this.$btnAddContact.addClass('hide')
             //显示联系人pane时才显示add-contact按钮
             if (e.target === this.paneContact.$navtab[0]){
                 this.$btnAddContact.removeClass('hide')
-                return
             }
-            this.$btnAddContact.addClass('hide')
         })
     }
     onHide(){

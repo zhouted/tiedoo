@@ -51,9 +51,9 @@
                         <td class="field-code">${tfn.fstr(spec.code)}</td>
                         <td class="field-name">${tfn.fstr(spec.name)}</td>
                         <td class="field-unit">${tfn.funit(spec.unit, spec.unitEn)}</td>
-                        <td class="field-num">${tfn.fstr(spec.price)}</td>
-                        <td class="field-num">${tfn.fstr(spec.moq)}</td>
-                        <td class="field-num">${tfn.fstr(spec.cost)}</td>
+                        <td class="field-num">${tfn.fnum(spec.price,2)}</td>
+                        <td class="field-num">${tfn.fnum(spec.moq)}</td>
+                        <td class="field-num">${tfn.fnum(spec.cost,2)}</td>
                         <td class="field-supplier">${tfn.fdate(spec.supplier)}</td>
                     </tr>
                 </script>

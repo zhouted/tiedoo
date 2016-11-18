@@ -5,11 +5,11 @@
                 <thead>
                     <tr>
                         <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
-                        <th class="rel-fixed? field-code">规格编号</th>
-                        <th class="rel-fixed? field-name">规格名称</th>
-                        <th class="rel-fixed? field-unit">计量单位</th>
-                        <th class="rel-fixed? field-auto">规格描述</th>
-                        <th class="rel-fixed? field-img">规格图片</th>
+                        <th class="field-code">规格编号</th>
+                        <th class="field-name">规格名称</th>
+                        <th class="field-unit">计量单位</th>
+                        <th class="field-auto">规格描述</th>
+                        <th class="field-img">规格图片</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,7 +20,7 @@
                             <td>${tfn.fstr(data.name)}</td>
                             <td class="field-unit">${tfn.funit(data.unit, data.unitEn)}</td>
                             <td>${tfn.fstr(data.desc)}</td>
-                            <th class="field-img"><img class="" src="ui/images/nopic.jpg" data-id="${data.imageId}"/></th>
+                            <td class="field-img"><img class="" src="ui/images/nopic.jpg" data-id="${data.imageId}"/></td>
                         </tr>
                     </script>
                 </tbody>

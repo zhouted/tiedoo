@@ -1,0 +1,8 @@
+#productSpecsPrice .table>thead>tr>th.field-auto{width: auto;}
+#productSpecsPrice .table>thead>tr>th.field-code{width: 100px;}
+#productSpecsPrice .table>thead>tr>th.field-name{width: 200px;}
+#productSpecsPrice .table>thead>tr>th.field-unit{width: 100px;}
+#productSpecsPrice .table>thead>tr>th.field-num{width: 100px; text-align: right;}
+
+#productSpecsPrice .table>tbody>tr>td{cursor: pointer;}
+#productSpecsPrice .table>tbody>tr>td.field-num{text-align: right;}

@@ -1,5 +1,93 @@
+//formaters:
+exports.fstr = exports.escapeHtml = escapeHtml
+function escapeHtml(str) {
+    if (str === null || str === undefined) return ''
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return str.replace(/[&<>"']/g, m => map[m]);
+}
+exports.fnum = numToStr
+function numToStr(num, fixed){
+    if (typeof(num) !== 'number'){
+        num = Number.parseFloat(num)
+    }
+    if (Number.isNaN(num)){
+        return ''
+    }
+    if (fixed === undefined){
+        return num.toString()
+    }
+    return num.toFixed(fixed)
+}
+exports.fdate = dateToStr
+function dateToStr(date){
+    return (date instanceof Date) && date.toLocaleDateString() || date || ''
+}
+exports.ftime = timeToStr
+function timeToStr(date){
+    return (date instanceof Date) && date.toLocaleTimeString() || date || ''
+}
+exports.fdatetime = dateToLStr
+function dateToLStr(date){
+    return (date instanceof Date) && date.toLocaleString() || date || ''
+}
+exports.funit = funit
+function funit(unit1, unit2){
+    unit1 = escapeHtml(unit1)
+    unit2 = escapeHtml(unit2)
+    if (unit1 && unit2) return unit1+'('+unit2+')'
+    return unit1+unit2
+}
+exports.fsize = fsize
+function fsize(s1, s2, s3){
+    s1 = numToStr(s1)||'-'
+    s2 = numToStr(s2)||'-'
+    s3 = numToStr(s3)||'-'
+    return s1+'x'+s2+'x'+s3
+}
+exports.fweight = fweight
+function fweight(net, cross){
+    net = numToStr(net)||'-'
+    cross = numToStr(cross)||'-'
+    return net+'/'+cross
+}
+
+exports.tips = tips // 弹出提示信息（几秒钟后自动消失）
+function tips(msg, type, complete) {//type:对应bootstrap的alert-*：'success'是成功信息，'danger'是失败信息,'info'是普通信息,'warning'是警告信息
+    var $tip = $("#_tip");//已经有了重用
+    if ($tip.length == 0){//没有则加一个
+	    $tip = $('<strong id="_tip" style="position:fixed;top:50px;left: 50%;z-index:8888"></strong>');
+	    $('body').append($tip);
+	    $tip.click(function(){$tip.hide();});//点击消失
+    }
+    type = type || "success";
+    $tip.stop(true)//停掉正在的
+    	.prop('class', 'alert alert-' + type).text(msg)//alert信息
+    	.css('margin-left', - $tip.outerWidth() / 2)//居中
+    	.fadeIn(600).delay(2000).fadeOut(600, complete);//渐入.停留.淡出
+}
+
+exports.store = store; //浏览器端存储函数(可代替cookies)
+function store(key, val){
+    if (!localStorage || !key) return;
+    try{
+        if (typeof val !== "undefined"){
+            localStorage.setItem(key, JSON.stringify(val));
+        }else{
+            return JSON.parse(localStorage.getItem(key));
+        }
+    }catch(err){
+        console.log(err);
+    }
+}
+
 exports.equals = equals
-function equals(x, y) {
+function equals(x, y) {// contents compare
     // If both x and y are null or undefined and exactly the same
     if (Object.is(x, y)) {
         return true
@@ -71,67 +159,4 @@ function merge(){ //deep Object.assion
         }
     }
     return Object.assign(arguments[0], merged)
-}
-
-//formaters:
-exports.fstr = exports.escapeHtml = escapeHtml
-function escapeHtml(str) {
-    if (str === null || str === undefined) return ''
-    let map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return str.replace(/[&<>"']/g, m => map[m]);
-}
-exports.fdate = dateToStr
-function dateToStr(date){
-    return (date instanceof Date) && date.toLocaleDateString() || ''
-}
-exports.ftime = timeToStr
-function timeToStr(date){
-    return (date instanceof Date) && date.toLocaleTimeString() || ''
-}
-exports.fdatetime = dateToLStr
-function dateToLStr(date){
-    return (date instanceof Date) && date.toLocaleString() || ''
-}
-exports.funit = funit
-function funit(unit1, unit2){
-    unit1 = escapeHtml(unit1)
-    unit2 = escapeHtml(unit2)
-    if (unit1 && unit2) return unit1+'('+unit2+')'
-    return unit1+unit2
-}
-
-
-exports.tips = tips // 弹出提示信息（几秒钟后自动消失）
-function tips(msg, type, complete) {//type:对应bootstrap的alert-*：'success'是成功信息，'danger'是失败信息,'info'是普通信息,'warning'是警告信息
-    var $tip = $("#_tip");//已经有了重用
-    if ($tip.length == 0){//没有则加一个
-	    $tip = $('<strong id="_tip" style="position:fixed;top:50px;left: 50%;z-index:8888"></strong>');
-	    $('body').append($tip);
-	    $tip.click(function(){$tip.hide();});//点击消失
-    }
-    type = type || "success";
-    $tip.stop(true)//停掉正在的
-    	.prop('class', 'alert alert-' + type).text(msg)//alert信息
-    	.css('margin-left', - $tip.outerWidth() / 2)//居中
-    	.fadeIn(600).delay(2000).fadeOut(600, complete);//渐入.停留.淡出
-}
-
-exports.store = store; //浏览器端存储函数(可代替cookies)
-function store(key, val){
-    if (!localStorage || !key) return;
-    try{
-        if (typeof val !== "undefined"){
-            localStorage.setItem(key, JSON.stringify(val));
-        }else{
-            return JSON.parse(localStorage.getItem(key));
-        }
-    }catch(err){
-        console.log(err);
-    }
 }

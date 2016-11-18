@@ -213,19 +213,28 @@
 	}
 
 	function initReading($form){
-		$form.find('.input-group-addon.before-input.'+_options.clsForEditonly).each(addOn)//.hide();
+		$form.find('.input-group:has(.input-group-addon.'+_options.clsForEditonly+')').each(function(){
+			var $grp = $(this);
+			var $p = getReadonlyP($grp);
+			if ($p.children().length) return;
+			$grp.find('.'+_options.clsForEditonly).each(function(){
+				var $ipt = $(this)
+				if ($ipt.is('.form-control')){
+					setReadonlySpan($p, $ipt)
+					return
+				}
+				var $span = $('<span/>').text($ipt.text())
+				$p.append($span)
+			})
+		})
+		// $form.find('.input-group-addon.before-input.'+_options.clsForEditonly).each(addOn)//.hide();
 		$form.find('.form-control.'+_options.clsForEditonly+'[name]').each(function(){
 			var $ipt = $(this);
 			var $p = getReadonlyP($ipt);
-			var $span = getReadonlySpan($p, 'form-control-'+this.name, (this.tagName=='TEXTAREA'?'pre':'span'));
-			var value = $ipt.val()||'-';
-			if (this.tagName == 'SELECT'){
-				value = $ipt.find('option[value='+value+']').text();
-			}
-			$span.text(value);
+			setReadonlySpan($p, $ipt)
 			//$p.show();
 		})//.hide();
-		$form.find('.input-group-addon.after-input.'+_options.clsForEditonly).each(addOn)//.hide();
+		// $form.find('.input-group-addon.after-input.'+_options.clsForEditonly).each(addOn)//.hide();
 		// $form.find('.control-label.'+_options.clsForEditonly).each(function(){
 		// 	var $label = $(this);
 		// 	var $ipt = $label.children('input');
@@ -237,19 +246,29 @@
 		// 	}
 		// });
 
-		function addOn(){
-			var $addon = $(this);
-			var $p = getReadonlyP($addon);
-			var addCls = 'input-group-addon-span';
-			$addon.is('.before-input') && (addCls+='.before-input');
-			$addon.is('.affter-input') && (addCls+='.affter-input');
-			var $span = getReadonlySpan($p, addCls);
-			$span.text($addon.text());
-			//$p.show();
+		function setReadonlySpan($p, $ipt){
+			var tag = $ipt.prop('tagName')
+			var $span = getReadonlySpan($p, 'form-control-'+$ipt.prop('name'), (tag=='TEXTAREA'?'pre':'span'));
+			var value = $ipt.val()||'-';
+			if (tag == 'SELECT'){
+				value = $ipt.find('option[value='+value+']').text();
+			}
+			$span.text(value);
 		}
 
+		// function addOn(){
+		// 	var $addon = $(this);
+		// 	var $p = getReadonlyP($addon);
+		// 	var addCls = 'input-group-addon-span';
+		// 	$addon.is('.before-input') && (addCls+='.before-input');
+		// 	$addon.is('.affter-input') && (addCls+='.affter-input');
+		// 	var $span = getReadonlySpan($p, addCls);
+		// 	$span.text($addon.text());
+		// 	//$p.show();
+		// }
+
 		function getReadonlyP($ctrl){
-			var $parent = $ctrl.parent();
+			var $parent = $ctrl.is('.input-group')? $ctrl : $ctrl.parent();
 			var $p = $parent.find('p.form-control-static.'+_options.clsForReadonly);
 			if (!$p || !$p.length){
 				$p = $('<p/>').addClass('form-control-static '+_options.clsForReadonly);

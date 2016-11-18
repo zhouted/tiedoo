@@ -20,6 +20,9 @@ class ProductDetailPage extends BasePage {
     get paneSpecsPrice(){
         return this._paneSpecsPrice || (this._paneSpecsPrice = this.$page.find('#productSpecsPrice').data('page'))
     }
+    get paneSpecsPack(){
+        return this._paneSpecsPack || (this._paneSpecsPack = this.$page.find('#productSpecsPack').data('page'))
+    }
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
@@ -63,6 +66,7 @@ class ProductDetailPage extends BasePage {
         this.paneBasic.render(data)
         this.paneSpecsInfo.render(data&&data.specs)
         this.paneSpecsPrice.render(data&&data.specs)
+        this.paneSpecsPack.render(data&&data.specs)
         if (!data || !data._id){
             this.toEdit()
         }else{
@@ -90,6 +94,7 @@ class ProductDetailPage extends BasePage {
         }
         this.paneSpecsInfo.render(specs)
         this.paneSpecsPrice.render(specs)
+        this.paneSpecsPack.render(specs)
     }
     getPageData(){
         let data = this.paneBasic.getFormData()
@@ -108,8 +113,8 @@ class ProductDetailPage extends BasePage {
         this.openSpec('')
     }
     openSpec(specId){
-        let opts = {id: 'productDetailSpecModal', append: true}
-        this.$page.loadFile('ui/product/product-detail-spec.html', opts).then(() => {
+        let opts = {id: 'productSpecDetailModal', append: true}
+        this.$page.loadFile('ui/product/product-spec-detail.html', opts).then(() => {
             let $modal = $('#'+opts.id)
             $modal.modal('show')
             let spec = this.getSpecById(specId)

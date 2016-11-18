@@ -34,7 +34,7 @@ class ProductSpecForm extends ModalForm {
     }
     loadImg(){
         srvProduct.loadImg(this.$imgIpt.data('fileId')).then(file => {
-            file && this.$img.attr('src', file.path)
+            this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
     }
     onConfirm(){

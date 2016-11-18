@@ -107,7 +107,7 @@
 				$ipt.prop('checked', checked);
 				$ipt.closest('label,.control-label').attr('data-checked', checked)
 			}else if ($ipt.is('[type=file]')){
-				$ipt.data('fileId', val) // input file 的id保存到data里
+				$ipt.data('fileId', val||'') // input file 的id保存到data里
 			}else{
 				$ipt.val(val)
 			}
@@ -214,9 +214,9 @@
 
 	function initReading($form){
 		$form.find('.input-group:has(.input-group-addon.'+_options.clsForEditonly+')').each(function(){
-			var $grp = $(this);
-			var $p = getReadonlyP($grp);
-			if ($p.children().length) return;
+			var $grp = $(this)
+			var $p = getReadonlyP($grp)
+			if ($p.children().length) return
 			$grp.find('.'+_options.clsForEditonly).each(function(){
 				var $ipt = $(this)
 				if ($ipt.is('.form-control')){
@@ -227,63 +227,37 @@
 				$p.append($span)
 			})
 		})
-		// $form.find('.input-group-addon.before-input.'+_options.clsForEditonly).each(addOn)//.hide();
 		$form.find('.form-control.'+_options.clsForEditonly+'[name]').each(function(){
-			var $ipt = $(this);
-			var $p = getReadonlyP($ipt);
+			var $ipt = $(this)
+			var $p = getReadonlyP($ipt)
 			setReadonlySpan($p, $ipt)
-			//$p.show();
-		})//.hide();
-		// $form.find('.input-group-addon.after-input.'+_options.clsForEditonly).each(addOn)//.hide();
-		// $form.find('.control-label.'+_options.clsForEditonly).each(function(){
-		// 	var $label = $(this);
-		// 	var $ipt = $label.children('input');
-		// 	if ($ipt.prop('checked')){
-		// 		$label.show();
-		// 		$ipt.hide();
-		// 	}else{
-		// 		$label.hide();
-		// 	}
-		// });
-
+		})
 		function setReadonlySpan($p, $ipt){
 			var tag = $ipt.prop('tagName')
-			var $span = getReadonlySpan($p, 'form-control-'+$ipt.prop('name'), (tag=='TEXTAREA'?'pre':'span'));
-			var value = $ipt.val()||'-';
+			var $span = getReadonlySpan($p, 'form-control-'+$ipt.prop('name'), (tag=='TEXTAREA'?'pre':'span'))
+			var value = $ipt.val()||'-'
 			if (tag == 'SELECT'){
-				value = $ipt.find('option[value='+value+']').text();
+				value = $ipt.find('option[value='+value+']').text()
 			}
-			$span.text(value);
+			$span.text(value)
 		}
-
-		// function addOn(){
-		// 	var $addon = $(this);
-		// 	var $p = getReadonlyP($addon);
-		// 	var addCls = 'input-group-addon-span';
-		// 	$addon.is('.before-input') && (addCls+='.before-input');
-		// 	$addon.is('.affter-input') && (addCls+='.affter-input');
-		// 	var $span = getReadonlySpan($p, addCls);
-		// 	$span.text($addon.text());
-		// 	//$p.show();
-		// }
-
 		function getReadonlyP($ctrl){
-			var $parent = $ctrl.is('.input-group')? $ctrl : $ctrl.parent();
-			var $p = $parent.find('p.form-control-static.'+_options.clsForReadonly);
+			var $parent = $ctrl.is('.input-group')? $ctrl : $ctrl.parent()
+			var $p = $parent.find('p.form-control-static.'+_options.clsForReadonly)
 			if (!$p || !$p.length){
-				$p = $('<p/>').addClass('form-control-static '+_options.clsForReadonly);
-				$parent.append($p);
+				$p = $('<p/>').addClass('form-control-static '+_options.clsForReadonly)
+				$parent.append($p)
 			}
-			return $p;
+			return $p
 		}
 		function getReadonlySpan($p, cls, tag){
-			tag = tag || 'span';
-			var $span = $p.find(tag+'.'+cls);
+			tag = tag || 'span'
+			var $span = $p.find(tag+'.'+cls)
 			if (!$span || !$span.length){
-				$span = $('<'+tag+'/>').addClass(cls);
-				$p.append($span);
+				$span = $('<'+tag+'/>').addClass(cls)
+				$p.append($span)
 			}
-			return $span;
+			return $span
 		}
 	}
 

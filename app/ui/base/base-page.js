@@ -72,14 +72,14 @@ class BasePage extends BasePane{
         }
     }
     doSubtabs(data){
-        let tab = this.$subtabs.parent('li.active').children('a[role=tab]')
-        if (!tab.length){
-            tab = this.$subtabs.first()
+        let $tab = this.$subtabs.parent('li.active').children('a[role=tab]')
+        if ($tab.length){//去活当前tab
+            $($tab.attr('href')).removeClass('active')
+            $tab.parent().removeClass('active')
         }
-        let panel = $(tab.attr('href')).removeClass('active')
-        tab.parent().removeClass('active')
+        //把数据传给子tabs，并默认显示第一个
         this.$subtabs.data('_spv', data)
-        tab.tab('show')
+        this.$subtabs.first().tab('show')
     }
 }
 

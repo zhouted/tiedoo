@@ -55,7 +55,6 @@ class CustomerDetailPage extends BasePage {
         }else{
             this.toRead()
         }
-        this.$subtabs.first().tab('show')
     }
     renderTitle(customer){
         customer = customer || {}

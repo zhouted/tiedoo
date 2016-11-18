@@ -48,7 +48,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         })
 
         // on changed
-        this.$page.on('change', 'input.for-editonly, for-editonly', (e) => {
+        this.$page.on('change', 'input[name]', (e) => {
             this._modified = true
         })
     }

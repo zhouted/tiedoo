@@ -25,6 +25,11 @@
             })
         }
 
+        let $img = $ipt.siblings('img')
+        if ($img.length){
+            $img.attr('alt-src', $img.attr('src')) //backup src
+        }
+
         let crop = $ipt.attr('alt-change')
         if (crop){//==cropper
             $ipt.data('cropOpts', opts)

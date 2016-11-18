@@ -72,7 +72,6 @@ class ProductDetailPage extends BasePage {
         }else{
             this.toRead()
         }
-        this.$subtabs.first().tab('show')
     }
     renderTitle(product){
         product = product || {}

@@ -1,7 +1,7 @@
 const BasePane = require(appPath+'/ui/base/base-pane.js')
 // const srvProduct = require(appPath+'/service/product.js')
 
-class ProductSpecsPrice extends BasePane{
+class ProductSpecsPack extends BasePane{
     get $table(){
         return this._$table || (this._$table = this.$page.find('.table.data-list'))
     }
@@ -29,4 +29,4 @@ class ProductSpecsPrice extends BasePane{
     }
 }
 
-module.exports = ProductSpecsPrice
+module.exports = ProductSpecsPack

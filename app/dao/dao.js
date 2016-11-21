@@ -44,6 +44,7 @@ let {openDs, setUserId} = (function (Nedb){
 class Dao{
     constructor(name){
         this._name = name
+        this._compacting = this._compactNum = 0
     }
     get name(){
         return this._name
@@ -95,7 +96,10 @@ class Dao{
         return this.ds.insertAsync(...arguments)
     }
     update(){
-        return this.ds.updateAsync(...arguments)
+        return this.ds.updateAsync(...arguments).then(rst => {
+            this.compactDatafile(rst)
+            return rst
+        })
     }
     save(doc, opts = {upsert: true}){
         if (!doc) {
@@ -105,20 +109,34 @@ class Dao{
             setUserId(doc.uid)
         }
         if (doc._id){// 使用$set保存
-            return this.ds.updateAsync({_id: doc._id}, {$set:doc}, opts)
+            return this.update({_id: doc._id}, {$set:doc}, opts)
         }else{
             delete doc._id; // 避免空字符串
             return this.ds.insertAsync(doc)
         }
     }
     remove(){
-        return this.ds.removeAsync(...arguments)
+        return this.ds.removeAsync(...arguments).then(rst => {
+            this.compactDatafile(rst)
+            return rst
+        })
     }
     removeByIds(ids){
         if (!Array.isArray(ids)){
             return this.remove({_id: ids})
         }
         return this.remove({_id: {$in: ids}}, {multi: true})
+    }
+    compactDatafile(num){
+        if (this._compacting) return // 已经在进行compact
+        this._compactNum += Number.parseInt(num)||0
+        if (this._compactNum < 10) return // 有需要compact的记录数不多，不必compact
+        this.ds.once('compaction.done', () => {
+            this._compacting = this._compactNum = 0
+            console.log(this._name, 'compaction.done!')
+        })
+        this._compacting = true
+        setTimeout(() => this.ds.persistence.compactDatafile())
     }
 }
 

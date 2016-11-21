@@ -62,7 +62,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
     }
     init(){ // do init on document ready
-        if (!this._param){
+        if (!this._param){// 加载之后_param就保存有加载参数
             this.load(this._stub)
         }
         this.initBtns()
@@ -115,21 +115,22 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     load(exParam){
         let param = tfn.merge({}, this.defaultParam, this._stub, exParam)
-        this._load(param)
+        return this._load(param)
     }
     reload(exParam){
         let param = tfn.merge(this._param, exParam)
-        this._load(param)
+        return this._load(param)
     }
     _load(param){
         let p = this.doLoad(param)
         if (Object.is(p, undefined)) return
         if (!(p instanceof Promise)) {
             this.onLoaded({data:p, param})
-            return
+            return Promise.resolve(p)
         }
-        p.then(data => {
+        return p.then(data => {
             this.onLoaded({data})
+            return data
         }).catch(err => {
             console.log(err)
         }).finally((data) => {

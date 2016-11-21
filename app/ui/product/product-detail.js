@@ -87,6 +87,7 @@ class ProductDetailPage extends BasePage {
         let found = this.getSpecById(spec&&spec._id)
         if (found){
             tfn.merge(found, spec)
+            delete found.code_bak
         }else{
             spec._id = srvProduct.newSpecId()
             specs.push(spec)

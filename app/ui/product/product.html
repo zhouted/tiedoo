@@ -1,5 +1,8 @@
 <div id="product" >
     <div class="panel-heading topbar">
+        <div class="pull-right">
+            <a class="btn discarded" title="查看已归档"><span class="glyphicon glyphicon-trash"></span></a>
+        </div>
         <div class="pull-right" style="max-width:230px; margin-left:10px;">
             <!-- <div class="form-group" style="margin:0;"> -->
                 <div class="input-group">
@@ -12,9 +15,13 @@
                 </div>
             <!-- </div> -->
         </div>
-        <div class="pull-right">
+        <div class="pull-right for-discarded-hidden">
             <a class="btn add-new btn-primary">新增</a>
+            <a class="btn discard btn-primary">归档</a>
+        </div>
+        <div class="pull-right for-discarded hidden">
             <a class="btn delete btn-primary">删除</a>
+            <a class="btn restore btn-primary">还原</a>
         </div>
         <h2 class="panel-title">产品管理</h2>
     </div>

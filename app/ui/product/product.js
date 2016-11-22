@@ -11,15 +11,15 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
-    get selectedPdIds(){
-        let ids = []
-        let $checks = this.$table.find('input[type=checkbox]:checked')
-        for (let check of $checks){
-            let id = this.getItemPdId(check)
-            id && ids.push(id)
-        }
-        return ids
-    }
+    // get selectedPdIds(){
+    //     let ids = []
+    //     let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
+    //     for (let check of $checks){
+    //         let id = this.getItemId(check)
+    //         id && ids.push(id)
+    //     }
+    //     return ids
+    // }
     get selectedSpecIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-spec>.field-check>input[type=checkbox]:checked')
@@ -30,6 +30,21 @@ class ProductPage extends ListPage{
         return ids
 
     }
+    // get selectedPds(){
+    //     let pds = []
+    //     let $pdChecks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
+    //     for (let pdCheck of $pdChecks){
+    //         let pdId = this.getItemId(pdCheck)
+    //         if (!pdId) continue
+    //         let pd = {_id: pdId, specs: []}
+    //         let $specChecks = $(pdCheck).closest('tbody').find('.product-item-spec>.field-check>input[type=checkbox]:checked')
+    //         for (let specCheck of $specChecks){
+    //             let specId = this.getItemId(specCheck)
+    //             specId && pd.specs.push({_id: specId})
+    //         }
+    //         pds.push(pd)
+    //     }
+    // }
     getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
         $item = $item.closest('.product-item')
@@ -38,7 +53,8 @@ class ProductPage extends ListPage{
     get btns(){
         return tfn.merge({}, super.btns, {
             onDiscard: '.btn.discard',
-            onDiscarded: '.btn.discarded',
+            onRestore: '.btn.restore',
+            onToggleDiscarded: '.btn.toggle-discarded',
             onDetail: '.product-item>tr>td',
         })
     }
@@ -58,17 +74,17 @@ class ProductPage extends ListPage{
             discard: this._discard||false,
         })
     }
-    onDiscarded(){
+    onToggleDiscarded(){
         this._discard = !this._discard
         this.load().then(() => {
             if (this._discard){
-                this.$page.find('.btn.discarded').addClass('active')
+                // this.$page.find('.btn.toggle-discarded').addClass('active')
                 this.$page.find('.for-discarded-hidden').addClass('hidden')
                 this.$page.find('.for-discarded').removeClass('hidden')
             }else{
                 this.$page.find('.for-discarded').addClass('hidden')
                 this.$page.find('.for-discarded-hidden').removeClass('hidden')
-                this.$page.find('.btn.discarded').removeClass('active')
+                // this.$page.find('.btn.toggle-discarded').removeClass('active')
             }
         })
     }
@@ -112,10 +128,10 @@ class ProductPage extends ListPage{
     onDiscard(){
         let ids = this.selectedSpecIds
         if (!ids.length){
-            tfn.tips('请先选择要删除的记录！', 'warning')
+            tfn.tips('请先选择要归档的记录！', 'warning')
             return
         }
-        if (!window.confirm(`确认删除这${ids.length}个产品规格吗？`)){
+        if (!window.confirm(`确认归档这${ids.length}个产品规格吗？`)){
             return
         }
         let p = srvProduct.discardSpecByIds(ids)
@@ -124,16 +140,31 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
+    onRestore(){
+        let ids = this.selectedSpecIds
+        if (!ids.length){
+            tfn.tips('请先选择要还原的记录！', 'warning')
+            return
+        }
+        if (!window.confirm(`确认还原这${ids.length}个产品规格吗？`)){
+            return
+        }
+        let p = srvProduct.restoreSpecByIds(ids)
+        p.then((rst) => {
+            console.log(rst)
+            this.reload()
+        })
+    }
     onDelete(){
-        let ids = this.selectedIds
+        let ids = this.selectedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要删除的记录！', 'warning')
             return
         }
-        if (!window.confirm(`确认删除这个${ids.length}产品吗？`)){
+        if (!window.confirm(`确认删除这个${ids.length}产品规格吗？`)){
             return
         }
-        let p = srvProduct.removeSpecs(ids)
+        let p = srvProduct.removeSpecByIds(ids)
         p.then((rst) => {
             console.log(rst)
             this.reload()

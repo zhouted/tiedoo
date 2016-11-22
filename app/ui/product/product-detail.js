@@ -110,6 +110,7 @@ class ProductDetailPage extends BasePage {
         })
     }
     onAddSpec(){
+        this.toEdit()
         this.openSpec('')
     }
     openSpec(specId){

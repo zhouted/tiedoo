@@ -12,16 +12,23 @@ srvProduct.load = function(param, project){
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
     let paging = param.paging = param.paging||{pageSize:10}
-    let dao = param.discard? daoProductDiscard : daoProduct
+    let dao = !param.discard? daoProduct : daoProductDiscard
     return dao.find(cond, project, sortBy, paging)
 }
 
-srvProduct.loadById = function(id, project){
-    return daoProduct.findById(id, project)
+srvProduct.loadById = function(id, discard, project){
+    let dao = !discard? daoProduct : daoProductDiscard
+    return dao.findById(id, project)
 }
 
-srvProduct.save = function(doc){
-    return daoProduct.save(doc)
+srvProduct.save = function(doc, discard){
+    if (doc && doc.specs && doc.specs.length){
+        doc.specs.sort((a, b) => {
+            return (a.code||'') > (b.code||'')
+        })
+    }
+    let dao = !discard? daoProduct : daoProductDiscard
+    return dao.save(doc)
 }
 
 srvProduct.saveImg = function(file){
@@ -36,6 +43,7 @@ srvProduct.newSpecId = function(){
     return daoProduct.newId()
 }
 
+//批量作废产品规格
 srvProduct.discardSpecByIds = function(specIds){
     let p = new Promise((resolve, reject) => {
         let p = daoProduct.find({'specs._id': {$in: specIds}})
@@ -51,12 +59,11 @@ srvProduct.discardSpecByIds = function(specIds){
     })
     return p
 }
-
 srvProduct.discardPdSpecs = function(pd, specIds){ // 作废产品指定的规格s
     if (!pd || !pd.specs || !pd.specs.length) return 0
     if (!specIds || !specIds.length) return 0
     let specs = pd.specs; pd.specs = []
-    let pdBasic = tfn.merge({}, pd); delete pdBasic.specs
+    let pdBasic = tfn.merge({}, pd)//; delete pdBasic.specs
     let discard = [] //待废弃的规格数据
     for (let spec of specs) {// 分离要作废的和要保留的规格
         if (!spec) continue
@@ -67,17 +74,23 @@ srvProduct.discardPdSpecs = function(pd, specIds){ // 作废产品指定的规�
         }
     }
     let p = new Promise((resolve, reject) => {
-        // 先把作废的规格保存到discard里
-        let p1 = daoProductDiscard.update({_id: pdBasic._id}, {$set: pdBasic, $push: {specs: {$each: discard}}}, {upsert:true})
-        p1.then((rst) => {
-            let p2 // 再保存或删除产品
-            if (!pd.specs || !pd.specs.length){ // 没有规格了就删除产品
-                p2 = daoProduct.remove({_id: pd._id})
-            }else{
-                p2 = daoProduct.save(pd)
-            }
-            return p2.then(() => {
-                resolve(rst)
+        daoProductDiscard.findOne({_id: pdBasic._id}).then(pdDiscard => {// 查询出现有产品
+            pdDiscard = tfn.merge(pdDiscard||{}, pdBasic)
+            pdDiscard.specs = discard.concat(pdDiscard.specs||[])
+            pdDiscard.specs.sort((a, b) => {
+                return (a.code||'') > (b.code||'')
+            })
+            let p1 = daoProductDiscard.save(pdDiscard)
+            return p1.then((rst) => {// 先把作废的规格保存到discard里，再保存或删除产品
+                let p2
+                if (!pd.specs || !pd.specs.length){ // 没有规格了就删除产品
+                    p2 = daoProduct.remove({_id: pd._id})
+                }else{
+                    p2 = daoProduct.save(pd)
+                }
+                return p2.then(() => {
+                    resolve(rst)
+                })
             })
         }).catch(err => {
             reject(err)
@@ -86,6 +99,7 @@ srvProduct.discardPdSpecs = function(pd, specIds){ // 作废产品指定的规�
     return p
 }
 
+//批量恢复产品规格
 srvProduct.restoreSpecByIds = function(specIds){
     let p = new Promise((resolve, reject) => {
         let p = daoProductDiscard.find({'specs._id': {$in: specIds}})
@@ -101,12 +115,11 @@ srvProduct.restoreSpecByIds = function(specIds){
     })
     return p
 }
-
 srvProduct.restorePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定的规格s
     if (!pdDiscard || !pdDiscard.specs || !pdDiscard.specs.length) return 0
     if (!specIds || !specIds.length) return 0
     let specs = pdDiscard.specs; pdDiscard.specs = []
-    let pdBasic = tfn.merge({}, pdDiscard); delete pdBasic.specs
+    let pdBasic = tfn.merge({}, pdDiscard)//; delete pdBasic.specs
     let restore = [] // 待恢复的规格数据
     for (let spec of specs) {// 分离要恢复的和要保留的规格
         if (!spec) continue
@@ -118,13 +131,14 @@ srvProduct.restorePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定�
     }
     let p = new Promise((resolve, reject) => {
         daoProduct.findOne({_id: pdBasic._id}).then(pd => {// 查询出现有产品，TODO:判断重复性
-            let p1, p2
-            if (!pd) {//不存在才恢复产品基本信息
-                p1 = daoProduct.update({_id: pdBasic._id}, {$set: pdBasic, $push: {specs: {$each: restore}}}, {upsert:true})
-            }else{//只恢复规格数据
-                p1 = daoProduct.update({_id: pdBasic._id}, {$push: {specs: {$each: restore}}})
-            }
+            pd = pd || pdBasic //不存在才恢复产品基本信息i
+            pd.specs = restore.concat(pd.specs||[])
+            pd.specs.sort((a, b) => {
+                return (a.code||'') > (b.code||'')
+            })
+            let p1 = daoProduct.save(pd)
             return p1.then((rst) => {// 先把要恢复的规格保存到product里，再保存或删除
+                let p2
                 if (!pdDiscard.specs || !pdDiscard.specs.length){ // 没有规格了就删除产品
                     p2 = daoProductDiscard.remove({_id: pdDiscard._id})
                 }else{
@@ -144,7 +158,7 @@ srvProduct.restorePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定�
 // srvProduct.removeByIds = function(ids){
 //     return daoProductDiscard.removeByIds(ids)
 // }
-
+//批量删除产品规格
 srvProduct.removeSpecByIds = function(specIds){
     let p = new Promise((resolve, reject) => {
         let p = daoProductDiscard.find({'specs._id': {$in: specIds}})
@@ -160,7 +174,6 @@ srvProduct.removeSpecByIds = function(specIds){
     })
     return p
 }
-
 srvProduct.removePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定的规格s
     if (!pdDiscard || !pdDiscard.specs || !pdDiscard.specs.length) return 0
     if (!specIds || !specIds.length) return 0

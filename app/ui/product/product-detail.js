@@ -47,6 +47,14 @@ class ProductDetailPage extends BasePage {
         //     this.$btnAddContact.addClass('hide')
         // })
     }
+    onShow(stub){
+        super.onShow(stub)
+        if (stub && stub._discard){
+            this.$page.find('.for-discarded-hidden').addClass('hidden')
+        }else{
+            this.$page.find('.for-discarded-hidden').removeClass('hidden')
+        }
+    }
     onHide(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return false
@@ -59,7 +67,7 @@ class ProductDetailPage extends BasePage {
         router.loadMainPanel('productPanel')
     }
     doLoad(param){
-        return srvProduct.loadById(param._id)
+        return srvProduct.loadById(param._id, param._discard)
     }
     render(data){
         this.renderTitle(data)
@@ -104,7 +112,11 @@ class ProductDetailPage extends BasePage {
         return data
     }
     doSave(data){
-        return srvProduct.save(data).then(rst => {
+        if (this._param._discard){
+            tfn.tips('不能修改已归档产品！', 'warning')
+            return false
+        }
+        return srvProduct.save(data, this._param._discard).then(rst => {
             setTimeout(()=>router.$main.trigger('changed.product', [data]))
             return rst
         })

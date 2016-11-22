@@ -78,13 +78,11 @@ class ProductPage extends ListPage{
         this._discard = !this._discard
         this.load().then(() => {
             if (this._discard){
-                // this.$page.find('.btn.toggle-discarded').addClass('active')
                 this.$page.find('.for-discarded-hidden').addClass('hidden')
                 this.$page.find('.for-discarded').removeClass('hidden')
             }else{
                 this.$page.find('.for-discarded').addClass('hidden')
                 this.$page.find('.for-discarded-hidden').removeClass('hidden')
-                // this.$page.find('.btn.toggle-discarded').removeClass('active')
             }
         })
     }
@@ -115,7 +113,7 @@ class ProductPage extends ListPage{
         this.load({key: text})
     }
     toDetail(id){
-        router.loadMainPanel('productDetailPanel', {_id:id})
+        router.loadMainPanel('productDetailPanel', {_id:id, _discard:this._discard})
     }
     onDetail(e, target){
         let id = this.getItemPdId(target)

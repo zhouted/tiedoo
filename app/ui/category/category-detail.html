@@ -1,0 +1,50 @@
+<div class="modal fade" id="categoryDetailModal" tabindex="-1" role="dialog" aria-labelledby="categoryDetailModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="categoryDetailModalLabel">品类编辑</h4>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="container"> -->
+                    <form class="form form-horizontal on-editing">
+                        <input type="hidden" name="_id">
+                        <fieldset class="bg-fieldset?">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">品类编码</label>
+                                <div class="col-xs-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon before-input for-editonly input-addon" title="上级编码" name="pcode"></span>
+                                        <input type="text" class="form-control for-editonly" name="scode" title="本级编码">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">品类名称</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control for-editonly" name="name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">英文名称</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control for-editonly" name="nameEn">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">品类备注</label>
+                                <div class="col-xs-10">
+                                    <textarea class="form-control for-editonly" name="remark"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                <!-- </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn confirm btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

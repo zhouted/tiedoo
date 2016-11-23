@@ -1,0 +1,51 @@
+<div class="ui-page" id="category">
+    <link  href="ui/base/jquery/jquery.treetable.css" rel="stylesheet">
+    <link  href="ui/base/jquery/jquery.treetable.theme.css" rel="stylesheet">
+    <div class="panel-heading topbar">
+        <div class="pull-right" style="max-width:230px; margin-left:10px;">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="品类编码、名称">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn search btn-primary">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+        </div>
+        <div class="pull-right">
+            <a class="btn add-new btn-primary">按钮</a>
+            <!-- <a class="btn delete btn-primary">删除</a> -->
+        </div>
+        <h2 class="panel-title">品类管理</h2>
+    </div>
+    <div class="panel-body">
+        <div class="auto-scroll">
+            <table class="table category-list table-hover" style="table-layout:fixed;">
+                <thead>
+                    <tr>
+                        <th class="rel-fixed" width="20px"></th>
+                        <th class="rel-fixed field-code">品类编码</th>
+                        <th class="rel-fixed field-name">品类名称</th>
+                        <th class="rel-fixed field-name">英文名称</th>
+                        <th class="rel-fixed field-btns"><a class="btn-add-new" href="javascript:;"><span class="glyphicon glyphicon-plus"></span>新增主品类</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script type="text/html" id="tplTr" role="template" data-bind="category">
+                      <tr class="category-item" data-id="${category._id}" data-code="${tfn.fstr(category.code)}" data-pcode="${tfn.fstr(category.pcode)}">
+                        <th></th>
+                        <td class="field-code">${tfn.fstr(category.code)}</td>
+                        <td class="field-name">${tfn.fstr(category.name)}</td>
+                        <td class="field-name">${tfn.fstr(category.nameEn)}</td>
+                        <th class="field-btns"><a class="btn-add-new small" href="javascript:;"><span class="glyphicon glyphicon-plus"></span>新增子品类</a></th>
+                      </tr>
+                    </script>
+                </tbody>
+            </table>
+            <!-- <nav class="pager-container text-center">
+                <ul class="pagination"></ul>
+            </nav> -->
+        </div>
+    </div>
+    <script src="ui/base/jquery/jquery.treetable.js"></script>
+</div>

@@ -14,7 +14,7 @@ class ModalForm extends BaseForm{
         super.prepareEvents()
         // on modal show...
         this.$modal.on('show.bs.modal', (e)=>{
-            let stub = $(e.target).data('_spv')
+            let stub = this.$modal.data('_spv')
             this.onShow(stub)
         })
         this.$modal.on('shown.bs.modal', (e)=>{

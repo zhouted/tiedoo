@@ -39,7 +39,7 @@
 
 	function getValues($form) {
 	    var doc = {}
-		$form.find('input[name], textarea[name]').each(function(){
+		$form.find('input[name], textarea[name], .input-addon[name]').each(function(){
 			let $ipt = $(this)//, val = $ipt.val(), orgval = $ipt.data('_orgval')
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
@@ -76,6 +76,8 @@
 				return $ipt.prop('checked')? $ipt.val() : null
 			} if (type === 'file'){ // input file 的id保存在data里
 				return $ipt.data('fileId')
+			} if ($ipt.is('.input-addon')){
+				return $ipt.text()
 			}
 			return $ipt.val()
 		}
@@ -83,7 +85,7 @@
 	}
 
 	function setValues($form, doc){
-		$form.find('input[name], textarea[name]').each(function(){
+		$form.find('input[name], textarea[name], .input-addon[name]').each(function(){
 			let $ipt = $(this)
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
@@ -108,6 +110,8 @@
 				$ipt.closest('label,.control-label').attr('data-checked', checked)
 			}else if ($ipt.is('[type=file]')){
 				$ipt.data('fileId', val||'') // input file 的id保存到data里
+			}else if ($ipt.is('.input-addon')){
+				$ipt.text(val||'')
 			}else{
 				$ipt.val(val)
 			}
@@ -216,7 +220,7 @@
 		$form.find('.input-group:has(.input-group-addon.'+_options.clsForEditonly+')').each(function(){
 			var $grp = $(this)
 			var $p = getReadonlyP($grp)
-			if ($p.children().length) return
+			// if ($p.children().length) return
 			$grp.find('.'+_options.clsForEditonly).each(function(){
 				var $ipt = $(this)
 				if ($ipt.is('.form-control')){

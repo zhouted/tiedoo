@@ -113,7 +113,7 @@ class ProductPage extends ListPage{
         this.load({key: text})
     }
     toDetail(id){
-        router.loadMainPanel('productDetailPanel', {_id:id, _discard:this._discard})
+        router.loadMainPanel('productDetail', {_id:id, _discard:this._discard})
     }
     onDetail(e, target){
         let id = this.getItemPdId(target)

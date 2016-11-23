@@ -41,7 +41,7 @@ class CustomerDetailPage extends BasePage {
         return true
     }
     onBack(e, btn){
-        router.loadMainPanel('customerPanel')
+        router.loadMainPanel('customer')
     }
     doLoad(param){
         return srvCust.loadById(param._id)

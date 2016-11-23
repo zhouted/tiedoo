@@ -6,7 +6,17 @@ var router = {
     },
     get $main(){
         return $('#main')
-    }
+    },
+    panels:[
+        {key: 'category', name: '品类管理', src: 'ui/category/category.html'},
+        {key: 'product', name: '产品管理', src: 'ui/product/product.html'},
+        {key: 'productDetail', name: '产品详情', src: 'ui/product/product-detail.html'},
+        {key: 'quota', name: '业务报价', src: 'ui/quota/quota.html'},
+        {key: 'customer', name: '客户管理', src: 'ui/contact/customer.html'},
+        {key: 'customerDetail', name: '客户详情', src: 'ui/contact/customer-detail.html'},
+        {key: 'supplier', name: '供应商', src: 'ui/contact/supplier.html'},
+        {key: 'setting', name: '设置', src: 'ui/setting/setting.html'},
+    ],
 }
 
 router.gohome = function(){
@@ -38,16 +48,18 @@ router.logout = function(){
 
 router.loadMain = function () {
     router.$body.loadFile('ui/main/main.html').then(()=>{
-        let {panelId, data} = tfn.store('mainPanel')||{panelId:'settingPanel'}
-        router.loadMainPanel(panelId, data)
+        router.$main.spv('tabs', router.panels)
+        let {key, data} = tfn.store('mainPanel')||{key:'setting'}
+        router.loadMainPanel(key, data)
     }).catch(err => {
         console.error(err)
     })
 }
 
-router.loadMainPanel = function(panelId, data) {
-    router.$main.spv('open', panelId, data)
-    tfn.store('mainPanel', {panelId, data})
+router.loadMainPanel = function(key, data) {
+    let opts = {key, data}
+    router.$main.spv('open', opts)
+    tfn.store('mainPanel', opts)
 }
 
 // 图片剪裁弹窗(传入file input)

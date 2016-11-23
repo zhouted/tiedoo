@@ -64,7 +64,7 @@ class ProductDetailPage extends BasePage {
         return true
     }
     onBack(e, btn){
-        router.loadMainPanel('productPanel')
+        router.loadMainPanel('product')
     }
     doLoad(param){
         return srvProduct.loadById(param._id, param._discard)

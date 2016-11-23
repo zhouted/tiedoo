@@ -10,29 +10,51 @@
  * @usage:
  * $(".tab-content").spv("open", 'panelId');//打开（加载并显示）视图（tabpanel）
  *****************************************************************************/
-$.fn.spv = function(act, id, data) {
+$.fn.spv = function(act, opts) {
     let $content = this.first() // 只支持一个
-    if (!$content.is('.tab-content')){
-        $content = $content.children('.tab-content').first() // 仅直接下级
-    }
-    if (!$content.length) return this // 不是tab-content
 
     switch (act) {
+        case 'tabs':
+            initTabs($content, opts)
+            break
         case 'open':
         default:
-            id && openPanel($content, id, data)
+            openPanel($content, opts)
     }
 
     return this
 }
 
-function openPanel($content, panelId, data){
-    let $panel = $content.children('#'+panelId)
-    let $tab =  $('a[href="#'+panelId+'"]');
-    $tab.data('_spv', data)
+function initTabs($tabs, tabs){
+    if (!$tabs.is('.nav-tabs')){
+        $tabs = $tabs.children('.nav-tabs').first() // 仅直接下级
+    }
+    if (!$tabs.length){
+        return console.warn('A nav-tabs is required to init spv tabs!')
+    }
+    // tabs && tabs.length
+    for (let tab of tabs){
+        $tabs.append(`<li role="presentation"><a href="#${tab.key}Panel" src="${tab.src}" role="tab" data-toggle="tab">${tab.name}</a></li>`)
+    }
+}
+
+function openPanel($content, opts){
+    if (!$content.is('.tab-content')){
+        $content = $content.children('.tab-content').first() // 仅直接下级
+    }
+    if (!$content.length){
+        return console.warn('A tab-content is required to open spv!')
+    }
+    if (!opts || !opts.key){
+        return console.warn('The panel.key is required to open spv!')
+    }
+    let id = opts.key + 'Panel'
+    let $panel = $content.children('#'+id)
+    let $tab =  $('a[href="#'+id+'"]');
+    $tab.data('_spv', opts.data)
     if (!$panel.length){
         let src = $tab.attr('src')
-        $panel = $('<div role="tabpanel" class="tab-pane panel panel-default"></div>').attr('id', panelId)
+        $panel = $('<div role="tabpanel" class="tab-pane panel panel-default"></div>').attr('id', id)
         $panel.loadFile(src).then(() => {
             $content.append($panel)
             $tab.tab('show')

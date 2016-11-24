@@ -103,7 +103,7 @@ class Dao{
     }
     save(doc, opts = {upsert: true}){
         if (!doc) {
-            return Promise.reject(new Error('no data!'))
+            return Promise.reject(new Error('upsert: no data!'))
         }
         if (this._name == 'token' && doc.uid){//save token's uid
             setUserId(doc.uid)
@@ -114,6 +114,20 @@ class Dao{
             delete doc._id; // 避免空字符串
             return this.ds.insertAsync(doc)
         }
+    }
+    upsert(docs){
+        if (!Array.isArray(docs)){
+            return this.save(doc)
+        }
+        let p = new Promise((resolve, reject) => {
+            let pAll = docs.map(doc => this.save(doc))
+            return Promise.all(pAll).then(rst => {
+                resolve(rst)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+        return p
     }
     remove(){
         return this.ds.removeAsync(...arguments).then(rst => {

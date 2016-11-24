@@ -13,6 +13,7 @@ class ListPage extends BasePage{
         return this._$sortables || (this._$sortables = this.$page.find('thead>tr>th.sortable'))
     }
     prepareEvents(){
+        this._forceLoad = false
         super.prepareEvents()
         // on search
         this.$searchIpt.keyup(e => {
@@ -78,10 +79,15 @@ class ListPage extends BasePage{
         }
         return ids
     }
-    getItemId(item){
+    $itemOf(item){
         let $item = (item instanceof jQuery)? item : $(item)
-        $item = $item.closest('tr')
-        return $item.data('id')
+        return $item.closest('tr')
+    }
+    getItemData(item){
+        return this.$itemOf(item).data()
+    }
+    getItemId(item){
+        return this.$itemOf(item).data('id')
     }
     checkOne(checked, $check, $tr){
         console.log('checkOne')

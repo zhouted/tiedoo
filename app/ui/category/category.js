@@ -15,12 +15,28 @@ class CategoryPage extends ListPage {
     }
     prepareEvents(){
         super.prepareEvents()
-        this.$page.on('changed.category', (e, data) => {
-            this.reload()
+        this.$page.on('changed.category', (e, cate) => {
+            this.reload().then(() => {
+                cate && this.$table.treetable('reveal', cate.code)
+            })
         })
     }
     doLoad(param){
         return srvCategory.load(param)
+    }
+    doSearch(text){
+        return this.load({match: text})
+        if (!text){
+            return this.load({key: ''})
+        }
+        let $items = this.$table.find('.category-item')
+        for (let item of $items){
+            let $item = $(item)
+            let code = $item.data('code')
+            if (code && code.match(text)){
+                this.$table.treetable('reveal', code)
+            }
+        }
     }
     render(data){
         this.$tplTr.siblings().remove()
@@ -40,13 +56,8 @@ class CategoryPage extends ListPage {
         this.toDetail(id)
     }
     onAddNew(e, btn){
-        let $item = $(btn).closest('.category-item')
-        if (!$item || !$item.length){
-            this.toDetail('')
-        }else{
-            let pcode = $item.find('.field-code').text()
-            this.toDetail('', pcode)
-        }
+        let cate = this.getItemData(btn)
+        this.toDetail('', cate&&cate.code||'')
     }
     toDetail(id, pcode){
         let opts = {id: 'categoryDetailModal', append: true}
@@ -54,6 +65,16 @@ class CategoryPage extends ListPage {
             let $modal = $('#'+opts.id)
             $modal.data('_spv', {_id: id, pcode}).modal('show')
         })
+    }
+    onDelete(e, btn){
+        let cate = this.getItemData(btn)
+        if (!cate) return
+        if (!window.confirm(`确认删除品类"${cate.code||''}-${cate.name||''}"吗？`)){
+            return
+        }
+        srvCategory.removeById(cate.id).then(
+            this.reload()
+        )
     }
 }
 

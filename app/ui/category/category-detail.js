@@ -25,6 +25,9 @@ class CategoryDetailForm extends ModalForm {
     //         })
     //     })
     // }
+    onShown(){
+        this.toEdit()
+    }
     doLoad(param){
         return srvCategory.loadById(param._id).then(cate => {
             cate = cate || {pcode: param.pcode}
@@ -50,6 +53,9 @@ class CategoryDetailForm extends ModalForm {
             this.$parentPage.trigger('changed.category', [cate])
             this.$modal.modal('hide')
             return rst
+        }).catch(err => {
+            tfn.tips(err.message, 'danger')
+            return Promise.reject(err)
         })
     }
     // onConfirm(){

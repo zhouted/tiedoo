@@ -14,8 +14,10 @@
                                 <label class="control-label col-xs-2">品类编码</label>
                                 <div class="col-xs-10">
                                     <div class="input-group">
+                                        <input type="hidden" name="code">
                                         <span class="input-group-addon before-input for-editonly input-addon" title="上级编码" name="pcode"></span>
-                                        <input type="text" class="form-control for-editonly" name="scode" title="本级编码">
+                                        <input type="text" class="form-control english auto-upcase for-editonly" name="scode" required
+                                            data-content="编码不能为空" data-placement="top">
                                     </div>
                                 </div>
                             </div>

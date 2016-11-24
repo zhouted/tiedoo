@@ -220,7 +220,7 @@
 		$form.find('.input-group:has(.input-group-addon.'+_options.clsForEditonly+')').each(function(){
 			var $grp = $(this)
 			var $p = getReadonlyP($grp)
-			// if ($p.children().length) return
+			$p.children().remove()
 			$grp.find('.'+_options.clsForEditonly).each(function(){
 				var $ipt = $(this)
 				if ($ipt.is('.form-control')){

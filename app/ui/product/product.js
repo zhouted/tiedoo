@@ -43,8 +43,15 @@ class ProductPage extends ListPage{
     // }
     prepareEvents(){
         super.prepareEvents()
-        this.$ctree.cTree('init').on('ctree:load', (e, ctree, cnode) => {
+        let treeOpt = {
+            root: {children: null},
+            showIcon: false,
+        }
+        this.$ctree.cTree('init', treeOpt).on('ctree:load', (e, ctree, cnode) => {
             this.loadTree(ctree, cnode)
+        })
+        router.$main.on('changed.category', (e, data) => {
+            this.$ctree.cTree('refresh', treeOpt)
         })
         router.$main.on('changed.product', (e, data) => {
             this.reload()

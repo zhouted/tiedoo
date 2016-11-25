@@ -50,8 +50,8 @@ class CategoryDetailForm extends ModalForm {
         }
         let cate = this.getFormData()
         return srvCategory.save(cate).then((rst) => {
-            this.$parentPage.trigger('changed.category', [cate])
             this.$modal.modal('hide')
+            this.$parentPage.trigger('changed.category', [cate])
             return rst
         }).catch(err => {
             tfn.tips(err.message, 'danger')

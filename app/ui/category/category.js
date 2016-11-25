@@ -19,6 +19,7 @@ class CategoryPage extends ListPage {
             this.reload().then(() => {
                 cate && this.$table.treetable('reveal', cate.code)
             })
+            router.$main.trigger('changed.category', [cate])
         })
     }
     doLoad(param){
@@ -70,11 +71,12 @@ class CategoryPage extends ListPage {
         if (!window.confirm(`确认删除品类"${cate.code||''}-${cate.name||''}"吗？`)){
             return
         }
-        srvCategory.removeById(cate.id).then(
+        srvCategory.removeById(cate.id).then(() => {
             this.reload().then(() => {
                 this.$table.treetable('reveal', cate.pcode)
             })
-        )
+            router.$main.trigger('changed.category', [cate])
+        })
     }
 }
 

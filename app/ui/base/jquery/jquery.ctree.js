@@ -41,6 +41,7 @@
     //default options
     var _option = $.cTree.defaults = {
         id: null,
+        root: {id: ''},
         keys: {
             id: 'id', name: 'name', title: 'title'
         },
@@ -68,6 +69,7 @@
         keepFocus: true,
         checkType: 'checkbox',//or 'radio'
         checkboxRelation:{'true':'c', 'false':'c'},//{'true':'pc', 'false':'pc'}
+        hideCheck: true,
     }
 
     //***************** 对外接口方法  ******************//
@@ -103,7 +105,7 @@
     }
     function init(option){//初始化
         var $tree = this
-        var tree = $.extend(true, {root:{}}, _option, option)
+        var tree = $.extend(true, {}, _option, option)
         bind(tree, $tree)
         return refresh.call($tree)
     }
@@ -124,7 +126,7 @@
         $tree.on('click', _nodeDls+'>a', onClick)
         $tree.on('click', _toggleDls+','+_iconDls, onToggle)
         var $check = $tpl.find(_checkDls)
-        tree.hideCheck && $check.hide()
+        tree.hideCheck && ($check.hide(), $head.find(_checkDls).hide())
         $tpl.find(_checkIptDls).prop('type', tree.checkType)
         $tree.on('change', _checkIptDls, onCheck)
         //$check.click(function(e){e.stopPropagation();})
@@ -149,21 +151,16 @@
             log('cTree has not been initialized!')
             return this
         }
-        if (option){
-            //tree.nodes = {}
-            if (option.root){//彻清掉root，避免多出节点。
-                tree.root = {}
-            }
-            $.extend(true, tree, option, {id: tree.id});//不能改id
-        }
+        option && $.extend(true, tree, option, {id: tree.id});//不能改id
+
         var $head = $tree.find('.ctree-head')
         var $trunk = !$head.length? $tree : $head.find(_branchDls)//有header时主干放到head下
         if (!$trunk.length){
             $trunk = getBranch(tree, $head, true)
         }
         $trunk.children().remove()
-        var root = tree.root = tree.root||{}
-        root.id = '', root.toggleState = 'expand'
+        var root = tree.root
+        root.toggleState = 'expand'
         $head.attr('id', tree.id+'_'+encodeId(root.id)).data(_nodeKey, root)
         if (root.children){
             buildTree(tree, root.children, $trunk)

@@ -17,7 +17,7 @@
     height:inherit;
 }
 
-#main .panel-body>.auto-scroll{
+#main .panel-body .auto-scroll{
     width: 100%;
     max-height: 250px;
     overflow: auto;
@@ -25,6 +25,6 @@
 
 #main .rel-fixed{
     position: relative;
-    background-color: #fff;
+    /*background-color: #fff;*/
     z-index: 100;
 }

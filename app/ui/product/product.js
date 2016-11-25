@@ -1,7 +1,12 @@
 const ListPage = require(appPath+'/ui/base/list-page.js')
 const srvProduct = require(appPath+'/service/product.js')
+const srvCategory = require(appPath+'/service/category.js')
+require(appPath+'/ui/base/jquery/jquery.ctree.js')
 
 class ProductPage extends ListPage{
+    get $ctree(){
+        return this._$ctree || (this._$ctree = this.$page.find('.ctree'))
+    }
     get $table(){
         return this._$table || (this._$table = this.$page.find('.table.product-list'))
     }
@@ -11,15 +16,6 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
-    // get selectedPdIds(){
-    //     let ids = []
-    //     let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
-    //     for (let check of $checks){
-    //         let id = this.getItemId(check)
-    //         id && ids.push(id)
-    //     }
-    //     return ids
-    // }
     get selectedSpecIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-spec>.field-check>input[type=checkbox]:checked')
@@ -30,21 +26,6 @@ class ProductPage extends ListPage{
         return ids
 
     }
-    // get selectedPds(){
-    //     let pds = []
-    //     let $pdChecks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
-    //     for (let pdCheck of $pdChecks){
-    //         let pdId = this.getItemId(pdCheck)
-    //         if (!pdId) continue
-    //         let pd = {_id: pdId, specs: []}
-    //         let $specChecks = $(pdCheck).closest('tbody').find('.product-item-spec>.field-check>input[type=checkbox]:checked')
-    //         for (let specCheck of $specChecks){
-    //             let specId = this.getItemId(specCheck)
-    //             specId && pd.specs.push({_id: specId})
-    //         }
-    //         pds.push(pd)
-    //     }
-    // }
     getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
         $item = $item.closest('.product-item')
@@ -58,14 +39,20 @@ class ProductPage extends ListPage{
             onDetail: '.product-item>tr>td',
         })
     }
-    showBtns(){
-        if (this._discard){
-        }
-    }
+    // showBtns(){
+    // }
     prepareEvents(){
         super.prepareEvents()
+        this.$ctree.cTree('init').on('ctree:load', (e, ctree, cnode) => {
+            this.loadTree(ctree, cnode)
+        })
         router.$main.on('changed.product', (e, data) => {
             this.reload()
+        })
+    }
+    loadTree(ctree, cnode){
+        srvCategory.loadTree().then(nodes => {
+            ctree.load(nodes, cnode)
         })
     }
     get defaultParam(){

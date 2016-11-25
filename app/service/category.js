@@ -18,6 +18,60 @@ srvCate.loadById = function(id, project){
     return daoCate.findById(id, project)
 }
 
+srvCate.loadTree = function(pcode = '', opts = {}){
+    let cond = {}
+    if (pcode){
+        cond.code = new RegExp('^'+pcode, 'i')
+    }
+    let p = new Promise((resolve, reject) => {
+        daoCate.find(cond, {}, {code:1}).then(cates => {
+            let nodes = catesToTreeNodes(cates, opts)
+            resolve(nodes)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+    return p
+}
+function catesToTreeNodes(cates, opts){
+    let parents = {}, nodes = []
+    for (let cate of cates){
+        let pNode = cate.pcode && parents[cate.pcode]
+        if (pNode){
+            if (!pNode.children){
+                pNode.children = [];
+                pNode.isParent = true;
+                pNode.chkDisabled = opts.disableParentCheck
+                pNode.toggleState = opts.toggleState
+            }
+            if (pNode.children.indexOf(cate)<0){
+                pNode.children.push(cate)
+            }
+        }else{
+            nodes.push(cate)
+        }
+        cate.id = cate.code
+        cate.title = cate.name
+        if (cate.nameEn) {
+            cate.title += '('+cate.nameEn+')'
+        }
+        cate.name = cate.code+' '+cate.name
+        parents[cate.code] = cate
+        checkNodeExpand(cate)
+    }
+    return nodes
+    function checkNodeExpand(node){
+        node.checked = (node.code == opts.checkCode)
+        if (node.checked){
+            while (node && node.pcode){
+                node = parents[node.pcode]
+                node.toggleState = 'expand'
+            }
+        }
+    }
+}
+
+
 function checkCode(cate, oCode){
     let p = new Promise((resolve, reject) => {
         let err = null

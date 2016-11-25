@@ -33,7 +33,7 @@ class BasePage extends BasePane{
             let $fixed = this.$scroll.find('.rel-fixed')
             if (!$fixed.length) return
             this.$scroll.scroll(function(e){
-                $fixed.css('top', this.scrollTop);
+                $(this).find('.rel-fixed').css('top', this.scrollTop);
             });
         }
     }

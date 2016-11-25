@@ -5,19 +5,13 @@ let srvCate = {}
 
 srvCate.load = function(param, project){
     let cond = {}
-    if (param.match){
-        // let match = new RegExp('^'+param.match)
-        cond.$where = function(){
-            return !!param.match.match(new RegExp('^'+this.code+'.*'))
-        }
-    }
     if (param.key){
-        key = new RegExp(param.key)
-        cond.$or = [{code: key}, {'name': key}]
+        key = new RegExp('^'+param.key, 'i')
+        cond.$or = [{code: key}]
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
-    let paging = param.paging = param.paging||{pageSize:100000}
-    return daoCate.find(cond, project, sortBy, paging)
+    // let paging = param.paging = param.paging||{pageSize:10}
+    return daoCate.find(cond, project, sortBy)
 }
 
 srvCate.loadById = function(id, project){

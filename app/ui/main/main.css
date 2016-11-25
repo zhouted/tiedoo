@@ -26,4 +26,5 @@
 #main .rel-fixed{
     position: relative;
     background-color: #fff;
+    z-index: 100;
 }

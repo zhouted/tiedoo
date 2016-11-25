@@ -1,6 +1,7 @@
+#category .table>thead>tr>th.field-toggler{width: 25px;}
+#category .table>thead>tr>th.field-code{width: 150px;}
+#category .table>thead>tr>th.field-name{width: 300px;}
 #category .table>thead>tr>th.field-auto{width: auto;}
-#category .table>thead>tr>th.field-code{width: 100px;}
-#category .table>thead>tr>th.field-name{width: 200px;}
 #category .table>thead>tr>th.field-btns{width: auto; text-align: right;}
 
 #category .table>tbody>tr>td{cursor: pointer;}

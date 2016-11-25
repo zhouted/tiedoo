@@ -25,18 +25,15 @@ class CategoryPage extends ListPage {
         return srvCategory.load(param)
     }
     doSearch(text){
-        return this.load({match: text})
-        if (!text){
-            return this.load({key: ''})
-        }
-        let $items = this.$table.find('.category-item')
-        for (let item of $items){
-            let $item = $(item)
-            let code = $item.data('code')
-            if (code && code.match(text)){
-                this.$table.treetable('reveal', code)
-            }
-        }
+        return this.load({key: text})
+        // let $items = this.$table.find('.category-item')
+        // for (let item of $items){
+        //     let $item = $(item)
+        //     let code = $item.data('code')
+        //     if (code && code.match(text)){
+        //         this.$table.treetable('reveal', code)
+        //     }
+        // }
     }
     render(data){
         this.$tplTr.siblings().remove()
@@ -48,6 +45,7 @@ class CategoryPage extends ListPage {
             parentIdAttr: 'pcode',
             expandable: true,
             clickableNodeNames: true,
+            expanderTemplate: '<a href="#"><span class="glyphicon"></span></a>'
         }, true)
     }
     onDetail(e, target){
@@ -73,7 +71,9 @@ class CategoryPage extends ListPage {
             return
         }
         srvCategory.removeById(cate.id).then(
-            this.reload()
+            this.reload().then(() => {
+                this.$table.treetable('reveal', cate.pcode)
+            })
         )
     }
 }

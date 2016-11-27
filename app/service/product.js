@@ -6,9 +6,12 @@ let srvProduct = {}
 
 srvProduct.load = function(param, project){
     let cond = {}
-    if (param.key){
+    if (param.key){// search key
         key = new RegExp(param.key)
         cond.$or = [{code: key}, {name: key}, {'specs.0.name': key}]
+    }
+    if (param.category && param.category.code){// category code
+        cond['category.code'] = new RegExp('^'+param.category.code)
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
     let paging = param.paging = param.paging||{pageSize:10}

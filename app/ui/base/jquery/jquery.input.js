@@ -43,6 +43,9 @@
 			let $ipt = $(this)//, val = $ipt.val(), orgval = $ipt.data('_orgval')
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
+			if (name.search('\\.')>0){
+				[ns, name] = name.split('.')
+			}
 			if (ns) {
 				doc[ns] = doc[ns]||{}
 				getValue($ipt, doc[ns], name)
@@ -89,9 +92,14 @@
 			let $ipt = $(this)
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
+			if (name.search('\\.')>0){
+				[ns, name] = name.split('.')
+			}
 			if (ns) {
 				if (doc[ns]) {
 					setValue($ipt, doc[ns][name])
+				}else{
+					setValue($ipt, '')
 				}
 			} else {
 				setValue($ipt, doc[name])

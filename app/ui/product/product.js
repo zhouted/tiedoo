@@ -43,12 +43,18 @@ class ProductPage extends ListPage{
     // }
     prepareEvents(){
         super.prepareEvents()
+        this.$page.find('.btn-category').click((e) => {
+            router.loadMainPanel('category')
+            e.stopPropagation()
+        })
         let treeOpt = {
             root: {children: null},
             showIcon: false,
         }
         this.$ctree.cTree('init', treeOpt).on('ctree:load', (e, ctree, cnode) => {
             this.loadTree(ctree, cnode)
+        }).on('ctree:click', (e, ctree, cnode) => {
+            cnode && this.load({category:{code:cnode.code}})
         })
         router.$main.on('changed.category', (e, data) => {
             this.$ctree.cTree('refresh', treeOpt)
@@ -56,6 +62,7 @@ class ProductPage extends ListPage{
         router.$main.on('changed.product', (e, data) => {
             this.reload()
         })
+
     }
     loadTree(ctree, cnode){
         srvCategory.loadTree().then(nodes => {
@@ -63,10 +70,12 @@ class ProductPage extends ListPage{
         })
     }
     get defaultParam(){
-        return tfn.merge(super.defaultParam, {
-            paging: {pageSize:10},
+        let param = {
+            orderBy: {code:1},
+            paging: {pageSize: 10},
             discard: this._discard||false,
-        })
+        }
+        return param
     }
     onToggleDiscarded(){
         this._discard = !this._discard

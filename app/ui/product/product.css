@@ -1,4 +1,4 @@
-#product .product-list thead>tr>th{text-align: left;}
+#product .product-list thead>tr>th{background-color: #eee; text-align: left;}
 #product .product-list thead>tr>th.field-auto{width: auto;}
 #product .product-list thead>tr>th.field-check{width: 20px; text-align: center;}
 #product .product-list thead>tr>th.field-img{width: 50px; text-align: center;}
@@ -6,11 +6,14 @@
 #product .product-list thead>tr>th.field-name{width: 200px;}
 #product .product-list thead>tr>th.field-unit{width: 100px;}
 #product .product-list thead>tr>th.field-num{width: 100px; text-align: right;}
-
 #product .product-item tr>td{cursor: pointer;}
 #product .product-item tr>th.field-check{text-align: center;}
 #product .product-item tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
 #product .product-item tr>td.field-num{text-align: right;}
+
+/*#product .product-item tr.product-item-basic {background-color: #eff4fa;}*/
+#product .ctree .ctree-head>a{background-color: #fff; }
+#product .ctree .ctree-head.open>a{background-color: #eee; }
 
 #product .product-item-basic .field-img>img{max-width: 32px; max-height: 32px; }
 #product .product-item-spec  .field-img>img{max-width: 26px; max-height: 26px; }

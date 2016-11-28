@@ -36,6 +36,7 @@ class ProductPage extends ListPage{
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
             onToggleDiscarded: '.btn.toggle-discarded',
+            onToggleLeft: '.btn.toggle-category',
             onDetail: '.product-item>tr>td',
         })
     }
@@ -114,12 +115,13 @@ class ProductPage extends ListPage{
         if (!id) return
         this.toDetail(id)
     }
-    onAddNew(){
+    onAddNew(e, btn){
         this.toDetail()
     }
-    onToggleDiscarded(){
+    onToggleDiscarded(e, btn){
         this._discard = !this._discard
-        this.load().then(() => {
+        let category = this._param.category
+        this.load({category}).then(() => {
             if (this._discard){
                 this.$page.find('.for-discarded-hidden').addClass('hidden')
                 this.$page.find('.for-discarded').removeClass('hidden')
@@ -129,7 +131,39 @@ class ProductPage extends ListPage{
             }
         })
     }
-    onDiscard(){
+    onToggleLeft(e, btn){
+        this.toggleLeft()
+    }
+    toggleLeft(show){
+		var $toggle = this.$page.find('.toggle-category');
+		var $left = this.$ctree.closest('aside');
+		var $right = $left.nextAll();
+		if (show === undefined){
+		   show = !$left.is(':visible');
+		}
+		var $icon = $toggle.find('.glyphicon');
+		// var showClass = 'glyphicon-backward';
+		// var hideClass = 'glyphicon-forward';
+		var rowClasses = 'col-xs-10';
+		if (!show){//隐藏左侧树
+			$icon.addClass('ts-x')//.removeClass(showClass).addClass(hideClass);
+			$toggle.data('toggling', true);
+			$left.hide('slow', function(){
+				$right.removeClass(rowClasses);
+				// !page.editMode && $right.find('.hide-more').show();
+				$toggle.data('toggling', false);;
+			});
+		}else{//显示左侧树
+			$icon.removeClass('ts-x')//.removeClass(hideClass).addClass(showClass);
+			$toggle.data('toggling', true);
+			$right.addClass(rowClasses);
+			// !page.editMode && $right.find('.hide-more').hide();
+			$left.show('slow', function(){
+				$toggle.data('toggling', false);
+			});
+		}
+	}
+    onDiscard(e, btn){
         let ids = this.selectedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要归档的记录！', 'warning')
@@ -144,7 +178,7 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
-    onRestore(){
+    onRestore(e, btn){
         let ids = this.selectedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要还原的记录！', 'warning')
@@ -159,7 +193,7 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
-    onDelete(){
+    onDelete(e, btn){
         let ids = this.selectedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要删除的记录！', 'warning')

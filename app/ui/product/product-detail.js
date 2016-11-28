@@ -104,6 +104,17 @@ class ProductDetailPage extends BasePage {
         this.paneSpecsPrice.render(specs)
         this.paneSpecsPack.render(specs)
     }
+    checkPageData(){
+        let valid = this.paneBasic.checkPageData()
+        if (valid && this._$modal){
+            let specPane = this._$modal.data('page')
+            valid = specPane.checkPageData()
+            if (!valid){
+                this._$modal.modal('show')
+            }
+        }
+        return valid
+    }
     getPageData(){
         let data = this.paneBasic.getFormData()
         data = tfn.merge({}, this._data, data)
@@ -112,6 +123,10 @@ class ProductDetailPage extends BasePage {
         return data
     }
     doSave(data){
+        if (!data || !data.specs || !data.specs.length){
+            tfn.tips('请先增加规格！', 'warning')
+            return this.openSpec('')
+        }
         if (this._param._discard){
             tfn.tips('不能修改已归档产品！', 'warning')
             return false
@@ -119,6 +134,9 @@ class ProductDetailPage extends BasePage {
         return srvProduct.save(data, this._param._discard).then(rst => {
             setTimeout(()=>router.$main.trigger('changed.product', [data]))
             return rst
+        }).catch(err => {
+            tfn.tips(err.message, 'danger')
+            return Promise.reject(err)
         })
     }
     onAddSpec(){
@@ -128,7 +146,7 @@ class ProductDetailPage extends BasePage {
     openSpec(specId){
         let opts = {id: 'productSpecDetailModal', append: true}
         this.$page.loadFile('ui/product/product-spec-detail.html', opts).then(() => {
-            let $modal = $('#'+opts.id)
+            let $modal = this._$modal = this.$page.find('#'+opts.id)
             $modal.modal('show')
             let spec = this.getSpecById(specId)
             let pane = $modal.data('page')

@@ -24,14 +24,35 @@ srvProduct.loadById = function(id, discard, project){
     return dao.findById(id, project)
 }
 
-srvProduct.save = function(doc, discard){
-    if (doc && doc.specs && doc.specs.length){
-        doc.specs.sort((a, b) => {
+srvProduct.save = function(pd, discard){
+    if (pd && pd.specs && pd.specs.length){
+        pd.specs.sort((a, b) => {
             return (a.code||'') > (b.code||'')
         })
     }
     let dao = !discard? daoProduct : daoProductDiscard
-    return dao.save(doc)
+    let p = new Promise((resolve, reject) => {
+        checkCode(pd).then(() => {
+            return dao.save(pd).then((rst) => {
+                resolve(rst)
+            })
+        }).catch(err => reject(err))
+    })
+    return p
+    function checkCode(pd, oCode){
+        let p = new Promise((resolve, reject) => {
+            let cond = {$not: {_id: pd._id}, code: pd.code}
+            let p1 = daoProduct.count(cond)
+            let p2 = daoProductDiscard.count(cond)
+            Promise.all([p1,p2]).then(cnts => {
+                if (cnts[0] || cnts[1]){
+                    return reject(new Error('产品编码已存在！'))
+                }
+                resolve(0)
+            })
+        })
+        return p
+    }
 }
 
 srvProduct.saveImg = function(file){

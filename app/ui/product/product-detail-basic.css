@@ -3,3 +3,7 @@
 #productDetailBasic .right-side .thumbnail{margin: 0 10px 20px 10px; border:none;}
 #productDetailBasic .right-side .thumbnail .image-preview{max-height: 300px;}
 #productDetailBasic .right-side .thumbnail .caption{padding: 10px 0; border:none;}
+#productDetailBasic .category-toggle{cursor: pointer;}
+#productDetailBasic .category .selector{position:relative; z-index:1010; display:none;}
+#productDetailBasic .category .ctree{position:absolute; width:380px; max-height:460px; border:1px solid #999; background:#fff; overflow:auto;}
+#productDetailBasic .category .input-group-addon.for-editonly{background: transparent;}

@@ -51,18 +51,19 @@ function catesToTreeNodes(cates, opts){
             nodes.push(cate)
         }
         cate.id = cate.code
-        cate.title = cate.name
+        cate.text = cate.code+' '+cate.name
+        cate.title = cate.text
         if (cate.nameEn) {
             cate.title += '('+cate.nameEn+')'
         }
-        cate.name = cate.code+' '+cate.name
         parents[cate.code] = cate
-        checkNodeExpand(cate)
+        opts.checkCode && checkNodeExpand(cate, opts.checkCode)
     }
     return nodes
-    function checkNodeExpand(node){
-        node.checked = (node.code == opts.checkCode)
+    function checkNodeExpand(node, checkCode){
+        node.checked = (node.code == checkCode)
         if (node.checked){
+            opts.checkName = node.name
             while (node && node.pcode){
                 node = parents[node.pcode]
                 node.toggleState = 'expand'

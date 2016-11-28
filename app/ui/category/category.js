@@ -19,7 +19,6 @@ class CategoryPage extends ListPage {
             this.reload().then(() => {
                 cate && this.$table.treetable('reveal', cate.code)
             })
-            router.$main.trigger('changed.category', [cate])
         })
     }
     doLoad(param){

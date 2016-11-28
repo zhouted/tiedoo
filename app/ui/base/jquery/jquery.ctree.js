@@ -22,7 +22,7 @@
             },
             classes: {
                 root: 'ctree-root', node: 'ctree-node', branch:'ctree-branch',
-                name: 'ctree-name', icon: 'ctree-icon', check: 'ctree-check',
+                text: 'ctree-text', icon: 'ctree-icon', check: 'ctree-check',
                 toggle: 'ctree-toggle',
             },
         },    //consts short label:
@@ -34,16 +34,18 @@
         _rootCls   = _consts.classes.root,   _rootDls   = '.' + _rootCls,
         _nodeCls   = _consts.classes.node,   _nodeDls   = '.' + _nodeCls,
         _branchCls = _consts.classes.branch, _branchDls = '.' + _branchCls,
-        _nameCls   = _consts.classes.name,   _nameDls   = '.' + _nameCls,
+        _textCls   = _consts.classes.text,   _textDls   = '.' + _textCls,
         _iconCls   = _consts.classes.icon,   _iconDls   = '.' + _iconCls,
         _checkCls  = _consts.classes.check,  _checkDls  = '.' + _checkCls,  _checkIptDls = _checkDls+'>input',
         _toggleCls = _consts.classes.toggle, _toggleDls = '.' + _toggleCls
     //default options
     var _option = $.cTree.defaults = {
         id: null,
-        root: {id: ''},
+        root: {
+            id: '', toggleState: 'expand', children: null
+        },
         keys: {
-            id: 'id', name: 'name', title: 'title'
+            id: 'id', text: 'text', title: 'title'
         },
         templates:{
             branch: '<ul class="nav"></ul>',//分支模板
@@ -52,7 +54,7 @@
                 +'  <span class="ctree-check pull-right"><input type="checkbox"></span>'
                 +'  <span class="ctree-toggle"/>'
                 +'  <span class="ctree-icon"/>'
-                +'  <span class="ctree-name"/>'
+                +'  <span class="ctree-text"/>'
                 +'</a></li>',
         },
         classes: {//样式
@@ -65,7 +67,7 @@
             focus:      'open',
         },
         bgcolors: null,//['#fff', '#f9f9f9', '#f4f4f4', '#e9e9e9', '#e2dfdf']
-        showIcon: true,
+        showIcon: false,
         keepFocus: true,
         checkType: 'checkbox',//or 'radio'
         checkboxRelation:{'true':'c', 'false':'c'},//{'true':'pc', 'false':'pc'}
@@ -107,7 +109,7 @@
         var $tree = this
         var tree = $.extend(true, {}, _option, option)
         bind(tree, $tree)
-        return refresh.call($tree)
+        return refresh.call($tree, option)
     }
     function bind(tree, $tree){//初始化-绑定
         var id = tree.id = tree.id||$tree.attr('id')
@@ -151,16 +153,16 @@
             log('cTree has not been initialized!')
             return this
         }
+        tree.root = $.extend({}, _option.root)//清空跟节点
         option && $.extend(true, tree, option, {id: tree.id});//不能改id
 
         var $head = $tree.find('.ctree-head')
-        var $trunk = !$head.length? $tree : $head.find(_branchDls)//有header时主干放到head下
+        var $trunk = !$head.length? $tree : $head.children(_branchDls)//有header时主干放到head下
         if (!$trunk.length){
             $trunk = getBranch(tree, $head, true)
         }
         $trunk.children().remove()
         var root = tree.root
-        root.toggleState = 'expand'
         $head.attr('id', tree.id+'_'+encodeId(root.id)).data(_nodeKey, root)
         if (root.children){
             buildTree(tree, root.children, $trunk)
@@ -176,11 +178,11 @@
         $p = getBranch(tree, $p, true)
         nodes.forEach(function(node, idx){
             var $li = tree.templates.$node.clone(true, true)
-            var name = node[tree.keys.name], nodeId = tree.id+'_'+encodeId(node.id)
+            var text = node[tree.keys.text], nodeId = tree.id+'_'+encodeId(node.id)
             //tree.nodes[nodeId] = node
             $li.attr('id', nodeId).data(_nodeKey, node)
-            $li.find(_nameDls).text(name)
-            $li.find('a').attr('title', node[tree.keys.title]||name)
+            $li.find(_textDls).text(text)
+            $li.find('a').attr('title', node[tree.keys.title]||text)
             var $toggle = $li.find(_toggleDls).addClass(cls.collapse)
             var $check = $li.find(_checkIptDls)
             $check.prop('checked', node.checked)
@@ -306,8 +308,8 @@
         }
         return this
     }
-    function getData(){
-        var data = getNode(this) || getTree(this)
+    function getData($node){
+        var data = getNode($node) || getTree(this)
         return data
     }
     function locateNode(data){
@@ -317,7 +319,18 @@
             log('Not initialized!')
             return null
         }
-        return $locate(tree, data)
+        var $node = $locate(tree, data)
+        var node = getNode($node)
+        if ($.isPlainObject(data)){
+            $.extend(true, data, node)
+        }
+        focusNode.call(this, node)
+        while($node.is(_nodeDls)){
+            toggle(tree, node, 'expand')
+            $node = $node.parent().closest(_nodeDls)
+            node = getNode($node)
+        }
+        return $node
     }
     function selectNodes(checked){
         var $checkes = this.find(_checkIptDls)
@@ -438,7 +451,14 @@
         if (!data || data.id == id){
             return $('#'+id)
         }
-        return $('#'+id+'_'+encodeId(data.id!==undefined?data.id:data))
+        if (data.id === ''){
+            var $head = $('#'+id+'_')
+            if (!$head.length){
+                return $('#'+id)
+            }
+            return $head
+        }
+        return $('#'+id+'_'+encodeId(data.id?data.id:data))
     }
     _option.getTree = getTree
     function getTree($obj){//获取关联的ctree数据(option)

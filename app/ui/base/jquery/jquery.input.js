@@ -236,6 +236,7 @@
 					return
 				}
 				var $span = $('<span/>').text($ipt.text())
+				$span.attr('name',$ipt.attr('name'))
 				$p.append($span)
 			})
 		})

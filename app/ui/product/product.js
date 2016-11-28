@@ -43,30 +43,33 @@ class ProductPage extends ListPage{
     // }
     prepareEvents(){
         super.prepareEvents()
-        this.$page.find('.btn-category').click((e) => {
-            router.loadMainPanel('category')
-            e.stopPropagation()
+        this.prepareCategory()
+        router.$main.on('changed.product', (e, data) => {
+            this.reload()
         })
+    }
+    prepareCategory(){
         let treeOpt = {
             root: {children: null},
             showIcon: false,
         }
-        this.$ctree.cTree('init', treeOpt).on('ctree:load', (e, ctree, cnode) => {
-            this.loadTree(ctree, cnode)
+        this.$ctree.cTree('init', treeOpt)
+        this.$ctree.on('ctree:load', (e, ctree, cnode) => {
+            srvCategory.loadTree().then(nodes => {
+                ctree.load(nodes, cnode)
+                if (this._param.category){
+                    this.$ctree.cTree('locate', {id: this._param.category.code})
+                }
+            })
         }).on('ctree:click', (e, ctree, cnode) => {
             cnode && this.load({category:{code:cnode.code}})
         })
         router.$main.on('changed.category', (e, data) => {
             this.$ctree.cTree('refresh', treeOpt)
         })
-        router.$main.on('changed.product', (e, data) => {
-            this.reload()
-        })
-
-    }
-    loadTree(ctree, cnode){
-        srvCategory.loadTree().then(nodes => {
-            ctree.load(nodes, cnode)
+        this.$page.find('.btn-category').click((e) => {
+            router.loadMainPanel('category')
+            e.stopPropagation()
         })
     }
     get defaultParam(){
@@ -76,18 +79,6 @@ class ProductPage extends ListPage{
             discard: this._discard||false,
         }
         return param
-    }
-    onToggleDiscarded(){
-        this._discard = !this._discard
-        this.load().then(() => {
-            if (this._discard){
-                this.$page.find('.for-discarded-hidden').addClass('hidden')
-                this.$page.find('.for-discarded').removeClass('hidden')
-            }else{
-                this.$page.find('.for-discarded').addClass('hidden')
-                this.$page.find('.for-discarded-hidden').removeClass('hidden')
-            }
-        })
     }
     doLoad(param){
         return srvProduct.load(param)
@@ -125,6 +116,18 @@ class ProductPage extends ListPage{
     }
     onAddNew(){
         this.toDetail()
+    }
+    onToggleDiscarded(){
+        this._discard = !this._discard
+        this.load().then(() => {
+            if (this._discard){
+                this.$page.find('.for-discarded-hidden').addClass('hidden')
+                this.$page.find('.for-discarded').removeClass('hidden')
+            }else{
+                this.$page.find('.for-discarded').addClass('hidden')
+                this.$page.find('.for-discarded-hidden').removeClass('hidden')
+            }
+        })
     }
     onDiscard(){
         let ids = this.selectedSpecIds

@@ -88,7 +88,7 @@
 	}
 
 	function setValues($form, doc){
-		$form.find('input[name], textarea[name], .input-addon[name]').each(function(){
+		$form.find('input[name], textarea[name], .input-group-addon[name], .input-addon[name]').each(function(){
 			let $ipt = $(this)
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
@@ -118,7 +118,7 @@
 				$ipt.closest('label,.control-label').attr('data-checked', checked)
 			}else if ($ipt.is('[type=file]')){
 				$ipt.data('fileId', val||'') // input file 的id保存到data里
-			}else if ($ipt.is('.input-addon')){
+			}else if ($ipt.is('.input-group-addon, .input-addon')){
 				$ipt.text(val||'')
 			}else{
 				$ipt.val(val)

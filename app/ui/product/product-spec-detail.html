@@ -15,7 +15,8 @@
                                     <div class="form-group form-group-sm">
                                         <label class="control-label col-xs-2">编号</label>
                                         <div class="col-xs-4">
-                                            <input type="text" class="form-control for-editonly" name="code">
+                                            <input type="text" class="form-control english auto-upcase check-on-change for-editonly" name="code" required
+                                                data-content="规格编号不能为空" data-placement="bottom">
                                         </div>
                                         <label class="control-label col-xs-2">规格</label>
                                         <div class="col-xs-4">
@@ -28,7 +29,7 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control for-editonly" name="unit">
                                                 <span class="input-group-addon before-input for-editonly">(</span>
-                                                <input type="text" class="form-control text-center for-editonly" name="unitEn">
+                                                <input type="text" class="form-control english text-center for-editonly" name="unitEn">
                                                 <span class="input-group-addon after-input for-editonly">)</span>
                                             </div>
                                         </div>
@@ -67,20 +68,29 @@
                             <div class="form-group form-group-sm">
                                 <label class="control-label col-xs-2">成本价</label>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control numeric for-editonly" name="cost">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control numeric text-right for-editonly" name="cost">
+                                        <span class="input-group-addon after-input for-editonly">元　</span>
+                                    </div>
                                 </div>
                                 <label class="control-label col-xs-2">起订量</label>
                                 <div class="col-xs-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control numeric for-editonly" name="moq">
-                                        <!-- <span class="input-group-addon after-input for-editonly">单位</span> -->
+                                        <input type="text" class="form-control numeric text-right for-editonly" name="moq">
+                                        <span class="input-group-addon before-input after-input for-editonly" name="unit">单位</span>
+                                        <span class="input-group-addon before-input after-input for-editonly">(</span>
+                                        <span class="input-group-addon before-input after-input for-editonly" name="unitEn">unit</span>
+                                        <span class="input-group-addon after-input for-editonly">)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">
                                 <label class="control-label col-xs-2">销售价</label>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control numeric for-editonly" name="price">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control numeric text-right for-editonly" name="price">
+                                        <span class="input-group-addon after-input for-editonly">美元</span>
+                                    </div>
                                 </div>
                                 <label class="control-label col-xs-2">备注</label>
                                 <div class="col-xs-4">
@@ -123,7 +133,13 @@
                                 </div>
                                 <label class="control-label col-xs-2">装箱数</label>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control numeric for-editonly" name="packNum">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control numeric text-right for-editonly" name="packNum">
+                                        <span class="input-group-addon before-input after-input for-editonly" name="packUnit">单位</span>
+                                        <span class="input-group-addon before-input after-input for-editonly">(</span>
+                                        <span class="input-group-addon before-input after-input for-editonly" name="packUnitEn">unit</span>
+                                        <span class="input-group-addon after-input for-editonly">)</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">

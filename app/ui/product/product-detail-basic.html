@@ -14,7 +14,8 @@
             <div class="form-group">
                 <label class="control-label col-xs-2">产品编码</label>
                 <div class="col-xs-4">
-                    <input type="text" class="form-control for-editonly" name="code">
+                    <input type="text" class="form-control english auto-upcase check-on-change for-editonly" name="code" required
+                        data-content="产品编码不能为空" data-placement="bottom">
                 </div>
                 <label class="control-label col-xs-2">品类</label>
                 <div class="col-xs-4 category">
@@ -32,7 +33,8 @@
             <div class="form-group">
                 <label class="control-label col-xs-2">产品名称</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control for-editonly" name="name">
+                    <input type="text" class="form-control check-on-change for-editonly" name="name" required
+                        data-content="产品名称不能为空" data-placement="top">
                 </div>
             </div>
             <div class="form-group">
@@ -50,7 +52,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-2">英文描述</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control for-editonly" name="edesc">
+                    <input type="text" class="form-control english for-editonly" name="edesc">
                 </div>
             </div>
             <div class="form-group">
@@ -60,7 +62,10 @@
                 </div>
                 <label class="control-label col-xs-2">退税率</label>
                 <div class="col-xs-4">
-                    <input type="text" class="form-control for-editonly" name="taxRebate">
+                    <div class="input-group">
+                        <input type="text" class="form-control number text-right for-editonly" name="taxRebate">
+                        <span class="input-group-addon for-editonly">%</span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

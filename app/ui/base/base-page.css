@@ -8,3 +8,6 @@
 .panel-heading>.panel-title>.panel-title-main{min-width:200px; color:#fff; background-color:#20ADDD; padding:5px 15px; border-radius:4px;}
 .panel-heading>.panel-title>.panel-title-sub{font-size:13px; font-weight:lighter;}
 .panel-heading>.panel-title>.panel-title-sub>label{font-weight:normal;}
+
+.sortable{cursor: pointer; color: #337ab7;}
+.sortable:hover{color: #23527c; text-decoration: underline;}

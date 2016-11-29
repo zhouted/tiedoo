@@ -24,14 +24,14 @@ function renderTpl($tpl, data, $to, fn){
     let render = compile($tpl);
     if ($.isArray(data)) {
         for (let d of data) {
-            doRender($tpl, d);
+            doRender($tpl, d, data.indexOf(d));
         }
     }else{
-        doRender($tpl, data);
+        doRender($tpl, data, $tpl.index());
     }
-    function doRender($tpl, data){
-        if ($.isPlainObject(data)){
-            var html = render(data);
+    function doRender($tpl, data, index){
+        if (validData(data)){
+            var html = render(data, index);
             fn.call($to, html); // $tpl.trigger('template.render', [html, data]);
         }
     }
@@ -48,13 +48,13 @@ function compile($tpl){
     }
     let tpl = $.trim($tpl.html());
     let bind = $tpl.data('bind')||'data';
-    let render = new Function(bind, 'return '+bind+'&&`'+tpl+'`');
+    let render = new Function(bind, 'index', 'return '+'`'+tpl+'`');
     $tpl.data(TPL_RENDER, render);
     return render;
 }
 
 //把数据 data 绑定到模板 $tpl，返回处理结果
-function template($tpl, data){
+function template($tpl, data, index = 0){
     var result;
     if (!($tpl instanceof jQuery)){
         $tpl = $(tpl);
@@ -63,14 +63,18 @@ function template($tpl, data){
     if ($.isArray(data)) {
         result = [];
         for (let d of data) {
-            if ($.isPlainObject(d)){
-                result.push(render(d));
+            if (validData(d)){
+                result.push(render(d, index+data.indexOf(d)));
             }
         }
-    }else if ($.isPlainObject(data)){
-        result = render(data);
+    }else if (validData(data)){
+        result = render(data, index);
     }
     return result;
+}
+
+function validData(data){
+    return data !== undefined
 }
 
 if (module){

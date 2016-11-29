@@ -4,8 +4,9 @@ class BasePane { // base page pane(panel view in tabpanel)
         this._stub = null //存根：上级(父窗口)传入的数据
         this._param = null //保存页面加载参数，以便刷新(reload)
         this._data = null //保存页面加载的数据
+        this._autored = false //read/edit自动切换
         this._modified = false
-        this._forceLoad = true
+        this._forceLoad = false
         this.prepare()
     }
     get pid(){// page id
@@ -146,6 +147,8 @@ class BasePane { // base page pane(panel view in tabpanel)
         // do sth. after doLoad()
         if (!Object.is(data, undefined)){
             this.render(data)
+            this._autored && this.toRead()
+            this._modified = false
             this._data = data
         }
         if (!Object.is(param, undefined)){
@@ -174,7 +177,8 @@ class BasePane { // base page pane(panel view in tabpanel)
         p.then(rst => {
             console.log(rst)
             this.rerender(data, rst)
-            this.toRead()
+            this._autored && this.toRead()
+            this._modified = false
         }).catch(err => {
             console.log(err)
         }).finally(() => {
@@ -209,7 +213,6 @@ class BasePane { // base page pane(panel view in tabpanel)
         this.toRead()
     }
     toRead(){
-        this._modified = false
         this.$page.input('read')
     }
 }

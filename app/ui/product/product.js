@@ -85,7 +85,7 @@ class ProductPage extends ListPage{
         return srvProduct.load(param)
     }
     render(data){
-        this.$tplPd.siblings('tbody').remove()
+        this.$tplPd.prevAll('tbody').remove()
         for (let pd of data) {
             let $item = $(tfn.template(this.$tplPd, pd))
             let specs = pd.specs

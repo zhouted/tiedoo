@@ -26,7 +26,7 @@ class CustomerPage extends ListPage{
         return srvCust.load(param)
     }
     render(data){
-        this.$tplTr.siblings().remove()
+        this.$tplTr.prevAll('tr').remove()
         this.$tplTr.renderTpl(data)
     }
     doSearch(text){

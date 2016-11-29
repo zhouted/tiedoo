@@ -10,8 +10,18 @@
 .input-group>.input-group-addon{padding-bottom: 4px;}
 .input-group-addon.after-input{padding-left: 1px;}
 .input-group-addon.before-input{padding-right: 1px;}
+
+.bg-fieldset{background-color: #D3EBF7;}
 fieldset.bg-fieldset{padding: 10px 20px 10px 0;}
-        .bg-fieldset .form-control, .bg-fieldset .input-group-addon{background-color: transparent;}
+fieldset.bg-fieldset .form-control,
+fieldset.bg-fieldset .input-group-addon{background-color: transparent;}
+
+
+.label{font-size:85%; font-weight:500;}
+.label-default{color:#333; background-color:#fff; border:1px solid #ccc;}
+.label-primary{color:#fff; background-color:#337ab7; border:1px solid #2e6da4;}
+p .label, span .label{margin-left: 3px;}
+
 /*.form-control:focus {border: none; border-bottom: 1px solid #66afe9; border-radius: 0; box-shadow: none;}*/
 .form-horizontal fieldset {margin: 10px 0;}
 .form-horizontal fieldset>legend {font-size: 15px; margin: 0 0 10px 0;}

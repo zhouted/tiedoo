@@ -113,20 +113,25 @@ class ProductDetailPage extends BasePage {
                 this._$modal.modal('show')
             }
         }
+        if (valid){
+            let specs =  this._data && this._data.specs || []
+            valid = !!specs.length
+            if (!valid){
+                tfn.tips('请先增加规格！', 'warning')
+                this.openSpec('')
+            }
+        }
         return valid
     }
     getPageData(){
         let data = this.paneBasic.getFormData()
         data = tfn.merge({}, this._data, data)
-        // let contacts = this.paneContact.getFormData()
-        // let data = tfn.merge({}, info, {contacts})
+        if (data.tags){//标签s：字符串转为数组
+            data.tags = data.tags.split(',').map(tag => $.trim(tag))
+        }
         return data
     }
     doSave(data){
-        if (!data || !data.specs || !data.specs.length){
-            tfn.tips('请先增加规格！', 'warning')
-            return this.openSpec('')
-        }
         if (this._param._discard){
             tfn.tips('不能修改已归档产品！', 'warning')
             return false

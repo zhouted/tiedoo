@@ -9,6 +9,7 @@ function escapeHtml(str) {
         '"': '&quot;',
         "'": '&#039;'
     };
+    !str.replace && (str = str.toString())
     return str.replace(/[&<>"']/g, m => map[m]);
 }
 exports.fnum = numToStr

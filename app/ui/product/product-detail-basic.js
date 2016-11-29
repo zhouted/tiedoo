@@ -81,6 +81,7 @@ class ProductDetailBasicForm extends BaseForm {
         this.setFormData(product)
         this.loadImg()
         this.renderCate()
+        this.renderTags()
     }
     loadImg(){
         srvProduct.loadImg(this.$imgIpt.data('fileId')).then(file => {
@@ -92,6 +93,17 @@ class ProductDetailBasicForm extends BaseForm {
         let $node = this.$ctree.cTree('locate', node)
         // let node = this.$ctree.cTree('get', $node)
         this.$cateName.text(node.name||'')
+    }
+    renderTags(){
+        let tags = this.$form.find('input[name=tags]').val()
+        let $tags = this.$form.find('.form-control-tags')
+        $tags.text('')
+        if (!tags) return
+        tags = tags.split(',')
+        for (let tag of tags){
+            let $tag = $('<span></span>').addClass('label label-default').text(tag)
+            $tags.append($tag)
+        }
     }
 }
 

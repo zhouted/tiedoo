@@ -1,63 +1,61 @@
-<div role="tabpanel" class="tab-pane" id="setCompInfo">
-    <div class="panel-body">
-        <form class="form form-horizontal on-reading">
-            <input type="hidden" name="_id" />
-            <fieldset class="right-side pull-right text-center rel">
-                <div class="thumbnail">
-                    <input type="file" class="hidden" name="imageId" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
-                    <img class="image-preview image-trigger" src="ui/images/logo.png" title="点击设置公司LOGO"/>
-                    <div class="caption">
-                        <button type="button" class="image-trigger btn-default btn-block for-editonly">点击设置公司LOGO</button>
-                    </div>
+<div class="panel-body" id="setCompInfo">
+    <form class="form form-horizontal on-reading">
+        <input type="hidden" name="_id" />
+        <fieldset class="right-side pull-right text-center rel">
+            <div class="thumbnail">
+                <input type="file" class="hidden" name="imageId" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
+                <img class="image-preview image-trigger" src="ui/images/logo.png" title="点击设置公司LOGO"/>
+                <div class="caption">
+                    <button type="button" class="image-trigger btn-default btn-block for-editonly">点击设置公司LOGO</button>
                 </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">公司名称</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="name" id="name">
-                    </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="name">公司名称</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="name" id="name">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="ename">英文名称</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="ename" id="ename">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="ename">英文名称</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="ename" id="ename">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="addr">公司地址</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="addr" id="addr">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="addr">公司地址</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="addr" id="addr">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="eaddr">英文地址</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="eaddr" id="eaddr">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="eaddr">英文地址</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="eaddr" id="eaddr">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">公司电话</label>
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="tel" id="name">
-                    </div>
-                    <label class="control-label col-xs-2" for="name">公司传真</label>
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="fax" id="name">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="name">公司电话</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control for-editonly" name="tel" id="name">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="site">公司网址</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="site" id="site">
-                    </div>
+                <label class="control-label col-xs-2" for="name">公司传真</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control for-editonly" name="fax" id="name">
                 </div>
-            </fieldset>
-            <fieldset class="text-center">
-                <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
-                <button type="button" class="btn read btn-default for-editonly">取消</button>
-                <button type="button" class="btn save btn-primary for-editonly">保存</button>
-            </fieldset>
-        </form>
-    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="site">公司网址</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="site" id="site">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="text-center">
+            <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
+            <button type="button" class="btn read btn-default for-editonly">取消</button>
+            <button type="button" class="btn save btn-primary for-editonly">保存</button>
+        </fieldset>
+    </form>
 </div>

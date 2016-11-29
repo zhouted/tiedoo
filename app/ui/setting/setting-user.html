@@ -1,63 +1,61 @@
-<div role="tabpanel" class="tab-pane active" id="setUserInfo">
-    <div class="panel-body">
-        <form class="form form-horizontal on-reading">
-            <input type="hidden" name="_id" />
-            <fieldset class="right-side pull-right text-center rel">
-                <div class="thumbnail">
-                    <input type="file" class="hidden" name="imageId" accept="image/png,image/jpeg" alt-trigger=".image-trigger" alt-change="cropper">
-                    <img class="image-preview image-trigger" src="ui/images/user.jpg" title="点击设置头像"/>
-                    <div class="caption">
-                        <button type="button" class="image-trigger btn-default btn-block for-editonly">点击设置头像</button>
-                    </div>
+<div class="panel-body" id="setUserInfo">
+    <form class="form form-horizontal on-reading">
+        <input type="hidden" name="_id" />
+        <fieldset class="right-side pull-right text-center rel">
+            <div class="thumbnail">
+                <input type="file" class="hidden" name="imageId" accept="image/png,image/jpeg" alt-trigger=".image-trigger" alt-change="cropper">
+                <img class="image-preview image-trigger" src="ui/images/user.jpg" title="点击设置头像"/>
+                <div class="caption">
+                    <button type="button" class="image-trigger btn-default btn-block for-editonly">点击设置头像</button>
                 </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">账号</label>
-                    <div class="col-xs-8">
-                        <input type="text" class="form-control for-editonly check-on-change" name="account" id="account" required
-                            data-content="请输入合法的手机号或邮箱地址" data-placement="top">
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn passwd btn-default">修改密码</button>
-                    </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+                <label class="control-label col-xs-2">账号</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control for-editonly check-on-change" name="account" id="account" required
+                    data-content="请输入合法的手机号或邮箱地址" data-placement="top">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="name">中文名</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="name" id="name">
-                    </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn passwd btn-default">修改密码</button>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="ename">英文名</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="ename" id="ename">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="name">中文名</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="name" id="name">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="email">邮箱</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="email" id="email">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="ename">英文名</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="ename" id="ename">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="mobile">手机</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="mobile" id="mobile">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="email">邮箱</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="email" id="email">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2" for="tel">座机</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control for-editonly" name="tel" id="tel">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="mobile">手机</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="mobile" id="mobile">
                 </div>
-            </fieldset>
-            <fieldset class="text-center">
-                <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
-                <button type="button" class="btn read btn-default for-editonly">取消</button>
-                <button type="button" class="btn save btn-primary for-editonly">保存</button>
-            </fieldset>
-        </form>
-    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="tel">座机</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control for-editonly" name="tel" id="tel">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="text-center">
+            <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
+            <button type="button" class="btn read btn-default for-editonly">取消</button>
+            <button type="button" class="btn save btn-primary for-editonly">保存</button>
+        </fieldset>
+    </form>
 </div>

@@ -35,7 +35,7 @@ class UserForm extends BaseForm{
         super.initValidators()
         this.$account.data('validator', (ipt) => {
             let val = ipt.value
-            return reEmail.test(val) || reMobile.test(ipt, val)
+            return reEmail.test(val) || reMobile.test(val)
         })
     }
     doLoad(){

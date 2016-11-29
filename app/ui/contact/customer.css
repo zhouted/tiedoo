@@ -1,1 +1,2 @@
-#customer .customer-item td{cursor:pointer;}
+#customer .customer-list thead>tr>th{background-color: #eee; text-align: left;}
+#customer .customer-list .customer-item td{cursor:pointer;}

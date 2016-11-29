@@ -30,7 +30,7 @@ class LoginForm extends ModalForm {
         super.initValidators()
         this.$account.data('validator', (ipt) => {
             let val = ipt.value
-            return reEmail.test(val) || reMobile.test(ipt, val)
+            return reEmail.test(val) || reMobile.test(val)
         })
         this.$pwdAg.data('validator', (ipt) => {
             return !this.$pwdAg.is(':visible') || (this.$pwdAg.val()===this.$pwd.val())

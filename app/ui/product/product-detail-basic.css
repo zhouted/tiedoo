@@ -7,3 +7,4 @@
 #productDetailBasic .category .selector{position:relative; z-index:1010; display:none;}
 #productDetailBasic .category .ctree{position:absolute; width:380px; max-height:460px; border:1px solid #999; background:#fff; overflow:auto;}
 #productDetailBasic .category .input-group-addon.for-editonly{background: transparent;}
+#productDetailBasic .preset-tags .label{cursor: pointer;}

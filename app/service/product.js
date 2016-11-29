@@ -8,7 +8,7 @@ srvProduct.load = function(param, project){
     let cond = {}
     if (param.key){// search key
         key = new RegExp(param.key)
-        cond.$or = [{code: key}, {name: key}, {'specs.0.name': key}]
+        cond.$or = [{code: key}, {name: key}, {tags: param.key}]
     }
     if (param.category && param.category.code){// category code
         cond['category.code'] = new RegExp('^'+param.category.code)

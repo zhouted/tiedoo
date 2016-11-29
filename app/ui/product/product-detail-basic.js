@@ -1,6 +1,7 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvProduct = require(appPath+'/service/product.js')
 const srvCategory = require(appPath+'/service/category.js')
+const srvSetting = require(appPath+'/service/setting.js')
 require(appPath+'/ui/base/jquery/jquery.ctree.js')
 
 class ProductDetailBasicForm extends BaseForm {
@@ -22,6 +23,7 @@ class ProductDetailBasicForm extends BaseForm {
     prepareEvents(){
         super.prepareEvents()
         this.prepareCategory()
+        this.prepareTags()
     }
 
     init(){
@@ -74,6 +76,31 @@ class ProductDetailBasicForm extends BaseForm {
             this.$ctree.cTree('refresh', treeOpt)
         })
     }
+    prepareTags(){
+        this.$form.find('.form-group.tags').on('keyup', (e) => {
+            if (e.keyCode == 229){
+                e.target.value = e.target.value.replace(/，/g, ', ');
+            }
+        })
+        //预置标签
+        let $tags = this.$form.find('.preset-tags')
+        $tags.on('click', '.label', (e) => {
+            this.toAddTag(e.target)
+        })
+        function loadTags(){
+            srvSetting.loadTags().then(tags => {
+                $tags.children().remove()
+                for (let tag of tags){
+                    let $tag = $('<span></span>').addClass('label label-default').text(tag)
+                    $tags.append($tag)
+                }
+            })
+        }
+        router.$main.on('changed.setting.tags', (e, data) => {
+            loadTags()
+        })
+        loadTags()
+    }
     // doLoad(){
     //     return srvProduct.load()
     // }
@@ -104,6 +131,20 @@ class ProductDetailBasicForm extends BaseForm {
             let $tag = $('<span></span>').addClass('label label-default').text(tag)
             $tags.append($tag)
         }
+    }
+    toAddTag(tag){
+        let $tag = $(tag)
+        tag = $.trim($tag.text())
+        let $ipt = $tag.closest('.form-group.tags').find('input[name=tags]')
+        let tags = $ipt.val()? $ipt.val().split(',') : []
+        tags = tags.map(tag => $.trim(tag))
+        let pos = tags.indexOf(tag)
+        if (pos < 0){
+            tags.push(tag)
+        }else{
+            tags.splice(pos, 1)
+        }
+        $ipt.val(tags.join(', '))
     }
 }
 

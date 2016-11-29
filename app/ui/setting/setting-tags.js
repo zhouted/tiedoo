@@ -53,8 +53,8 @@ class TagsForm extends BaseForm{
     doSave(){
         let tags = this.getFormData()
         return srvSetting.saveTags(tags).then(rst => {
-            // $('body').trigger('changed.comp', [data])
             tfn.tips('保存成功！')
+            router.$main.trigger('changed.setting.tags', [tags])
             return tags
         })
     }

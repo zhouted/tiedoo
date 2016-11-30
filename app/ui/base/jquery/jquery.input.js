@@ -232,7 +232,7 @@
 			$grp.find('.'+_options.clsForEditonly).each(function(){
 				var $ipt = $(this)
 				if ($ipt.is('.form-control')){
-					setReadonlySpan($p, $ipt)
+					$ipt.prop('name') && setReadonlySpan($p, $ipt)
 					return
 				}
 				var $span = $('<span/>').text($ipt.text())
@@ -255,7 +255,7 @@
 			$span.text(value)
 		}
 		function getReadonlyP($ctrl){
-			var $parent = $ctrl.is('.input-group')? $ctrl : $ctrl.parent()
+			var $parent = $ctrl.closest('div')//$ctrl.is('.input-group')? $ctrl : $ctrl.parent()
 			var $p = $parent.find('p.form-control-static.'+_options.clsForReadonly)
 			if (!$p || !$p.length){
 				$p = $('<p/>').addClass('form-control-static '+_options.clsForReadonly)

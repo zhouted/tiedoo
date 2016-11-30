@@ -1,5 +1,6 @@
 const ModalForm = require(appPath+'/ui/base/modal-form.js')
 const srvProduct = require(appPath+'/service/product.js')
+require(appPath+'/ui/base/jquery/dropdown/dd-units.js')
 
 class ProductSpecForm extends ModalForm {
     get $img(){
@@ -7,6 +8,28 @@ class ProductSpecForm extends ModalForm {
     }
     get $imgIpt(){
         return this._$imgIpt || (this._$imgIpt = this.$form.find('input[name=imageId]'))
+    }
+    prepareEvents(){
+        super.prepareEvents()
+        this.prepareUnits()
+    }
+    prepareUnits(){
+        let $unit = this.$form.find('input[name=unit]')
+        $unit.autoDdGrid('DdUnits', {
+            minLength: 0, highlight: true
+        }).on('typeahead:select', (e, s) => {
+            this.doSelect(e, s)
+        })
+        $unit = this.$form.find('input[name=unitEn]')
+        $unit.autoDdGrid('DdUnits', {
+            minLength: 0, highlight: true
+        }).on('typeahead:select', (e, s) => {
+            this.doSelect(e, s)
+        })
+    }
+    doSelect(e, s){
+        s.name && this.$form.find('input[name=unit]').val(s.name)
+        s.nameEn && this.$form.find('input[name=unitEn]').val(s.nameEn)
     }
     init(){
         super.init()

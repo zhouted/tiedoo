@@ -2,7 +2,6 @@ const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvProduct = require(appPath+'/service/product.js')
 const srvCategory = require(appPath+'/service/category.js')
 const srvSetting = require(appPath+'/service/setting.js')
-require(appPath+'/ui/base/jquery/jquery.ctree.js')
 
 class ProductDetailBasicForm extends BaseForm {
     get $img(){
@@ -24,6 +23,16 @@ class ProductDetailBasicForm extends BaseForm {
         super.prepareEvents()
         this.prepareCategory()
         this.prepareTags()
+        // let $ipt = this.$page.find('input[name]')//.first()
+        // $ipt.typeahead({
+        //     minLength: 0, highlight: true
+        // },{
+        //     name: 'ds-units', source: matchUnits
+        // })
+        // function matchUnits(q, cb, ab){
+        //     console.log(q,cb,ab)
+        //     cb(['a', 'b', 'c'])
+        // }
     }
 
     init(){

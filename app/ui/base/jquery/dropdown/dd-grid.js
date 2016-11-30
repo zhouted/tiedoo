@@ -3,7 +3,7 @@ require(appPath+'/ui/base/jquery/dropdown/typeahead.jquery.js')
 class DdGrid{
     constructor(options, datasets){
         this.options = tfn.merge({}, options)
-        this.datasets = datasets||[]
+        this.datasets = tfn.merge([], datasets)
     }
     initOptions(){
 
@@ -17,14 +17,23 @@ const plugins = DdGrid.plugins = {
 
 }
 
-$.fn.autoDdGrid = autoDdGrid
-function autoDdGrid(ddType, options, ...datasets){
+$.fn.autoDdGrid = function(options, ...datasets){
+    for (let ipt of this){
+        autoDdGrid(ipt, options, datasets)
+    }
+    return this
+}
+
+function autoDdGrid(ipt, options, datasets){
+    let $ipt = $(ipt)
+    let ddType = $ipt.data('ddType')||'DdGrid'
     let Base = plugins[ddType] || DdGrid
     let ddGrid = new Base(options, datasets)
-    ddGrid.$ipt = this
+    ddGrid.$ipt = $ipt
     ddGrid.initOptions()
     ddGrid.initDatasets()
-    return $.fn.typeahead.call(this, ddGrid.options, ...ddGrid.datasets)
+    console.log(ddGrid)
+    return $.fn.typeahead.call($ipt, ddGrid.options, ...ddGrid.datasets)
 }
 
 module.exports = DdGrid

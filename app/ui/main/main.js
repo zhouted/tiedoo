@@ -1,5 +1,4 @@
 require(appPath+'/ui/base/jquery/jquery.ctree.js')
-// require(appPath+'/ui/base/jquery/typeahead.jquery.js')
 require(appPath+'/ui/base/jquery/jquery.twbsPagination.js')
 Object.assign($.fn.twbsPagination.defaults, {first: '«', prev: '‹', next: '›', last: '»'})
 

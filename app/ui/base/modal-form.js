@@ -29,6 +29,10 @@ class ModalForm extends BaseForm{
         })
     }
     onConfirm(e, btn){
+        if (!this._modified) {
+            this.$modal.modal('hide')
+            return
+        }
         this.onSave(e, btn)
     }
     // onCancel(e, btn){

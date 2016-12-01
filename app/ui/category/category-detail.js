@@ -43,12 +43,7 @@ class CategoryDetailForm extends ModalForm {
     //         this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
     //     })
     // }
-    doSave(){
-        if (!this._modified) {
-            this.$modal.modal('hide')
-            return
-        }
-        let cate = this.getFormData()
+    doSave(cate){
         return srvCategory.save(cate).then((rst) => {
             this.$modal.modal('hide')
             this.$parentPage.trigger('changed.category', [cate])

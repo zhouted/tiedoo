@@ -49,7 +49,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         })
 
         // on changed
-        this.$page.on('change', 'input[name], textarea[name]', (e) => {
+        this.$page.on('change, typeahead:change', 'input[name], textarea[name]', (e) => {
             this._modified = true
         })
     }

@@ -58,8 +58,7 @@ class LoginForm extends ModalForm {
             this.$account.focus()
         }
     }
-    doSave(){ //doLogin 登录和注册 交互处理
-        let data = this.getFormData()
+    doSave(data){ //doLogin 登录和注册 交互处理
         return srvUser.login(data).then(rst => {
             if (rst.passed && rst.user) {
                 if (rst.user.isNew){

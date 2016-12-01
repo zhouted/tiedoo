@@ -10,8 +10,7 @@ class FirstForm extends BaseForm {
             this.$form.input('values', {user, comp})
         })
     }
-    doSave(){
-        let data = this.getFormData();
+    doSave(data){
         let pUser = srvUser.save(data.user);
         let pComp = srvComp.save(data.comp);
         return $.when(pUser, pComp).then(() => {

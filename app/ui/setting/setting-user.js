@@ -50,11 +50,10 @@ class UserForm extends BaseForm{
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
     }
-    doSave(){
-        let data = this.getFormData()
-        return srvUser.save(data).then(user => {
+    doSave(data){
+        return srvUser.save(data).then(rst => {
             $('body').trigger('changed.user', [data])
-            return user
+            return rst
         })
     }
     onPasswd(){

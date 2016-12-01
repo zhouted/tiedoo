@@ -37,8 +37,7 @@ class CompForm extends BaseForm{
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
     }
-    doSave(){
-        let data = this.getFormData()
+    doSave(data){
         return srvComp.save(data).then(comp => {
             // $('body').trigger('changed.comp', [data])
             return comp

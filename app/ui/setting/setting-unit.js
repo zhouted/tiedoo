@@ -1,7 +1,6 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvSetting = require(appPath+'/service/setting.js')
 
-const UNIT = srvSetting.UNIT
 const MAX_UNITS = 120 //最大标数量
 class UnitForm extends BaseForm{
     get $tpl(){

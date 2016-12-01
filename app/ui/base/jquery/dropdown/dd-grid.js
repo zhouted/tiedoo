@@ -9,7 +9,7 @@ class DdGrid{
             minLength: 0,
             minList: 1,
             limit: 5,
-            width: 120,
+            width: 200,
         }
     }
     constructor(options, datasets){
@@ -52,7 +52,7 @@ class DdGrid{
         return this._key||'key'
     }
     get columns(){//dropdown grid columns
-        return []//[{name:'name', width:'50%'}, {name:'nameEn', width:'50%'}]
+        return []//[{name:'code', width:'20%'}, {name:'name', width:'80%'}]
     }
     initOptions(){
     }
@@ -61,14 +61,16 @@ class DdGrid{
             name: this.name,
             display: this.key,
             limit: this.limit||0,
-            source: (query, syncb, asyncb) => this.doMatch(query, syncb, asyncb),
+            source: (query, syncb, asyncb) => {
+                syncb([{}]) //必须先有同步数据???
+                this.doMatch(query, syncb, asyncb)
+            },
             templates:{
                 suggestion: (suggestion) => this.renderSuggestion(suggestion),
             }
         })
     }
     doMatch(query, syncb, asyncb){
-        syncb([{}]) //必须先有同步数据???
     }
     renderSuggestion(suggestion){//拼成表格
         let active = Object.is(suggestion[this.key],this.value)? 'active':''
@@ -99,10 +101,7 @@ $.fn.autoDdGrid = function(options, ...datasets){
             return this.typeahead('val', options)
         case 'refresh':
             for (let ipt of this) {
-                let $ipt = $(ipt)
-                console.log($ipt.typeahead('val'), $ipt.val())
-                $ipt.typeahead('val', $ipt.val())
-                console.log($ipt.typeahead('val'), $ipt.val())
+                $(ipt).typeahead('val', ipt.value)
             }
             break
         default:

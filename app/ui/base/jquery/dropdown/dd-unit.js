@@ -5,7 +5,7 @@ const srvSetting = require(appPath+'/service/setting.js')
 class DdUnit extends DdGrid{
     get defaultOpts(){
         return tfn.merge({}, super.defaultOpts, {
-            minList: 5,
+            // minList: 5,
             limit: 100,
             width: 160,
         })
@@ -14,7 +14,6 @@ class DdUnit extends DdGrid{
         return [{name:'name', width:'40%'}, {name:'nameEn', width:'60%'}]
     }
     doMatch(query, syncb, asyncb){
-        super.doMatch(query, syncb, asyncb)
         srvSetting.loadUnits(query).then(units => {
             // if (units && units.length > this.minList){
             //     this._caches = units
@@ -26,5 +25,14 @@ class DdUnit extends DdGrid{
     }
 }
 
+class DdPackUnit extends DdUnit{
+    doMatch(query, syncb, asyncb){
+        srvSetting.loadPackUnits(query).then(units => {
+            asyncb(units)
+        })
+    }
+}
+
 DdGrid.types.DdUnit = DdUnit
+DdGrid.types.DdPackUnit = DdPackUnit
 module.exports = DdUnit

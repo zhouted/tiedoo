@@ -14,18 +14,23 @@ class ProductSpecForm extends ModalForm {
         this.prepareUnits()
     }
     prepareUnits(){
-        let $units = this.$form.find('input[name=unit],input[name=unitEn]')
+        let $units = this.$form.find('input[name][data-dd-type]')
         $units.autoDdGrid().on('typeahead:select', (e, s) => {
-            this.doSelect(e, s)
+            this.doSelect(e.target, s)
         })
     }
     refreshUnits(){
-        let $units = this.$form.find('input[name=unit],input[name=unitEn]')
+        let $units = this.$form.find('input[name][data-dd-type]')
         $units.autoDdGrid('refresh')
     }
-    doSelect(e, s){
-        s.name && this.$form.find('input[name=unit]').autoDdGrid('val', s.name)
-        s.nameEn && this.$form.find('input[name=unitEn]').autoDdGrid('val', s.nameEn)
+    doSelect(ipt, s){
+        let $ipt = $(ipt)
+        let $ipts = $ipt.closest('.input-group').find('input[name]')
+        for (ipt of $ipts){
+            $ipt = $(ipt)
+            let val = s[$ipt.data('ddKey')]
+            $ipt.autoDdGrid('val', val)
+        }
     }
     init(){
         super.init()

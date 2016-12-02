@@ -45,7 +45,6 @@ class CategoryDetailForm extends ModalForm {
     // }
     doSave(cate){
         return srvCategory.save(cate).then((rst) => {
-            this.$modal.modal('hide')
             this.$parentPage.trigger('changed.category', [cate])
             return rst
         }).catch(err => {

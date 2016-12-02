@@ -10,9 +10,7 @@ class TagsForm extends BaseForm{
     prepareEvents(){
         super.prepareEvents()
         this._autoRead = false
-        this.$form.on('change', 'input[name=tags]', (e) => {
-            this.onTagsChanged(e)
-        })
+        this.$form.on('change', 'input[name=tags]:last', e => this.tryAddMore(e.target))
     }
     // init(){
     //     super.init()
@@ -21,25 +19,19 @@ class TagsForm extends BaseForm{
         return srvSetting.loadTags()
     }
     render(tags){
-        // this.setFormData(comp)
-        tags = tags || []
-        if (tags.length < MAX_TAGS){
-            tags.push('')
-        }
         this.$tpl.prevAll().remove()
         this.$tpl.renderTpl(tags)
+        this.tryAddMore()
         // this.$form.input('read', true)
     }
-    onTagsChanged(e){
+    tryAddMore(ipt){
         let $tags = this.$form.find('input[name=tags]')
-        if (e.target == $tags.last()[0]){//填最后一个后自动添加新的
-            if ($tags.length >= MAX_TAGS){//不要太多
-                tfn.tips('预置标签太多啦！')
-                return
-            }
-            this.$tpl.renderTpl('')
-            this.$form.find('input[name=tags]').last().focus()
+        if ($tags.length >= MAX_TAGS){//不要太多
+            tfn.tips('预置标签太多啦！')
+            return
         }
+        this.$tpl.renderTpl('')
+        this.$form.find('input[name=tags]').last().focus()
     }
     getFormData(){
         let $tags = this.$form.find('input[name=tags]')
@@ -50,8 +42,7 @@ class TagsForm extends BaseForm{
         }
         return tags
     }
-    doSave(){
-        let tags = this.getFormData()
+    doSave(tags){
         return srvSetting.saveTags(tags).then(rst => {
             tfn.tips('保存成功！')
             router.$main.trigger('changed.setting.tags', [tags])

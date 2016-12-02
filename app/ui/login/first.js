@@ -18,7 +18,7 @@ class FirstForm extends BaseForm {
             //$('body').trigger('changed.user', [data.user]);$('body').trigger('changed.comp', [data.comp])
         })
     }
-    onClose(){
+    onCancel(){
         router.loadMain()
     }
 }

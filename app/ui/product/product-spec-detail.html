@@ -27,9 +27,9 @@
                                         <label class="control-label col-xs-2">单位</label>
                                         <div class="col-xs-4">
                                             <div class="input-group">
-                                                <input type="text" class="form-control for-editonly" name="unit" data-dd-type="DdUnit" data-dd-key="name">
+                                                <input type="text" class="form-control for-editonly" name="unit" data-dd-type="DdUnit" data-dd-key="name" placeholder="中文">
                                                 <span class="input-group-addon before-input for-editonly">(</span>
-                                                <input type="text" class="form-control english text-center for-editonly" name="unitEn" data-dd-type="DdUnit" data-dd-key="nameEn">
+                                                <input type="text" class="form-control english text-center for-editonly" name="unitEn" data-dd-type="DdUnit" data-dd-key="nameEn" placeholder="英文">
                                                 <span class="input-group-addon after-input for-editonly">)</span>
                                             </div>
                                         </div>
@@ -103,18 +103,18 @@
                                 <label class="control-label col-xs-2">包装单位</label>
                                 <div class="col-xs-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control for-editonly" name="packUnit" data-dd-type="DdPackUnit" data-dd-key="name">
+                                        <input type="text" class="form-control for-editonly" name="packUnit" data-dd-type="DdPackUnit" data-dd-key="name" placeholder="中文">
                                         <span class="input-group-addon before-input for-editonly">(</span>
-                                        <input type="text" class="form-control text-center for-editonly" name="packUnitEn" data-dd-type="DdPackUnit" data-dd-key="nameEn">
+                                        <input type="text" class="form-control text-center for-editonly" name="packUnitEn" data-dd-type="DdPackUnit" data-dd-key="nameEn" placeholder="英文">
                                         <span class="input-group-addon after-input for-editonly">)</span>
                                     </div>
                                 </div>
                                 <label class="control-label col-xs-2">净/毛重</label>
                                 <div class="col-xs-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control text-center numeric for-editonly" name="packNetWeight">
+                                        <input type="text" class="form-control text-center numeric for-editonly" name="packNetWeight" placeholder="净重">
                                         <span class="input-group-addon before-input after-input for-editonly">/</span>
-                                        <input type="text" class="form-control text-center numeric for-editonly" name="packCrossWeight">
+                                        <input type="text" class="form-control text-center numeric for-editonly" name="packCrossWeight" placeholder="毛重">
                                         <span class="input-group-addon after-input for-editonly">公斤(kg)</span>
                                     </div>
                                 </div>
@@ -123,11 +123,11 @@
                                 <label class="control-label col-xs-2">包装尺寸</label>
                                 <div class="col-xs-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control text-center numeric for-editonly" name="packLength">
+                                        <input type="text" class="form-control text-center numeric for-editonly" name="packLength" placeholder="长">
                                         <span class="input-group-addon for-editonly">x</span>
-                                        <input type="text" class="form-control text-center numeric for-editonly" name="packWidth">
+                                        <input type="text" class="form-control text-center numeric for-editonly" name="packWidth" placeholder="宽">
                                         <span class="input-group-addon for-editonly">x</span>
-                                        <input type="text" class="form-control text-center numeric for-editonly" name="packHeight">
+                                        <input type="text" class="form-control text-center numeric for-editonly" name="packHeight" placeholder="高">
                                         <span class="input-group-addon for-editonly">cm</span>
                                     </div>
                                 </div>
@@ -153,6 +153,7 @@
                 <!-- </div> -->
             </div>
             <div class="modal-footer">
+                <!-- <button type="button" class="btn edit btn-primary for-readonly">编辑</button> -->
                 <button type="button" class="btn cancel btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn confirm btn-primary">确定</button>
             </div>

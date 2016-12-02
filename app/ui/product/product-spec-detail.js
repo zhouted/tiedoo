@@ -28,10 +28,11 @@ class ProductSpecForm extends ModalForm {
         let $target = $(target)
         let $ipts = $target.closest('.input-group').find('input[name]')
         for (let ipt of $ipts){
-            if (ipt == target) continue
+            // if (ipt == target) continue
             let $ipt = $(ipt)
             let val = selected[$ipt.data('ddKey')]
             $ipt.autoDdGrid('val', val)
+            this.$page.find('span[name='+ipt.name+']').text(val)
         }
     }
     init(){
@@ -67,6 +68,12 @@ class ProductSpecForm extends ModalForm {
     doSave(spec){
         this.$parentPage.trigger('changed.spec.product', [spec])
         return true
+    }
+    toRead(){
+        this.$parentPage.toRead()
+    }
+    toEdit(){
+        this.$parentPage.toEdit()
     }
 }
 

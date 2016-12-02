@@ -7,7 +7,6 @@ class ModalForm extends BaseForm{
     get btns(){
         return tfn.merge({}, super.btns, {
             onConfirm: '.btn.confirm, .btn-confirm',
-            onCancel: '.btn.cancel, .btn-cancel',
         })
     }
     prepareEvents(){

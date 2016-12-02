@@ -77,7 +77,7 @@ class BasePane { // base page pane(panel view in tabpanel)
             onEdit: '.btn.edit, .btn-edit',
             onRead: '.btn.read, .btn-read',
             onSave: '.btn.save, .btn-save',
-            onClose: '.btn.close, .btn-close',
+            onCancel: '.btn.cancel, .btn-cancel',
         }
     }
     initBtns(){// bind buttons click handler
@@ -87,6 +87,7 @@ class BasePane { // base page pane(panel view in tabpanel)
             if (typeof(self[btn]) === 'function'){
                 self.$page.off('click', cls).on('click', cls, function(e){
                     self[btn](e, this)
+                    e.stopPropagation()
                 })
             }
         }
@@ -147,8 +148,8 @@ class BasePane { // base page pane(panel view in tabpanel)
         // do sth. after doLoad()
         if (!Object.is(data, undefined)){
             this.render(data)
-            this._autoRead && this.toRead()
             this._modified = false
+            this._autoRead && this.toRead()
             this._data = data
         }
         if (!Object.is(param, undefined)){
@@ -198,8 +199,8 @@ class BasePane { // base page pane(panel view in tabpanel)
     onSaved(data, rst){
         console.log(rst)
         this.rerender(data, rst)
-        this._autoRead && this.toRead()
         this._modified = false
+        this._autoRead && this.toRead()
     }
     onSavedFinal(e, btn){
         $(btn).button('reset')
@@ -220,6 +221,13 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     toRead(){
         this.$page.input('read')
+    }
+    onCancel(e, btn){
+        if (this._modified){
+            if (!window.confirm('确认取消修改？')) return
+        }
+        this._modified = false
+        this.render(this._data)
     }
 }
 

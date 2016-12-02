@@ -60,10 +60,10 @@ class ProductDetailPage extends BasePage {
     }
     render(data){
         this.renderTitle(data)
-        this.paneBasic.render(data)
-        this.paneSpecsInfo.render(data&&data.specs)
-        this.paneSpecsPrice.render(data&&data.specs)
-        this.paneSpecsPack.render(data&&data.specs)
+        this.paneBasic && this.paneBasic.render(data)
+        this.paneSpecsInfo && this.paneSpecsInfo.render(data&&data.specs)
+        this.paneSpecsPrice && this.paneSpecsPrice.render(data&&data.specs)
+        this.paneSpecsPack && this.paneSpecsPack.render(data&&data.specs)
         if (!data || !data._id){
             this.toEdit()
         }else{

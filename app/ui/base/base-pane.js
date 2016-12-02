@@ -110,7 +110,6 @@ class BasePane { // base page pane(panel view in tabpanel)
     onShown(){//after show
     }
     onHidden(){
-
     }
     get defaultParam(){
         return {}

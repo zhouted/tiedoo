@@ -48,8 +48,8 @@ class CustomerDetailPage extends BasePage {
     }
     render(data){
         this.renderTitle(data)
-        this.paneInfo.render(data)
-        this.paneContact.render(data)
+        this.paneInfo && this.paneInfo.render(data)
+        this.paneContact && this.paneContact.render(data)
         if (!data || !data._id){
             this.toEdit()
         }else{

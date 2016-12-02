@@ -62,7 +62,7 @@ class DdGrid{
             display: this.key,
             limit: this.limit||0,
             source: (query, syncb, asyncb) => {
-                syncb([{}]) //必须先有同步数据???
+                syncb(['_dummy_']) //必须先有同步数据???
                 this.doMatch(query, syncb, asyncb)
             },
             templates:{
@@ -73,7 +73,8 @@ class DdGrid{
     doMatch(query, syncb, asyncb){
     }
     renderSuggestion(suggestion){//拼成表格
-        let active = Object.is(suggestion[this.key],this.value)? 'active':''
+        let active = (suggestion[this.key]==this.value)&&this.value&&'active'//激活和当前值一致的行
+        if (suggestion == '_dummy_') active = 'hidden'//隐藏dummy
         let cols = this.columns
         let table = '<div class="'+active+'" style="width:'+tfn.fnum(this.width)+'px;"><table><tr>'
         for (let col of cols){

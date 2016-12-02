@@ -1,11 +1,10 @@
 const DdGrid = require(appPath+'/ui/base/jquery/dropdown/dd-grid.js')
 const srvSetting = require(appPath+'/service/setting.js')
 
-//Dropdown Untits
+//Dropdown Units: 计量单位
 class DdUnit extends DdGrid{
     get defaultOpts(){
         return tfn.merge({}, super.defaultOpts, {
-            // minList: 5,
             limit: 100,
             width: 160,
         })
@@ -15,16 +14,12 @@ class DdUnit extends DdGrid{
     }
     doMatch(query, syncb, asyncb){
         srvSetting.loadUnits(query).then(units => {
-            // if (units && units.length > this.minList){
-            //     this._caches = units
-            // }else{//避免下拉项数太少
-            //     this._caches = tfn.merge([], this._caches, this._units)
-            // }
-            asyncb(this._caches||units)
+            asyncb(units)
         })
     }
 }
 
+//Dropdown Pack Units: 包装单位
 class DdPackUnit extends DdUnit{
     doMatch(query, syncb, asyncb){
         srvSetting.loadPackUnits(query).then(units => {

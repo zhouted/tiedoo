@@ -27,8 +27,11 @@ srvSetting.loadUnits = function(key){
             units = srvSetting.defaultUnits
         }
         if (key){
-            let reg = new RegExp(key,'i')
-            units = units.filter(unit => (unit.name+unit.nameEn).match(reg))
+            let rgKey = new RegExp(key,'i')
+            let filtered = units.filter(unit => (unit.name+unit.nameEn).match(rgKey))
+            if (filtered && filtered.length){
+                units = filtered
+            }
         }
         return units
     })
@@ -47,8 +50,11 @@ srvSetting.loadPackUnits = function(key){
             units = srvSetting.defaultPackUnits
         }
         if (key){
-            let reg = new RegExp(key,'i')
-            units = units.filter(unit => (unit.name+unit.nameEn).match(reg))
+            let rgKey = new RegExp(key,'i')
+            let filtered = units.filter(unit => (unit.name+unit.nameEn).match(rgKey))
+            if (filtered && filtered.length){
+                units = filtered
+            }
         }
         return units
     })

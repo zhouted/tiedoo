@@ -22,7 +22,6 @@
 .twitter-typeahead .tt-suggestion.active,
 .twitter-typeahead .tt-suggestion:hover {cursor: pointer; color: #337ab7; background-color: #eee;}
 .twitter-typeahead .tt-suggestion.tt-cursor {color: #fff;  background-color: #337ab7;}
-/*.twitter-typeahead .tt-suggestion:first-child {display:none;}*/
 .twitter-typeahead .tt-suggestion p {margin: 0;}
 
 .bg-fieldset{background-color: #D3EBF7;}

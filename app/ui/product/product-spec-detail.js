@@ -23,12 +23,13 @@ class ProductSpecForm extends ModalForm {
         let $units = this.$form.find('input[name][data-dd-type]')
         $units.autoDdGrid('refresh')
     }
-    doSelect(ipt, s){
-        let $ipt = $(ipt)
-        let $ipts = $ipt.closest('.input-group').find('input[name]')
-        for (ipt of $ipts){
-            $ipt = $(ipt)
-            let val = s[$ipt.data('ddKey')]
+    doSelect(target, selected){
+        let $target = $(target)
+        let $ipts = $target.closest('.input-group').find('input[name]')
+        for (let ipt of $ipts){
+            if (ipt == target) continue
+            let $ipt = $(ipt)
+            let val = selected[$ipt.data('ddKey')]
             $ipt.autoDdGrid('val', val)
         }
     }

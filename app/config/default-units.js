@@ -26,9 +26,15 @@ const units = [
 ]
 
 const packUnits = [
-    {name: '箱', nameEn: 'CTN'},
+    {name: '纸箱', nameEn: 'CTN'},
+    {name: '木箱', nameEn: 'C/S'},
     {name: '袋', nameEn: 'BAG'},
     {name: '包', nameEn: 'BAL'},
+    {name: '捆', nameEn: 'BUN'},
+    {name: '桶', nameEn: 'DRU'},
+    {name: '托盘', nameEn: 'PLT'},
+    {name: '展示盒', nameEn: 'DBX'},
+    {name: '散装', nameEn: 'BULK'},
 ]
 
 module.exports = {units, packUnits}

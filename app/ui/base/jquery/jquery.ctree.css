@@ -1,0 +1,3 @@
+.ctree .ctree-node:not(.ctree-head)>a{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding-left:0px;padding-right:10px;}
+.ctree .ctree-node>a>.ctree-check{float:right;}
+.ctree .ctree-node>a>.ctree-toggle{padding-left:10px;padding-right:5px;}

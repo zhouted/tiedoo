@@ -45,7 +45,9 @@ class CategoryPage extends ListPage {
             parentIdAttr: 'pcode',
             expandable: true,
             clickableNodeNames: true,
-            expanderTemplate: '<a href="#"><span class="glyphicon"></span></a>'
+            expanderTemplate: '<a href="#"><span class="glyphicon"></span></a>',
+            stringExpand: "展开",
+            stringCollapse: "收起",
         }, true)
     }
     onDetail(e, target){

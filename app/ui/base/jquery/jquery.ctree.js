@@ -50,8 +50,8 @@
         templates:{
             branch: '<ul class="nav"></ul>',//分支模板
             node:'<li>'//节点模板
-                +' <a href="javascript:;" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'
-                +'  <span class="ctree-check pull-right"><input type="checkbox"></span>'
+                +' <a href="javascript:;">'
+                +'  <span class="ctree-check"><input type="checkbox"></span>'
                 +'  <span class="ctree-toggle"/>'
                 +'  <span class="ctree-icon"/>'
                 +'  <span class="ctree-text"/>'

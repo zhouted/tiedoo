@@ -52,6 +52,13 @@ class ProductSpecForm extends ModalForm {
             })
         })
     }
+    initValidators(){
+        super.initValidators()
+        // let $code = this.$form.find('input[name=code]')
+        // $tags.data('validator', (ipt) => {
+        //     return !!ipt.value
+        // })
+    }
     // doLoad(){
     //     return srvProduct.load()
     // }
@@ -64,6 +71,25 @@ class ProductSpecForm extends ModalForm {
         srvProduct.loadImg(this.$imgIpt.data('fileId')).then(file => {
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
+    }
+    checkFormData(){
+        let valid = super.checkFormData()
+        if (valid){
+            valid = this.checkSpecCode()
+        }
+        return valid
+    }
+    checkSpecCode(){
+        let parent = this.$parentPage.data('page')
+        let _id = this._data && this._data._id
+        let $code = this.$form.find('input[name=code]')
+        let code = $code.val()
+        let valid = parent.checkSpecCode({_id,code})
+        if (!valid){
+            tfn.tips('规格编号重复！', 'warning')
+            $code.focus()
+        }
+        return valid
     }
     doSave(spec){
         this.$parentPage.trigger('changed.spec.product', [spec])

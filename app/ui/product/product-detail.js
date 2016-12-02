@@ -157,6 +157,17 @@ class ProductDetailPage extends BasePage {
         }
         return null
     }
+    checkSpecCode(spec){//检查编码是否重复
+        let specs = this._data && this._data.specs
+        if (!spec || !specs || !specs.length) return true
+        for (let item of specs){
+            if (item._id === spec._id) continue
+            if (item.code === spec.code){
+                return false
+            }
+        }
+        return true
+    }
 }
 
 module.exports = ProductDetailPage

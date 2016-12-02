@@ -74,7 +74,7 @@ function template($tpl, data, index = 0){
 }
 
 function validData(data){
-    return data !== undefined
+    return !Object.is(data,null) && !Object.is(data,undefined)
 }
 
 if (module){

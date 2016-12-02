@@ -8,9 +8,9 @@ function escapeHtml(str) {
         '>': '&gt;',
         '"': '&quot;',
         "'": '&#039;'
-    };
+    }
     !str.replace && (str = str.toString())
-    return str.replace(/[&<>"']/g, m => map[m]);
+    return str.replace(/[&<>"']/g, m => map[m])
 }
 exports.fnum = numToStr
 function numToStr(num, fixed){
@@ -46,6 +46,7 @@ function funit(unit1, unit2){
 }
 exports.fsize = fsize
 function fsize(s1, s2, s3){
+    if (!s1&&!s2&&!s3) return ''
     s1 = numToStr(s1)||'-'
     s2 = numToStr(s2)||'-'
     s3 = numToStr(s3)||'-'
@@ -53,6 +54,7 @@ function fsize(s1, s2, s3){
 }
 exports.fweight = fweight
 function fweight(net, cross){
+    if (!net&&!cross) return ''
     net = numToStr(net)||'-'
     cross = numToStr(cross)||'-'
     return net+'/'+cross

@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-2">英文描述</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control english for-editonly" name="edesc">
+                    <input type="text" class="form-control for-editonly" name="edesc">
                 </div>
             </div>
             <div class="form-group">
@@ -71,7 +71,8 @@
             <div class="form-group tags">
                 <label class="control-label col-xs-2">产品标签</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control for-editonly" name="tags">
+                    <input type="text" class="form-control check-on-change for-editonly" name="tags" maxlength="100" tags-limit="10"
+                        data-content="产品标签太多啦" data-placement="top">
                     <p class="help-block for-editonly">选择预置标签：
         				<span class="preset-tags"><span class="label label-default">预置标签</span></span>
             		</p>

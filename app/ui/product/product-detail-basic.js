@@ -52,6 +52,14 @@ class ProductDetailBasicForm extends BaseForm {
             })
         })
     }
+    initValidators(){
+        super.initValidators()
+        let $tags = this.$form.find('input[name=tags]')
+        let limit = $tags.data('tagsLimit')||10
+        $tags.data('validator', (ipt) => {
+            return !ipt.value || ipt.value.split(',').length <= limit
+        })
+    }
     prepareCategory(){
         // 品类选择器
         let $selector = this.$page.find('.category .selector')
@@ -145,10 +153,15 @@ class ProductDetailBasicForm extends BaseForm {
         let $tag = $(tag)
         tag = $.trim($tag.text())
         let $ipt = $tag.closest('.form-group.tags').find('input[name=tags]')
+        let limit = $ipt.data('tagsLimit')||10
         let tags = $ipt.val()? $ipt.val().split(',') : []
         tags = tags.map(tag => $.trim(tag))
         let pos = tags.indexOf(tag)
         if (pos < 0){
+            if (tags.length >= limit){
+                tfn.tips('产品标签数不要超过'+limit+'个！')
+                return
+            }
             tags.push(tag)
         }else{
             tags.splice(pos, 1)

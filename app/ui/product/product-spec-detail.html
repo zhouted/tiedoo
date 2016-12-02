@@ -18,12 +18,6 @@
                                             <input type="text" class="form-control english auto-upcase check-on-change for-editonly" name="code" required
                                                 data-content="规格编号不能为空" data-placement="bottom">
                                         </div>
-                                        <label class="control-label col-xs-2">规格</label>
-                                        <div class="col-xs-4">
-                                            <input type="text" class="form-control for-editonly" name="name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group form-group-sm">
                                         <label class="control-label col-xs-2">单位</label>
                                         <div class="col-xs-4">
                                             <div class="input-group">
@@ -32,6 +26,12 @@
                                                 <input type="text" class="form-control english text-center for-editonly" name="unitEn" data-dd-type="DdUnit" data-dd-key="nameEn" placeholder="英文">
                                                 <span class="input-group-addon after-input for-editonly">)</span>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm">
+                                        <label class="control-label col-xs-2">规格</label>
+                                        <div class="col-xs-10">
+                                            <input type="text" class="form-control for-editonly" name="name">
                                         </div>
                                         <!-- <div class="col-xs-4">
                                             <div class="input-group">
@@ -47,7 +47,7 @@
                                     <div class="form-group form-group-sm">
                                         <label class="control-label col-xs-2">备注</label>
                                         <div class="col-xs-10">
-                                            <textarea class="form-control for-editonly" name="remark"></textarea>
+                                            <textarea class="form-control for-editonly" name="remark" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control for-editonly" name="packUnit" data-dd-type="DdPackUnit" data-dd-key="name" placeholder="中文">
                                         <span class="input-group-addon before-input for-editonly">(</span>
-                                        <input type="text" class="form-control text-center for-editonly" name="packUnitEn" data-dd-type="DdPackUnit" data-dd-key="nameEn" placeholder="英文">
+                                        <input type="text" class="form-control text-center english for-editonly" name="packUnitEn" data-dd-type="DdPackUnit" data-dd-key="nameEn" placeholder="英文">
                                         <span class="input-group-addon after-input for-editonly">)</span>
                                     </div>
                                 </div>
@@ -153,8 +153,8 @@
                 <!-- </div> -->
             </div>
             <div class="modal-footer">
-                <!-- <button type="button" class="btn edit btn-primary for-readonly">编辑</button> -->
-                <button type="button" class="btn cancel btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn edit btn-default for-readonly">编辑</button>
+                <button type="button" class="btn cancel btn-default for-editonly" data-dismiss="modal">取消</button>
                 <button type="button" class="btn confirm btn-primary">确定</button>
             </div>
         </div>

@@ -56,7 +56,7 @@ class ProductPage extends ListPage{
         }
         this.$ctree.cTree('init', treeOpt)
         this.$ctree.on('ctree:load', (e, ctree, cnode) => {
-            srvCategory.loadTree().then(nodes => {
+            srvCategory.loadTree('',{unclassified:true}).then(nodes => {
                 ctree.load(nodes, cnode)
                 if (this._param && this._param.category){
                     this.$ctree.cTree('locate', {id: this._param.category.code})

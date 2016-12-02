@@ -2,7 +2,8 @@ const daoProduct = require(appPath + '/dao/product.js')
 const daoProductImg = require(appPath + '/dao/product-img.js')
 const daoProductDiscard = require(appPath + '/dao/product-discard.js')
 
-let srvProduct = {}
+const srvProduct = {}
+const unclassified = require(appPath + '/service/category.js').unclassified
 
 srvProduct.load = function(param, project){
     let cond = {}
@@ -11,7 +12,11 @@ srvProduct.load = function(param, project){
         cond.$or = [{code: key}, {name: key}, {tags: param.key}]
     }
     if (param.category && param.category.code){// category code
-        cond['category.code'] = new RegExp('^'+param.category.code)
+        if (param.category.code == unclassified.code){
+            cond.$or = [{category:null}, {'category.code':''}]
+        }else{
+            cond['category.code'] = new RegExp('^'+param.category.code)
+        }
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
     let paging = param.paging = param.paging||{pageSize:10}

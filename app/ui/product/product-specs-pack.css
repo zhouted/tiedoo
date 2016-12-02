@@ -1,8 +1,8 @@
 #productSpecsPack .table>thead>tr>th.field-auto{width: auto;}
 #productSpecsPack .table>thead>tr>th.field-code{width: 100px;}
-#productSpecsPack .table>thead>tr>th.field-unit{width: 100px;}
-#productSpecsPack .table>thead>tr>th.field-size{width: 120px;}
-#productSpecsPack .table>thead>tr>th.field-weight{width: 120px;}
+#productSpecsPack .table>thead>tr>th.field-unit{width: 120px;}
+#productSpecsPack .table>thead>tr>th.field-size{width: 180px;}
+#productSpecsPack .table>thead>tr>th.field-weight{width: 150px;}
 #productSpecsPack .table>thead>tr>th.field-num{width: 100px; text-align: right;}
 
 #productSpecsPack .table>tbody>tr>td{cursor: pointer;}

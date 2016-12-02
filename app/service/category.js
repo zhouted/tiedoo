@@ -4,6 +4,7 @@ const daoProductDiscard = require(appPath + '/dao/product-discard.js')
 // const daoCateImg = require(appPath + '/dao/category-img.js')
 
 let srvCate = {}
+const unclassified = srvCate.unclassified = {id:'unclassified', code:'unclassified', text:'未分类'}
 
 srvCate.load = function(param, project){
     let cond = {}
@@ -60,6 +61,9 @@ function catesToTreeNodes(cates, opts){
         }
         parents[cate.code] = cate
         opts.checkCode && checkNodeExpand(cate, opts.checkCode)
+    }
+    if (opts.unclassified){
+        nodes.push(tfn.merge({}, unclassified))
     }
     return nodes
     function checkNodeExpand(node, checkCode){

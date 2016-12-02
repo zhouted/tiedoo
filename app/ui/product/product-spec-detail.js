@@ -11,6 +11,7 @@ class ProductSpecForm extends ModalForm {
     }
     prepareEvents(){
         super.prepareEvents()
+        this._autoRead = false
         this.prepareUnits()
     }
     prepareUnits(){
@@ -63,12 +64,9 @@ class ProductSpecForm extends ModalForm {
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
     }
-    onConfirm(){
-        if (this.isEditing){
-            let spec = this.getFormData()
-            this.$parentPage.trigger('changed.spec.product', [spec])
-        }
-        this.$modal.modal('hide')
+    doSave(spec){
+        this.$parentPage.trigger('changed.spec.product', [spec])
+        return true
     }
 }
 

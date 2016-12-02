@@ -9,7 +9,7 @@ class TagsForm extends BaseForm{
     }
     prepareEvents(){
         super.prepareEvents()
-        this._autored = false
+        this._autoRead = false
         this.$form.on('change', 'input[name=tags]', (e) => {
             this.onTagsChanged(e)
         })

@@ -35,9 +35,17 @@ class ModalForm extends BaseForm{
         }
         this.onSave(e, btn)
     }
-    // onCancel(e, btn){
-    //     this.onBack(e, btn)
-    // }
+    onSaved(data, rst){
+        super.onSaved(data, rst)
+        this.$modal.modal('hide')
+    }
+    onHide(){
+        if (this.isEditing && this._modified){
+            if (!window.confirm('确认取消修改？')) return false
+            this._modified = false
+            this.render(this._data)
+        }
+    }
 }
 
 module.exports = ModalForm

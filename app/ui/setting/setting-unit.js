@@ -8,7 +8,7 @@ class UnitForm extends BaseForm{
     }
     prepareEvents(){
         super.prepareEvents()
-        this._autored = false
+        this._autoRead = false
         this.$form.on('change', 'input[name=name]:last', e => this.tryAddMore(e.target))
         this.$form.on('change', 'input[name=nameEn]:last', e => this.tryAddMore(e.target))
     }

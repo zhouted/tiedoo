@@ -5,7 +5,7 @@ class BaseForm extends BasePane{
         return this._$form || (this._$form = this.$page.find('form').first())
     }
     prepareEvents(){
-        this._autored = true
+        this._autoRead = true
         super.prepareEvents()
         this.$form.input('init')
         this.initValidators()

@@ -35,17 +35,6 @@ class ProductDetailPage extends BasePage {
         this.$page.on('open.spec.product', (e, specId) => {
             this.openSpec(specId)
         })
-        // this.$btnAddContact.click(e => {
-        //     this.paneContact.addNew()
-        // })
-        // this.$subtabs.on('shown.bs.tab', (e)=>{
-        //     //显示联系人pane时才显示add-contact按钮
-        //     if (e.target === this.paneContact.$navtab[0]){
-        //         this.$btnAddContact.removeClass('hide')
-        //         return
-        //     }
-        //     this.$btnAddContact.addClass('hide')
-        // })
     }
     onShow(stub){
         super.onShow(stub)
@@ -106,13 +95,13 @@ class ProductDetailPage extends BasePage {
     }
     checkPageData(){
         let valid = this.paneBasic.checkPageData()
-        if (valid && this._$modal){
-            let specPane = this._$modal.data('page')
-            valid = specPane.checkPageData()
-            if (!valid){
-                this._$modal.modal('show')
-            }
-        }
+        // if (valid && this._$modal){
+        //     let specPane = this._$modal.data('page')
+        //     valid = specPane.checkPageData()
+        //     if (!valid){
+        //         this._$modal.modal('show')
+        //     }
+        // }
         if (valid){
             let specs =  this._data && this._data.specs || []
             valid = !!specs.length

@@ -4,7 +4,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         this._stub = null //存根：上级(父窗口)传入的数据
         this._param = null //保存页面加载参数，以便刷新(reload)
         this._data = null //保存页面加载的数据
-        this._autored = false //read/edit自动切换
+        this._autoRead = false //read/edit自动切换
         this._modified = false
         this._forceLoad = false
         this.prepare()
@@ -49,7 +49,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         })
 
         // on changed
-        this.$page.on('change, typeahead:change', 'input[name], textarea[name]', (e) => {
+        this.$page.on('change typeahead:change', 'input[name], textarea[name]', (e) => {
             this._modified = true
         })
     }
@@ -147,7 +147,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         // do sth. after doLoad()
         if (!Object.is(data, undefined)){
             this.render(data)
-            this._autored && this.toRead()
+            this._autoRead && this.toRead()
             this._modified = false
             this._data = data
         }
@@ -170,19 +170,18 @@ class BasePane { // base page pane(panel view in tabpanel)
         let data = this.getPageData()
         let p = this.doSave(data)
         if (!(p instanceof Promise)) {
-            this.rerender(data, p)
-            this.onSaved(e, btn)
+            if (p) {
+                this.onSaved(data, p)
+            }
+            this.onSavedFinal(e, btn)
             return
         }
         p.then(rst => {
-            console.log(rst)
-            this.rerender(data, rst)
-            this._autored && this.toRead()
-            this._modified = false
+            this.onSaved(data, rst)
         }).catch(err => {
             console.log(err)
         }).finally(() => {
-            this.onSaved(e, btn)
+            this.onSavedFinal(e, btn)
         })
     }
     rerender(data, saved){
@@ -196,7 +195,13 @@ class BasePane { // base page pane(panel view in tabpanel)
     doSave(data){
         // return srvXXX.save(data)
     }
-    onSaved(e, btn){
+    onSaved(data, rst){
+        console.log(rst)
+        this.rerender(data, rst)
+        this._autoRead && this.toRead()
+        this._modified = false
+    }
+    onSavedFinal(e, btn){
         $(btn).button('reset')
     }
     onEdit(e, btn){
@@ -208,6 +213,7 @@ class BasePane { // base page pane(panel view in tabpanel)
     onRead(e, btn){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return
+            this._modified = false
             this.render(this._data)
         }
         this.toRead()

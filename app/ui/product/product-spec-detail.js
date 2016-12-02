@@ -80,10 +80,11 @@ class ProductSpecForm extends ModalForm {
         return valid
     }
     checkSpecCode(){
-        let parent = this.$parentPage.data('page')
-        let _id = this._data && this._data._id
+        let _$id = this.$form.find('input[name=_id]')
+        let _id = _$id.val()
         let $code = this.$form.find('input[name=code]')
         let code = $code.val()
+        let parent = this.$parentPage.data('page')
         let valid = parent.checkSpecCode({_id,code})
         if (!valid){
             tfn.tips('规格编号重复！', 'warning')

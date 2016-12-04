@@ -64,7 +64,11 @@
                             <tbody class="product-item" data-id="${product._id}">
                                 <tr class="product-item-basic group" data-id="${product._id}">
                                     <th class="field-check"><input type="checkbox"></th>
-                                    <th class="field-img"><img src="ui/images/nopic.jpg" data-id="${product.imageId}"/></th>
+                                    <th class="field-img">
+                                        <a href="#viewImgModal" data-toggle="modal">
+                                            <img src="ui/images/nopic.jpg" data-id="${product.imageId}"/>
+                                        </a>
+                                    </th>
                                     <td class="field-code">${tfn.fstr(product.code)}</td>
                                     <td class="field-auto" colspan="6">${tfn.funit(product.name, product.ename)}</td>
                                 </tr>
@@ -73,7 +77,11 @@
                         <script type="text/html" id="tplSpec" role="template" data-bind="spec">
                             <tr class="product-item-spec" data-id="${spec._id}">
                                 <th class="field-check"><input type="checkbox"></th>
-                                <th class="field-img"><img src="" data-id="${spec.imageId}"/></th>
+                                <th class="field-img">
+                                    <a href="#viewImgModal" data-toggle="modal">
+                                        <img src="" data-id="${spec.imageId}"/>
+                                    </a>
+                                </th>
                                 <td class="field-code">${tfn.fstr(spec.code)}</td>
                                 <td class="field-name">${tfn.fstr(spec.name)}</td>
                                 <td class="field-unit">${tfn.funit(spec.unit, spec.unitEn)}</td>

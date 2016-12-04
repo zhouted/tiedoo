@@ -69,12 +69,16 @@ class CategoryPage extends ListPage {
     onDelete(e, btn){
         let cate = this.getItemData(btn)
         if (!cate) return
+        if (!this.$itemOf(btn).is('.leaf')){
+            tfn.tips('请先删除下级品类！')
+            return
+        }
         if (!window.confirm(`确认删除品类"${cate.code||''}-${cate.name||''}"吗？`)){
             return
         }
-        srvCategory.removeById(cate.id).then(() => {
+        srvCategory.removeOf(cate).then(() => {
             this.reload().then(() => {
-                this.$table.treetable('reveal', cate.pcode)
+                cate.pcode && this.$table.treetable('reveal', cate.pcode)
             })
             router.$main.trigger('changed.category', [cate])
         })

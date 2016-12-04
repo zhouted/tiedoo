@@ -13,7 +13,7 @@
                 </div>
         </div>
         <div class="pull-right">
-            <a class="btn add-new btn-primary">新增</a>
+            <a class="btn add-new btn-primary">新增主品类</a>
             <!-- <a class="btn delete btn-primary">删除</a> -->
         </div>
         <h2 class="panel-title">品类管理</h2>
@@ -27,7 +27,7 @@
                         <th class="rel-fixed field-code">品类编码</th>
                         <th class="rel-fixed field-name">品类名称</th>
                         <th class="rel-fixed field-auto">英文名称</th>
-                        <th class="rel-fixed field-btns"><a class="btn-add-new" href="javascript:;"><span class="glyphicon glyphicon-plus"></span>新增主品类</a></th>
+                        <th class="rel-fixed field-btns">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,7 @@
                         <td class="field-name">${tfn.fstr(category.name)}</td>
                         <td class="field-name">${tfn.fstr(category.nameEn)}</td>
                         <th class="field-btns">
-                            <a class="btn-delete small branch-hide" href="javascript:;"><span class="glyphicon glyphicon-remove"></span>删除品类</a>
+                            <a class="btn-delete small" href="javascript:;"><span class="glyphicon glyphicon-remove"></span>删除品类</a>
                             <a class="btn-add-new small" href="javascript:;"><span class="glyphicon glyphicon-plus"></span>新增子品类</a>
                         </th>
                       </tr>

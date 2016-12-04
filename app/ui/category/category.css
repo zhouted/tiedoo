@@ -1,3 +1,4 @@
+#category .table>thead>tr>th{background-color: #eee; text-align: left;}
 #category .table>thead>tr>th.field-toggler{width: 25px;}
 #category .table>thead>tr>th.field-code{width: 150px;}
 #category .table>thead>tr>th.field-name{width: 300px;}

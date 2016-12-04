@@ -149,23 +149,34 @@ srvCate.save = function(cate){
             }
             return daoCate.upsert(scates)
         })
-        //查找出所有下级品类，更改其编码
-        let p2 = daoProduct.find({'category.code': likey}, {category:1}).then(pds => {
+        //查找出所有下级产品，更改其编码
+        let cond = {'category.code': likey}
+        let p2 = daoProduct.find(cond, {category:1}).then(pds => {
             for (let pd of pds){
                 if (!pd.category || !pd.category.code) continue
                 pd.category.code = pd.category.code.replace(oCode, nCode)
             }
             daoProduct.upsert(pds)
         })
-        let p3 = daoProductDiscard.find({'category.code': likey}, {category:1}).then(pds => {
+        let p3 = daoProductDiscard.find(cond, {category:1}).then(pds => {
             for (let pd of pds){
                 if (!pd.category || !pd.category.code) continue
                 pd.category.code = pd.category.code.replace(oCode, nCode)
             }
             daoProductDiscard.upsert(pds)
         })
-        return p1 // let p2/3 be!
+        return p1 // let p2、p3 be!
     }
+}
+
+srvCate.removeOf = function({id, pcode, code}){
+    return daoCate.removeByIds(id).then((rst) => {
+        //更改其下产品品类为未分类
+        let cond = {'category.code': new RegExp('^'+code)}
+        let $set = {$set: {'category.code': ''}}
+        let p1 = daoProduct.update(cond, $set, {multi: true})
+        let p2 = daoProductDiscard.update(cond, $set, {multi: true})
+    })
 }
 
 srvCate.removeById = function(id){

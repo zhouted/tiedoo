@@ -1,18 +1,20 @@
 <div class="panel-body" id="setPdTags">
-    <form class="form form-horizontal on-editing">
-        <fieldset>
-            <div class="form-group">
-                <script type="text/html" id="tpl" role="template" data-bind="tag">
-                    <div class="col-xs-4">
-                        <input type="text" class="form-control for-editonly" name="tags" value="${tfn.fstr(tag)}" placeholder="预置标签${index+1}">
-                    </div>
-                </script>
-            </div>
-        </fieldset>
-        <fieldset class="text-center">
-            <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
-            <button type="button" class="btn cancel btn-default for-editonly">取消</button>
-            <button type="button" class="btn save btn-primary for-editonly">保存</button>
-        </fieldset>
-    </form>
+    <div class="auto-scroll">
+        <form class="form form-horizontal on-editing">
+            <fieldset>
+                <div class="form-group">
+                    <script type="text/html" id="tpl" role="template" data-bind="tag">
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control for-editonly" name="tags" value="${tfn.fstr(tag)}" placeholder="预置标签${index+1}">
+                        </div>
+                    </script>
+                </div>
+            </fieldset>
+            <fieldset class="text-center">
+                <button type="button" class="btn edit btn-primary for-readonly">编辑</button>
+                <button type="button" class="btn cancel btn-default for-editonly">取消</button>
+                <button type="button" class="btn save btn-primary for-editonly">保存</button>
+            </fieldset>
+        </form>
+    </div>
 </div>

@@ -11,7 +11,11 @@
 #product .product-item tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
 #product .product-item tr>td.field-num{text-align: right;}
 
-#product .product-item tr.product-item-basic {background-color: #eff4fa; font-size:16px;}
+#product .product-item tr.product-item-basic>th,
+#product .product-item tr.product-item-basic>td{background-color: #eff4fa; font-size:16px;}
+#product .product-item tr.product-item-spec>th.col-fixed,
+#product .product-item tr.product-item-spec>td.col-fixed{background-color: #eff4fa;}
+
 #product .ctree .ctree-head>a{background-color: #fff; }
 #product .ctree .ctree-head.open>a{background-color: #eee; }
 

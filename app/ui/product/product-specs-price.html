@@ -4,7 +4,6 @@
             <table class="table data-list table-hover" style="table-layout:fixed;">
                 <thead>
                     <tr>
-                        <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
                         <th class="field-code">编号</th>
                         <th class="field-num">成本价</th>
                         <th class="field-num">销售价</th>
@@ -15,7 +14,6 @@
                 <tbody>
                     <script type="text/html" role="template" data-bind="data">
                         <tr class="data-item" data-id="${data._id}">
-                            <!-- <th><input type="checkbox"></th> -->
                             <td class="field-code">${tfn.fstr(data.code)}</td>
                             <td class="field-num">${tfn.fnum(data.cost,2)}</td>
                             <td class="field-num">${tfn.fnum(data.price,2)}</td>

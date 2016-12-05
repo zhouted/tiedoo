@@ -4,7 +4,6 @@
             <table class="table data-list table-hover" style="table-layout:fixed;">
                 <thead>
                     <tr>
-                        <!-- <th class="rel-fixed?" width="20px"><input type="checkbox"></th> -->
                         <th class="field-code">编号</th>
                         <th class="field-unit">包装单位</th>
                         <th class="field-size">包装尺寸(cm)</th>
@@ -16,7 +15,6 @@
                 <tbody>
                     <script type="text/html" role="template" data-bind="data">
                         <tr class="data-item" data-id="${data._id}">
-                            <!-- <th><input type="checkbox"></th> -->
                             <td class="field-code">${tfn.fstr(data.code)}</td>
                             <td class="field-unit">${tfn.funit(data.packUnit, data.packUnitEn)}</td>
                             <td class="field-size">${tfn.fsize(data.packLength, data.packWidth, data.packHeight)}</td>

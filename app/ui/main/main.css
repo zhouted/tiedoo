@@ -23,8 +23,9 @@
     overflow: auto;
 }
 
-#main .rel-fixed{
+#main .row-fixed,
+#main .col-fixed{
     position: relative;
-    /*background-color: #fff;*/
     z-index: 100;
 }
+#main .row-fixed{z-index:101}

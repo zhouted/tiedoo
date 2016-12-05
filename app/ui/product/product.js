@@ -224,37 +224,33 @@ class ProductPage extends ListPage{
             return
         }
         let title = '将所选的 <span class="num text-danger">'+ids.length+'</span> 个产品转移至：'
-        let loadTree = ()=>{
-            let treeOpt = {
-                root: {children: null},
-                showIcon: false,
-            }
+        let doLoad = ()=>{
             let $ctree = $('#selectCate.ctree')
-            $ctree.cTree('init', treeOpt)
+            $ctree.cTree('init')
             $ctree.on('ctree:load', (e, ctree, cnode) => {
-                srvCategory.loadTree('',{unclassified:true}).then(nodes => {
-                    ctree.load(nodes, cnode)
-                })
+                let tree = this.$ctree.cTree('get') //取主窗口品類數據
+                let nodes = tree && tree.root && tree.root.children
+                ctree.load(tfn.merge([],nodes), cnode)
             })
         }
         let doMove = ()=>{
             let $ctree = $('#selectCate.ctree')
-            let $node = $ctree.find('.open')
-            if (!$node.length){
+            let cate = $ctree.cTree('get', 'focus')
+            if (!cate){
                 tfn.tips('请选择目标品类！')
                 return
             }
-            let cate = $ctree.cTree('get', $node)
-            console.log(cate)
             srvProduct.moveTo(ids, cate).then(() => {
-                this.reload()
                 $ctree.closest('.modal').modal('hide')
+                // this.$ctree.cTree('locate', cate)
+                // this.load({category:{code:cate.code}})
+                this.reload()
             })
         }
         router.loadModal({
             id: 'selectCate', title: title,
             content: '<ul id="selectCate" class="ctree for-move" style="max-height:400px; overflow:auto;"></ul>',
-            onLoad: () => loadTree(),
+            onLoad: () => doLoad(), reload: true,
             confirmClick: () => doMove(),
         })
     }

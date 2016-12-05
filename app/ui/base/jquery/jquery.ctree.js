@@ -309,8 +309,16 @@
         return this
     }
     function getData($node){
-        var data = getNode($node) || getTree(this)
-        return data
+        if ($node === 'focus'){
+            $node = this.find(_nodeDls+'.open')
+            if (!$node.length){
+                return null
+            }
+        }
+        if (!$node){
+            return getTree(this)
+        }
+        return getNode($node)
     }
     function locateNode(data){
         var $tree = this

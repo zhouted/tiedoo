@@ -17,3 +17,7 @@
 
 #product .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
 #product .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
+
+#product .toggle-category{padding: 5px 6px; margin-left: -6px;}
+#product .toggle-category .icon-bar{display: block; width: 24px; height: 4px; border-radius: 1px; background-color: #4e5f6f;}
+#product .toggle-category .icon-bar + .icon-bar {margin-top: 4px;}

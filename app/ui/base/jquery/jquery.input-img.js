@@ -36,11 +36,23 @@
             $ipt.change(function(){
                 let src = this.files[0] && this.files[0].path
                 if (!src) return
-                router.showCropper(this)
+                showCropper(this)
             }).on('close.cropper', function(e){
                 this.value = '' //重置file input
             })
         }
+    }
+
+    // 图片剪裁弹窗(传入file input)
+    function showCropper(ipt){
+        let opts = {id: 'cropModal', append: true}
+        return router.$body.loadFile('ui/common/crop-modal.html', opts).then(() => {
+            let $modal = $('#'+opts.id)
+            $modal.find('#image').attr('src', ipt.files[0].path).data('srcIpt', ipt)
+            $modal.modal('show')
+        }).catch(err => {
+            console.error(err)
+        })
     }
 
 })(jQuery)

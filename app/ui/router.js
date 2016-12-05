@@ -62,16 +62,52 @@ router.loadMainPanel = function(key, data) {
     tfn.store('mainPanel', opts)
 }
 
-// 图片剪裁弹窗(传入file input)
-router.showCropper = function(ipt){
-    let opts = {id: 'cropModal', append: true}
-    return router.$body.loadFile('ui/common/crop-modal.html', opts).then(() => {
-        let $modal = $('#'+opts.id)
-        $modal.find('#image').attr('src', ipt.files[0].path).data('srcIpt', ipt)
-        $modal.modal('show')
+// // 图片剪裁弹窗(传入file input)
+// router.showCropper = function(ipt){
+//     let opts = {id: 'cropModal', append: true}
+//     return router.$body.loadFile('ui/common/crop-modal.html', opts).then(() => {
+//         let $modal = $('#'+opts.id)
+//         $modal.find('#image').attr('src', ipt.files[0].path).data('srcIpt', ipt)
+//         $modal.modal('show')
+//     }).catch(err => {
+//         console.error(err)
+//     })
+// }
+router.loadModal = function(opts){
+    let modalId = opts.id + 'Modal'
+    return router.$body.loadFile('ui/common/common-modal.html', {id: modalId, append: true}).then(() => {
+        let $modal = $('#'+modalId).data(opts)
+        for (let btn in {confirm:1, preview:1, custom:1, cancel:1}){
+			let $btn = $modal.find('button.'+btn).off('click').hide();
+			if (opts[btn+'Label'] || opts[btn+'Click'] || btn == 'cancel'){
+				$btn.show();
+				opts[btn+'Click'] && $btn.click(opts[btn+'Click']);
+				opts[btn+'Label'] && $btn.text(opts[btn+'Label']);
+			}
+		}
+        let $content = $modal.find('.modal-body')
+        if (opts.reload || !$content.children().length){
+            if (!opts.content && opts.src){
+                $content.loadFile(opts.src, {id: opts.id}).then(() => {
+                    $modal.trigger('load.bs.modal', rsp)
+                    opts.onLoad && opts.onLoad.call($modal[0], rsp)
+                    $modal.modal('show')
+                })
+            }else{
+                $content.html(opts.content)
+                setTimeout(function(){
+                    $modal.trigger('load.bs.modal', opts.content)
+                    opts.onLoad && opts.onLoad.call($modal[0], opts.content)
+                    $modal.modal('show')
+                })
+            }
+        }else{
+            $modal.modal('show')
+        }
     }).catch(err => {
         console.error(err)
     })
 }
+
 
 module.exports = router

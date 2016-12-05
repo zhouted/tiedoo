@@ -225,4 +225,12 @@ srvProduct.removePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定�
     return p
 }
 
+srvProduct.moveTo = function(pdIds, cate){
+    let cateCode = cate && cate.code
+    if (cateCode == unclassified.code){
+        cateCode = ''
+    }
+    return daoProduct.update({_id: {$in: pdIds}}, {$set:{'category.code': cateCode}}, {multi: true})
+}
+
 module.exports = srvProduct

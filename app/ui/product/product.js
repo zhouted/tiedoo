@@ -16,6 +16,15 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
+    get selectedPdIds(){
+        let ids = []
+        let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
+        for (let check of $checks){
+            let id = this.getItemPdId(check)
+            id && ids.push(id)
+        }
+        return ids
+    }
     get selectedSpecIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-spec>.field-check>input[type=checkbox]:checked')
@@ -24,7 +33,6 @@ class ProductPage extends ListPage{
             id && ids.push(id)
         }
         return ids
-
     }
     getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
@@ -33,6 +41,7 @@ class ProductPage extends ListPage{
     }
     get btns(){
         return tfn.merge({}, super.btns, {
+            onMove: '.btn.move',
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
             onToggleDiscarded: '.btn.toggle-discarded',
@@ -206,6 +215,47 @@ class ProductPage extends ListPage{
         p.then((rst) => {
             console.log(rst)
             this.reload()
+        })
+    }
+    onMove(e, btn){
+        let ids = this.selectedPdIds
+        if (!ids.length){
+            tfn.tips('请先选择要修改的产品！', 'warning')
+            return
+        }
+        let title = '将所选的 <span class="num text-danger">'+ids.length+'</span> 个产品转移至：'
+        let loadTree = ()=>{
+            let treeOpt = {
+                root: {children: null},
+                showIcon: false,
+            }
+            let $ctree = $('#selectCate.ctree')
+            $ctree.cTree('init', treeOpt)
+            $ctree.on('ctree:load', (e, ctree, cnode) => {
+                srvCategory.loadTree('',{unclassified:true}).then(nodes => {
+                    ctree.load(nodes, cnode)
+                })
+            })
+        }
+        let doMove = ()=>{
+            let $ctree = $('#selectCate.ctree')
+            let $node = $ctree.find('.open')
+            if (!$node.length){
+                tfn.tips('请选择目标品类！')
+                return
+            }
+            let cate = $ctree.cTree('get', $node)
+            console.log(cate)
+            srvProduct.moveTo(ids, cate).then(() => {
+                this.reload()
+                $ctree.closest('.modal').modal('hide')
+            })
+        }
+        router.loadModal({
+            id: 'selectCate', title: title,
+            content: '<ul id="selectCate" class="ctree for-move" style="max-height:400px; overflow:auto;"></ul>',
+            onLoad: () => loadTree(),
+            confirmClick: () => doMove(),
         })
     }
 }

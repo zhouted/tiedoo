@@ -20,22 +20,36 @@ class ProductPage extends ListPage{
         return this._$checkedBar || (this._$checkedBar = this.$page.find('.checked-bar'))
     }
     get checkedPdIds(){
-        let ids = []
-        let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
-        for (let check of $checks){
-            let id = this.getItemPdId(check)
-            id && ids.push(id)
-        }
-        return ids
+        return this._checkedPdIds || (this._checkedPdIds = [])
     }
     get checkedSpecIds(){
-        let ids = []
-        let $checks = this.$table.find('.product-item-spec>.field-check>input[type=checkbox]:checked')
-        for (let check of $checks){
-            let id = this.getItemId(check)
-            id && ids.push(id)
+        return this._checkedSpecIds || (this._checkedSpecIds = [])
+    }
+    showCheckedBar(){
+        let counter = {pd:this.checkedPdIds.length, spec:this.checkedSpecIds.length}
+        this.$checkedBar.trigger('changed.checked', counter)
+    }
+    checkOne(checked, $check, $tr){
+        let id = this.getItemId($tr)
+        let ids = this.checkedSpecIds
+        let pos = ids.indexOf(id)
+        if (pos >= 0){
+            ids.splice(pos, 1)
         }
-        return ids
+        if (checked){
+            ids.push(id)
+        }
+    }
+    checkGroup(checked, $check, $tr){
+        let id = this.getItemPdId($tr)
+        let ids = this.checkedPdIds
+        let pos = ids.indexOf(id)
+        if (pos >= 0){
+            ids.splice(pos, 1)
+        }
+        if (checked){
+            ids.push(id)
+        }
     }
     getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
@@ -57,9 +71,31 @@ class ProductPage extends ListPage{
     initEvents(){
         super.initEvents()
         this.initCategory()
+        this.initCheckedBar()
         router.$main.on('changed.product', (e, data) => {
             this.reload()
         })
+    }
+    initCheckedBar(){
+        let $bar = this.$checkedBar
+        let $pdNum = $bar.find('.pd-num'), pdNum = 0
+        let $specNum = $bar.find('.spec-num'), specNum = 0
+        $bar.on('changed.checked', (e, counter) => {
+            if (counter.pd>=0){
+                pdNum = counter.pd
+                $pdNum.text(pdNum)
+            }
+            if (counter.spec>=0){
+                specNum = counter.spec
+                $specNum.text(specNum)
+            }
+            if (pdNum || specNum){
+                $bar.removeClass('hidden')
+            }else{
+                $bar.addClass('hidden')
+            }
+        })
+
     }
     initCategory(){
         let treeOpt = {
@@ -100,6 +136,9 @@ class ProductPage extends ListPage{
         this.$tplPd.prevAll('tbody').remove()
         for (let pd of data) {
             let $item = $(tfn.template(this.$tplPd, pd))
+            if (this.checkedPdIds.includes(pd._id)){
+                $item.find('input[type=checkbox]').prop('checked',true)
+            }
             let specs = pd.specs
             if (specs){
                 $item.append(tfn.template(this.$tplSpec, specs))

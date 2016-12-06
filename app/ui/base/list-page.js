@@ -100,7 +100,7 @@ class ListPage extends BasePage{
         if (!checked || !$allChecks.filter(':not(:checked)').length){
             this.$table.find('thead>tr>th>input[type=checkbox]').prop('checked', checked)
         }
-        // table.showCheckedbar();
+        this.showCheckedBar && this.showCheckedBar()
     }
     onCheckOne(e){
         let $check = $(e.target), checked = $check.prop('checked')
@@ -146,7 +146,7 @@ class ListPage extends BasePage{
             $check.prop('checked', checked)
             this.checkOne(checked, $check, $check.closest('tr'))
         }
-        // table.showSelectedbar();
+        this.showCheckedBar && this.showCheckedBar()
     }
     onSort(e){
         let sortBy = {}

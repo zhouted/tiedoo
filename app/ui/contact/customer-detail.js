@@ -2,6 +2,10 @@ const BasePage = require(appPath+'/ui/base/base-page.js')
 const srvCust = require(appPath+'/service/customer.js')
 
 class CustomerDetailPage extends BasePage {
+    prepare(){
+        super.prepare()
+        this._forceLoad = true
+    }
     get $title(){
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
@@ -18,9 +22,8 @@ class CustomerDetailPage extends BasePage {
         // return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
          return (this._$scroll = this.$page.find('.auto-scroll'))
     }
-    prepareEvents(){
-        this._forceLoad = true
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         this.$btnAddContact.click(e => {
             this.paneContact.addNew()
         })

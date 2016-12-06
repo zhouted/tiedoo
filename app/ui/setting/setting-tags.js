@@ -4,17 +4,17 @@ const srvSetting = require(appPath+'/service/setting.js')
 const TAGS = srvSetting.TAGS
 const MAX_TAGS = 9 //最大标签数
 class TagsForm extends BaseForm{
+    prepare(){
+        super.prepare()
+        this._autoRead = false
+    }
     get $tpl(){
         return this._$tpl || (this._$tpl = this.$form.find('#tpl'))
     }
-    prepareEvents(){
-        super.prepareEvents()
-        this._autoRead = false
+    initEvents(){
+        super.initEvents()
         this.$form.on('change', 'input[name=tags]:last', e => this.tryAddMore(e.target))
     }
-    // init(){
-    //     super.init()
-    // }
     doLoad(){
         return srvSetting.loadTags()
     }

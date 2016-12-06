@@ -16,6 +16,9 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
+    get $checkedBar(){
+        return this._$checkedBar || (this._$checkedBar = this.$page.find('.checked-bar'))
+    }
     get checkedPdIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
@@ -51,14 +54,14 @@ class ProductPage extends ListPage{
     }
     // showBtns(){
     // }
-    prepareEvents(){
-        super.prepareEvents()
-        this.prepareCategory()
+    initEvents(){
+        super.initEvents()
+        this.initCategory()
         router.$main.on('changed.product', (e, data) => {
             this.reload()
         })
     }
-    prepareCategory(){
+    initCategory(){
         let treeOpt = {
             root: {children: null},
             showIcon: false,

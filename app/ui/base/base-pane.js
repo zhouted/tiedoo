@@ -1,13 +1,35 @@
 class BasePane { // base page pane(panel view in tabpanel)
     constructor({pid}){
-        this._pid = '#'+pid //page identify
+        this._pid = '#'+pid //pane/page identify
+        $(this._pid).data('page', this)
+        this.prepare()
+        this.parentEvents()
+    }
+    prepare(){ //do prepare on document loading(before onReady())
+        // initial data
         this._stub = null //存根：上级(父窗口)传入的数据
         this._param = null //保存页面加载参数，以便刷新(reload)
         this._data = null //保存页面加载的数据
         this._autoRead = false //read/edit自动切换
         this._modified = false
         this._forceLoad = false
-        this.prepare()
+    }
+    parentEvents(){
+        // on parent panel show...
+        this.$navtab.on('show.bs.tab', (e)=>{
+            let stub = $(e.target).data('_spv')
+            this.onShow(stub)
+        })
+        this.$navtab.on('shown.bs.tab', (e)=>{
+            this.onShown()
+        })
+        // on parent panel hide...
+        this.$navtab.on('hide.bs.tab', (e)=>{
+            return this.onHide()
+        })
+        this.$navtab.on('hidden.bs.tab', (e)=>{
+            this.onHidden()
+        })
     }
     get pid(){// page id
         return this._pid
@@ -27,46 +49,19 @@ class BasePane { // base page pane(panel view in tabpanel)
     get isEditing(){
         return this.$page.find('.for-editonly').is(':visible')
     }
-    prepare(){ //do prepare on document loading(before init())
+    onReady(){ //on document ready
         this.$page.data('page', this)
-        this.prepareEvents()
+        this.initEvents()
+        this.initBtns()
+        if (!this._param){// 加载之后_param就保存有加载参数
+            this.load(this._stub)// try to load page data
+        }
     }
-    prepareEvents(){
-        // on parent panel show...
-        this.$navtab.on('show.bs.tab', (e)=>{
-            let stub = $(e.target).data('_spv')
-            this.onShow(stub)
-        })
-        this.$navtab.on('shown.bs.tab', (e)=>{
-            this.onShown()
-        })
-        // on parent panel hide...
-        this.$navtab.on('hide.bs.tab', (e)=>{
-            return this.onHide()
-        })
-        this.$navtab.on('hidden.bs.tab', (e)=>{
-            this.onHidden()
-        })
-
+    initEvents(){
         // on changed
         this.$page.on('change typeahead:change', 'input[name], textarea[name]', (e) => {
             this._modified = true
         })
-    }
-    setStub(stub){
-        this.$navtab.data('_spv', stub)
-        if (this._stub){
-            this._stub = stub
-        }
-        if (this._param){
-            tfn.merge(this._param, stub)
-        }
-    }
-    init(){ // do init on document ready
-        if (!this._param){// 加载之后_param就保存有加载参数
-            this.load(this._stub)
-        }
-        this.initBtns()
     }
     get btns(){// buttons click handler map
         return {
@@ -191,6 +186,15 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
         this.render(data)
         this._data = data
+    }
+    setStub(stub){
+        this.$navtab.data('_spv', stub)
+        if (this._stub){
+            this._stub = stub
+        }
+        if (this._param){
+            tfn.merge(this._param, stub)
+        }
     }
     doSave(data){
         // return srvXXX.save(data)

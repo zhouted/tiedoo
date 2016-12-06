@@ -19,10 +19,11 @@ class ProductDetailBasicForm extends BaseForm {
     get $cateName(){
         return (this._$cateName = this.$form.find('.category span[name=name]'))
     }
-    prepareEvents(){
-        super.prepareEvents()
-        this.prepareCategory()
-        this.prepareTags()
+    initEvents(){
+        super.initEvents()
+        this.initImg()
+        this.initCategory()
+        this.initTags()
         // let $ipt = this.$page.find('input[name]')//.first()
         // $ipt.typeahead({
         //     minLength: 0, highlight: true
@@ -33,11 +34,6 @@ class ProductDetailBasicForm extends BaseForm {
         //     console.log(q,cb,ab)
         //     cb(['a', 'b', 'c'])
         // }
-    }
-
-    init(){
-        super.init()
-        this.initImg()
     }
     initImg(){
         this.$imgIpt.inputImg().change((e) => {
@@ -60,7 +56,7 @@ class ProductDetailBasicForm extends BaseForm {
             return !ipt.value || ipt.value.split(',').length <= limit
         })
     }
-    prepareCategory(){
+    initCategory(){
         // 品类选择器
         let $selector = this.$page.find('.category .selector')
         this.$form.find('.category-toggle').click(function(){
@@ -93,7 +89,7 @@ class ProductDetailBasicForm extends BaseForm {
             this.$ctree.cTree('refresh', treeOpt)
         })
     }
-    prepareTags(){
+    initTags(){
         this.$form.find('.form-group.tags').on('keyup', (e) => {
             if (e.keyCode == 229){
                 e.target.value = e.target.value.replace(/，/g, ', ');

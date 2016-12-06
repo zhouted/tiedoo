@@ -15,8 +15,8 @@ class UserForm extends BaseForm{
     get $account(){
         return this._$account || (this._$account = this.$form.find('input[name=account]'))
     }
-    init(){
-        super.init()
+    onReady(){
+        super.onReady()
         this.initImg()
     }
     initImg(){
@@ -58,7 +58,7 @@ class UserForm extends BaseForm{
     }
     onPasswd(){
         let opts = {id: 'passwdModal', append: true}
-        this.$page.loadFile('ui/setting/setting-pwd.html', opts).then(() => {
+        router.$main.loadFile('ui/setting/setting-pwd.html', opts).then(() => {
             let $modal = $('#'+opts.id)
             $modal.modal('show')
         })

@@ -1,4 +1,4 @@
-exports.init = function({pid}) {
+exports.onReady = function({pid}) {
     let $modal = $('#' + pid)
     let $image = $modal.find('#image')
     let $confirm = $modal.find('.btn.confirm')

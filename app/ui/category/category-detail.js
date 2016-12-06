@@ -8,8 +8,8 @@ class CategoryDetailForm extends ModalForm {
     // get $imgIpt(){
     //     return this._$imgIpt || (this._$imgIpt = this.$form.find('input[name=imageId]'))
     // }
-    // init(){
-    //     super.init()
+    // onReady(){
+    //     super.onReady()
     //     this.initImg()
     // }
     // initImg(){

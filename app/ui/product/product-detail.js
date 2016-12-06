@@ -2,6 +2,10 @@ const BasePage = require(appPath+'/ui/base/base-page.js')
 const srvProduct = require(appPath+'/service/product.js')
 
 class ProductDetailPage extends BasePage {
+    prepare(){
+        super.prepare()
+        this._forceLoad = true
+    }
     get btns(){
         return tfn.merge(super.btns, {onAddSpec: '.btn.add-spec'})
     }
@@ -26,9 +30,8 @@ class ProductDetailPage extends BasePage {
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
-    prepareEvents(){
-        this._forceLoad = true
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         this.$page.on('changed.spec.product', (e, spec) => {
             this.renderSpec(spec)
         })

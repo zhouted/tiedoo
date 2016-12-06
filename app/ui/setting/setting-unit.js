@@ -3,18 +3,18 @@ const srvSetting = require(appPath+'/service/setting.js')
 
 const MAX_UNITS = 120 //最大标数量
 class UnitForm extends BaseForm{
+    prepare(){
+        super.prepare()
+        this._autoRead = false
+    }
     get $tpl(){
         return this._$tpl || (this._$tpl = this.$form.find('#tpl'))
     }
-    prepareEvents(){
-        super.prepareEvents()
-        this._autoRead = false
+    initEvents(){
+        super.initEvents()
         this.$form.on('change', 'input[name=name]:last', e => this.tryAddMore(e.target))
         this.$form.on('change', 'input[name=nameEn]:last', e => this.tryAddMore(e.target))
     }
-    // init(){
-    //     super.init()
-    // }
     doLoad(){
         return srvSetting.loadUnits()
     }

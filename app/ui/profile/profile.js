@@ -1,6 +1,6 @@
 const mUser = require(appPath+'/service/user.js')
 
-function init(modalId){
+exports.prepare = function(modalId){
     let $modal = $(modalId), $form = $modal.find('form')
     $modal.on('shown.bs.modal', () => {
         adjustMiddle()
@@ -42,5 +42,3 @@ function init(modalId){
         }
     }
 }
-
-module.exports = {init}

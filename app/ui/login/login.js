@@ -18,8 +18,8 @@ class LoginForm extends ModalForm {
     get $confirm(){
         return this._$confirm || (this._$confirm = this.$form.find('.btn.confirm'))
     }
-    prepareEvents(){
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         this.$form.on('keyup', '.form-control', e => {
             if (e && e.which == 13){
                 this.$confirm.click()

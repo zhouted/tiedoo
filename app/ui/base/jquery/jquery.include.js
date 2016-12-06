@@ -119,12 +119,14 @@ function loader(filename, opts){
         let oid = setContentId($contents, id)
         let pid = id||oid
         let aScript = `<script>(function(){
-            let p = require('./${filename.replace(/.html$/, '.js')}');
+            let p = require('./${filename.replace(/.html$/, '.js')}')
             if (typeof(p)=='function'){
                 p = new p({pid:'${pid}'})
+            }else{
+                p && p.prepare && p.prepare({pid:'${pid}'})
             }
             p && $(function(){
-                p.init && p.init({pid:'${pid}'});
+                p.onReady && p.onReady({pid:'${pid}'})
             })})()</script>`
         if ($contents instanceof $){
             if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id

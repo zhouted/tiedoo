@@ -2,6 +2,11 @@ const ModalForm = require(appPath+'/ui/base/modal-form.js')
 const srvUser = require(appPath+'/service/user.js')
 
 class PwdForm extends ModalForm{
+    prepare(){
+        super.prepare()
+        this._autoRead = false
+        this._forceLoad = true
+    }
     get $pwd(){
         return this._$pwd || (this._$pwd = this.$form.find('input[name=pwd]'))
     }
@@ -30,10 +35,7 @@ class PwdForm extends ModalForm{
         return srvUser.load()
     }
     render(){
-        null
-    }
-    rerender(){
-        null
+        this.$form[0].reset()
     }
     doSave(){
         let pwdOld = this.$pwdOld.val()

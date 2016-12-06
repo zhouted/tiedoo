@@ -1,8 +1,7 @@
 /**
  * 查看图片弹出框对应的js
  */
-exports.init = init
-function init({pid}){
+exports.prepare = function({pid}){
     let $modal = $('#' + pid)
     let $title = $modal.find(".modal-title")
     let $image = $modal.find('.img-responsive')

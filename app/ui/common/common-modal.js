@@ -1,4 +1,4 @@
-exports.init = function({pid}) {
+exports.onReady = function({pid}) {
     let $modal = $('#' + pid)
 
     //修改titleId

@@ -1,5 +1,9 @@
 const BasePage = require(appPath+'/ui/base/base-page.js')
 class ListPage extends BasePage{
+    prepare(){
+        super.prepare()
+        this._forceLoad = false
+    }
     get $searchBtn(){
         return this._$searchBtn || (this._$searchBtn = $(this.$page.find(this.btns.onSearch)))
     }
@@ -12,9 +16,8 @@ class ListPage extends BasePage{
     get $sortables(){
         return this._$sortables || (this._$sortables = this.$page.find('thead>tr>th.sortable'))
     }
-    prepareEvents(){
-        this._forceLoad = false
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         // on search
         this.$searchIpt.keyup(e => {
             if (e && e.which == 13){
@@ -27,10 +30,6 @@ class ListPage extends BasePage{
         this.$page.on('change', 'tbody>tr.group>th>input[type=checkbox]', e => this.onCheckGroup(e))
         // sortables
         this.$sortables.click(e => this.onSort(e))
-    }
-    init(){ // do init on document ready
-        super.init()
-        // this.doResize()
     }
     get defaultParam(){
         return {orderBy:{name:1}, paging:{pageSize:20}}

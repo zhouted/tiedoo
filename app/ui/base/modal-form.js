@@ -4,13 +4,8 @@ class ModalForm extends BaseForm{
     get $modal(){
         return this.$page.closest('.modal')
     }
-    get btns(){
-        return tfn.merge({}, super.btns, {
-            onConfirm: '.btn.confirm, .btn-confirm',
-        })
-    }
-    prepareEvents(){
-        super.prepareEvents()
+    parentEvents(){
+        super.parentEvents()
         // on modal show...
         this.$modal.on('show.bs.modal', (e)=>{
             let stub = this.$modal.data('_spv')
@@ -25,6 +20,11 @@ class ModalForm extends BaseForm{
         })
         this.$modal.on('hidden.bs.modal', (e)=>{
             this.onHidden()
+        })
+    }
+    get btns(){
+        return tfn.merge({}, super.btns, {
+            onConfirm: '.btn.confirm, .btn-confirm',
         })
     }
     onConfirm(e, btn){

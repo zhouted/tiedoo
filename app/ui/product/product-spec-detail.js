@@ -3,18 +3,35 @@ const srvProduct = require(appPath+'/service/product.js')
 require(appPath+'/ui/base/jquery/dropdown/dd-unit.js')
 
 class ProductSpecForm extends ModalForm {
+    prepare(){
+        super.prepare()
+        this._autoRead = false
+    }
     get $img(){
         return this._$img || (this._$img = this.$form.find('img.image-preview'))
     }
     get $imgIpt(){
         return this._$imgIpt || (this._$imgIpt = this.$form.find('input[name=imageId]'))
     }
-    prepareEvents(){
-        super.prepareEvents()
-        this._autoRead = false
-        this.prepareUnits()
+    initEvents(){
+        super.initEvents()
+        this.initImg()
+        this.initUnits()
     }
-    prepareUnits(){
+    initImg(){
+        this.$imgIpt.inputImg().change((e) => {
+            let file = e.target.files[0]
+            if (!file || !file.path) return
+            this.$img.attr('src', file.path);
+            srvProduct.saveImg(file).then(file => {
+                console.log(file)
+                this.$imgIpt.data('fileId', file._id)
+                this.$imgIpt.val('') //reset file input
+                this.$form.closest('.on-reading, .on-editing').input('edit')
+            })
+        })
+    }
+    initUnits(){
         let $units = this.$form.find('input[name][data-dd-type]')
         $units.autoDdGrid().on('typeahead:select', (e, suggestion) => {
             this.selectUnits(e.target, suggestion)
@@ -34,23 +51,6 @@ class ProductSpecForm extends ModalForm {
             $ipt.autoDdGrid('val', val)
             this.$page.find('span[name='+ipt.name+']').text(val)
         }
-    }
-    init(){
-        super.init()
-        this.initImg()
-    }
-    initImg(){
-        this.$imgIpt.inputImg().change((e) => {
-            let file = e.target.files[0]
-            if (!file || !file.path) return
-            this.$img.attr('src', file.path);
-            srvProduct.saveImg(file).then(file => {
-                console.log(file)
-                this.$imgIpt.data('fileId', file._id)
-                this.$imgIpt.val('') //reset file input
-                this.$form.closest('.on-reading, .on-editing').input('edit')
-            })
-        })
     }
     initValidators(){
         super.initValidators()

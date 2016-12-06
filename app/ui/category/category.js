@@ -13,8 +13,8 @@ class CategoryPage extends ListPage {
             onDetail: '.category-item>td',
         })
     }
-    prepareEvents(){
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         this.$page.on('changed.category', (e, cate) => {
             this.reload().then(() => {
                 cate && this.$table.treetable('reveal', cate.code)

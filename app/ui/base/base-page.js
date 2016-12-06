@@ -1,5 +1,20 @@
 const BasePane = require(appPath+'/ui/base/base-pane.js')
 class BasePage extends BasePane{
+    parentEvents(){
+        super.parentEvents()
+        // on parent's panel resize
+        let resizing = false
+        this.$tabpanel.on('resize.td.page', (e) => {
+            if (resizing) return
+            if (!this.$tabpanel.is(':visible')) return
+            resizing = true;
+            setTimeout(() => {
+                this.doResize()
+                resizing = false
+            })
+        })
+        // !resizing && this.doResize()
+    }
     get $topbar(){// 页面上的工具栏
         return  this._$topbar || (this._$topbar = $(this.$page.find('.topbar')))
     }
@@ -15,19 +30,8 @@ class BasePage extends BasePane{
     get $scroll(){// 页面内的滚动区域
         return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
     }
-    prepareEvents(){
-        super.prepareEvents()
-        // on resize
-        let resizing = false
-        this.$tabpanel.on('resize.td.page', (e) => {
-            if (resizing) return
-            if (!this.$tabpanel.is(':visible')) return
-            resizing = true; console.log(e)
-            setTimeout(() => {
-                this.doResize()
-                resizing = false
-            })
-        })
+    initEvents(){
+        super.initEvents()
         // on scroll
         if (this.$scroll.length){
             let $fixed = this.$scroll.find('.row-fixed')
@@ -37,10 +41,6 @@ class BasePage extends BasePane{
                 $(this).find('.col-fixed').css('left', this.scrollLeft)
             });
         }
-    }
-    init(){ // do init on document ready
-        super.init()
-        this.doResize()
     }
     doResize(){
         let height = this.$tabpanel.height() - 15

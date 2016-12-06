@@ -13,8 +13,8 @@ class CustomerPage extends ListPage{
             onDetail: '.customer-item>td',
         })
     }
-    prepareEvents(){
-        super.prepareEvents()
+    initEvents(){
+        super.initEvents()
         router.$main.on('changed.customer', (e, data) => {
             this.reload()
         })

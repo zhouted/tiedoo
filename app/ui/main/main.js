@@ -4,7 +4,7 @@ Object.assign($.fn.twbsPagination.defaults, {first: '«', prev: '‹', next: '�
 
 const srvUser = require(appPath+'/service/user.js')
 
-exports.init = function(binds){
+exports.onReady = function({pid}){
     srvUser.load().then(user =>{
         showUserInfo(user)
     })

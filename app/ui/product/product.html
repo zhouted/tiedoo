@@ -18,7 +18,7 @@
                 </span>
             </div>
         </div>
-        <div class="checked-bar pull-right">
+        <div class="checked-bar pull-right hidden">
             <a class="btn checked" href="javascript:;">已选
                 <span class="pd-num text-danger">0</span>个产品
                 <span class="spec-num text-danger">0</span>个规格
@@ -84,7 +84,7 @@
                         <script type="text/html" id="tplPd" role="template" data-bind="product">
                             <tbody class="product-item" data-id="${product._id}">
                                 <tr class="product-item-basic group" data-id="${product._id}">
-                                    <th class="field-check col-fixed"><input type="checkbox"></th>
+                                    <th class="field-check col-fixed"><input type="checkbox" ${product.checked&&'checked'}></th>
                                     <th class="field-img col-fixed">
                                         <a href="#viewImgModal" data-toggle="modal">
                                             <img src="ui/images/nopic.jpg" data-id="${product.imageId}"/>
@@ -97,7 +97,7 @@
                         </script>
                         <script type="text/html" id="tplSpec" role="template" data-bind="spec">
                             <tr class="product-item-spec" data-id="${spec._id}">
-                                <th class="field-check col-fixed"><input type="checkbox"></th>
+                                <th class="field-check col-fixed"><input type="checkbox" ${spec.checked&&'checked'}></th>
                                 <th class="field-img col-fixed">
                                     <a href="#viewImgModal" data-toggle="modal">
                                         <img src="" data-id="${spec.imageId}"/>

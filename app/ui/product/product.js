@@ -26,8 +26,16 @@ class ProductPage extends ListPage{
         return this._checkedSpecIds || (this._checkedSpecIds = [])
     }
     showCheckedBar(){
-        let counter = {pd:this.checkedPdIds.length, spec:this.checkedSpecIds.length}
-        this.$checkedBar.trigger('changed.checked', counter)
+        let $bar = this.$checkedBar
+        let pdNum = this.checkedPdIds.length
+        $bar.find('.pd-num').text(pdNum)
+        let specNum = this.checkedSpecIds.length
+        $bar.find('.spec-num').text(specNum)
+        if (pdNum || specNum){
+            $bar.removeClass('hidden')
+        }else{
+            $bar.addClass('hidden')
+        }
     }
     checkOne(checked, $check, $tr){
         let id = this.getItemId($tr)
@@ -58,6 +66,7 @@ class ProductPage extends ListPage{
     }
     get btns(){
         return tfn.merge({}, super.btns, {
+            onClear: '.btn.clear',
             onMove: '.btn.move',
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
@@ -71,31 +80,17 @@ class ProductPage extends ListPage{
     initEvents(){
         super.initEvents()
         this.initCategory()
-        this.initCheckedBar()
         router.$main.on('changed.product', (e, data) => {
             this.reload()
         })
     }
-    initCheckedBar(){
-        let $bar = this.$checkedBar
-        let $pdNum = $bar.find('.pd-num'), pdNum = 0
-        let $specNum = $bar.find('.spec-num'), specNum = 0
-        $bar.on('changed.checked', (e, counter) => {
-            if (counter.pd>=0){
-                pdNum = counter.pd
-                $pdNum.text(pdNum)
-            }
-            if (counter.spec>=0){
-                specNum = counter.spec
-                $specNum.text(specNum)
-            }
-            if (pdNum || specNum){
-                $bar.removeClass('hidden')
-            }else{
-                $bar.addClass('hidden')
-            }
-        })
-
+    onClear(e, btn){
+        this.clearCheckeds()
+    }
+    clearCheckeds(){
+        this.checkedPdIds.splice(0)
+        this.checkedSpecIds.splice(0)
+        super.clearCheckeds()
     }
     initCategory(){
         let treeOpt = {
@@ -135,13 +130,12 @@ class ProductPage extends ListPage{
     render(data){
         this.$tplPd.prevAll('tbody').remove()
         for (let pd of data) {
+            pd.checked = this.checkedPdIds.includes(pd._id)
             let $item = $(tfn.template(this.$tplPd, pd))
-            if (this.checkedPdIds.includes(pd._id)){
-                $item.find('input[type=checkbox]').prop('checked',true)
-            }
-            let specs = pd.specs
-            if (specs){
-                $item.append(tfn.template(this.$tplSpec, specs))
+            let specs = pd.specs||[]
+            for (let spec of specs){
+                spec.checked = this.checkedSpecIds.includes(spec._id)
+                $item.append(tfn.template(this.$tplSpec, spec))
             }
             this.$tplPd.before($item)
         }

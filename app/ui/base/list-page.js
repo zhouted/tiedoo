@@ -36,7 +36,7 @@ class ListPage extends BasePage{
     }
     onLoaded({data, param}){
         super.onLoaded({data, param})
-        this.setCheckAll(false)
+        this.setCheckAll()
         param && param.paging && this.renderPager(param.paging)
     }
     renderPager(paging){
@@ -95,12 +95,11 @@ class ListPage extends BasePage{
     checkGroup(checked, $check, $tr){
         console.log('checkGroup')
     }
-    setCheckAll(checked){
-        var $allChecks = this.$table.find('tbody').find('input[type=checkbox]')
-        if (!checked || !$allChecks.filter(':not(:checked)').length){
-            this.$table.find('thead>tr>th>input[type=checkbox]').prop('checked', checked)
-        }
-        this.showCheckedBar && this.showCheckedBar()
+    setCheckAll(){
+        let $allChecks = this.$table.find('tbody').find('input[type=checkbox]')
+        let checked = $allChecks.length && !$allChecks.filter(':not(:checked)').length
+        this.$table.find('thead>tr>th>input[type=checkbox]').prop('checked', checked)
+        this.showCheckedBar()
     }
     onCheckOne(e){
         let $check = $(e.target), checked = $check.prop('checked')
@@ -115,7 +114,7 @@ class ListPage extends BasePage{
                 this.checkGroup(checked, $checkGroup, $group)
             }
         }
-        this.setCheckAll(checked)
+        this.setCheckAll()
     }
     onCheckGroup(e){
         let $checkGroup = $(e.target), checked = $checkGroup.prop('checked')
@@ -128,7 +127,7 @@ class ListPage extends BasePage{
             $check.prop('checked', checked)
             this.checkOne(checked, $check, $check.closest('tr'))
         }
-        this.setCheckAll(checked)
+        this.setCheckAll()
     }
     onCheckAll(e){
         let $checkAll = $(e.target), checked = $checkAll.prop('checked')
@@ -146,7 +145,13 @@ class ListPage extends BasePage{
             $check.prop('checked', checked)
             this.checkOne(checked, $check, $check.closest('tr'))
         }
-        this.showCheckedBar && this.showCheckedBar()
+        this.showCheckedBar()
+    }
+    clearCheckeds(){
+        this.$table.find('input[type=checkbox]').prop('checked', false)
+        this.showCheckedBar()
+    }
+    showCheckedBar(){
     }
     onSort(e){
         let sortBy = {}

@@ -37,6 +37,7 @@ class ListPage extends BasePage{
     }
     onLoaded({data, param}){
         super.onLoaded({data, param})
+        this.setCheckAll(false)
         param && param.paging && this.renderPager(param.paging)
     }
     renderPager(paging){
@@ -70,7 +71,7 @@ class ListPage extends BasePage{
     doSearch(text){
         tfn.tips(text)
     }
-    get selectedIds(){
+    get checkedIds(){
         let ids = []
         let $checks = this.$table.find('input[type=checkbox]:checked')
         for (let check of $checks){
@@ -100,7 +101,7 @@ class ListPage extends BasePage{
         if (!checked || !$allChecks.filter(':not(:checked)').length){
             this.$table.find('thead>tr>th>input[type=checkbox]').prop('checked', checked)
         }
-        // table.showSelectedbar();
+        // table.showCheckedbar();
     }
     onCheckOne(e){
         let $check = $(e.target), checked = $check.prop('checked')

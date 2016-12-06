@@ -44,7 +44,7 @@ class CustomerPage extends ListPage{
         this.toDetail()
     }
     onDelete(){
-        let ids = this.selectedIds
+        let ids = this.checkedIds
         if (!ids.length){
             tfn.tips('请先选择要删除的记录！', 'warning')
             return

@@ -16,7 +16,7 @@ class ProductPage extends ListPage{
     get $tplSpec(){
         return this._$tplSpec || (this._$tplSpec = this.$table.find('#tplSpec'))
     }
-    get selectedPdIds(){
+    get checkedPdIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-basic>.field-check>input[type=checkbox]:checked')
         for (let check of $checks){
@@ -25,7 +25,7 @@ class ProductPage extends ListPage{
         }
         return ids
     }
-    get selectedSpecIds(){
+    get checkedSpecIds(){
         let ids = []
         let $checks = this.$table.find('.product-item-spec>.field-check>input[type=checkbox]:checked')
         for (let check of $checks){
@@ -173,7 +173,7 @@ class ProductPage extends ListPage{
 		}
 	}
     onDiscard(e, btn){
-        let ids = this.selectedSpecIds
+        let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要归档的记录！', 'warning')
             return
@@ -188,7 +188,7 @@ class ProductPage extends ListPage{
         })
     }
     onRestore(e, btn){
-        let ids = this.selectedSpecIds
+        let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要还原的记录！', 'warning')
             return
@@ -203,7 +203,7 @@ class ProductPage extends ListPage{
         })
     }
     onDelete(e, btn){
-        let ids = this.selectedSpecIds
+        let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要删除的记录！', 'warning')
             return
@@ -218,7 +218,7 @@ class ProductPage extends ListPage{
         })
     }
     onMove(e, btn){
-        let ids = this.selectedPdIds
+        let ids = this.checkedPdIds
         if (!ids.length){
             tfn.tips('请先选择要修改的产品！', 'warning')
             return

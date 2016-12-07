@@ -18,6 +18,9 @@ srvProduct.load = function(param, project){
             cond['category.code'] = new RegExp('^'+param.category.code)
         }
     }
+    if (param.pdIds){
+        cond._id = {$in: param.pdIds}
+    }
     let sortBy = param.sortBy = param.sortBy||{code:1}
     let paging = param.paging// = param.paging||{pageSize:10}
     let dao = !param.discard? daoProduct : daoProductDiscard

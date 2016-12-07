@@ -75,6 +75,11 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
+    onShowChecked(e, btn){
+        this.load({pdIds: this.checkedPdIds}).then(() => {
+            //TODO:隐藏未选中的规格？
+        })
+    }
     onClearChecked(e, btn){
         this.clearChecked()
     }
@@ -111,9 +116,6 @@ class ProductPage extends ListPage{
         this.$ctree.on('ctree:load', (e, ctree, cnode) => {
             srvCategory.loadTree('',{unclassified:true}).then(nodes => {
                 ctree.load(nodes, cnode)
-                if (this._param && this._param.category){
-                    this.$ctree.cTree('locate', {id: this._param.category.code})
-                }
             })
         }).on('ctree:click', (e, ctree, cnode) => {
             cnode && this.load({category:{code:cnode.code}})
@@ -136,6 +138,13 @@ class ProductPage extends ListPage{
     }
     doLoad(param){
         return srvProduct.load(param)
+    }
+    onLoaded({data, param}){
+        super.onLoaded({data, param})
+        if (param){//品类树节点定位
+            let id = param.category&&param.category.code||''
+            this.$ctree.cTree('locate', {id})
+        }
     }
     render(data){
         this.$tplPd.prevAll('tbody').remove()
@@ -289,8 +298,6 @@ class ProductPage extends ListPage{
             }
             srvProduct.moveTo(ids, cate).then(() => {
                 $ctree.closest('.modal').modal('hide')
-                // this.$ctree.cTree('locate', cate)
-                // this.load({category:{code:cate.code}})
                 this.clearChecked()
                 this.reload()
             })

@@ -15,7 +15,7 @@ exports.prepare = function({pid}){
         //目标图片的src
         var src = $targetImg.attr("src")
         if (!src) return false
-        if (src.match('nopic')) return false
+        // if (src.match('nopic')) return false
         $image.attr("src", src)
     })
 }

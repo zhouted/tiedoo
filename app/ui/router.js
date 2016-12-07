@@ -10,6 +10,7 @@ var router = {
     panels:[
         {key: 'category', name: '品类管理', src: 'ui/category/category.html'},
         {key: 'product', name: '产品管理', src: 'ui/product/product.html'},
+        {key: 'productEdit', name: '产品编辑', src: 'ui/product/product-edit.html'},
         {key: 'productDetail', name: '产品详情', src: 'ui/product/product-detail.html'},
         {key: 'quota', name: '业务报价', src: 'ui/quota/quota.html'},
         {key: 'customer', name: '客户管理', src: 'ui/contact/customer.html'},

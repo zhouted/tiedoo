@@ -1,0 +1,95 @@
+<div id="productEdit" >
+    <div class="panel-heading topbar">
+        <div class="pull-right">
+            <a class="btn add-newn"><span class="glyphicon glyphicon-plus"></span>新增</a>
+            <a class="btn save"><span class="glyphicon glyphicon-check"></span>保存</a>
+            <a class="btn back"><span class="glyphicon glyphicon-share ts-x"></span>取消</a>
+        </div>
+        <h2 class="panel-title">产品编辑</h2>
+    </div>
+    <div class="panel-body">
+        <div class="auto-scroll">
+            <table class="table editable product-list table-hover" style="table-layout:fixed;">
+                <thead>
+                    <tr>
+                        <th class="row-fixed field-check hidden"><input type="checkbox"></th>
+                        <th class="row-fixed field-img">图片</th>
+                        <th class="row-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
+                        <th class="row-fixed field-name">规格</th>
+                        <th class="row-fixed field-unit">单位</th>
+                        <th class="row-fixed field-num">销售价</th>
+                        <th class="row-fixed field-num">起订量</th>
+                        <th class="row-fixed field-num">成本价</th>
+                        <th class="row-fixed field-name">主要供应商</th>
+                    </tr>
+                </thead>
+                <script type="text/html" id="tplPd" role="template" data-bind="product">
+                    <tbody class="product-item" data-id="${product._id}">
+                        <tr class="product-item-basic group" data-id="${product._id}">
+                            <th class="field-check col-fixed hidden">
+                                <input type="checkbox" ${product.checked&&'checked'}>
+                                <input type="hidden" name="_id" value="${product._id}" />
+                            </th>
+                            <th class="field-img col-fixed">
+                                <a href="#viewImgModal" data-toggle="modal">
+                                    <img src="ui/images/nopic.jpg" data-id="${product.imageId}"/>
+                                </a>
+                            </th>
+                            <td class="field-code col-fixed">
+                                <input type="text" class="form-control english auto-upcase" name="code" value="${tfn.fstr(product.code)}" placeholder="产品编码"/>
+                            </td>
+                            <td class="field-auto" colspan="6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
+                                    <span class="input-group-addon">(&nbsp;</span>
+                                    <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
+                                    <span class="input-group-addon">&nbsp;)</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </script>
+                <script type="text/html" id="tplSpec" role="template" data-bind="spec">
+                    <tr class="product-item-spec" data-id="${spec._id}">
+                        <th class="field-check col-fixed hidden">
+                            <input type="checkbox" ${spec.checked&&'checked'}>
+                            <input type="hidden" name="_id" value="${spec._id}" />
+                        </th>
+                        <th class="field-img col-fixed">
+                            <a href="#viewImgModal" data-toggle="modal">
+                                <img src="" data-id="${spec.imageId}"/>
+                            </a>
+                        </th>
+                        <td class="field-code col-fixed">
+                            <input type="text" class="form-control english auto-upcase" name="code" value="${tfn.fstr(spec.code)}" placeholder="编号"/>
+                        </td>
+                        <td class="field-name">
+                            <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="规格"/>
+                        </td>
+                        <td class="field-unit">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="unit" value="${tfn.fstr(spec.unit)}" placeholder="单位"/>
+                                <span class="input-group-addon">(&nbsp;</span>
+                                <input type="text" class="form-control" name="unitEn" value="${tfn.fstr(spec.unitEn)}" placeholder="英文"/>
+                                <span class="input-group-addon">&nbsp;)</span>
+                            </div>
+                        </td>
+                        <td class="field-num">
+                            <input type="text" class="form-control numeric" name="price" value="${tfn.fnum(spec.price,2)}" placeholder="销售价"/>
+                        </td>
+                        <td class="field-num">
+                            <input type="text" class="form-control numeric" name="moq" value="${tfn.fnum(spec.moq)}" placeholder="MOQ"/>
+                        </td>
+                        <td class="field-num">
+                            <input type="text" class="form-control numeric" name="cost" value="${tfn.fnum(spec.cost,2)}" placeholder="成本价"/>
+                        </td>
+                        <td class="field-supplier">${tfn.fdate(spec.supplier)}</td>
+                    </tr>
+                </script>
+            </table>
+            <nav class="pager-container text-center">
+                <ul class="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>

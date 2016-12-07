@@ -5,10 +5,14 @@
 */
 .on-reading .for-editonly, .on-editing .for-readonly{display: none;}
 .on-reading .control-label.for-editonly[data-checked="true"]{display:inline-block;}
-.form-control:not([type=search]), .input-group-addon {border: none; border-bottom: 1px solid #ccc; border-radius: 0; box-shadow: none;}
-.input-group>.input-group-addon{padding-bottom: 4px; background-color: transparent;}
+.form-control:not([type=search]):not([type=button]),
+.input-group-addon {border: none; border-bottom: 1px solid #ccc; border-radius: 0; box-shadow: none; background-color: transparent;}
+.input-group>.input-group-addon{padding-bottom: 4px;}
 .input-group-addon.after-input{padding-left: 1px;}
 .input-group-addon.before-input{padding-right: 1px;}
+.table.editable .input-group>.input-group-addon,
+.table.editable .input-group>.form-control,
+.table.editable .form-control{padding:0; border: none; height:auto; text-align: inherit;}
 
 /*typeahead*/
 .on-reading .twitter-typeahead{display: none;}
@@ -26,8 +30,8 @@
 
 .bg-fieldset{background-color: #D3EBF7;}
 fieldset.bg-fieldset{padding: 10px 20px 10px 0;}
-fieldset.bg-fieldset .form-control,
-fieldset.bg-fieldset .input-group-addon{background-color: transparent;}
+/*fieldset.bg-fieldset .form-control,
+fieldset.bg-fieldset .input-group-addon{background-color: transparent;}*/
 
 
 .label{font-size:85%; font-weight:500;}

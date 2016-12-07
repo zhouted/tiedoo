@@ -1,6 +1,7 @@
-html {
-    /*Perfect Full Page Background Image*/
+html{/*Perfect Full Page Background Image*/
     background: #eee url(ui/images/starback.jpg) no-repeat center center fixed;
-    background-size: cover;}
+    background-size: cover;
+}
 
 #login>.middle-block {width: 300px;}
+#login .form-control:not([type=button]){background-color: #fff}

@@ -16,14 +16,14 @@
 #product .product-item tr.product-item-spec>th.col-fixed,
 #product .product-item tr.product-item-spec>td.col-fixed{background-color: #eff4fa;}
 
-#product .ctree .ctree-head>a{background-color: #fff; }
-#product .ctree .ctree-head.open>a{background-color: #eee; }
-
 #product .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
 #product .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
 
 #product .checked-bar .check-allpages.be-checked .on-checked-hide{display: none;}
 #product .checked-bar .check-allpages.be-checked .on-checked-show{display: inline;}
+
+#product .ctree .ctree-head>a{background-color: #fff; }
+#product .ctree .ctree-head.open>a{background-color: #eee; }
 
 #product .toggle-category{padding: 5px 6px; margin-left: -6px;}
 #product .toggle-category .icon-bar{display: block; width: 24px; height: 4px; border-radius: 1px; background-color: #4e5f6f;}

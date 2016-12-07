@@ -206,7 +206,7 @@ srvProduct.removeSpecByIds = function(specIds){
     })
     return p
 }
-srvProduct.removePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定的规格s
+srvProduct.removePdSpecs = function(pdDiscard, specIds){ // 删除产品指定的规格s
     if (!pdDiscard || !pdDiscard.specs || !pdDiscard.specs.length) return 0
     if (!specIds || !specIds.length) return 0
     let specs = pdDiscard.specs; pdDiscard.specs = []

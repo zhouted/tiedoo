@@ -66,8 +66,6 @@ class ProductPage extends ListPage{
             onDetail: '.product-item>tr>td',
         })
     }
-    // showBtns(){
-    // }
     initEvents(){
         super.initEvents()
         this.initCategory()
@@ -181,6 +179,15 @@ class ProductPage extends ListPage{
     }
     onAddNew(e, btn){
         this.toDetail()
+    }
+    onEdit(e, btn){
+        let pdIds = this.checkedPdIds
+        let specIds = this.checkedSpecIds
+        if (!pdIds.length && !specIds.length){
+            tfn.tips('请先选择要编辑的记录！', 'warning')
+            return
+        }
+        router.loadMainPanel('productEdit', {pdIds, specIds})
     }
     onToggleDiscarded(e, btn){
         this._discard = !this._discard

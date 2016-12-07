@@ -19,6 +19,9 @@ class ProductPage extends ListPage{
     get $checkedBar(){
         return this._$checkedBar || (this._$checkedBar = this.$page.find('.checked-bar'))
     }
+    get $checkedAllPages(){
+        return this._$checkedAllPages || (this._$checkedAllPages = this.$page.find('.checked-allpages'))
+    }
     get checkedPdIds(){
         return this._checkedPdIds || (this._checkedPdIds = [])
     }
@@ -39,25 +42,11 @@ class ProductPage extends ListPage{
     }
     checkOne(checked, $check, $tr){
         let id = this.getItemId($tr)
-        let ids = this.checkedSpecIds
-        let pos = ids.indexOf(id)
-        if (pos >= 0){
-            ids.splice(pos, 1)
-        }
-        if (checked){
-            ids.push(id)
-        }
+        this.checkedSpecIds.popush(id, checked)
     }
     checkGroup(checked, $check, $tr){
         let id = this.getItemPdId($tr)
-        let ids = this.checkedPdIds
-        let pos = ids.indexOf(id)
-        if (pos >= 0){
-            ids.splice(pos, 1)
-        }
-        if (checked){
-            ids.push(id)
-        }
+        this.checkedPdIds.popush(id, checked)
     }
     getItemPdId(item){
         let $item = (item instanceof jQuery)? item : $(item)
@@ -66,7 +55,8 @@ class ProductPage extends ListPage{
     }
     get btns(){
         return tfn.merge({}, super.btns, {
-            onClear: '.btn.clear',
+            onCheckedClear: '.btn.checked-clear',
+            onCheckedAllPages: '.btn.checked-allpages',
             onMove: '.btn.move',
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
@@ -84,13 +74,32 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
-    onClear(e, btn){
+    onCheckedClear(e, btn){
         this.clearCheckeds()
     }
     clearCheckeds(){
         this.checkedPdIds.splice(0)
         this.checkedSpecIds.splice(0)
-        super.clearCheckeds()
+        this.$checkedAllPages.removeClass('be-checked')
+        this.setAllChecks(false)
+    }
+    onCheckedAllPages(e, btn){
+        this.doCheckAllPages()
+    }
+    doCheckAllPages(){
+        let param = tfn.merge({}, this._param)
+        param.paging = null
+        srvProduct.load(param).then((pds) => {
+            let $btn = this.$checkedAllPages
+            let checked = $btn.toggleClass('be-checked').is('.be-checked')
+            for (let pd of pds){
+                this.checkedPdIds.popush(pd._id, checked)
+                for (let spec of pd.specs){
+                    this.checkedSpecIds.popush(spec._id, checked)
+                }
+            }
+            this.setAllChecks(checked)
+        })
     }
     initCategory(){
         let treeOpt = {

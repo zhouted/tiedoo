@@ -163,3 +163,17 @@ function merge(){ //deep Object.assion
     }
     return Object.assign(arguments[0], merged)
 }
+
+// Array扩展
+Array.prototype.popush = function(item, push = true){
+    //为避免重复以及让再加入的移到后面
+    //先移除已存在的item再push；push=false时仅移除item
+    let pos = this.indexOf(item)
+    if (pos >= 0){
+        this.splice(pos, 1)
+    }
+    if (push){
+        this.push(item)
+    }
+    return this
+}

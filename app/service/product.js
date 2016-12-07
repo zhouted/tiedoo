@@ -19,7 +19,7 @@ srvProduct.load = function(param, project){
         }
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
-    let paging = param.paging = param.paging||{pageSize:10}
+    let paging = param.paging// = param.paging||{pageSize:10}
     let dao = !param.discard? daoProduct : daoProductDiscard
     return dao.find(cond, project, sortBy, paging)
 }

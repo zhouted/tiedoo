@@ -95,6 +95,10 @@ class ListPage extends BasePage{
     checkGroup(checked, $check, $tr){
         console.log('checkGroup')
     }
+    setAllChecks(checked){
+        this.$table.find('input[type=checkbox]').prop('checked', checked)
+        this.showCheckedBar()
+    }
     setCheckAll(){
         let $allChecks = this.$table.find('tbody').find('input[type=checkbox]')
         let checked = $allChecks.length && !$allChecks.filter(':not(:checked)').length
@@ -145,10 +149,6 @@ class ListPage extends BasePage{
             $check.prop('checked', checked)
             this.checkOne(checked, $check, $check.closest('tr'))
         }
-        this.showCheckedBar()
-    }
-    clearCheckeds(){
-        this.$table.find('input[type=checkbox]').prop('checked', false)
         this.showCheckedBar()
     }
     showCheckedBar(){

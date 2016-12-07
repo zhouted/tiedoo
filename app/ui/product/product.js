@@ -178,7 +178,8 @@ class ProductPage extends ListPage{
         this.toDetail(id)
     }
     onAddNew(e, btn){
-        this.toDetail()
+        // this.toDetail()
+        router.loadMainPanel('productEdit', {addNew:true})
     }
     onEdit(e, btn){
         let pdIds = this.checkedPdIds

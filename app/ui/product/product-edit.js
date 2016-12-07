@@ -62,20 +62,40 @@ class ProductPage extends ListPage{
         }
     }
     doLoad(param){
+        this._addNew = param && param.addNew
+        if (this._addNew){
+            return []
+        }
         return srvProduct.load(param)
     }
     render(data){
         this.$tplPd.prevAll('tbody').remove()
         for (let pd of data) {
-            let $item = $(tfn.template(this.$tplPd, pd)).data('pd', pd)
-            let specs = pd.specs||[]
-            for (let spec of specs){
-                let $sItem = $(tfn.template(this.$tplSpec, spec)).data('spec', spec)
-                $item.append($sItem)
-            }
-            this.$tplPd.before($item)
+            this.renderPd(pd)
+        }
+        if (this._addNew){
+            this.addNewPd(data)
+            this.addNewPd(data)
+            this.addNewPd(data)
         }
         this.loadImg()
+    }
+    renderPd(pd){
+        let $item = $(tfn.template(this.$tplPd, pd)).data('pd', pd)
+        let specs = pd.specs||[]
+        for (let spec of specs){
+            this.renderSpec(spec, $item)
+        }
+        this.$tplPd.before($item)
+    }
+    renderSpec(spec, $pdItem){
+        let $item = $(tfn.template(this.$tplSpec, spec)).data('spec', spec)
+        $pdItem.append($item)
+    }
+    addNewPd(data){
+        let pd = {_id:'', specs:[{_id:''},{_id:''},{_id:''}]}
+        this.renderPd(pd)
+        data.push(pd)
     }
     loadImg(){
         this.$table.find('img[data-id]').each((i, img) => {

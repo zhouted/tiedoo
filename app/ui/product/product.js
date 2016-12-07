@@ -185,6 +185,7 @@ class ProductPage extends ListPage{
                 this.$page.find('.for-discarded-hidden').removeClass('hidden')
             }
         })
+        this.clearChecked()
     }
     onToggleLeft(e, btn){
         this.toggleLeft()

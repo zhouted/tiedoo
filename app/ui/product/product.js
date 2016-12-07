@@ -19,8 +19,8 @@ class ProductPage extends ListPage{
     get $checkedBar(){
         return this._$checkedBar || (this._$checkedBar = this.$page.find('.checked-bar'))
     }
-    get $checkedAllPages(){
-        return this._$checkedAllPages || (this._$checkedAllPages = this.$page.find('.checked-allpages'))
+    get $checkAllPages(){
+        return this._$checkAllPages || (this._$checkAllPages = this.$page.find('.check-allpages'))
     }
     get checkedPdIds(){
         return this._checkedPdIds || (this._checkedPdIds = [])
@@ -55,8 +55,9 @@ class ProductPage extends ListPage{
     }
     get btns(){
         return tfn.merge({}, super.btns, {
-            onCheckedClear: '.btn.checked-clear',
-            onCheckedAllPages: '.btn.checked-allpages',
+            onShowChecked: '.btn.show-checked',
+            onClearChecked: '.btn.clear-checked',
+            onCheckAllPages: '.btn.check-allpages',
             onMove: '.btn.move',
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
@@ -74,23 +75,23 @@ class ProductPage extends ListPage{
             this.reload()
         })
     }
-    onCheckedClear(e, btn){
-        this.clearCheckeds()
+    onClearChecked(e, btn){
+        this.clearChecked()
     }
-    clearCheckeds(){
+    clearChecked(){
         this.checkedPdIds.splice(0)
         this.checkedSpecIds.splice(0)
-        this.$checkedAllPages.removeClass('be-checked')
+        this.$checkAllPages.removeClass('be-checked')
         this.setAllChecks(false)
     }
-    onCheckedAllPages(e, btn){
-        this.doCheckAllPages()
+    onCheckAllPages(e, btn){
+        this.checkAllPages()
     }
-    doCheckAllPages(){
+    checkAllPages(){
         let param = tfn.merge({}, this._param)
         param.paging = null
         srvProduct.load(param).then((pds) => {
-            let $btn = this.$checkedAllPages
+            let $btn = this.$checkAllPages
             let checked = $btn.toggleClass('be-checked').is('.be-checked')
             for (let pd of pds){
                 this.checkedPdIds.popush(pd._id, checked)
@@ -228,7 +229,7 @@ class ProductPage extends ListPage{
         }
         let p = srvProduct.discardSpecByIds(ids)
         p.then((rst) => {
-            console.log(rst)
+            this.clearChecked()
             this.reload()
         })
     }
@@ -243,7 +244,7 @@ class ProductPage extends ListPage{
         }
         let p = srvProduct.restoreSpecByIds(ids)
         p.then((rst) => {
-            console.log(rst)
+            this.clearChecked()
             this.reload()
         })
     }
@@ -258,7 +259,7 @@ class ProductPage extends ListPage{
         }
         let p = srvProduct.removeSpecByIds(ids)
         p.then((rst) => {
-            console.log(rst)
+            this.clearChecked()
             this.reload()
         })
     }
@@ -289,6 +290,7 @@ class ProductPage extends ListPage{
                 $ctree.closest('.modal').modal('hide')
                 // this.$ctree.cTree('locate', cate)
                 // this.load({category:{code:cate.code}})
+                this.clearChecked()
                 this.reload()
             })
         }

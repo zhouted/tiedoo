@@ -45,11 +45,7 @@ class ProductSpecForm extends ModalForm {
         let $target = $(target)
         let $ipts = $target.closest('.input-group').find('input[name]')
         for (let ipt of $ipts){
-            // if (ipt == target) continue
-            let $ipt = $(ipt)
-            let val = suggestion[$ipt.data('ddKey')]
-            $ipt.autoDdGrid('val', val)
-            this.$page.find('span[name='+ipt.name+']').text(val)
+            this.$page.find('span[name='+ipt.name+']').text(ipt.value)
         }
     }
     initValidators(){

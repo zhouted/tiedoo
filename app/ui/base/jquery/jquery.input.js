@@ -31,8 +31,8 @@
 			toEditing(this, options); break;
 		case 'i'://init
 		default:
-			initReading(this, options);
-			initEditing(this, options)
+			!(options&&options.onlyEdit) && initReading(this);
+			!(options&&options.onlyRead) && initEditing(this);
 		}
 		return this;
 	}
@@ -196,13 +196,20 @@
 			}
 		}
 
+		//check on change
+		$form.on('change', '.form-control.check-on-change', onChangeCheck)
+		function onChangeCheck(e){
+			return $(this).input('check')
+		}
+
 		//checked label
-		$form.on('change', '.control-label.'+_options.clsForEditonly+'>input', function(){
+		$form.on('change', '.control-label.'+_options.clsForEditonly+'>input', onCheckInLabel)
+		function onCheckInLabel(){
 			var $ipt = $(this), $label = $ipt.closest('.control-label')
 			var $labels = $ipt.closest('form').find('input[name="'+this.name+'"]').closest('.control-label')
-			$labels.removeAttr('data-checked')
+			$labels.removeAttr('data-checked')//for hide/show on reading by base-form.css
 			$label.attr('data-checked', $ipt.prop('checked'))
-		})
+		}
 
 		//自动补全url
 		$form.find('.form-control.url').change(function(){

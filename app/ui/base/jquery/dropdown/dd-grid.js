@@ -122,6 +122,9 @@ function initDdGrid(ipt, options, datasets){
     ddGrid.initOptions()
     ddGrid.initDatasets()
     $ipt.typeahead(ddGrid.options, ...ddGrid.datasets)
+    if (typeof(ddGrid.onSelect) == 'function'){
+        $ipt.on('typeahead:select', (e, suggestion) => ddGrid.onSelect(e, suggestion))
+    }
 }
 
 module.exports = DdGrid

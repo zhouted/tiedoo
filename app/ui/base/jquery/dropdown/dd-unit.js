@@ -17,6 +17,17 @@ class DdUnit extends DdGrid{
             asyncb(units)
         })
     }
+    onSelect(e, suggestion){
+        let $target = this.$ipt
+        let $ipts = $target.closest('.input-group').find('input[name]')
+        for (let ipt of $ipts){
+            // if (ipt == target) continue
+            let $ipt = $(ipt)
+            let val = suggestion[$ipt.data('ddKey')]
+            $ipt.autoDdGrid('val', val)
+            // this.$page.find('span[name='+ipt.name+']').text(val)
+        }
+    }
 }
 
 //Dropdown Pack Units: 包装单位

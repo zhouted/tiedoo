@@ -2,6 +2,7 @@ const ListPage = require(appPath+'/ui/base/list-page.js')
 const srvProduct = require(appPath+'/service/product.js')
 const srvCategory = require(appPath+'/service/category.js')
 require(appPath+'/ui/base/jquery/jquery.ctree.js')
+require(appPath+'/ui/base/jquery/dropdown/dd-unit.js')
 
 class ProductPage extends ListPage{
     prepare(){
@@ -29,31 +30,70 @@ class ProductPage extends ListPage{
     }
     initEvents(){
         super.initEvents()
-        this.initCategory()
-        router.$main.on('changed.product', (e, data) => {
-            this.reload()
-        })
+        //最后一个规格修改后新增一个
+        this.$table.on('change', '.product-item>.product-item-spec:last-child input[name]', (e) => this.addNewSpec(e.target))
+        // this.initInputs()
     }
-    initCategory(){
-        // let treeOpt = {
-        //     root: {children: null},
-        //     showIcon: false,
-        // }
-        // this.$ctree.cTree('init', treeOpt)
-        // this.$ctree.on('ctree:load', (e, ctree, cnode) => {
-        //     srvCategory.loadTree('',{unclassified:true}).then(nodes => {
-        //         ctree.load(nodes, cnode)
-        //     })
-        // }).on('ctree:click', (e, ctree, cnode) => {
-        //     cnode && this.load({category:{code:cnode.code}})
-        // })
-        // router.$main.on('changed.category', (e, data) => {
-        //     this.$ctree.cTree('refresh', treeOpt)
-        // })
-        // this.$page.find('.btn-category').click((e) => {
-        //     router.loadMainPanel('category')
-        //     e.stopPropagation()
-        // })
+    // getRowValues($ele){
+    //     if (!($ele instanceof jQuery)){
+    //         $ele = $($ele)
+    //     }
+    //     let values = $ele.closest('tr').input('value')
+    //     return values
+    // }
+    initInputs($ipts){
+        let $p = $ipts.closest('tr')
+        $ipts.input('init', {onlyEdit:true})
+        if ($p.is('.product-item-basic')){
+            $ipts.find('input[name=code]').data('validator', (ipt) => this.checkPdCode(ipt))
+        }
+        if ($p.is('.product-item-spec')){
+            $ipts.find('input[name=code]').data('validator', (ipt) => this.checkSpecCode(ipt))
+        }
+        if ($p.is('.product-item-spec')){
+            $ipts.find('input[name][data-dd-type]').autoDdGrid()
+        }
+    }
+    checkPdCode(ipt){
+        let $ipt = $(ipt), $row = $ipt.closest('.product-item-basic')
+        //非空行的编码不能为空
+        let values = $row.input('values')
+        if (tfn.isBlankObject(values)){
+            return true
+        } else if (!ipt.value){
+            $ipt.attr('data-content', '编码不能为空！')
+            return false
+        }
+        //检查编码重复
+        let $otherIpts = this.$table.find('.product-item-basic').find('input[name=code]')
+        for (let otherIpt of $otherIpts){
+            if (otherIpt !== ipt && otherIpt.value === ipt.value){
+                $ipt.attr('data-content', '编码重复！')
+                return false
+            }
+        }
+        return true
+    }
+    checkSpecCode(ipt){
+        let $ipt = $(ipt), $row = $ipt.closest('.product-item-spec')
+        //非空行的编码不能为空
+        let values = $row.input('values')
+        if (tfn.isBlankObject(values)){
+            !$row.is(':last-child') && setTimeout(()=>$row.remove())
+            return true
+        } else if (!ipt.value){
+            $ipt.attr('data-content', '编号不能为空！')
+            return false
+        }
+        //检查编码重复
+        let $otherIpts = $row.closest('.product-item').find('.product-item-spec').find('input[name=code]')
+        for (let otherIpt of $otherIpts){
+            if (otherIpt !== ipt && otherIpt.value === ipt.value){
+                $ipt.attr('data-content', '编号重复！')
+                return false
+            }
+        }
+        return true
     }
     get defaultParam(){
         return {
@@ -70,32 +110,39 @@ class ProductPage extends ListPage{
     }
     render(data){
         this.$tplPd.prevAll('tbody').remove()
-        for (let pd of data) {
-            this.renderPd(pd)
-        }
-        if (this._addNew){
-            this.addNewPd(data)
-            this.addNewPd(data)
-            this.addNewPd(data)
+        if (data && data.length){
+            for (let pd of data) {
+                this.renderPd(pd)
+            }
+        }else{//没有产品时默认新增一个
+            data = data||[]
+            this.addNewPd()
         }
         this.loadImg()
     }
     renderPd(pd){
         let $item = $(tfn.template(this.$tplPd, pd)).data('pd', pd)
-        let specs = pd.specs||[]
+        this.initInputs($item.find('.product-item-basic'))
+        let specs = pd.specs = pd.specs||[]
         for (let spec of specs){
             this.renderSpec(spec, $item)
         }
+        this.renderSpec({_id:''}, $item)//默认添加一条新规格
         this.$tplPd.before($item)
     }
     renderSpec(spec, $pdItem){
         let $item = $(tfn.template(this.$tplSpec, spec)).data('spec', spec)
+        this.initInputs($item)
         $pdItem.append($item)
     }
-    addNewPd(data){
-        let pd = {_id:'', specs:[{_id:''},{_id:''},{_id:''}]}
+    addNewPd(){
+        let pd = {_id:'', specs:[]}
         this.renderPd(pd)
-        data.push(pd)
+    }
+    addNewSpec(target){
+        let $target = $(target)
+        let $item = $target.closest('.product-item')
+        this.renderSpec({_id:''}, $item)
     }
     loadImg(){
         this.$table.find('img[data-id]').each((i, img) => {
@@ -105,6 +152,10 @@ class ProductPage extends ListPage{
             })
         })
     }
+    checkPageData(){
+        let valid = this.$table.input('check')
+        return valid
+    }
     getPageData(){
         let pds = this._data = this._data||[]
         let $pdItems = this.$table.find('.product-item')
@@ -113,25 +164,32 @@ class ProductPage extends ListPage{
             let pd = $pdItem.data('pd')
             let $basic = $pdItem.find('.product-item-basic')
             let basic = $basic.input('value')
-            tfn.merge(pd, basic)
+            tfn.merge(pd, basic)//把修改合并到原始数据中
             let $specItems = $pdItem.find('.product-item-spec')
             for (let specItem of $specItems){
                 let $specItem = $(specItem)
                 let spec = $specItem.data('spec')
                 let specEx = $specItem.input('value')
                 tfn.merge(spec, specEx)
-                if (!pd.specs.includes(spec)){
-                    pd.specs.push(spec)
+                if (!pd.specs.includes(spec)){//新增的加入进来
+                    if (!tfn.isBlankObject(spec)){//但不要啥都没填的
+                        pd.specs.push(spec)
+                    }
                 }
             }
             if (!pds.includes(pd)){
-                pds.push(pd)
+                if (!tfn.isBlankObject(pd)){
+                    pds.push(pd)
+                }
             }
         }
         return pds
     }
     doSave(data){
         console.log(data)
+    }
+    onAddNew(e, btn){
+        this.addNewPd()
     }
     toDetail(id){
         // router.loadMainPanel('productDetail', {_id:id, _discard:this._discard})
@@ -140,9 +198,6 @@ class ProductPage extends ListPage{
         // let id = this.getItemPdId(target)
         // if (!id) return
         // this.toDetail(id)
-    }
-    onAddNew(e, btn){
-        // this.toDetail()
     }
     onDelete(e, btn){
         // let ids = this.checkedSpecIds

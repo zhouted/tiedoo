@@ -1,7 +1,7 @@
 <div id="productEdit" >
     <div class="panel-heading topbar">
         <div class="pull-right">
-            <a class="btn add-newn"><span class="glyphicon glyphicon-plus"></span>新增</a>
+            <a class="btn add-new"><span class="glyphicon glyphicon-plus"></span>新增产品</a>
             <a class="btn save"><span class="glyphicon glyphicon-check"></span>保存</a>
             <a class="btn back"><span class="glyphicon glyphicon-share ts-x"></span>取消</a>
         </div>
@@ -9,7 +9,7 @@
     </div>
     <div class="panel-body">
         <div class="auto-scroll">
-            <table class="table editable product-list table-hover" style="table-layout:fixed;">
+            <table class="table editable product-list" style="table-layout:fixed;">
                 <thead>
                     <tr>
                         <th class="row-fixed field-check hidden"><input type="checkbox"></th>
@@ -36,14 +36,15 @@
                                 </a>
                             </th>
                             <td class="field-code col-fixed">
-                                <input type="text" class="form-control english auto-upcase" name="code" value="${tfn.fstr(product.code)}" placeholder="产品编码"/>
+                                <input type="text" class="form-control english auto-upcase check-on-change" name="code" value="${tfn.fstr(product.code)}"
+                                    placeholder="产品编码" data-content="编码不能为空" data-placement="top"/>
                             </td>
-                            <td class="field-auto" colspan="6">
+                            <td class="" colspan="6">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
-                                    <span class="input-group-addon">(&nbsp;</span>
+                                    <span class="input-group-addon">&nbsp;</span>
                                     <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
-                                    <span class="input-group-addon">&nbsp;)</span>
+                                    <!-- <span class="input-group-addon">&nbsp;)</span> -->
                                 </div>
                             </td>
                         </tr>
@@ -61,16 +62,17 @@
                             </a>
                         </th>
                         <td class="field-code col-fixed">
-                            <input type="text" class="form-control english auto-upcase" name="code" value="${tfn.fstr(spec.code)}" placeholder="编号"/>
+                            <input type="text" class="form-control english auto-upcase check-on-change" name="code" value="${tfn.fstr(spec.code)}"
+                                placeholder="新编号" data-content="编号不能为空" data-placement="top"/>
                         </td>
                         <td class="field-name">
-                            <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="规格"/>
+                            <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="新规格"/>
                         </td>
                         <td class="field-unit">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="unit" value="${tfn.fstr(spec.unit)}" placeholder="单位"/>
+                                <input type="text" class="form-control" name="unit" value="${tfn.fstr(spec.unit)}"  data-dd-type="DdUnit" data-dd-key="name" placeholder="单位"/>
                                 <span class="input-group-addon">(&nbsp;</span>
-                                <input type="text" class="form-control" name="unitEn" value="${tfn.fstr(spec.unitEn)}" placeholder="英文"/>
+                                <input type="text" class="form-control" name="unitEn" value="${tfn.fstr(spec.unitEn)}"  data-dd-type="DdUnit" data-dd-key="nameEn" placeholder="英文"/>
                                 <span class="input-group-addon">&nbsp;)</span>
                             </div>
                         </td>

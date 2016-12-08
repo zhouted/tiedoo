@@ -14,9 +14,9 @@ class BaseForm extends BasePane{
         this.initValidators()
     }
     initValidators(){
-        this.$form.find('.form-control.check-on-change').change(function(e){
-            return $(this).input('check')
-        })
+        // this.$form.find('.form-control.check-on-change').change(function(e){
+        //     return $(this).input('check')
+        // })
     }
     toEdit(){
         this.$form.input('edit')

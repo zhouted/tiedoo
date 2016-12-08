@@ -69,8 +69,22 @@ class ProductPage extends ListPage{
     initEvents(){
         super.initEvents()
         this.initCategory()
-        router.$main.on('changed.product', (e, data) => {
-            this.reload()
+        router.$main.on('changed.product', (e, data, mode) => {
+            this._modified = true
+            if (mode == 'checked'){
+                if (!Array.isArray(data)){
+                    data = [data]
+                }
+                data.forEach((data) => {
+                    if (data && data._id){
+                        this.checkedPdIds.popush(data._id)
+                    }
+                    if (data && data.specs && data.specs.length){
+                        data.specs.forEach(spec => this.checkedSpecIds.popush(spec._id))
+                    }
+                })
+            }
+            // this.reload()
         })
     }
     onShowChecked(e, btn){

@@ -180,9 +180,19 @@ class BasePane { // base page pane(panel view in tabpanel)
         })
     }
     rerender(data, saved){
-        if (data && saved && saved._id){
-            this.setStub({_id: saved._id})
-            tfn.merge(data, saved)
+        //把保存返回的数据（主要是_id）合并到当前数据中
+        if (data && saved && typeof(saved)=='object'){
+            if (Array.isArray(saved)){
+                saved.forEach((saved, i) => {
+                    if (saved && typeof(saved)=='object'){
+                        data[i] = data[i] || {}
+                        tfn.merge(data[i], saved)
+                    }
+                })
+            }else{
+                tfn.merge(data, saved)
+            }
+            saved._id && this.setStub({_id: saved._id}) //just for detail pages
         }
         this.render(data)
         this._data = data

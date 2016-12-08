@@ -156,7 +156,7 @@
 			if ($panel.length && !$panel.is('.active')){
 				$('a[href="#'+$panel.attr('id')+'"]').tab('show');
 			}
-			!quiet && $ipt.focus().popover("show");//.parent().addClass("has-error");
+			!quiet && $ipt.focus().popover('show');//.parent().addClass("has-error");
 		}else{
 			$(input).popover('destroy');
 		}

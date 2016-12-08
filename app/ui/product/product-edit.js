@@ -102,10 +102,6 @@ class ProductPage extends ListPage{
         }
     }
     doLoad(param){
-        this._addNew = param && param.addNew
-        if (this._addNew){
-            return []
-        }
         return srvProduct.load(param)
     }
     render(data){
@@ -157,36 +153,54 @@ class ProductPage extends ListPage{
         return valid
     }
     getPageData(){
-        let pds = this._data = this._data||[]
+        let pds = []
         let $pdItems = this.$table.find('.product-item')
         for (let pdItem of $pdItems){
             let $pdItem = $(pdItem)
-            let pd = $pdItem.data('pd')
+            let pd = tfn.merge({}, $pdItem.data('pd'))
             let $basic = $pdItem.find('.product-item-basic')
             let basic = $basic.input('value')
             tfn.merge(pd, basic)//把修改合并到原始数据中
+            pd.specs = []
             let $specItems = $pdItem.find('.product-item-spec')
             for (let specItem of $specItems){
                 let $specItem = $(specItem)
-                let spec = $specItem.data('spec')
+                let spec = tfn.merge({}, $specItem.data('spec'))s
                 let specEx = $specItem.input('value')
                 tfn.merge(spec, specEx)
-                if (!pd.specs.includes(spec)){//新增的加入进来
+                // if (!pd.specs.includes(spec)){//新增的加入进来
                     if (!tfn.isBlankObject(spec)){//但不要啥都没填的
+                        spec._id = spec._id || srvProduct.newSpecId()
                         pd.specs.push(spec)
                     }
-                }
+                // }
             }
-            if (!pds.includes(pd)){
+            // if (!pds.includes(pd)){
                 if (!tfn.isBlankObject(pd)){
                     pds.push(pd)
                 }
-            }
+            // }
         }
         return pds
     }
     doSave(data){
-        console.log(data)
+        return srvProduct.saves(data).then(rst => {
+            setTimeout(()=>router.$main.trigger('changed.product', [rst, 'checked']))
+            tfn.tips('保存成功！')
+            return rst
+        }).catch(err => {
+            tfn.tips(err.message, 'danger')
+            if (err.code){//定位重复代码
+                let $ipts = this.$table.find('.product-item-basic').find('input[name=code]')
+                for (let ipt of $ipts){
+                    if (ipt.value === err.code){
+                        $(ipt).attr('data-content', '编码重复！').focus().popover('show')
+                        return false
+                    }
+                }
+            }
+            return Promise.reject(err)
+        })
     }
     onAddNew(e, btn){
         this.addNewPd()

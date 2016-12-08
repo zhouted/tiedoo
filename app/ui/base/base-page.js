@@ -57,6 +57,9 @@ class BasePage extends BasePane{
     }
     onShow(data){
         super.onShow(data)
+        if (this._modified){
+            this.reload(data)
+        }
         if (this.$subtabs.length && this.autosubs.onShow){
             this.doSubtabs(data)
         }

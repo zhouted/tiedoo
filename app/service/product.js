@@ -63,6 +63,45 @@ srvProduct.save = function(pd, discard){
     }
 }
 
+srvProduct.saves = function(pds, discard){
+    let dao = !discard? daoProduct : daoProductDiscard
+    let p = new Promise((resolve, reject) => {
+        checkCodes(pds).then(() => {
+            return dao.upsert(pds).then((rst) => {
+                resolve(rst)
+            })
+        }).catch(err => reject(err))
+    })
+    return p
+    function checkCodes(pds){
+        let p = new Promise((resolve, reject) => {
+            let err = new Error('产品编码重复！')
+            let ids = [], codes = []
+            for (let pd of pds) {
+                pd._id && ids.push(pd._id)
+                if (codes.includes(pd.code)){
+                    err.code = pd.code
+                    return reject(err)
+                }
+                codes.push(pd.code)
+            }
+            let cond = {$not: {_id: {$in: ids}}, code: {$in: codes}}
+            let p1 = daoProduct.find(cond, {code:1})
+            let p2 = daoProductDiscard.find(cond, {code:1})
+            Promise.all([p1,p2]).then(rsts => {
+                for (let rst of rsts) {
+                    if (rst && rst.length){
+                        err.code = rst[0].code
+                        return reject(err)
+                    }
+                }
+                resolve(0)
+            })
+        })
+        return p
+    }
+}
+
 srvProduct.saveImg = function(file){
     return daoProductImg.fsave(file)
 }

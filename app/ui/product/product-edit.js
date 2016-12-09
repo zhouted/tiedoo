@@ -67,8 +67,6 @@ class ProductPage extends ListPage{
         }
         if ($p.is('.product-item-spec')){
             $ipts.find('input[name=code]').data('validator', (ipt) => this.checkSpecCode(ipt))
-        }
-        if ($p.is('.product-item-spec')){
             $ipts.find('input[name][data-dd-type]').autoDdGrid()
         }
     }
@@ -90,6 +88,9 @@ class ProductPage extends ListPage{
                 return false
             }
         }
+        let p = srvProduct.checkPdCode(values).catch(err =>{
+            $ipt.attr('data-content', err.message).focus().popover('show')
+        })
         return true
     }
     checkSpecCode(ipt){

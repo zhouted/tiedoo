@@ -50,6 +50,14 @@ class ProductDetailBasicForm extends BaseForm {
     }
     initValidators(){
         super.initValidators()
+        let $pdCode = this.$form.find('input.product-code')
+        $pdCode.data('validator', (ipt) => {
+            let pd = this.$form.input('values')
+            let p = srvProduct.checkPdCode(pd).catch(err =>{
+                $(ipt).attr('data-content', err.message).focus().popover('show')
+            })
+            return true
+        })
         let $tags = this.$form.find('input[name=tags]')
         let limit = $tags.data('tagsLimit')||10
         $tags.data('validator', (ipt) => {

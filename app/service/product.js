@@ -40,27 +40,27 @@ srvProduct.save = function(pd, discard){
     }
     let dao = !discard? daoProduct : daoProductDiscard
     let p = new Promise((resolve, reject) => {
-        checkCode(pd).then(() => {
+        srvProduct.checkPdCode(pd).then(() => {
             return dao.save(pd).then((rst) => {
                 resolve(rst)
             })
         }).catch(err => reject(err))
     })
     return p
-    function checkCode(pd, oCode){
-        let p = new Promise((resolve, reject) => {
-            let cond = {$not: {_id: pd._id}, code: pd.code}
-            let p1 = daoProduct.count(cond)
-            let p2 = daoProductDiscard.count(cond)
-            Promise.all([p1,p2]).then(cnts => {
-                if (cnts[0] || cnts[1]){
-                    return reject(new Error('产品编码已存在！'))
-                }
-                resolve(0)
-            })
+}
+srvProduct.checkPdCode = function(pd, exPdIds){
+    let p = new Promise((resolve, reject) => {
+        let cond = {$not: {_id: pd._id}, code: pd.code}
+        let p1 = daoProduct.count(cond)
+        let p2 = daoProductDiscard.count(cond)
+        Promise.all([p1,p2]).then(cnts => {
+            if (cnts[0] || cnts[1]){
+                return reject(new Error('产品编码已存在！'))
+            }
+            resolve(0)
         })
-        return p
-    }
+    })
+    return p
 }
 
 srvProduct.saves = function(pds, discard){

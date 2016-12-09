@@ -44,6 +44,24 @@ class ProductPage extends ListPage{
     initInputs($ipts){
         let $p = $ipts.closest('tr')
         $ipts.input('init', {onlyEdit:true})
+        $ipts.find('input[type=file][name=imageId]').each((i, ipt) => {
+            let $ipt = $(ipt), imageId = $ipt.data('fileId')
+            let $img = $ipt.siblings('img')
+            if (imageId){
+                srvProduct.loadImg(imageId).then(file => {
+                    file && $img.attr('src', file.path)
+                })
+            }
+            $ipt.inputImg().change(e => {
+                let file = e.target.files[0]
+                if (!file || !file.path) return
+                $img.attr('src', file.path)
+                srvProduct.saveImg(file).then(file => {
+                    $ipt.data('fileId', file._id)
+                    $ipt.val('') //reset file input
+                })
+            })
+        })
         if ($p.is('.product-item-basic')){
             $ipts.find('input[name=code]').data('validator', (ipt) => this.checkPdCode(ipt))
         }

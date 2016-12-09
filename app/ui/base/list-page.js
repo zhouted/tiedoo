@@ -47,6 +47,9 @@ class ListPage extends BasePage{
             }
             pagination.destroy()
         }
+        if (!paging.totalPages || paging.totalPages <= 1){
+            return//不操过1页不显示分页栏
+        }
         let options = {
             startPage: paging.pageNo||1,
             totalPages: paging.totalPages||1,

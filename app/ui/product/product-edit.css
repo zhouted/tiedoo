@@ -19,5 +19,4 @@
 #productEdit .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
 #productEdit .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
 
-/*#productEdit .table .input-group-addon,
-#productEdit .table .form-control{padding:0; border: none;}*/
+#productEdit>.panel-body>.auto-scroll{min-height: 360px;}

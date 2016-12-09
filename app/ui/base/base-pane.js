@@ -182,7 +182,7 @@ class BasePane { // base page pane(panel view in tabpanel)
     rerender(data, saved){
         //把保存返回的数据（主要是_id）合并到当前数据中
         if (data && saved && typeof(saved)=='object'){
-            if (Array.isArray(saved)){
+            if (Array.isArray(saved)){// data 和 saved 应该是一一对应的
                 saved.forEach((saved, i) => {
                     if (saved && typeof(saved)=='object'){
                         data[i] = data[i] || {}

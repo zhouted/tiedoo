@@ -58,6 +58,14 @@ class ProductDetailPage extends BasePage {
     onBack(e, btn){
         router.loadMainPanel('product')
     }
+    onAddNew(e, btn){
+        if (this._modified){
+            if (!window.confirm('确认取消修改？')) return false
+            this._modified = false
+        }
+        this.setStub({_id: ''})
+        this.load()
+    }
     doLoad(param){
         return srvProduct.loadById(param._id, param._discard)
     }

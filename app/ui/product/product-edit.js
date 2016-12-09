@@ -102,16 +102,53 @@ class ProductPage extends ListPage{
         }
     }
     doLoad(param){
-        return srvProduct.load(param)
+        return srvProduct.load(param).then(pds => {
+            pds = pds || []
+            this._hideSpecIds = [] //存放没选中的规格id
+            pds.forEach(pd => {
+                if (!pd.specs || !pd.specs.length) return
+                pd.specs.forEach(spec => {
+                    if (!param.specIds.includes(spec._id)){
+                        this._hideSpecIds.push(spec._id)
+                    }
+                })
+            })
+            return pds
+        })
     }
-    render(data){
+    rerender(data, saved){
+        if (Array.isArray(data) && Array.isArray(saved)){
+            let pdIds = this._param.pdIds
+            let specIds = this._param.specIds
+            //把保存返回的数据（主要是_id）合并到当前数据中
+            saved.forEach((saved, i) => {// data 和 saved 应该是一一对应的
+                let pd = data[i]
+                if (saved && typeof(saved)=='object'){
+                    if (!pd._id && saved._id){//选中新增产品id
+                        pdIds.push(saved._id)
+                        router.$main.trigger('checked.product', {pdId: saved._id})
+                    }
+                    tfn.merge(pd, saved)
+                }
+                pd.specs.forEach(spec => {//选中新增规格id
+                    if (!specIds.includes(spec._id) && !this._hideSpecIds.includes(spec._id)){
+                        specIds.push(spec._id)
+                        router.$main.trigger('checked.product', {specId: spec._id})
+                    }
+                })
+            })
+        }
+        this.render(data)
+        this._data = data
+    }
+    render(pds){
         this.$tplPd.prevAll('tbody').remove()
-        if (data && data.length){
-            for (let pd of data) {
+        if (pds && pds.length){
+            for (let pd of pds) {
                 this.renderPd(pd)
             }
         }else{//没有产品时默认新增一个
-            data = data||[]
+            pds = pds||[]
             this.addNewPd()
         }
         this.loadImg()
@@ -128,6 +165,11 @@ class ProductPage extends ListPage{
     }
     renderSpec(spec, $pdItem){
         let $item = $(tfn.template(this.$tplSpec, spec)).data('spec', spec)
+        if (this._hideSpecIds && this._hideSpecIds.length && spec._id){
+            if (this._hideSpecIds.includes(spec._id)){
+                $item.addClass('hidden')//隐藏没选的规格
+            }
+        }
         this.initInputs($item)
         $pdItem.append($item)
     }
@@ -157,45 +199,40 @@ class ProductPage extends ListPage{
         let $pdItems = this.$table.find('.product-item')
         for (let pdItem of $pdItems){
             let $pdItem = $(pdItem)
-            let pd = tfn.merge({}, $pdItem.data('pd'))
             let $basic = $pdItem.find('.product-item-basic')
-            let basic = $basic.input('value')
-            tfn.merge(pd, basic)//把修改合并到原始数据中
-            pd.specs = []
             let $specItems = $pdItem.find('.product-item-spec')
+            let pd = $basic.input('value')
+            pd.specs = []
             for (let specItem of $specItems){
                 let $specItem = $(specItem)
-                let spec = tfn.merge({}, $specItem.data('spec'))s
+                let spec = tfn.merge({}, $specItem.data('spec'))
                 let specEx = $specItem.input('value')
-                tfn.merge(spec, specEx)
+                tfn.merge(spec, specEx)//把修改合并到原始数据中
                 // if (!pd.specs.includes(spec)){//新增的加入进来
-                    if (!tfn.isBlankObject(spec)){//但不要啥都没填的
+                    if (!tfn.isBlankObject(spec)){//不要啥都没填的
                         spec._id = spec._id || srvProduct.newSpecId()
                         pd.specs.push(spec)
                     }
                 // }
             }
-            // if (!pds.includes(pd)){
-                if (!tfn.isBlankObject(pd)){
-                    pds.push(pd)
-                }
-            // }
+            if (!tfn.isBlankObject(pd)){
+                pds.push(pd)
+            }
         }
         return pds
     }
     doSave(data){
         return srvProduct.saves(data).then(rst => {
-            setTimeout(()=>router.$main.trigger('changed.product', [rst, 'checked']))
             tfn.tips('保存成功！')
             return rst
         }).catch(err => {
             tfn.tips(err.message, 'danger')
             if (err.code){//定位重复代码
-                let $ipts = this.$table.find('.product-item-basic').find('input[name=code]')
+                let $ipts = this.$table.find('.product-item-basic:visible').find('input[name=code]')
                 for (let ipt of $ipts){
                     if (ipt.value === err.code){
                         $(ipt).attr('data-content', '编码重复！').focus().popover('show')
-                        return false
+                        break
                     }
                 }
             }

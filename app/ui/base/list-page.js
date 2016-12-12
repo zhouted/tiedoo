@@ -53,11 +53,16 @@ class ListPage extends BasePage{
         let options = {
             startPage: paging.pageNo||1,
             totalPages: paging.totalPages||1,
+            currentPage: paging.pageNo||1,
             onPageClick: (e, pageNo)=>{
                 console.log(pageNo, e)
                 let pagination = this.$paging.data('twbs-pagination')
                 if (pagination && pagination.options.currentPage !== pageNo) {
-                    this.onPaging(pageNo)
+                    if (!this.onPaging(pageNo)){
+                        pagination.show(pagination.options.currentPage)
+                    }else{
+                        pagination.options.currentPage = pageNo
+                    }
                 }
             }
         }
@@ -65,6 +70,7 @@ class ListPage extends BasePage{
     }
     onPaging(pageNo){
         this.reload({paging:{pageNo}})
+        return true
     }
     onSearch(e, btn){
         let text = this.$searchIpt.val()

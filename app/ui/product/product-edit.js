@@ -121,7 +121,7 @@ class ProductPage extends ListPage{
     get defaultParam(){
         return {
             orderBy: {code:1},
-            paging: {pageSize: 10},
+            paging: {pageSize: 100},
         }
     }
     doLoad(param){
@@ -273,29 +273,6 @@ class ProductPage extends ListPage{
     onAddNew(e, btn){
         this.addNewPd()
     }
-    toDetail(id){
-        // router.loadMainPanel('productDetail', {_id:id, _discard:this._discard})
-    }
-    onDetail(e, target){
-        // let id = this.getItemPdId(target)
-        // if (!id) return
-        // this.toDetail(id)
-    }
-    onDelete(e, btn){
-        // let ids = this.checkedSpecIds
-        // if (!ids.length){
-        //     tfn.tips('请先选择要删除的记录！', 'warning')
-        //     return
-        // }
-        // if (!window.confirm(`确认删除这个${ids.length}产品规格吗？`)){
-        //     return
-        // }
-        // let p = srvProduct.removeSpecByIds(ids)
-        // p.then((rst) => {
-        //     this.clearChecked()
-        //     this.reload()
-        // })
-    }
     onHide(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return false
@@ -306,6 +283,20 @@ class ProductPage extends ListPage{
     }
     onBack(e, btn){
         router.loadMainPanel('product')
+    }
+    onPaging(pageNo, prePageNo){
+        if (this._modified){
+            tfn.tips('请先保存修改！')
+            return false
+        }
+        return super.onPaging(pageNo)
+    }
+    onSort(e){
+        if (this._modified){
+            tfn.tips('请先保存修改！')
+            return
+        }
+        super.onSort(e)
     }
 }
 

@@ -158,9 +158,15 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     onSave(e, btn){
         let valid = this.checkPageData()
-        if (!valid){
-            return
+        if (valid instanceof Promise){
+            valid.then(() => {
+                this._doSave(e, btn)
+            })
+        }else if (valid){
+            this._doSave(e, btn)
         }
+    }
+    _doSave(e, btn){
         $(btn).button('loading')
         let data = this.getPageData()
         let p = this.doSave(data)
@@ -178,6 +184,9 @@ class BasePane { // base page pane(panel view in tabpanel)
         }).finally(() => {
             this.onSavedFinal(e, btn)
         })
+    }
+    doSave(data){
+        // return srvXXX.save(data)
     }
     rerender(data, saved){
         //把保存返回的数据（主要是_id）合并到当前数据中
@@ -205,9 +214,6 @@ class BasePane { // base page pane(panel view in tabpanel)
         if (this._param){
             tfn.merge(this._param, stub)
         }
-    }
-    doSave(data){
-        // return srvXXX.save(data)
     }
     onSaved(data, rst){
         console.log(rst)

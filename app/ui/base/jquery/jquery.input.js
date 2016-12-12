@@ -132,14 +132,14 @@
 		if ($inputs.prop('tagName') != 'INPUT'){
 			$inputs = $inputs.find("input");
 		}
-		// if (typeof(quiet) == 'object'){
-		// 	var options = quiet;
-		// 	quiet = options.quiet;
-		// }
+		var promises = []
 		$inputs.each(function(){
 			valid && (valid = checkValid(this, quiet));
+			if (valid instanceof Promise){
+				promises.push(valid)
+			}
 		});
-		return valid;
+		return valid && (!promises.length || Promise.all(promises))
 	}
 	function checkValid(input, quiet){
 		if (!input || !input.checkValidity) return true;//!this.validity || (this.validity && this.validity.valid);
@@ -157,8 +157,14 @@
 				$('a[href="#'+$panel.attr('id')+'"]').tab('show');
 			}
 			!quiet && $ipt.focus().popover('show');//.parent().addClass("has-error");
+		}else if (valid instanceof Promise){
+			valid.then(() => {
+				$ipt.popover('destroy')
+			}).catch(err => {
+				!quiet && $ipt.focus().attr('data-content', err.message).popover('show')
+			})
 		}else{
-			$(input).popover('destroy');
+			$ipt.popover('destroy');
 		}
 		return valid;
 	}

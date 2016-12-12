@@ -50,10 +50,23 @@ class ProductSpecForm extends ModalForm {
     }
     initValidators(){
         super.initValidators()
-        // let $code = this.$form.find('input[name=code]')
-        // $tags.data('validator', (ipt) => {
-        //     return !!ipt.value
-        // })
+        //检查规格编号
+        let $code = this.$form.find('input.spec-code')
+        $code.data('validator', (ipt) => {
+            if (!ipt.value){
+                $code.attr('data-content', '规格编号不能为空！')
+                return false
+            }else{
+                $code.attr('data-content', '规格编号重复！')
+            }
+            let spec = {
+                _id: this.$form.find('input[name=_id]').val(),
+                code: ipt.value,
+            }
+            let parent = this.$parentPage.data('page')
+            let valid = parent.checkSpecCode(spec)//交给父窗口(产品明细)去检查
+            return valid
+        })
     }
     // doLoad(){
     //     return srvProduct.load()
@@ -68,26 +81,13 @@ class ProductSpecForm extends ModalForm {
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
     }
-    checkFormData(){
-        let valid = super.checkFormData()
-        if (valid){
-            valid = this.checkSpecCode()
-        }
-        return valid
-    }
-    checkSpecCode(){
-        let _$id = this.$form.find('input[name=_id]')
-        let _id = _$id.val()
-        let $code = this.$form.find('input[name=code]')
-        let code = $code.val()
-        let parent = this.$parentPage.data('page')
-        let valid = parent.checkSpecCode({_id,code})
-        if (!valid){
-            tfn.tips('规格编号重复！', 'warning')
-            $code.focus()
-        }
-        return valid
-    }
+    // checkFormData(){
+    //     let valid = super.checkFormData()
+    //     if (valid){
+    //         valid = this.checkSpecCode()
+    //     }
+    //     return valid
+    // }
     doSave(spec){
         this.$parentPage.trigger('changed.spec.product', [spec])
         return true

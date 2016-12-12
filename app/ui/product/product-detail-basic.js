@@ -24,16 +24,6 @@ class ProductDetailBasicForm extends BaseForm {
         this.initImg()
         this.initCategory()
         this.initTags()
-        // let $ipt = this.$page.find('input[name]')//.first()
-        // $ipt.typeahead({
-        //     minLength: 0, highlight: true
-        // },{
-        //     name: 'ds-units', source: matchUnits
-        // })
-        // function matchUnits(q, cb, ab){
-        //     console.log(q,cb,ab)
-        //     cb(['a', 'b', 'c'])
-        // }
     }
     initImg(){
         this.$imgIpt.inputImg().change((e) => {
@@ -53,10 +43,8 @@ class ProductDetailBasicForm extends BaseForm {
         let $pdCode = this.$form.find('input.product-code')
         $pdCode.data('validator', (ipt) => {
             let pd = this.$form.input('values')
-            let p = srvProduct.checkPdCode(pd).catch(err =>{
-                $(ipt).attr('data-content', err.message).focus().popover('show')
-            })
-            return true
+            let p = srvProduct.checkPdCode(pd)
+            return p
         })
         let $tags = this.$form.find('input[name=tags]')
         let limit = $tags.data('tagsLimit')||10

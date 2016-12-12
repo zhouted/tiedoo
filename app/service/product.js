@@ -31,7 +31,7 @@ srvProduct.loadById = function(id, discard, project){
     let dao = !discard? daoProduct : daoProductDiscard
     return dao.findById(id, project)
 }
-
+//保存
 srvProduct.save = function(pd, discard){
     if (pd && pd.specs && pd.specs.length){
         pd.specs.sort((a, b) => {
@@ -50,6 +50,9 @@ srvProduct.save = function(pd, discard){
 }
 srvProduct.checkPdCode = function(pd, exPdIds){
     let p = new Promise((resolve, reject) => {
+        if (!pd.code){
+            return reject(new Error('产品编码不能为空！'))
+        }
         let cond = {$not: {_id: pd._id}, code: pd.code}
         let p1 = daoProduct.count(cond)
         let p2 = daoProductDiscard.count(cond)
@@ -57,12 +60,56 @@ srvProduct.checkPdCode = function(pd, exPdIds){
             if (cnts[0] || cnts[1]){
                 return reject(new Error('产品编码已存在！'))
             }
-            resolve(0)
+            if (!pd.specs){
+                return resolve(0)
+            }
+            srvProduct.checkPdSpecCodes(pd).then(() => {
+                resolve(0)
+            }).catch(err => {
+                reject(err)
+            })
         })
     })
     return p
 }
-
+srvProduct.checkPdSpecCodes = function(pd){
+    let p = new Promise((resolve, reject) => {
+        let codes = []
+        for (let spec of pd.specs){
+            if (!spec.code) {
+                let err = new Error('规格编号不能为空！')
+                err.code = pd.code, err.specCode = ''
+                return reject(err)
+            }
+            if (codes.includes(spec.code)){
+                let err = new Error('规格编号重复！')
+                err.code = pd.code, err.specCode = spec.code
+                return reject(err)
+            }
+            codes.push(spec.code)
+        }
+        let cond = {_id: pd._id, 'specs.code': {$in: codes}}
+        daoProductDiscard.findOne(cond, {specs:1}).then(rst => {
+            if (rst && rst.specs){
+                let err = new Error('规格编号与已废弃规格重复！')
+                err.code = pd.code
+                for (let spec of rst.specs){//找出重复的规格编号
+                    if (codes.includes(spec.code)){
+                        err.specCode = spec.code
+                        break
+                    }
+                }
+                reject(err)
+            }else{
+                resolve(0)
+            }
+        }).catch((err => {
+            console.log(err)
+        }))
+    })
+    return p
+}
+//批量保存
 srvProduct.saves = function(pds, discard){
     let dao = !discard? daoProduct : daoProductDiscard
     let p = new Promise((resolve, reject) => {
@@ -76,7 +123,7 @@ srvProduct.saves = function(pds, discard){
     function checkCodes(pds){
         let p = new Promise((resolve, reject) => {
             let err = new Error('产品编码重复！')
-            let ids = [], codes = []
+            let ids = [], codes = [], specCodePromises = []
             for (let pd of pds) {
                 pd._id && ids.push(pd._id)
                 if (codes.includes(pd.code)){
@@ -84,6 +131,7 @@ srvProduct.saves = function(pds, discard){
                     return reject(err)
                 }
                 codes.push(pd.code)
+                specCodePromises.push(srvProduct.checkPdSpecCodes(pd))
             }
             let cond = {$not: {_id: {$in: ids}}, code: {$in: codes}}
             let p1 = daoProduct.find(cond, {code:1})
@@ -95,7 +143,11 @@ srvProduct.saves = function(pds, discard){
                         return reject(err)
                     }
                 }
-                resolve(0)
+                Promise.all(specCodePromises).then(() => {
+                    resolve(0)
+                }).catch(err => {
+                    reject(err)
+                })
             })
         })
         return p

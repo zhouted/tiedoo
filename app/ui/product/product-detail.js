@@ -105,22 +105,13 @@ class ProductDetailPage extends BasePage {
         this.paneSpecsPack.render(specs)
     }
     checkPageData(){
-        let valid = this.paneBasic.checkPageData()
-        // if (valid && this._$modal){
-        //     let specPane = this._$modal.data('page')
-        //     valid = specPane.checkPageData()
-        //     if (!valid){
-        //         this._$modal.modal('show')
-        //     }
-        // }
-        if (valid){
-            let specs =  this._data && this._data.specs || []
-            valid = !!specs.length
-            if (!valid){
-                tfn.tips('请先增加规格！', 'warning')
-                this.openSpec('')
-            }
+        let specs =  this._data && this._data.specs || []
+        if (!specs.length){
+            tfn.tips('请先增加规格！', 'warning')
+            this.openSpec('')
+            return false
         }
+        let valid = this.paneBasic.checkPageData()
         return valid
     }
     getPageData(){
@@ -170,12 +161,18 @@ class ProductDetailPage extends BasePage {
     }
     checkSpecCode(spec){//检查编码是否重复
         let specs = this._data && this._data.specs
-        if (!spec || !specs || !specs.length) return true
+        // if (!spec || !specs || !specs.length) return true
         for (let item of specs){
             if (item._id === spec._id) continue
             if (item.code === spec.code){
                 return false
             }
+        }
+        let pdBasic = this.paneBasic.getFormData()
+        if (pdBasic._id){
+            pdBasic.specs = [spec]
+            let p = srvProduct.checkPdSpecCodes(pdBasic)
+            return p
         }
         return true
     }

@@ -88,17 +88,15 @@ class ProductPage extends ListPage{
                 return false
             }
         }
-        let p = srvProduct.checkPdCode(values).catch(err =>{
-            $ipt.attr('data-content', err.message).focus().popover('show')
-        })
-        return true
+        let p = srvProduct.checkPdCode(values)
+        return p
     }
     checkSpecCode(ipt){
         let $ipt = $(ipt), $row = $ipt.closest('.product-item-spec')
         //非空行的编码不能为空
         let values = $row.input('values')
         if (tfn.isBlankObject(values)){
-            !$row.is(':last-child') && setTimeout(()=>$row.remove())
+            !$row.is(':last-child') && setTimeout(()=>$row.remove())//移除多余的空行
             return true
         } else if (!ipt.value){
             $ipt.attr('data-content', '编号不能为空！')
@@ -111,6 +109,12 @@ class ProductPage extends ListPage{
                 $ipt.attr('data-content', '编号重复！')
                 return false
             }
+        }
+        let pdBasic = $row.siblings('.product-item-basic').input('values')
+        if (pdBasic._id){
+            pdBasic.specs = [$row.input('values')]
+            let p = srvProduct.checkPdSpecCodes(pdBasic)
+            return p
         }
         return true
     }
@@ -249,8 +253,16 @@ class ProductPage extends ListPage{
             if (err.code){//定位重复代码
                 let $ipts = this.$table.find('.product-item-basic:visible').find('input[name=code]')
                 for (let ipt of $ipts){
-                    if (ipt.value === err.code){
-                        $(ipt).attr('data-content', '编码重复！').focus().popover('show')
+                    if (ipt.value !== err.code) continue
+                    if (!err.specCode){
+                        $(ipt).attr('data-content', err.message).focus().popover('show')
+                        break
+                    }
+                    let $ipt = $(ipt)
+                    let $specIpts = $ipt.closest('.product-item-basic').siblings('.product-item-spec:visible').find('input[name=code]')
+                    for (let specIpt of $specIpts){
+                        if (specIpt.value !== err.specCode) continue
+                        $(specIpt).attr('data-content', err.message).focus().popover('show')
                         break
                     }
                 }

@@ -41,11 +41,21 @@
                                     placeholder="产品编码" data-content="编码不能为空" data-placement="top"/>
                             </td>
                             <td class="" colspan="6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
-                                    <span class="input-group-addon">&nbsp;</span>
-                                    <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
-                                    <!-- <span class="input-group-addon">&nbsp;)</span> -->
+                                <div class="pull-left product-name-inputs">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
+                                        <span class="input-group-addon">&nbsp;</span>
+                                        <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
+                                        <!-- <span class="input-group-addon">&nbsp;)</span> -->
+                                    </div>
+                                </div>
+                                <div class="pull-left product-tax-inputs">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control text-right" name="tariffNo" value="${tfn.fstr(product.tariffNo)}" placeholder="税则号">
+                                        <span class="input-group-addon">&nbsp;</span>
+                                        <input type="text" class="form-control numeric text-right" name="taxRebate" value="${tfn.fnum(product.taxRebate)}" placeholder="退税率">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

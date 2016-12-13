@@ -61,6 +61,16 @@ class ProductPage extends ListPage{
                     $ipt.val('') //reset file input
                 })
             })
+            $ipt.closest('.field-img').hover(e => {
+                if ($ipt.data('fileId')){
+                    $(e.target).find('.btn.img-clear').removeClass('hidden')
+                }
+            }, e => {
+                $(e.target).find('.btn.img-clear').addClass('hidden')
+            }).find('.btn.img-clear').click(e => {
+                $ipt.data('fileId', '').change()
+                $img.attr('src', 'ui/images/default.png')
+            })
         })
         if ($p.is('.product-item-basic')){
             $ipts.find('input[name=code]').data('validator', (ipt) => this.checkPdCode(ipt))

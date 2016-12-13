@@ -16,13 +16,12 @@
 #productEdit .product-item tr.product-item-spec>th.col-fixed,
 #productEdit .product-item tr.product-item-spec>td.col-fixed{background-color: #eff4fa;}
 
-#productEdit .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
-#productEdit .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
+#productEdit .product-item .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
+#productEdit .product-item .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
 
-/*#productEdit .product-name-inputs{width: 50%; }*/
-#productEdit .input-group-tax{width: 100%; text-align: right;}
-#productEdit .input-group-tax input[name=tariffNo]{text-align: center;}
-/*#productEdit .product-item-basic input[name=tariffNo]{text-align: right;}
-#productEdit .product-item-basic input[name=taxRebate]{text-align: right;}*/
+#productEdit .product-item .product-item-basic .input-group-tax{width: 100%; text-align: right;}
+#productEdit .product-item .product-item-basic .input-group-tax input[name=tariffNo]{text-align: center;}
+
+#productEdit .product-item .btn.img-clear{position:absolute; top:0; left:0; padding:1px;}
 
 /*#productEdit>.panel-body>.auto-scroll{min-height: 360px;}*/

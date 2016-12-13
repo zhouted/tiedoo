@@ -33,8 +33,9 @@
                             <th class="field-img col-fixed">
                                 <a href="#viewImgModal">
                                     <input type="file" class="hidden" name="imageId" data-file-id="${tfn.fstr(product.imageId)}" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
-                                    <img class="image-preview image-trigger" src="ui/images/nopic.jpg" title="点击设置产品图片"/>
+                                    <img class="image-preview image-trigger" src="ui/images/default.png" title="点击设置产品图片"/>
                                 </a>
+                                <a class="btn img-clear hidden" title="删除图片"><span class="glyphicon glyphicon-remove"></span></a>
                             </th>
                             <td class="field-code col-fixed">
                                 <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(product.code)}"
@@ -69,8 +70,9 @@
                         <th class="field-img col-fixed">
                             <a href="#viewImgModal">
                                 <input type="file" class="hidden" name="imageId" data-file-id="${tfn.fstr(spec.imageId)}" accept="image/png,image/jpeg" alt-trigger=".image-trigger">
-                                <img class="image-preview image-trigger" src="ui/images/nopic.jpg" title="点击设置规格图片"/>
+                                <img class="image-preview image-trigger" src="ui/images/default.png" title="点击设置规格图片"/>
                             </a>
+                            <a class="btn img-clear hidden" title="删除图片"><span class="glyphicon glyphicon-remove"></span></a>
                         </th>
                         <td class="field-code col-fixed">
                             <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(spec.code)}"

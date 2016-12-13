@@ -121,7 +121,7 @@ class ProductPage extends ListPage{
                 ctree.load(nodes, cnode)
             })
         }).on('ctree:click', (e, ctree, cnode) => {
-            cnode && this.load({category:{code:cnode.code}})
+            cnode && this.load({categoryCode:cnode.code})
         })
         router.$main.on('changed.category', (e, data) => {
             this.$ctree.cTree('refresh', treeOpt)
@@ -145,7 +145,7 @@ class ProductPage extends ListPage{
     onLoaded({data, param}){
         super.onLoaded({data, param})
         if (param){//品类树节点定位
-            let id = param.category&&param.category.code||''
+            let id = param.categoryCode||''
             this.$ctree.cTree('locate', {id})
         }
     }

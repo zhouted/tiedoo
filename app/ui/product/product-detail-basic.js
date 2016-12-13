@@ -13,11 +13,11 @@ class ProductDetailBasicForm extends BaseForm {
     get $ctree(){
         return this._$ctree || (this._$ctree = this.$page.find('.category .ctree'))
     }
-    get $cateCode(){
-        return this._$cateCode || (this._$cateCode = this.$form.find('.category input[name=code]'))
+    get $categoryCode(){
+        return this._$categoryCode || (this._$categoryCode = this.$form.find('.category input[name=categoryCode]'))
     }
-    get $cateName(){
-        return (this._$cateName = this.$form.find('.category span[name=name]'))
+    get $categoryName(){
+        return (this._$categoryName = this.$form.find('.category span[name=categoryName]'))
     }
     initEvents(){
         super.initEvents()
@@ -58,7 +58,7 @@ class ProductDetailBasicForm extends BaseForm {
         this.$form.find('.category-toggle').click(function(){
             $selector.toggle()
         })
-        this.$form.find('.category input[name-space=category]').focusin(function(){
+        this.$categoryCode.focusin(function(){
             $selector.show()
         })
         $(document).click(function(e){
@@ -78,8 +78,8 @@ class ProductDetailBasicForm extends BaseForm {
                 this.renderCate()
             })
         }).on('ctree:click', (e, ctree, cnode) => {
-            this.$cateCode.val(cnode.code)
-            this.$cateName.text(cnode.name)
+            this.$categoryCode.val(cnode.code)
+            this.$categoryName.text(cnode.name)
         })
         router.$main.on('changed.category', (e, data) => {
             this.$ctree.cTree('refresh', treeOpt)
@@ -125,10 +125,10 @@ class ProductDetailBasicForm extends BaseForm {
         })
     }
     renderCate(){
-        let node = {id: this.$cateCode.val()}
+        let node = {id: this.$categoryCode.val()}
         let $node = this.$ctree.cTree('locate', node)
         // let node = this.$ctree.cTree('get', $node)
-        this.$cateName.text(node.name||'')
+        this.$categoryName.text(node.name||'')
     }
     renderTags(){
         let tags = this.$form.find('input[name=tags]').val()

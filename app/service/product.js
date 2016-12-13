@@ -8,14 +8,14 @@ const unclassified = require(appPath + '/service/category.js').unclassified
 srvProduct.load = function(param, project){
     let cond = {}
     if (param.key){// search key
-        key = new RegExp(param.key)
+        key = new RegExp(param.key, 'i')
         cond.$or = [{code: key}, {name: key}, {tags: param.key}]
     }
-    if (param.category && param.category.code){// category code
-        if (param.category.code == unclassified.code){
-            cond.$or = [{category:null}, {'category.code':''}]
+    if (param.categoryCode){// category code
+        if (param.categoryCode == unclassified.code){
+            cond.$or = [{categoryCode:''}, {categoryCode:null}, {categoryCode:{$exists:false}}]
         }else{
-            cond['category.code'] = new RegExp('^'+param.category.code)
+            cond.categoryCode = new RegExp('^'+param.categoryCode)
         }
     }
     if (param.pdIds){
@@ -324,7 +324,7 @@ srvProduct.moveTo = function(pdIds, cate){
     if (cateCode == unclassified.code){
         cateCode = ''
     }
-    return daoProduct.update({_id: {$in: pdIds}}, {$set:{'category.code': cateCode}}, {multi: true})
+    return daoProduct.update({_id: {$in: pdIds}}, {$set:{categoryCode: cateCode}}, {multi: true})
 }
 
 module.exports = srvProduct

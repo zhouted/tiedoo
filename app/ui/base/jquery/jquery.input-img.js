@@ -21,6 +21,7 @@
         let trigger = $ipt.attr('alt-trigger')
         if (trigger){
             $ipt.parent().find(trigger).click(function(){
+                if ($ipt.is('.disabled')) return false
                 $ipt.click()
             })
         }

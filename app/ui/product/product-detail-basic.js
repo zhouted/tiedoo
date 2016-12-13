@@ -115,14 +115,20 @@ class ProductDetailBasicForm extends BaseForm {
     // }
     render(product){
         this.setFormData(product)
-        this.loadImg()
+        this.loadImg(product._discard)
         this.renderCate()
         this.renderTags()
     }
-    loadImg(){
+    loadImg(disabled){
         srvProduct.loadImg(this.$imgIpt.data('fileId')).then(file => {
             this.$img.attr('src', file&&file.path||this.$img.attr('alt-src'))
         })
+        if (disabled){
+            this.$imgIpt.addClass('disabled')
+        }else{
+            this.$imgIpt.removeClass('disabled')
+        }
+
     }
     renderCate(){
         let node = {id: this.$categoryCode.val()}

@@ -67,7 +67,12 @@ class ProductDetailPage extends BasePage {
         this.load()
     }
     doLoad(param){
-        return srvProduct.loadById(param._id, param._discard)
+        return srvProduct.loadById(param._id, param._discard).then(data => {
+            if (param._discard){
+                data._discard = param._discard
+            }
+            return data
+        })
     }
     render(data){
         this.renderTitle(data)

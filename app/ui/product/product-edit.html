@@ -17,9 +17,9 @@
                         <th class="row-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
                         <th class="row-fixed field-name">规格</th>
                         <th class="row-fixed field-unit">单位</th>
-                        <th class="row-fixed field-num">销售价</th>
+                        <th class="row-fixed field-num">销售价(美元)</th>
                         <th class="row-fixed field-num">起订量</th>
-                        <th class="row-fixed field-num">成本价</th>
+                        <th class="row-fixed field-num">成本价(元)</th>
                         <th class="row-fixed field-name">主要供应商</th>
                     </tr>
                 </thead>
@@ -40,24 +40,23 @@
                                 <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(product.code)}"
                                     placeholder="产品编码" data-content="编码不能为空" data-placement="top"/>
                             </td>
-                            <td class="" colspan="6">
-                                <div class="pull-left product-name-inputs">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
-                                        <span class="input-group-addon">&nbsp;</span>
-                                        <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
-                                        <!-- <span class="input-group-addon">&nbsp;)</span> -->
-                                    </div>
-                                </div>
-                                <div class="pull-left product-tax-inputs">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control text-right" name="tariffNo" value="${tfn.fstr(product.tariffNo)}" placeholder="税则号">
-                                        <span class="input-group-addon">&nbsp;</span>
-                                        <input type="text" class="form-control numeric text-right" name="taxRebate" value="${tfn.fnum(product.taxRebate)}" placeholder="退税率">
-                                        <span class="input-group-addon">%</span>
-                                    </div>
+                            <td class="field-name">
+                                <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
+                            </td>
+                            <td class="field-name" colspan="2">
+                                <input type="text" class="form-control" name="nameEn" value="${tfn.fstr(product.nameEn)}" placeholder="英文名称"/>
+                            </td>
+                            <td class="field-num">
+                                <input type="text" class="form-control" name="tariffNo" value="${tfn.fstr(product.tariffNo)}" placeholder="税则号">
+                            </td>
+                            <td class="field-num">
+                                <div class="input-group input-group-tax">
+                                    <span class="input-group-addon">-</span>
+                                    <input type="text" class="form-control numeric" name="taxRebate" value="${tfn.fnum(product.taxRebate)}" placeholder="退税率">
+                                    <span class="input-group-addon">%</span>
                                 </div>
                             </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </script>
@@ -75,10 +74,10 @@
                         </th>
                         <td class="field-code col-fixed">
                             <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(spec.code)}"
-                                placeholder="新编号" data-content="编号不能为空" data-placement="top"/>
+                                placeholder="新增编号" data-content="编号不能为空" data-placement="top"/>
                         </td>
                         <td class="field-name">
-                            <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="新规格"/>
+                            <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="新增规格"/>
                         </td>
                         <td class="field-unit">
                             <div class="input-group">

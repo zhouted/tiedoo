@@ -19,8 +19,9 @@
 #productEdit .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
 #productEdit .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
 
-#productEdit .product-name-inputs{width: 50%; }
-#productEdit .product-tax-inputs{width: 30%; text-align: right;}
+/*#productEdit .product-name-inputs{width: 50%; }*/
+#productEdit .input-group-tax{width: 100%; text-align: right;}
+#productEdit .input-group-tax input[name=tariffNo]{text-align: center;}
 /*#productEdit .product-item-basic input[name=tariffNo]{text-align: right;}
 #productEdit .product-item-basic input[name=taxRebate]{text-align: right;}*/
 

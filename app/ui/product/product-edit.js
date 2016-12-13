@@ -160,6 +160,7 @@ class ProductPage extends ListPage{
                     }
                 })
             })
+            router.$main.trigger('changed.product', {})
         }
         this.render(data)
         this._data = data

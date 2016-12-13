@@ -175,7 +175,8 @@
 			{cls: 'number', keys:/[\d]/,  pattern:'\\d*'},
  		    {cls: 'integer', keys:/[\d\+-]/,  pattern:'[\\+-]?\\d*'},
 		    {cls: 'numeric', keys:/[\d\+-.]/, pattern:'[\\+-]?\\d*\\.?\\d*'},
-			{cls: 'english', keys:/[\w\s\+-,\.#\*\[\]\(\)]/,  pattern:'[\\w\\s\\+-,\\.#\\*\\[\\]\\(\\)]*'},
+			{cls: 'coding', keys:/[\w\s\+\-\.#\*\[\]\(\)]/,  pattern:'[\\w\\s\\+\\-\\.#\\*\\[\\]\\(\\)]*'},
+			// {cls: 'english', keys:/[\w\s\+\-,\.#\*\[\]\(\)]/,  pattern:'[\\w\\s\\+\\-,\\.#\\*\\[\\]\\(\\)]*'},
 		];
 		modes.forEach(function(mode){
 			var $ipts = $form.find('.form-control.'+mode.cls);

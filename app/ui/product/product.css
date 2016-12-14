@@ -2,6 +2,7 @@
 #product aside{padding-left: 0px;}
 #product .product-list thead>tr>th{background-color: #eee; text-align: left;}
 #product .product-list thead>tr>th.field-auto{width: auto;}
+#product .product-list thead>tr>th.field-toggle{width: 20px; text-align: center;}
 #product .product-list thead>tr>th.field-check{width: 20px; text-align: center;}
 #product .product-list thead>tr>th.field-img{width: 50px; text-align: center;}
 #product .product-list thead>tr>th.field-code{width: 100px;}

@@ -24,10 +24,13 @@ class ListPage extends BasePage{
                 this.$searchBtn.click()
             }
         })
+        // on toggle group
+        this.$page.on('click', 'thead>tr>th.field-toggle', e => this.onToggleAll(e))
+        this.$page.on('click', 'tbody>tr.group>th.field-toggle', e => this.onToggleGroup(e))
         // on check
         this.$page.on('change', 'thead>tr>th>input[type=checkbox]', e => this.onCheckAll(e))
-        this.$page.on('change', 'tbody>tr:not(.group)>th>input[type=checkbox]', e => this.onCheckOne(e))
         this.$page.on('change', 'tbody>tr.group>th>input[type=checkbox]', e => this.onCheckGroup(e))
+        this.$page.on('change', 'tbody>tr:not(.group)>th>input[type=checkbox]', e => this.onCheckOne(e))
         // sortables
         this.$sortables.click(e => this.onSort(e))
     }
@@ -78,6 +81,12 @@ class ListPage extends BasePage{
     }
     doSearch(text){
         tfn.tips(text)
+    }
+    onToggleAll(e){
+
+    }
+    onToggleGroup(e){
+        
     }
     get checkedIds(){
         let ids = []

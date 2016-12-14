@@ -130,9 +130,10 @@ function loader(filename, opts){
             })})()</script>`
         if ($contents instanceof $){
             if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
+                let oidRg = new RegExp('#'+oid, 'g')
                 $contents.siblings('script,style').each(function(){
                     let $script = $(this);
-                    $script.text($script.text().replace('#'+oid, '#'+id));
+                    $script.text($script.text().replace(oidRg, '#'+id));
                 });
             }
             $.merge($contents, $(aScript));

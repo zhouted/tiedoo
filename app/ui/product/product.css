@@ -1,3 +1,5 @@
+/*#product main{padding-right: 0px;}*/
+#product aside{padding-left: 0px;}
 #product .product-list thead>tr>th{background-color: #eee; text-align: left;}
 #product .product-list thead>tr>th.field-auto{width: auto;}
 #product .product-list thead>tr>th.field-check{width: 20px; text-align: center;}
@@ -25,6 +27,6 @@
 #product .ctree .ctree-head>a{background-color: #fff; }
 #product .ctree .ctree-head.open>a{background-color: #eee; }
 
-#product .toggle-category{padding: 5px 6px; margin-left: -6px;}
+#product .toggle-category{padding: 5px 5px;}
 #product .toggle-category .icon-bar{display: block; width: 24px; height: 4px; border-radius: 1px; background-color: #4e5f6f;}
 #product .toggle-category .icon-bar + .icon-bar {margin-top: 4px;}

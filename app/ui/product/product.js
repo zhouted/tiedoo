@@ -62,7 +62,7 @@ class ProductPage extends ListPage{
             onDiscard: '.btn.discard',
             onRestore: '.btn.restore',
             onToggleDiscarded: '.btn.toggle-discarded',
-            onToggleLeft: '.btn.toggle-category',
+            onToggleAside: '.btn.toggle-category',
             onDetail: '.product-item>tr>td',
         })
     }
@@ -212,36 +212,36 @@ class ProductPage extends ListPage{
         })
         this.clearChecked()
     }
-    onToggleLeft(e, btn){
-        this.toggleLeft()
+    onToggleAside(e, btn){
+        this.toggleAside()
     }
-    toggleLeft(show){
+    toggleAside(show){
 		var $toggle = this.$page.find('.toggle-category');
-		var $left = this.$ctree.closest('aside');
-		var $right = $left.nextAll();
+		var $aside = this.$ctree.closest('aside');
+		var $main = $aside.prevAll();
 		if (show === undefined){
-		   show = !$left.is(':visible');
+		   show = !$aside.is(':visible');
 		}
 		var $icon = $toggle.find('.glyphicon');
 		// var showClass = 'glyphicon-backward';
 		// var hideClass = 'glyphicon-forward';
-		var rowClasses = 'col-xs-10';
+		var rowClasses = 'col-xs-10'
 		if (!show){//隐藏左侧树
 			$icon.addClass('ts-x')//.removeClass(showClass).addClass(hideClass);
-			$toggle.data('toggling', true);
-			$left.hide('slow', function(){
-				$right.removeClass(rowClasses);
-				// !page.editMode && $right.find('.hide-more').show();
-				$toggle.data('toggling', false);;
+			$toggle.data('toggling', true)
+			$aside.hide('slow', function(){
+				$main.removeClass(rowClasses)
+				// !page.editMode && $main.find('.hide-more').show();
+				$toggle.data('toggling', false)
 			});
 		}else{//显示左侧树
 			$icon.removeClass('ts-x')//.removeClass(hideClass).addClass(showClass);
-			$toggle.data('toggling', true);
-			$right.addClass(rowClasses);
-			// !page.editMode && $right.find('.hide-more').hide();
-			$left.show('slow', function(){
-				$toggle.data('toggling', false);
-			});
+			$toggle.data('toggling', true)
+			$main.addClass(rowClasses)
+			// !page.editMode && $main.find('.hide-more').hide();
+			$aside.show('slow', function(){
+				$toggle.data('toggling', false)
+			})
 		}
 	}
     onDiscard(e, btn){

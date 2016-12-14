@@ -1,6 +1,14 @@
 <div id="product" >
     <div class="panel-heading topbar">
         <div class="pull-right">
+            <a class="btn toggle-category" title="隐藏/显示品类树">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <!-- <span class="glyphicon glyphicon-align-justify"></span> -->
+            </a>
+        </div>
+        <div class="pull-right">
             <a class="btn btn-lg toggle-discarded for-discarded-hidden" title="查看已归档" style="padding:5px 5px 5px 10px;">
                 <span class="glyphicon glyphicon-trash"></span>
             </a>
@@ -31,14 +39,6 @@
                 <span class="on-checked-show dn">取消所有页</span>
             </a>
         </div>
-        <div class="pull-left">
-            <a class="btn toggle-category" title="隐藏/显示品类树">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <!-- <span class="glyphicon glyphicon-align-justify"></span> -->
-            </a>
-        </div>
         <div class="for-discarded-hidden">
             <a class="btn add-new btn-primary">新增产品</a>
             <a class="btn edit btn-primary">批量编辑</a>
@@ -53,19 +53,6 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <aside class="col-xs-2">
-                <div class="auto-scroll">
-                    <ul class="ctree">
-                        <li class="ctree-head open">
-                            <a class="row-fixed" href="javascript:;">
-                                <span class="caption">全部品类</span>
-                                <span class="ctree-check pull-right"><input type="checkbox"></span>
-                                <span class="btn-category pull-right" title="品类管理">管理</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
             <main class="col-xs-12 col-xs-10">
                 <div class="auto-scroll">
                     <table class="table product-list table-hover" style="table-layout:fixed;">
@@ -119,6 +106,19 @@
                     </nav>
                 </div>
             </main>
+            <aside class="col-xs-2">
+                <div class="auto-scroll">
+                    <ul class="ctree">
+                        <li class="ctree-head open">
+                            <a class="row-fixed" href="javascript:;">
+                                <span class="caption">全部品类</span>
+                                <span class="ctree-check pull-right"><input type="checkbox"></span>
+                                <span class="btn-category pull-right" title="品类管理">管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
         </div>
     </div>
 </div>

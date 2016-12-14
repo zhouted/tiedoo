@@ -16,10 +16,14 @@
                         <th class="row-fixed field-img">图片</th>
                         <th class="row-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
                         <th class="row-fixed field-name">规格</th>
-                        <th class="row-fixed field-unit">单位</th>
+                        <th class="row-fixed field-unit">计量单位</th>
                         <th class="row-fixed field-num">销售价(美元)</th>
                         <th class="row-fixed field-num">起订量</th>
                         <th class="row-fixed field-num">成本价(元)</th>
+                        <th class="row-fixed field-unit">包装单位</th>
+                        <th class="row-fixed field-size">包装尺寸(cm)</th>
+                        <th class="row-fixed field-weight">净/毛重(kg)</th>
+                        <th class="row-fixed field-num">装箱数</th>
                         <th class="row-fixed field-name">主要供应商</th>
                     </tr>
                 </thead>
@@ -51,13 +55,13 @@
                                 <input type="text" class="form-control" name="tariffNo" value="${tfn.fstr(product.tariffNo)}" placeholder="税则号">
                             </td>
                             <td class="field-num">
-                                <div class="input-group input-group-tax">
+                                <div class="input-group">
                                     <span class="input-group-addon">-</span>
                                     <input type="text" class="form-control numeric" name="taxRebate" value="${tfn.fnum(product.taxRebate)}" placeholder="退税率">
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </td>
-                            <td></td>
+                            <td colspan="5"></td>
                         </tr>
                     </tbody>
                 </script>
@@ -98,7 +102,34 @@
                         <td class="field-num">
                             <input type="text" class="form-control numeric" name="cost" value="${tfn.fnum(spec.cost,2)}" placeholder="成本价"/>
                         </td>
-                        <td class="field-supplier">${tfn.fdate(spec.supplier)}</td>
+                        <td class="field-unit">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="packUnit" value="${tfn.fstr(spec.packUnit)}"  data-dd-type="DdPackUnit" data-dd-key="name" placeholder="单位"/>
+                                <span class="input-group-addon">(&nbsp;</span>
+                                <input type="text" class="form-control" name="packUnitEn" value="${tfn.fstr(spec.packUnitEn)}"  data-dd-type="DdPackUnit" data-dd-key="nameEn" placeholder="英文"/>
+                                <span class="input-group-addon">&nbsp;)</span>
+                            </div>
+                        </td>
+                        <td class="field-size">
+                            <div class="input-group">
+                                <input type="text" class="form-control numeric" name="packLength" value="${tfn.fnum(spec.packLength)}" placeholder="长">
+                                <span class="input-group-addon">x</span>
+                                <input type="text" class="form-control numeric" name="packWidth" value="${tfn.fnum(spec.packWidth)}" placeholder="宽">
+                                <span class="input-group-addon">x</span>
+                                <input type="text" class="form-control numeric" name="packHeight" value="${tfn.fnum(spec.packHeight)}" placeholder="高">
+                            </div>
+                        </td>
+                        <td class="field-weight">
+                            <div class="input-group">
+                                <input type="text" class="form-control numeric" name="packNetWeight" value="${tfn.fnum(spec.packNetWeight)}" placeholder="净重">
+                                <span class="input-group-addon before-input after-input">/</span>
+                                <input type="text" class="form-control numeric" name="packCrossWeight" value="${tfn.fnum(spec.packCrossWeight)}" placeholder="毛重">
+                            </div>
+                        </td>
+                        <td class="field-num">
+                            <input type="text" class="form-control numeric" name="packNum" value="${tfn.fnum(spec.packNum)}" placeholder="装箱数"/>
+                        </td>
+                        <td class="field-supplier">${tfn.fstr(spec.supplier)}</td>
                     </tr>
                 </script>
             </table>

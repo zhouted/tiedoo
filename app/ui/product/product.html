@@ -62,10 +62,14 @@
                                 <th class="row-fixed field-img">图片</th>
                                 <th class="row-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
                                 <th class="row-fixed field-name">规格</th>
-                                <th class="row-fixed field-unit">单位</th>
-                                <th class="row-fixed field-num">销售价</th>
+                                <th class="row-fixed field-unit">计量单位</th>
+                                <th class="row-fixed field-num">销售价(美元)</th>
                                 <th class="row-fixed field-num">起订量</th>
-                                <th class="row-fixed field-num">成本价</th>
+                                <th class="row-fixed field-num">成本价(元)</th>
+                                <th class="row-fixed field-unit">包装单位</th>
+                                <th class="row-fixed field-size">包装尺寸(cm)</th>
+                                <th class="row-fixed field-weight">净/毛重(kg)</th>
+                                <th class="row-fixed field-num">装箱数</th>
                                 <th class="row-fixed field-name">主要供应商</th>
                             </tr>
                         </thead>
@@ -79,7 +83,7 @@
                                         </a>
                                     </th>
                                     <td class="field-code col-fixed">${tfn.fstr(product.code)}</td>
-                                    <td class="field-auto" colspan="6">${tfn.funit(product.name, product.nameEn)}</td>
+                                    <td class="field-auto" colspan="10">${tfn.funit(product.name, product.nameEn)}</td>
                                 </tr>
                             </tbody>
                         </script>
@@ -97,7 +101,11 @@
                                 <td class="field-num">${tfn.fnum(spec.price,2)}</td>
                                 <td class="field-num">${tfn.fnum(spec.moq)}</td>
                                 <td class="field-num">${tfn.fnum(spec.cost,2)}</td>
-                                <td class="field-supplier">${tfn.fdate(spec.supplier)}</td>
+                                <td class="field-unit">${tfn.funit(spec.packUnit, spec.packUnitEn)}</td>
+                                <td class="field-size">${tfn.fsize(spec.packLength, spec.packWidth, spec.packHeight)}</td>
+                                <td class="field-weight">${tfn.fweight(spec.packNetWeight, spec.packCrossWeight)}</td>
+                                <td class="field-num">${tfn.fnum(spec.packNum)}</td>
+                                <td class="field-supplier">${tfn.fstr(spec.supplier)}</td>
                             </tr>
                         </script>
                     </table>

@@ -8,6 +8,8 @@
 #product .product-list thead>tr>th.field-name{width: 200px;}
 #product .product-list thead>tr>th.field-unit{width: 100px;}
 #product .product-list thead>tr>th.field-num{width: 100px; text-align: right;}
+#product .product-list thead>tr>th.field-size{width: 160px;}
+#product .product-list thead>tr>th.field-weight{width: 120px;}
 #product .product-item tr>td{cursor: pointer;}
 #product .product-item tr>th.field-check{text-align: center;}
 #product .product-item tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}

@@ -109,14 +109,14 @@ class ProductPage extends ListPage{
             !$row.is(':last-child') && setTimeout(()=>$row.remove())//移除多余的空行
             return true
         } else if (!ipt.value){
-            $ipt.attr('data-content', '编号不能为空！')
+            $ipt.attr('data-content', '规格编号不能为空！')
             return false
         }
         //检查编码重复
         let $otherIpts = $row.closest('.product-item').find('.product-item-spec').find('input[name=code]')
         for (let otherIpt of $otherIpts){
             if (otherIpt !== ipt && otherIpt.value === ipt.value){
-                $ipt.attr('data-content', '编号重复！')
+                $ipt.attr('data-content', '规格编号重复！')
                 return false
             }
         }

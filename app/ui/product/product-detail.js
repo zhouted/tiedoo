@@ -68,6 +68,7 @@ class ProductDetailPage extends BasePage {
     }
     doLoad(param){
         return srvProduct.loadById(param._id, param._discard).then(data => {
+            data = data || {}
             if (param._discard){
                 data._discard = param._discard
             }

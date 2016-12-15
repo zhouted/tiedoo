@@ -83,10 +83,54 @@ class ListPage extends BasePage{
         tfn.tips(text)
     }
     onToggleAll(e){
-
+        this.doToggleGroup()
     }
     onToggleGroup(e){
-        
+        let $toggle = $(e.currentTarget)
+        this.doToggleGroup($toggle)
+    }
+    doToggleGroup($toggle, $tb, expand){
+        $toggle = $toggle || this.$table.find('.field-toggle')
+        $tb = $tb || $toggle.closest('tbody, table')
+        if ($tb.is('table')){
+            $tb = $tb.find('tbody')
+        }
+        if (expand === undefined){
+            expand = !$tb.is('.expanded')
+            //记住展开和收起状态
+            $toggle.each((i, toggle) => {
+                let key = $(toggle).closest('tbody').index()
+                tfn.store('product.list.expand.'+key, expand)
+            })
+        }
+        // let $group = $tb.find('.tr.group')
+        let $icon = $toggle.find('.toggle-icon')
+        let $items = $tb.find('tr:not(.group)')
+        if (expand){
+            $items.removeClass('hidden')
+            $icon.removeClass('glyphicon-triangle-right').addClass('glyphicon-triangle-bottom')
+            $tb.addClass('expanded')
+        }else{
+            $items.addClass('hidden')
+            $icon.removeClass('glyphicon-triangle-bottom').addClass('glyphicon-triangle-right')
+            $tb.removeClass('expanded')
+        }
+    }
+    renderToggleGroups(){
+        let expandAll = true
+        this.$table.find('.field-toggle').each((i, toggle) => {
+            let $toggle = $(toggle)
+            let $tb = $toggle.closest('tbody')
+            let key = $tb.index()
+            let expand = tfn.store('product.list.expand.'+key)
+            if (key == 0 && expand !== null){
+                expandAll = expand
+            }
+            if (expand === null){
+                expand = expandAll
+            }
+            this.doToggleGroup($(toggle), $tb, expand)
+        })
     }
     get checkedIds(){
         let ids = []

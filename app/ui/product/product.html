@@ -58,7 +58,7 @@
                     <table class="table product-list table-hover" style="table-layout:fixed;">
                         <thead>
                             <tr>
-                                <th class="row-fixed col-fixed field-toggle"><a href="javascript:;"><span class="glyphicon glyphicon-triangle-right"></span></a></th>
+                                <th class="row-fixed col-fixed field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
                                 <th class="row-fixed col-fixed field-check"><input type="checkbox"></th>
                                 <th class="row-fixed col-fixed field-img">图片</th>
                                 <th class="row-fixed col-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
@@ -77,7 +77,7 @@
                         <script type="text/html" id="tplPd" role="template" data-bind="product">
                             <tbody class="product-item" data-id="${product._id}">
                                 <tr class="product-item-basic group" data-id="${product._id}">
-                                    <th class="col-fixed field-toggle"><a href="javascript:;"><span class="glyphicon glyphicon-triangle-right"></span></a></th>
+                                    <th class="col-fixed field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
                                     <th class="col-fixed field-check"><input type="checkbox" ${product.checked&&'checked'}></th>
                                     <th class="col-fixed field-img">
                                         <a href="#viewImgModal" data-toggle="modal">

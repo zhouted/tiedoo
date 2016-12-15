@@ -161,6 +161,7 @@ class ProductPage extends ListPage{
             }
             this.$tplPd.before($item)
         }
+        this.renderToggleGroups()
         this.loadImg()
     }
     loadImg(){

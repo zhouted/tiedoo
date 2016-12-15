@@ -1,22 +1,16 @@
-#topbar {
-    color: #fefefe;
-    background-color: #4e5f6f;
-    margin-bottom: 1px;
-}
+#topbar{color: #fefefe; background-color: #4e5f6f; margin-bottom: 1px;}
 
 /*#topbar .navbar-brand{padding:0px 15px 0 15px; min-width:60px; height:50px; display:table; text-align:center; vertical-align:middle;}
 #topbar .navbar-brand>a{display:table-cell; vertical-align: middle;}
 #topbar .navbar-brand>a>img{max-width:150px; max-height:50px;}*/
 
-#topbar a {
-    color: #fefefe;
-}
 
-#topbar .nav-user img{
-    max-width: 20px;
-    max-height: 20px;
-}
+#topbar .nav-user img{max-width: 20px; max-height: 20px;}
 
-#topbar .active a, #topbar a:hover, #topbar a:focus {
-    background-color: #000;
-}
+#topbar a{color: #fefefe;}
+#topbar a:hover,
+#topbar a:focus,
+#topbar .active a{background-color: #000;}
+
+#topbar .center-block{padding-top: 12px;}
+#topbar .center-block .title{font-size: 18px;}

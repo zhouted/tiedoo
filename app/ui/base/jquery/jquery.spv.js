@@ -25,7 +25,8 @@ $.fn.spv = function(act, opts) {
     return this
 }
 
-function initTabs($tabs, tabs){
+function initTabs($content, tabs){
+    let $tabs = $content
     if (!$tabs.is('.nav-tabs')){
         $tabs = $tabs.children('.nav-tabs').first() // 仅直接下级
     }
@@ -34,8 +35,13 @@ function initTabs($tabs, tabs){
     }
     // tabs && tabs.length
     for (let tab of tabs){
-        $tabs.append(`<li role="presentation"><a href="#${tab.key}Panel" src="${tab.src}" role="tab" data-toggle="tab">${tab.name}</a></li>`)
+        let $a = $(`<a href="#${tab.key}Panel" src="${tab.src}" role="tab" data-toggle="tab">${tab.name}</a>`).data(tab)
+        let $tab = $(`<li role="presentation"></li>`).append($a)
+        $tabs.append($tab)
     }
+    $content.on('shown.bs.tab', '.nav-tabs a[role=tab]', function(){
+        $content.trigger('opened.panel', $(this).data())
+    })
 }
 
 function openPanel($content, opts){

@@ -1,11 +1,11 @@
 <div id="productEdit" >
     <div class="panel-heading topbar">
-        <div class="pull-right">
-            <a class="btn add-new"><span class="glyphicon glyphicon-plus"></span>新增产品</a>
-            <a class="btn save"><span class="glyphicon glyphicon-check"></span>保存</a>
-            <a class="btn back"><span class="glyphicon glyphicon-share ts-x"></span>返回</a>
+        <div class="">
+            <a class="btn btn-primary add-new"><!--span class="glyphicon glyphicon-plus"></span-->新增产品</a>
+            <a class="btn btn-primary save"><!--span class="glyphicon glyphicon-check"></span-->保存</a>
+            <a class="btn btn-primary back"><!--span class="glyphicon glyphicon-share ts-x"></span-->返回</a>
         </div>
-        <h2 class="panel-title">产品编辑</h2>
+        <!-- <h2 class="panel-title">产品编辑</h2> -->
     </div>
     <div class="panel-body">
         <div class="auto-scroll">
@@ -43,7 +43,7 @@
                             </th>
                             <td class="field-code col-fixed">
                                 <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(product.code)}"
-                                    placeholder="产品编码" data-content="编码不能为空" data-placement="top"/>
+                                    placeholder="产品编码" data-content="编码不能为空" data-placement="bottom"/>
                             </td>
                             <td class="field-name">
                                 <input type="text" class="form-control" name="name" value="${tfn.fstr(product.name)}" placeholder="产品名称"/>
@@ -80,7 +80,7 @@
                         </th>
                         <td class="field-code col-fixed">
                             <input type="text" class="form-control coding auto-upcase check-on-change" name="code" value="${tfn.fstr(spec.code)}"
-                                placeholder="新增规格编号" data-content="规格编号不能为空" data-placement="top"/>
+                                placeholder="新增规格编号" data-content="规格编号不能为空" data-placement="bottom"/>
                         </td>
                         <td class="field-name">
                             <input type="text" class="form-control" name="name" value="${tfn.fstr(spec.name)}" placeholder="新增规格"/>

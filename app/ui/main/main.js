@@ -5,18 +5,24 @@ Object.assign($.fn.twbsPagination.defaults, {first: '«', prev: '‹', next: '�
 const srvUser = require(appPath+'/service/user.js')
 
 exports.onReady = function({pid}){
+    let $main = router.$main
+    let $title = $main.find('.center-block .title')
+    $main.on('opened.panel', (e, tab) => {
+        tab&&tab.name&&$title.text(tab.name)
+    })
+
     srvUser.load().then(user =>{
         showUserInfo(user)
     })
 
-    $('body').on('changed.user', (e, user) => {
+    $main.on('changed.user', (e, user) => {
         showUserInfo(user)
     })
 
     function showUserInfo(user){
-        user.name && $('.user-name').text(user.name)
+        user.name && $main.find('.user-name').text(user.name)
         srvUser.loadImg(user.imageId).then(file => {
-            file && $('.main .nav-user img').attr('src', file.path)
+            file && $main.find('.nav-user img').attr('src', file.path)
         })
     }
 

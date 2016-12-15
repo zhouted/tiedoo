@@ -23,6 +23,6 @@
     overflow: auto;
 }
 
-#main .col-fixed{position: relative; z-index: 100;}
-#main .row-fixed{position: relative; z-index: 101;}
-#main .popover{z-index:110;}
+#main .col-fixed,
+#main .row-fixed{position: relative;}
+#main .col-fixed.row-fixed{z-index: 101;}

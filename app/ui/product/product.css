@@ -30,6 +30,6 @@
 #product .ctree .ctree-head>a{background-color: #fff; }
 #product .ctree .ctree-head.open>a{background-color: #eee; }
 
-#product .toggle-category{padding: 5px 5px;}
+#product .toggle-category{padding: 5px;}
 #product .toggle-category .icon-bar{display: block; width: 24px; height: 4px; border-radius: 1px; background-color: #4e5f6f;}
 #product .toggle-category .icon-bar + .icon-bar {margin-top: 4px;}

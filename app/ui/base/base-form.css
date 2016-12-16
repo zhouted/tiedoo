@@ -39,6 +39,9 @@ fieldset.bg-fieldset .input-group-addon{background-color: transparent;}*/
 .label-primary{color:#fff; background-color:#337ab7; border:1px solid #2e6da4;}
 p .label, span .label{margin-left: 3px;}
 
+/*.form-control::-moz-placeholder,.form-control:-ms-input-placeholder,*/
+.form-control::-webkit-input-placeholder{color: #ddd;}
+
 /*.form-control:focus {border: none; border-bottom: 1px solid #66afe9; border-radius: 0; box-shadow: none;}*/
 .form-horizontal fieldset {margin: 10px 0;}
 .form-horizontal fieldset>legend {font-size: 15px; margin: 0 0 10px 0;}

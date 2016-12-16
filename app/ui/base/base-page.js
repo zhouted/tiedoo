@@ -34,19 +34,20 @@ class BasePage extends BasePane{
         super.initEvents()
         // on scroll
         if (this.$scroll.length){
-            let $fixed = this.$scroll.find('.row-fixed')
+            let $fixed = this.$scroll.find('.fixed-y')
             if (!$fixed.length) return
             this.$scroll.scroll(function(e){
-                $(this).find('.row-fixed').css('top', this.scrollTop)
-                $(this).find('.col-fixed').css('left', this.scrollLeft)
+                $(this).find('.fixed-y').css('top', this.scrollTop)
+                $(this).find('.fixed-x').css('left', this.scrollLeft)
             });
         }
     }
     doResize(){
         let height = this.$tabpanel.height() - 15
         height -= this.getFixedHeight()
-        this.$scroll.css('max-height', height)
         this.$subcont.css('height', height)
+        this.$scroll.css('height', height)
+        this.$scroll.css('max-height', height)
     }
     getFixedHeight(){
         let height = 0

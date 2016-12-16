@@ -3,7 +3,6 @@
     <link  href="ui/base/jquery/jquery.treetable.theme.css" rel="stylesheet">
     <div class="panel-heading topbar">
         <div class="pull-right">
-            <a class="btn back" title="返回产品管理"><span class="glyphicon glyphicon-share ts-x"></span>返回</a>
         </div>
         <div class="pull-right" style="max-width:230px; margin-left:10px;">
             <div class="input-group">
@@ -15,22 +14,23 @@
                 </span>
             </div>
         </div>
-        <div class="pull-right">
-            <a class="btn add-new btn-primary">新增品类</a>
+        <div class="">
+            <a class="btn btn-primary back" title="返回产品区"><!--span class="glyphicon glyphicon-share ts-x"></span-->返回</a>
+            <a class="btn btn-primary add-new">新增品类</a>
             <!-- <a class="btn delete btn-primary">删除</a> -->
         </div>
-        <h2 class="panel-title">品类管理</h2>
+        <!-- <h2 class="panel-title">品类管理</h2> -->
     </div>
     <div class="panel-body">
         <div class="auto-scroll">
             <table class="table category-list table-hover" style="table-layout:fixed;">
                 <thead>
                     <tr>
-                        <th class="row-fixed field-toggler"></th>
-                        <th class="row-fixed field-code">品类编码</th>
-                        <th class="row-fixed field-name">品类名称</th>
-                        <th class="row-fixed field-auto">英文名称</th>
-                        <th class="row-fixed field-btns">操作</th>
+                        <th class="fixed-y field-toggler"></th>
+                        <th class="fixed-y field-code">品类编码</th>
+                        <th class="fixed-y field-name">品类名称</th>
+                        <th class="fixed-y field-auto">英文名称</th>
+                        <th class="fixed-y field-btns">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                 </tbody>
             </table>
             <!-- <nav class="pager-container text-center">
-                <ul class="pagination"></ul>
+                <ul class="pagination fixed-x"></ul>
             </nav> -->
         </div>
     </div>

@@ -23,6 +23,6 @@
     overflow: auto;
 }
 
-#main .col-fixed,
-#main .row-fixed{position: relative;}
-#main .col-fixed.row-fixed{z-index: 101;}
+#main .fixed-x,
+#main .fixed-y{position: relative;}
+#main .fixed-x.fixed-y{z-index: 101;}

@@ -2,8 +2,8 @@
 #product aside{padding-left: 0px;}
 #product .product-list thead>tr>th{background-color: #eee; text-align: left;}
 #product .product-list thead>tr>th.field-auto{width: auto;}
-#product .product-list thead>tr>th.field-toggle{width: 22px; text-align: center;}
-#product .product-list thead>tr>th.field-check{width: 20px; text-align: center;}
+#product .product-list thead>tr>th.field-toggle{width: 24px; text-align: center;}
+#product .product-list thead>tr>th.field-check{width: 22px; text-align: center;}
 #product .product-list thead>tr>th.field-img{width: 50px; text-align: center;}
 #product .product-list thead>tr>th.field-code{width: 100px;}
 #product .product-list thead>tr>th.field-name{width: 200px;}
@@ -18,8 +18,8 @@
 
 #product .product-item tr.product-item-basic>th,
 #product .product-item tr.product-item-basic>td{background-color: #eff4fa; font-size:16px;}
-#product .product-item tr.product-item-spec>th.col-fixed,
-#product .product-item tr.product-item-spec>td.col-fixed{background-color: #eff4fa;}
+#product .product-item tr.product-item-spec>th.fixed-x,
+#product .product-item tr.product-item-spec>td.fixed-x{background-color: #eff4fa;}
 
 #product .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
 #product .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }

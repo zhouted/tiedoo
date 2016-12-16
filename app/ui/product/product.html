@@ -42,8 +42,7 @@
         </div>
         <div class="for-discarded hidden">
             <a class="btn toggle-discarded btn-primary for-discarded hidden" title="返回产品区">
-                <!-- <span class="glyphicon glyphicon-share ts-x"></span> -->
-                返回产品区
+                <!-- <span class="glyphicon glyphicon-share ts-x"></span> -->返回
             </a>
             <a class="btn delete btn-primary">删除</a>
             <a class="btn restore btn-primary">还原</a>
@@ -57,47 +56,47 @@
                     <table class="table product-list table-hover" style="table-layout:fixed;">
                         <thead>
                             <tr>
-                                <th class="row-fixed col-fixed field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
-                                <th class="row-fixed col-fixed field-check"><input type="checkbox"></th>
-                                <th class="row-fixed col-fixed field-img">图片</th>
-                                <th class="row-fixed col-fixed field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
-                                <th class="row-fixed field-name">规格</th>
-                                <th class="row-fixed field-unit">计量单位</th>
-                                <th class="row-fixed field-num">销售价(美元)</th>
-                                <th class="row-fixed field-num">起订量</th>
-                                <th class="row-fixed field-num">成本价(元)</th>
-                                <th class="row-fixed field-unit">包装单位</th>
-                                <th class="row-fixed field-size">包装尺寸(cm)</th>
-                                <th class="row-fixed field-weight">净/毛重(kg)</th>
-                                <th class="row-fixed field-num">装箱数</th>
-                                <th class="row-fixed field-name">主要供应商</th>
+                                <th class="fixed-y fixed-x field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
+                                <th class="fixed-y fixed-x field-check"><input type="checkbox"></th>
+                                <th class="fixed-y fixed-x field-img">图片</th>
+                                <th class="fixed-y fixed-x field-code sortable" data-field="code"><span class="sort-arrow">↑</span>编码</th>
+                                <th class="fixed-y field-name">规格</th>
+                                <th class="fixed-y field-unit">计量单位</th>
+                                <th class="fixed-y field-num">销售价(美元)</th>
+                                <th class="fixed-y field-num">起订量</th>
+                                <th class="fixed-y field-num">成本价(元)</th>
+                                <th class="fixed-y field-unit">包装单位</th>
+                                <th class="fixed-y field-size">包装尺寸(cm)</th>
+                                <th class="fixed-y field-weight">净/毛重(kg)</th>
+                                <th class="fixed-y field-num">装箱数</th>
+                                <th class="fixed-y field-name">主要供应商</th>
                             </tr>
                         </thead>
                         <script type="text/html" id="tplPd" role="template" data-bind="product">
                             <tbody class="product-item" data-id="${product._id}">
                                 <tr class="product-item-basic group" data-id="${product._id}">
-                                    <th class="col-fixed field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
-                                    <th class="col-fixed field-check"><input type="checkbox" ${product.checked&&'checked'}></th>
-                                    <th class="col-fixed field-img">
+                                    <th class="fixed-x field-toggle"><a href="javascript:;"><span class="toggle-icon glyphicon"></span></a></th>
+                                    <th class="fixed-x field-check"><input type="checkbox" ${product.checked&&'checked'}></th>
+                                    <th class="fixed-x field-img">
                                         <a href="#viewImgModal" data-toggle="modal">
                                             <img src="ui/images/default.png" data-id="${product.imageId}"/>
                                         </a>
                                     </th>
-                                    <td class="col-fixed field-code">${tfn.fstr(product.code)}</td>
+                                    <td class="fixed-x field-code">${tfn.fstr(product.code)}</td>
                                     <td class="field-auto" colspan="10">${tfn.funit(product.name, product.nameEn)}</td>
                                 </tr>
                             </tbody>
                         </script>
                         <script type="text/html" id="tplSpec" role="template" data-bind="spec">
                             <tr class="product-item-spec" data-id="${spec._id}">
-                                <th class="col-fixed field-toggle"></th>
-                                <th class="col-fixed field-check"><input type="checkbox" ${spec.checked&&'checked'}></th>
-                                <th class="col-fixed field-img">
+                                <th class="fixed-x field-toggle"></th>
+                                <th class="fixed-x field-check"><input type="checkbox" ${spec.checked&&'checked'}></th>
+                                <th class="fixed-x field-img">
                                     <a href="#viewImgModal" data-toggle="modal">
                                         <img src="" data-id="${spec.imageId}"/>
                                     </a>
                                 </th>
-                                <td class="col-fixed field-code">${tfn.fstr(spec.code)}</td>
+                                <td class="fixed-x field-code">${tfn.fstr(spec.code)}</td>
                                 <td class="field-name">${tfn.fstr(spec.name)}</td>
                                 <td class="field-unit">${tfn.funit(spec.unit, spec.unitEn)}</td>
                                 <td class="field-num">${tfn.fnum(spec.price,2)}</td>
@@ -112,7 +111,7 @@
                         </script>
                     </table>
                     <nav class="pager-container text-center">
-                        <ul class="pagination"></ul>
+                        <ul class="pagination fixed-x"></ul>
                     </nav>
                 </div>
             </main>
@@ -120,7 +119,7 @@
                 <div class="auto-scroll">
                     <ul class="ctree">
                         <li class="ctree-head open">
-                            <a class="row-fixed" href="javascript:;">
+                            <a class="fixed-y" href="javascript:;">
                                 <span class="caption">全部品类</span>
                                 <span class="ctree-check pull-right"><input type="checkbox"></span>
                                 <span class="btn-category pull-right" title="品类管理">管理</span>

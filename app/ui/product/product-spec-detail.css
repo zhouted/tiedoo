@@ -1,7 +1,11 @@
-#productSpecModal .modal-dialog{width: 800px;}
+#productSpecModal .modal-dialog{width: 900px;}
 #productSpecModal .modal-dialog .modal-header{border-bottom: none;}
 #productSpecModal .modal-dialog .modal-footer{border-top: none;}
 #productSpecModal .modal-dialog .modal-body{padding: 0 15px;}
 
-#productSpecModal .right-side .thumbnail{margin: 0 10px 20px 10px; border:none; background-color: transparent;}
+#productSpecModal .right-side{position:absolute; right:0; text-align: center;}
+#productSpecModal .right-side .thumbnail{max-width: 166px; margin: 0 10px 20px 10px; border:none; background-color: transparent;}
+#productSpecModal .right-side .thumbnail img{max-height: 142px;}
 #productSpecModal .right-side .thumbnail .caption{padding: 10px 0; border:none;}
+#productSpecModal .form-group.spec-desc{min-height:100px;}
+#productSpecModal .form-group.spec-desc textarea{min-height:108px;}

@@ -16,34 +16,7 @@ remoteUser.login = function(data){
     return new Promise((resolve, reject) => {
         let param = {identity, password, generateCode, app:tty}
         request(urlLogin, param).then(rst => {
-            let user = {
-                id: rst.id,
-                name: rst.name,
-                nameEn: rst.enName,
-                pwd: rst.password,
-                email: rst.email,
-                mobile: rst.mobile,
-                tel: rst.personalPhone,
-                userNo: rst.userNo,
-                imageId: rst.avatarId,
-                token: rst.token,
-            }
-            if (user.pwd){//前后端的密码md5大小写不一致
-                user.pwd = user.pwd.toLowerCase()
-            }
-            let comp = {
-                id: rst.company.companyId,
-                name: rst.company.name,
-                nameEn: rst.company.enName,
-                addr: rst.company.address,
-                addrEn: rst.company.enAddress,
-                tel: rst.company.companyId,
-                fax: rst.company.fax,
-                web: rst.company.website,
-                tradeType: rst.company.tradeType,
-                imageId: rst.company.logo,
-            }
-            user.comp = comp//公司信息直接存储到用户里
+            let user = toLocalUser(rst)
             resolve(user)
         }).catch(err => {
             // console.log(err)
@@ -71,12 +44,45 @@ remoteUser.register = function(data){
     return new Promise((resolve, reject) => {
         let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}
         request(urlRegister, param).then(rst => {
-            console.log(rst)
-            resolve(rst)
+            let user = toLocalUser(rst)
+            resolve(user)
         }).catch(err => {
             reject(err)
         })
     })
+}
+
+
+function toLocalUser(data){
+    let user = {
+        id: data.id,
+        name: data.name,
+        nameEn: data.enName,
+        pwd: data.password,
+        email: data.email,
+        mobile: data.mobile,
+        tel: data.personalPhone,
+        userNo: data.userNo,
+        imageId: data.avatarId,
+        token: data.token,
+    }
+    if (user.pwd){//前后端的密码md5大小写不一致
+        user.pwd = user.pwd.toLowerCase()
+    }
+    let comp = {
+        id: data.company.companyId,
+        name: data.company.name,
+        nameEn: data.company.enName,
+        addr: data.company.address,
+        addrEn: data.company.enAddress,
+        tel: data.company.companyId,
+        fax: data.company.fax,
+        web: data.company.website,
+        tradeType: data.company.tradeType,
+        imageId: data.company.logo,
+    }
+    user.comp = comp//公司信息直接存储到用户里
+    return user
 }
 
 module.exports = remoteUser

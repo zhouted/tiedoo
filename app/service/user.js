@@ -56,19 +56,20 @@ srvUser.login = function(data) {
     })
 
     // inner funs:
-    function remoteLogin(data){
+    function remoteLogin(data){//尝试云端登录
         return new Promise((resolve, reject) => {
-            //尝试云端登录
             remoteUser.login(data).then((user) => {
-                keepUser(user).then(user => {
-                    resolve(user, data.account)
+                daoUser.insert(user).then(user => {
+                    setUserToken(user, data.account, false).then(user => {
+                        resolve(user)
+                    })
                 })
             }).catch(err => {
                 reject(err)
             })
         })
     }
-    function register(data) {
+    function register(data) {//注册
         if (consts.RE_EMAIL.test(data.account)){
             data.email = data.account
         }else if (consts.RE_MOBILE.test(data.account)){
@@ -78,11 +79,10 @@ srvUser.login = function(data) {
         delete data.pwdAg
         return new Promise((resolve, reject) => {
             remoteUser.register(data).then(user => {
-                if (user) {
-                    user.isNew = true
-                }
-                keepUser(user).then(user => {
-                    resolve(user)
+                daoUser.insert(user).then(user => {
+                    setUserToken(user, data.account, true).then(user => {
+                        resolve(user)
+                    })
                 })
             }).catch(err => {
                 reject(err)
@@ -90,22 +90,22 @@ srvUser.login = function(data) {
         })
     }
 
-    function keepUser(user){
-        return new Promise((resolve, reject) => {
-            daoUser.insert(user).then(user => {
-                setUserToken(user).then(user => {
-                    resolve(user)
-                }).catch(err => reject(err))
-            })
-        })
-    }
+    // function keepUser(user, isNew){
+    //     return new Promise((resolve, reject) => {
+    //         daoUser.insert(user).then(user => {
+    //             setUserToken(user, isNew).then(user => {
+    //                 resolve(user)
+    //             }).catch(err => reject(err))
+    //         })
+    //     })
+    // }
 
-    function setUserToken(user, account) {
+    function setUserToken(user, account, isNew = false) {
         let token = {
             account,
             uid: user._id,
             active: true,
-            isNewUser: user.isNew,
+            isNewUser: isNew,
         }
         return new Promise((resolve, reject) => {
             srvUser.autoLogin(token).then(a => {

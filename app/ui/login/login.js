@@ -1,6 +1,6 @@
 const ModalForm = require(appPath+'/ui/base/modal-form.js')
 const srvUser = require(appPath+'/service/user.js')
-const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
+const consts = require(appPath+'/apps/consts.js')
 
 class LoginForm extends ModalForm {
     get $account(){
@@ -30,7 +30,9 @@ class LoginForm extends ModalForm {
         super.initValidators()
         this.$account.data('validator', (ipt) => {
             let val = ipt.value
-            return reEmail.test(val) || reMobile.test(val)
+            let isEmail = consts.RE_EMAIL.test(val)
+            let isMobile = consts.RE_MOBILE.test(val)
+            return isEmail || isMobile
         })
         this.$pwdAg.data('validator', (ipt) => {
             return !this.$pwdAg.is(':visible') || (this.$pwdAg.val()===this.$pwd.val())
@@ -47,12 +49,13 @@ class LoginForm extends ModalForm {
         }
         return valid
     }
+
     doLoad(){
-        return srvUser.loadLastUser()
+        return srvUser.loadToken()//account
     }
-    render(user){
-        if (user){// 显示上次登录用户
-            this.$account.val(user.account)
+    render(token){
+        if (token){// 显示上次登录用户
+            this.$account.val(token.account)
             this.$pwd.focus()
         }else{
             this.$account.focus()
@@ -60,18 +63,21 @@ class LoginForm extends ModalForm {
     }
     doSave(data){ //doLogin 登录和注册 交互处理
         return srvUser.login(data).then(rst => {
-            if (rst.passed && rst.user) {
-                if (rst.user.isNew){
-                    this.showFirst()
-                }else{
-                    router.loadMain()
-                }
-            } else if (rst.user) {
-                tfn.tips('密码错误', 'warning')// alert('密码错误')
-                this.$pwd.focus()//.popover("show")
-            } else { // 用户未注册
-                this.showRegister()
+            if (rst && rst.isNew) {
+                this.showFirst()
+            }else{
+                router.loadMain()
             }
+        }).catch(err => {
+            if (err == consts.ERR_PWD){//密码错误
+                tfn.tips(err.message)
+                this.$pwd.focus()//.popover("show")
+            }else if (err == consts.ERR_USER){ // 用户未注册
+                this.showRegister()
+            }else{
+                tfn.tips(err.message, 'warning')
+            }
+            throw err
         })
     }
     showRegister() { // 显示隐藏的注册输入项

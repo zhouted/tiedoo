@@ -4,14 +4,20 @@
         <fieldset>
             <div class="form-group">
                 <input type="text" class="form-control check-on-change" name="account" placeholder="请输入您的账号（手机号或邮箱地址）" required
-                    data-content="请输入合法的手机号或邮箱地址" data-placement="top">
+                    data-content="请输入合法的手机号或邮箱地址" data-placement="top" value="ted@concordtools.cn">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" name="pwd" placeholder="请输入您的密码" required>
             </div>
             <div class="form-group register-more hidden">
+                <p class="text-danger">
+                    您还没有注册，请输入以下信息并确认注册：
+                </p>
                 <input type="password" class="form-control check-on-change" name="pwdAg" placeholder="请确认您的密码"
                     data-content="两次输入的密码不一致" data-placement="top">
+            </div>
+            <div class="form-group register-more hidden">
+                <input type="text" class="form-control" name="companyName" placeholder="请输入公司名称">
             </div>
         </fieldset>
         <fieldset>

@@ -24,7 +24,7 @@ let {openDs, setUserId} = (function (Nedb){
     function openDs(name){
         let filename = name + '.dat'
         if (!dsGlobal.includes(name)){// 按用户id分目录存放数据
-            // if (!userId) return null
+            if (!userId) return null//没设定userId时这些ds暂不能访问
             filename = path.join(userId, filename)
         }
         let ds = dsCaches[filename]

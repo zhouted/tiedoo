@@ -30,26 +30,38 @@ srvUser.loadLastUser = function() { //读取最后登录用户
     })
 }
 
+//user login && register
 srvUser.login = function(data) {
     let account = data.account, pwd = data.pwd
+    let token = {account, active: true}
     return new Promise((resolve, reject) => {
-        daoUser.findOne({
+        function doLogin(user){
+            if (!validPasswd(pwd, user)){
+                return reject(consts.ERR_PWD)
+            }
+            // 用户密码检查通过，记下当前登录用户
+            token.uid = user._id
+            return srvUser.autoLogin(token).then(a => {
+                resolve(user)
+            }).catch(err => {
+                reject(err)
+            })
+        }
+        daoUser.findOne({//先查询本地账号
             $or: [{email: account}, {mobile: account}]
         }).then(user => {
-            if (user){
-                return user//本地已有账号
+            if (user){//本地已有账号
+                return doLogin(user)
             }
-            if (data.pwdAg) { // 新用户先注册
-                return register(data)
+            if (data.pwdAg) { // 有确认密码表示要注册
+                return register(data).then(user => {
+                    doLogin(user, true)
+                })
             }
-            return remoteLogin(data)//远程登录并获取用户
-        }).then(user => {
-            if (validPasswd(pwd, user)) { // 用户密码检查通过，记下当前登录用户
-                return setUserToken(user, account)
-            }
-            reject(consts.ERR_PWD)
-        }).then(user => { // 进入这一步表示登录成功
-            resolve(user)
+            //远程登录并获取用户
+            return remoteLogin(data).then(user => {
+                doLogin(user)
+            })
         }).catch(err => {
             reject(err)
         })
@@ -60,9 +72,7 @@ srvUser.login = function(data) {
         return new Promise((resolve, reject) => {
             remoteUser.login(data).then((user) => {
                 daoUser.insert(user).then(user => {
-                    setUserToken(user, data.account, false).then(user => {
-                        resolve(user)
-                    })
+                    resolve(user)
                 })
             }).catch(err => {
                 reject(err)
@@ -70,46 +80,11 @@ srvUser.login = function(data) {
         })
     }
     function register(data) {//注册
-        if (consts.RE_EMAIL.test(data.account)){
-            data.email = data.account
-        }else if (consts.RE_MOBILE.test(data.account)){
-            data.mobile = data.account
-        }
-        data.pwd = encrypt(data.pwd)
-        delete data.pwdAg
         return new Promise((resolve, reject) => {
             remoteUser.register(data).then(user => {
                 daoUser.insert(user).then(user => {
-                    setUserToken(user, data.account, true).then(user => {
-                        resolve(user)
-                    })
+                    resolve(user)
                 })
-            }).catch(err => {
-                reject(err)
-            })
-        })
-    }
-
-    // function keepUser(user, isNew){
-    //     return new Promise((resolve, reject) => {
-    //         daoUser.insert(user).then(user => {
-    //             setUserToken(user, isNew).then(user => {
-    //                 resolve(user)
-    //             }).catch(err => reject(err))
-    //         })
-    //     })
-    // }
-
-    function setUserToken(user, account, isNew = false) {
-        let token = {
-            account,
-            uid: user._id,
-            active: true,
-            isNewUser: isNew,
-        }
-        return new Promise((resolve, reject) => {
-            srvUser.autoLogin(token).then(a => {
-                resolve(user)
             }).catch(err => {
                 reject(err)
             })
@@ -126,6 +101,10 @@ srvUser.checkPasswd = function(pwd){
 srvUser.validPasswd = validPasswd
 function validPasswd(pwd, user) {
     return md5(pwd) == user.pwd
+}
+
+srvUser.sendSmsCode = function(mobile){
+    return remoteUser.sendSmsCode(mobile)
 }
 
 srvUser.changePasswd = function(old, pwd){
@@ -165,7 +144,14 @@ srvUser.loadComp = function() {
     })
 }
 
-srvUser.save = function(user) {
+srvUser.save = function(data) {
+    let user = tfn.merge({}, data)
+    if (user.comp){
+        let comp = user.comp; delete user.comp
+        for (let k in comp){
+            user['comp.'+k] = comp[k]
+        }
+    }
     return daoUser.save(user)
 }
 

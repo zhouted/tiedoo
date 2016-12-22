@@ -19,6 +19,8 @@
 		switch (act){
 		case 'c'://check valid
 			return checkValids(this, options);
+		case 'p'://pop error && focus
+			return popError(this, options);
 		case 'v'://get/set values
 			if (options){
 				setValues(this, options); break;
@@ -156,17 +158,27 @@
 			if ($panel.length && !$panel.is('.active')){
 				$('a[href="#'+$panel.attr('id')+'"]').tab('show');
 			}
-			!quiet && $ipt.focus().popover('show');//.parent().addClass("has-error");
+			!quiet && popError($ipt);
 		}else if (valid instanceof Promise){
 			valid.then(() => {
 				$ipt.popover('destroy')
 			}).catch(err => {
-				!quiet && $ipt.focus().attr('data-content', err.message).popover('show')
+				!quiet && popError($ipt, err.message)
 			})
 		}else{
 			$ipt.popover('destroy');
 		}
 		return valid;
+	}
+
+	function popError($ipt, msg){
+		if (!($ipt instanceof jQuery)){
+			$ipt = $(ipt)
+		}
+		if (msg){
+			$ipt.attr('data-content', msg)
+		}
+		$ipt.focus().popover('show')////.parent().addClass("has-error");
 	}
 
 	function initEditing($form){

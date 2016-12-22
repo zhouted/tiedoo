@@ -7,7 +7,7 @@ const tty = 'pad'
 
 const remoteUser = {}
 
-const urlLogin = remoteUser.urlLogin = remoteUrls.login
+const urlLogin = remoteUrls.login
 remoteUser.login = function(data){
     let identity = data.account
     let password = md5(data.pwd)
@@ -19,7 +19,6 @@ remoteUser.login = function(data){
             let user = toLocalUser(rst)
             resolve(user)
         }).catch(err => {
-            // console.log(err)
             if (err.code == 110){//用户未注册
                 reject(consts.ERR_USER)
             }else if (err.code == 111){//密码错误
@@ -31,21 +30,52 @@ remoteUser.login = function(data){
     })
 }
 
-const urlRegister = remoteUser.urlRegister = remoteUrls.register
+const urlRegister = remoteUrls.register
 remoteUser.register = function(data){
     let identity = data.account
     let pwd = md5(data.pwd)
     let companyName = data.companyName
-    let regType = 'email'
-    let mobile = ''
-    let smsCode = ''
-    let tradeType = 1
-    let ignoreImgCode = 1
+    let regType = 'email', mobile = ''
+    if (consts.RE_MOBILE.test(data.account)){
+        regType = 'mobile', mobile = data.account
+    }
+    let smsCode = data.smsCode
+    let tradeType = 1 //外贸
+    let ignoreImgCode = 1 //忽略图片验证码
     return new Promise((resolve, reject) => {
-        let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}
-        request(urlRegister, param).then(rst => {
-            let user = toLocalUser(rst)
-            resolve(user)
+        remoteUser.checkCompName(companyName).then(rst => {
+            let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}//, SESSIONID: remoteUser.sessionId
+            request(urlRegister, param).then(rst => {
+                let user = toLocalUser(rst)
+                resolve(user)
+            }).catch(err => {
+                if (err.code == 101){//验证码错误
+                    reject(consts.ERR_SMSCODE)
+                }else{
+                    reject(err)
+                }
+            })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+const urlSendSmsCode = remoteUrls.sendSmsCode
+remoteUser.sendSmsCode = function(mobile){
+    return request(urlSendSmsCode, {mobile}).then(rst => {
+        remoteUser.sessionId = rst
+    })
+}
+
+const urlCheckCompName = remoteUrls.checkCompName
+remoteUser.checkCompName = function(companyName){
+    return new Promise((resolve, reject) => {
+        request(urlCheckCompName, {companyName}).then(rst => {
+            if (rst){
+                return reject(consts.ERR_COMPNAME)
+            }
+            resolve(0)
         }).catch(err => {
             reject(err)
         })

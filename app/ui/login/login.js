@@ -12,30 +12,79 @@ class LoginForm extends ModalForm {
     get $pwdAg(){
         return this._$pwdAg || (this._$pwdAg = this.$form.find('input[name=pwdAg]'))
     }
+    get $smsCode(){
+        return this._$smsCode || (this._$smsCode = this.$form.find('input[name=smsCode]'))
+    }
+    get $companyName(){
+        return this._$companyName || (this._$companyName = this.$form.find('input[name=companyName]'))
+    }
     get $agree(){
         return this._$agree || (this._$agree = this.$form.find('input[name=agree]'))
     }
-    get $confirm(){
-        return this._$confirm || (this._$confirm = this.$form.find('.btn.confirm'))
-    }
     initEvents(){
         super.initEvents()
+
+        //回车即确认
+        let $confirm = this.$form.find('.btn.confirm')
         this.$form.on('keyup', '.form-control', e => {
             if (e && e.which == 13){
-                this.$confirm.click()
+                $confirm.click()
             }
         })
+
+        //手机验证码
+        let $btnSms = this.$form.find('.btn.sms-code')
+        let sending = false
+        $btnSms.click(e => {
+            if (sending) return false
+            let mobile = this.$account.val()
+            if (!consts.RE_MOBILE.test(mobile)){
+                this.$account.focus()
+                return false
+            }
+            sending = true
+            srvUser.sendSmsCode(mobile).then(() => {
+                tfn.tips('验证码已发送，请查收手机短信，输入验证码完成注册。')
+                this.$smsCode.focus()
+                waitTimeout(60)
+            }).catch(err => {
+                tfn.tips(err.message, 'warning')
+                sending = false
+            })
+        })
+        function waitTimeout(count){
+            $btnSms.text(`请耐心等待${count}秒`)
+            if (--count>0){
+                setTimeout(() => waitTimeout(count), 1000)
+            }else{
+                $btnSms.text('重新获取验证码')
+                sending = false
+            }
+        }
     }
     initValidators(){
         super.initValidators()
+
+        let $smsGroup = this.$form.find('.input-group.sms-code')
         this.$account.data('validator', (ipt) => {
             let val = ipt.value
             let isEmail = consts.RE_EMAIL.test(val)
             let isMobile = consts.RE_MOBILE.test(val)
+            if (isMobile){//手机才显示手机验证码
+                $smsGroup.removeClass('hidden')
+            }else{
+                $smsGroup.addClass('hidden')
+            }
             return isEmail || isMobile
         })
         this.$pwdAg.data('validator', (ipt) => {
             return !this.$pwdAg.is(':visible') || (this.$pwdAg.val()===this.$pwd.val())
+        })
+        this.$companyName.data('validator', (ipt) => {
+            return !this.$companyName.is(':visible') || (this.$companyName.val() != '')
+        })
+        this.$smsCode.data('validator', (ipt) => {
+            return !this.$smsCode.is(':visible') || (this.$smsCode.val() != '')
         })
     }
     checkFormData(){
@@ -63,20 +112,22 @@ class LoginForm extends ModalForm {
     }
     doSave(data){ //doLogin 登录和注册 交互处理
         return srvUser.login(data).then(rst => {
-            if (rst && rst.isNew) {
+            if (data.pwdAg) {//新注册用首次登录
                 this.showFirst()
             }else{
                 router.loadMain()
             }
         }).catch(err => {
             if (err == consts.ERR_PWD){//密码错误
-                tfn.tips(err.message)
-                this.$pwd.focus()//.popover("show")
+                this.$pwd.focus()//input('pop', err.message)
+            }else if (err == consts.ERR_SMSCODE){//验证码错误
+                this.$smsCode.focus()//.input('pop', err.message)
+            }else if (err == consts.ERR_COMPNAME){//公司名已存在
+                this.$companyName.focus()//.input('pop', err.message)
             }else if (err == consts.ERR_USER){ // 用户未注册
                 this.showRegister()
-            }else{
-                tfn.tips(err.message, 'warning')
             }
+            tfn.tips(err.message, 'warning')
             throw err
         })
     }

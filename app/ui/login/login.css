@@ -5,3 +5,5 @@ html{/*Perfect Full Page Background Image*/
 
 #login>.middle-block {width: 300px;}
 #login .form-control:not([type=button]){background-color: #fff}
+#login .form-control::-webkit-input-placeholder{color: #999;}
+#login .text-static{color: #fff;}

@@ -7,7 +7,6 @@ const tty = 'pad'
 
 const remoteUser = {}
 
-const urlLogin = remoteUrls.login
 remoteUser.login = function(data){
     let identity = data.account
     let password = md5(data.pwd)
@@ -15,12 +14,12 @@ remoteUser.login = function(data){
     password = md5(password+generateCode)
     return new Promise((resolve, reject) => {
         let param = {identity, password, generateCode, app:tty}
-        request(urlLogin, param).then(rst => {
+        request(remoteUrls.login, param).then(rst => {
             let user = toLocalUser(rst)
             resolve(user)
         }).catch(err => {
             if (err.code == 110){//用户未注册
-                reject(consts.ERR_USER)
+                reject(consts.ERR_USER_NO)
             }else if (err.code == 111){//密码错误
                 reject(consts.ERR_PWD)
             }else{
@@ -30,7 +29,6 @@ remoteUser.login = function(data){
     })
 }
 
-const urlRegister = remoteUrls.register
 remoteUser.register = function(data){
     let identity = data.account
     let pwd = md5(data.pwd)
@@ -45,7 +43,7 @@ remoteUser.register = function(data){
     return new Promise((resolve, reject) => {
         remoteUser.checkCompName(companyName).then(rst => {
             let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}//, SESSIONID: remoteUser.sessionId
-            request(urlRegister, param).then(rst => {
+            request(remoteUrls.register, param).then(rst => {
                 let user = toLocalUser(rst)
                 resolve(user)
             }).catch(err => {
@@ -61,17 +59,15 @@ remoteUser.register = function(data){
     })
 }
 
-const urlSendSmsCode = remoteUrls.sendSmsCode
 remoteUser.sendSmsCode = function(mobile){
-    return request(urlSendSmsCode, {mobile}).then(rst => {
+    return request(remoteUrls.sendSmsCode, {mobile}).then(rst => {
         remoteUser.sessionId = rst
     })
 }
 
-const urlCheckCompName = remoteUrls.checkCompName
 remoteUser.checkCompName = function(companyName){
     return new Promise((resolve, reject) => {
-        request(urlCheckCompName, {companyName}).then(rst => {
+        request(remoteUrls.checkCompName, {companyName}).then(rst => {
             if (rst){
                 return reject(consts.ERR_COMPNAME)
             }
@@ -82,6 +78,18 @@ remoteUser.checkCompName = function(companyName){
     })
 }
 
+remoteUser.checkAccount = function(identity){
+    return new Promise((resolve, reject) => {
+        request(remoteUrls.checkAccount, {identity}).then(rst => {
+            resolve(0)
+        }).catch(err => {
+            if (err.code == 100){
+                reject(consts.ERR_USER_EXISTS)
+            }
+            reject(err)
+        })
+    })
+}
 
 function toLocalUser(data){
     let user = {

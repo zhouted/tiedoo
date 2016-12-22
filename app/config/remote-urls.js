@@ -4,6 +4,7 @@ const urls = {
     basePath,
     login: basePath+'web/usermngt/user/login',
     register: basePath+'web/usermngt/user/doreg',
+    checkAccount: basePath+'web/usermngt/user/mobileValidated',
     sendSmsCode: basePath+'web/usermngt/user/sendShortMsgCode',
     checkCompName: basePath+'web/usermngt/user/existsCompName',
 }

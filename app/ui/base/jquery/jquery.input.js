@@ -40,8 +40,13 @@
 	}
 
 	function getValues($form) {
-	    var doc = {}
-		$form.find('input[name], textarea[name], .input-addon[name]').each(function(){
+	    var $ipts, doc = {}
+		if ($form.is('input')){
+			$ipts = $form.filter('input[name], textarea[name], .input-addon[name]')
+		}else{
+			$ipts = $form.find('input[name], textarea[name], .input-addon[name]')
+		}
+		$ipts.each(function(){
 			let $ipt = $(this)//, val = $ipt.val(), orgval = $ipt.data('_orgval')
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')
@@ -90,7 +95,13 @@
 	}
 
 	function setValues($form, doc){
-		$form.find('input[name], textarea[name], .input-group-addon[name], .input-addon[name]').each(function(){
+		var $ipts
+		if ($form.is('input')){
+			$ipts = $form.filter('input[name], textarea[name], .input-addon[name]')
+		}else{
+			$ipts = $form.find('input[name], textarea[name], .input-addon[name]')
+		}
+		$ipts.each(function(){
 			let $ipt = $(this)
 			let name = $ipt.attr('name-map')||$ipt.attr('name')
 			let ns = $ipt.attr('name-space')

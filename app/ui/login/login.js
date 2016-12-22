@@ -75,6 +75,17 @@ class LoginForm extends ModalForm {
             }else{
                 $smsGroup.addClass('hidden')
             }
+            if (isEmail || isMobile){
+                srvUser.checkAccount(val).then(rst => {
+                    this.showRegister()
+                }).catch(err => {
+                    if (err == consts.ERR_USER_EXISTS){
+                        this.hideRegister()
+                    }else{
+                        tfn.tips(err)
+                    }
+                })
+            }
             return isEmail || isMobile
         })
         this.$pwdAg.data('validator', (ipt) => {
@@ -110,6 +121,10 @@ class LoginForm extends ModalForm {
             this.$account.focus()
         }
     }
+    getFormData(){
+        let data = this.$form.find('input:visible').input('values')
+        return data
+    }
     doSave(data){ //doLogin 登录和注册 交互处理
         return srvUser.login(data).then(rst => {
             if (data.pwdAg) {//新注册用首次登录
@@ -124,7 +139,7 @@ class LoginForm extends ModalForm {
                 this.$smsCode.focus()//.input('pop', err.message)
             }else if (err == consts.ERR_COMPNAME){//公司名已存在
                 this.$companyName.focus()//.input('pop', err.message)
-            }else if (err == consts.ERR_USER){ // 用户未注册
+            }else if (err == consts.ERR_USER_NO){ // 用户未注册
                 this.showRegister()
             }
             tfn.tips(err.message, 'warning')
@@ -133,9 +148,15 @@ class LoginForm extends ModalForm {
     }
     showRegister() { // 显示隐藏的注册输入项
         this.$page.find('.register-more').removeClass('hidden')
-        setTimeout(()=>{
+        if (!this.$pwd.val()){
+            this.$pwd.focus()
+        }else if (!this.$pwdAg.val()){
             this.$pwdAg.focus()
-        })
+        }
+    }
+    hideRegister() {
+        this.$page.find('.register-more').addClass('hidden')
+        this.$pwd.focus()
     }
     showFirst(){ // 首次登录 完善资料
         $('body').loadFile('ui/login/first.html')

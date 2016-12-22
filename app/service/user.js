@@ -30,6 +30,22 @@ srvUser.loadLastUser = function() { //读取最后登录用户
     })
 }
 
+srvUser.checkAccount = function(account){
+    return new Promise((resolve, reject) => {
+        daoUser.findOne({//先查询本地账号
+            $or: [{email: account}, {mobile: account}]
+        }).then(user => {
+            if (user) {//账户已存在
+                return reject(consts.ERR_USER_EXISTS)
+            }
+            //检查云端账户
+            remoteUser.checkAccount(account).then(rst => {
+                resolve(rst)
+            }).catch(err => reject(err))
+        })
+    })
+}
+
 //user login && register
 srvUser.login = function(data) {
     let account = data.account, pwd = data.pwd

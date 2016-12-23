@@ -2,10 +2,18 @@
 window.electron = require('electron')
 window.app = window.electron.remote.app
 window.$ = window.jQuery = require('./ui/base/jquery/jquery.js')
-window.tfn = require('./ui/base/tiedoo-fn.js')
+window.tfn =require('./apps/tfn.js')
 
+// global const vars:
+const appPath = window.app.getAppPath()
 // replace Promise with bluebird
 Promise = require('bluebird');
+const fs = require('fs')
+const path = require('path')
+const mkdirp = require('mkdirp')
+// Promisify fs && mkdir
+Promise.promisifyAll(fs)
+const mkdir = Promise.promisify(mkdirp)
 
 // Inject plugins of jQuery
 require('./ui/base/bootstrap/js/bootstrap.js')
@@ -16,7 +24,5 @@ require('./ui/base/jquery/jquery.spv.js')
 window.tfn.template = require('./ui/base/jquery/jquery.template.js')
 
 // globals router for ui
-const appPath = window.app.getAppPath()
 const router = require('./ui/router.js')
-
-router.gohome()
+router.gohome()//let's go!

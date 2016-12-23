@@ -1,6 +1,6 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvUser = require(appPath+'/service/user.js')
-const {RE_EMAIL: reEmail, RE_MOBILE: reMobile} = require(appPath+'/apps/consts.js')
+const consts = require(appPath+'/apps/consts.js')
 
 class UserForm extends BaseForm{
     get btns(){
@@ -11,9 +11,6 @@ class UserForm extends BaseForm{
     }
     get $imgIpt(){
         return this._$imgIpt || (this._$imgIpt = this.$form.find('input[name=imageId]'))
-    }
-    get $account(){
-        return this._$account || (this._$account = this.$form.find('input[name=account]'))
     }
     onReady(){
         super.onReady()
@@ -33,9 +30,16 @@ class UserForm extends BaseForm{
     }
     initValidators(){
         super.initValidators()
-        this.$account.data('validator', (ipt) => {
+
+        let $email = this.$form.find('input[name=email]')
+        $email.data('validator', (ipt) => {
             let val = ipt.value
-            return reEmail.test(val) || reMobile.test(val)
+            return consts.RE_EMAIL.test(val)
+        })
+        let $mobile = this.$form.find('input[name=mobile]')
+        $mobile.data('validator', (ipt) => {
+            let val = ipt.value
+            return consts.RE_MOBILE.test(val)
         })
     }
     doLoad(){

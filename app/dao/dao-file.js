@@ -1,11 +1,11 @@
 const Dao = require('./dao.js')
 const md5 = require('md5')
-const fs = require('fs')
-const path = require('path')
-const mkdirp = require('mkdirp')
-// Promisify fs
-Promise.promisifyAll(fs)
-const mkdir = Promise.promisify(mkdirp)
+// const fs = require('fs')
+// const path = require('path')
+// const mkdirp = require('mkdirp')
+// // Promisify fs
+// Promise.promisifyAll(fs)
+// const mkdir = Promise.promisify(mkdirp)
 
 // File Data Access Object
 class DaoFile extends Dao {

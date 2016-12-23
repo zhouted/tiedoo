@@ -7,6 +7,7 @@ const urls = {
     checkAccount: basePath+'web/usermngt/user/mobileValidated',
     sendSmsCode: basePath+'web/usermngt/user/sendShortMsgCode',
     checkCompName: basePath+'web/usermngt/user/existsCompName',
+    downloadFile: basePath+'web/file/dl/',
 }
 
 module.exports = urls

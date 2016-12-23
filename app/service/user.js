@@ -3,6 +3,7 @@ const daoUserImg = require(appPath + '/dao/user-img.js')
 const daoToken = require(appPath + '/dao/token.js')
 const consts = require(appPath+'/apps/consts.js')
 const remoteUser = require(appPath + '/service/remote/user.js')
+const remoteFile = require(appPath+'/service/remote/remote-file.js')
 const md5 = require('md5')
 
 let srvUser = {
@@ -184,6 +185,9 @@ srvUser.saveImg = function(file){
 }
 
 srvUser.loadImg = function(id, size){
+    if (remoteFile.typeOfId(id)){
+        return remoteFile.loadImg(id)
+    }
     return daoUserImg.findById(id, size)
 }
 

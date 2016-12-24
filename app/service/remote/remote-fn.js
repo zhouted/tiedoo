@@ -6,7 +6,7 @@ exports.request = function(url, data){
             return reject(ERR_OFFLINE)
         }
         $.ajax({
-            url, data, dataType: "json", type: "POST"
+            url, data, dataType: "json", type: "POST",
         }).then((rsp, textStatus, jqXHR) => {
             // console.log(rsp)
             if (rsp && rsp.responseCode === 0){
@@ -22,4 +22,28 @@ exports.request = function(url, data){
             reject(err)
         })
     })
+}
+
+exports.load = load
+function load(url, data, dataType = 'text'){
+    return new Promise((resolve, reject) => {
+        if (!navigator.onLine){
+            return reject(ERR_OFFLINE)
+        }
+        $.ajax({
+            url, data, dataType, type: 'GET',
+        }).then((rsp, textStatus, jqXHR) => {
+            // console.log(rsp)
+            resolve(rsp)
+        }).catch((jqXHR, textStatus, errorThrown) => {
+            console.log(jqXHR, textStatus, errorThrown)
+            let err = new Error(errorThrown||'无法连接服务器！')
+            err.code = 10000
+            reject(err)
+        })
+    })
+}
+
+exports.loadFile = function(url, data){
+    return load(url, data, 'arraybuffer')
 }

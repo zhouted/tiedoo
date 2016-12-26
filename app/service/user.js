@@ -188,7 +188,7 @@ srvUser.download = function(progress){
         }).catch(err => {
             console.log(err)
             srvUser.load().then(user => {
-                remoteUser.login({account, pwd:user.pwd, encoded:'md5'}).then(user => {
+                return remoteUser.login({account, pwd:user.pwd, encoded:'md5'}).then(user => {
                     saveUser(user)
                 })
             }).catch(err => {

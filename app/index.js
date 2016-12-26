@@ -2,7 +2,7 @@
 window.electron = require('electron')
 window.app = window.electron.remote.app
 window.$ = window.jQuery = require('./ui/base/jquery/jquery.js')
-window.tfn =require('./apps/tfn.js')
+window.tfn = require('./apps/tfn.js')
 
 // global const vars:
 const appPath = window.app.getAppPath()
@@ -24,6 +24,6 @@ require('./ui/base/jquery/jquery.spv.js')
 require('./ui/base/jquery/jquery.transports.js')
 window.tfn.template = require('./ui/base/jquery/jquery.template.js')
 
-// globals router for ui
+// global router for ui
 const router = require('./ui/router.js')
 router.gohome()//let's go!

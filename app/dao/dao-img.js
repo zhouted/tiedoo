@@ -1,6 +1,4 @@
 const DaoFile = require('./dao-file.js')
-// const fs = require('fs')
-// const path = require('path')
 const nativeImage = electron.nativeImage
 
 // Image File Data Access Object

@@ -185,7 +185,7 @@ srvUser.saveImg = function(file){
 }
 
 srvUser.loadImg = function(id, size){
-    if (remoteFile.typeOfId(id)){
+    if (remoteFile.typeOfId(id)){//是云端文件
         return remoteFile.loadImg(id)
     }
     return daoUserImg.findById(id, size)

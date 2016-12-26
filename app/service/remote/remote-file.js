@@ -3,13 +3,13 @@ const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 const consts = require(appPath+'/apps/consts.js')
 
 const filePath = app.getPath('userData')+'/Files/'
-mkdir(filePath)
+mkdir(filePath) //预建Files文件夹
 
-exports.loadImg = function(id){
+exports.loadImg = function(id){//获取远端文件并保存到本地
     return new Promise((resolve, reject) => {
         let path = filePath + id
         let file = {path}
-        if (fs.existsSync(path)){
+        if (fs.existsSync(path)){//已缓存到本地
             return resolve(file)
         }
         let url = remoteUrls.downloadFile+id
@@ -25,12 +25,12 @@ exports.loadImg = function(id){
     })
 }
 
-exports.typeOfId = function(id){
+exports.typeOfId = function(id){//根据id前缀判断其类型
     if (id){
         let pos = id.indexOf('_')
         if (pos > 0){
             return id.substr(0, pos)
         }
     }
-    return ''
+    return ''//非云端id
 }

@@ -1,4 +1,3 @@
-// const path = require('path')
 const datPath = app.getPath('userData')+'/Nedbs/'
 const Nedb = require('nedb')
 // const deasync = require('deasync')

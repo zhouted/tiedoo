@@ -1,6 +1,6 @@
 
 const remoteUrls = require(appPath+'/config/remote-urls.js')
-const {request} = require(appPath+'/service/remote/remote-fn.js')
+const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 const consts = require(appPath+'/apps/consts.js')
 const md5 = require('md5')
 const tty = 'pad'
@@ -8,13 +8,15 @@ const tty = 'pad'
 const remoteUser = {}
 
 remoteUser.login = function(data){
+    let pLogin // promise of login
     let identity = data.account
-    let password = md5(data.pwd)
-    let generateCode = '1234'
-    password = md5(password+generateCode)
+    if (data.token){
+        pLogin = loginByToken(identity, data.token, data.ip)
+    }else{
+        pLogin = loginByPwd(identity, data.pwd, data.encoded)
+    }
     return new Promise((resolve, reject) => {
-        let param = {identity, password, generateCode, app:tty}
-        request(remoteUrls.login, param).then(rst => {
+        pLogin.then(rst => {
             let user = toLocalUser(rst)
             resolve(user)
         }).catch(err => {
@@ -27,6 +29,17 @@ remoteUser.login = function(data){
             }
         })
     })
+    function loginByPwd(identity, password, encoded){
+        let generateCode = (Math.random()*10000).toFixed()//四位随机码
+        if (password && !encoded) {
+            password = md5(password)
+        }
+        password = md5(password+generateCode)
+        return remoteFn.request(remoteUrls.login, {identity, password, generateCode, app:tty})
+    }
+    function loginByToken(identity, token, ip){
+        return remoteFn.request(remoteUrls.loginAuto, {identity, token, ip})
+    }
 }
 
 remoteUser.register = function(data){
@@ -43,7 +56,7 @@ remoteUser.register = function(data){
     return new Promise((resolve, reject) => {
         remoteUser.checkCompName(companyName).then(rst => {
             let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}//, SESSIONID: remoteUser.sessionId
-            request(remoteUrls.register, param).then(rst => {
+            remoteFn.request(remoteUrls.register, param).then(rst => {
                 let user = toLocalUser(rst)
                 resolve(user)
             }).catch(err => {
@@ -60,14 +73,14 @@ remoteUser.register = function(data){
 }
 
 remoteUser.sendSmsCode = function(mobile){
-    return request(remoteUrls.sendSmsCode, {mobile}).then(rst => {
+    return remoteFn.request(remoteUrls.sendSmsCode, {mobile}).then(rst => {
         remoteUser.sessionId = rst
     })
 }
 
 remoteUser.checkCompName = function(companyName){
     return new Promise((resolve, reject) => {
-        request(remoteUrls.checkCompName, {companyName}).then(rst => {
+        remoteFn.request(remoteUrls.checkCompName, {companyName}).then(rst => {
             if (rst){
                 return reject(consts.ERR_COMPNAME)
             }
@@ -80,7 +93,7 @@ remoteUser.checkCompName = function(companyName){
 
 remoteUser.checkAccount = function(identity){
     return new Promise((resolve, reject) => {
-        request(remoteUrls.checkAccount, {identity}).then(rst => {
+        remoteFn.request(remoteUrls.checkAccount, {identity}).then(rst => {
             resolve(0)
         }).catch(err => {
             if (err.code == 100){
@@ -91,11 +104,19 @@ remoteUser.checkAccount = function(identity){
     })
 }
 
+function getNamesByLang(names, lang){
+    if (names && names.length)
+    for (let item of names){
+        if (item.lang === lang){
+            return item.name
+        }
+    }
+}
 function toLocalUser(data){
     let user = {
         id: data.id,
         name: data.name,
-        nameEn: data.enName,
+        nameEn: getNamesByLang(data.langs, '01'),
         pwd: data.password,
         email: data.email,
         mobile: data.mobile,
@@ -103,23 +124,27 @@ function toLocalUser(data){
         userNo: data.userNo,
         imageId: data.avatarId,
         token: data.token,
+        tokenId: data.account,
+        tokenIp: data.ip,
     }
     if (user.pwd){//前后端的密码md5大小写不一致
         user.pwd = user.pwd.toLowerCase()
     }
-    let comp = {
-        id: data.company.companyId,
-        name: data.company.name,
-        nameEn: data.company.enName,
-        addr: data.company.address,
-        addrEn: data.company.enAddress,
-        tel: data.company.companyId,
-        fax: data.company.fax,
-        web: data.company.website,
-        tradeType: data.company.tradeType,
-        imageId: data.company.logo,
+    if (data.company){
+        let comp = {
+            id: data.company.companyId,
+            name: data.company.name,
+            nameEn: data.company.enName,
+            addr: data.company.address,
+            addrEn: data.company.enAddress,
+            tel: data.company.companyId,
+            fax: data.company.fax,
+            web: data.company.website,
+            tradeType: data.company.tradeType,
+            imageId: data.company.logo,
+        }
+        user.comp = comp//公司信息直接存储到用户里
     }
-    user.comp = comp//公司信息直接存储到用户里
     return user
 }
 

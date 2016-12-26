@@ -12,6 +12,14 @@ class CompForm extends BaseForm{
         super.onReady()
         this.initImg()
     }
+    initEvents(){
+        super.initEvents()
+        router.$main.on('changed.user', (e, user) => {
+            if (user && user.comp){
+                this.reload()
+            }
+        })
+    }
     initImg(){
         this.$imgIpt.inputImg().change((e) => {
             let file = e.target.files[0]

@@ -20,8 +20,10 @@ exports.onReady = function({pid}){
     })
 
     function showUserInfo(user){
+        if (!user) return
+
         user.name && $main.find('.user-name').text(user.name)
-        srvUser.loadImg(user.imageId).then(file => {
+        user.imageId && srvUser.loadImg(user.imageId).then(file => {
             file && $main.find('.nav-user img').attr('src', file.path)
         })
     }

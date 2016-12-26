@@ -14,23 +14,6 @@ srvUser.loadToken = function() {
     return daoToken.findOne({})
 }
 
-srvUser.loadLastUser = function() { //读取最后登录用户
-    return new Promise((resolve, reject) => {
-        daoToken.findOne({}).then(token => {
-            if (token) {
-                return daoUser.findOne({
-                    _id: token.uid
-                })
-            }
-            resolve(null)
-        }).then(user => {
-            resolve(user)
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
-
 srvUser.checkAccount = function(account){
     return new Promise((resolve, reject) => {
         daoUser.findOne({//先查询本地账号
@@ -58,6 +41,8 @@ srvUser.login = function(data) {
             }
             // 用户密码检查通过，记下当前登录用户
             token.uid = user._id
+            token.ip = user.tokenIp
+            token.token = user.token
             return srvUser.autoLogin(token).then(a => {
                 resolve(user)
             }).catch(err => {
@@ -189,6 +174,37 @@ srvUser.loadImg = function(id, size){
         return remoteFile.loadImg(id)
     }
     return daoUserImg.findById(id, size)
+}
+
+// 下载用户信息from云端
+srvUser.download = function(progress){
+    let uid = srvUser._token.uid
+    let account = srvUser._token.account
+    let token = srvUser._token.token
+    let ip = srvUser._token.ip
+    return new Promise((resolve, reject) => {
+        remoteUser.login({account, token, ip}).then(user => {
+            saveUser(user)
+        }).catch(err => {
+            console.log(err)
+            srvUser.load().then(user => {
+                remoteUser.login({account, pwd:user.pwd, encoded:'md5'}).then(user => {
+                    saveUser(user)
+                })
+            }).catch(err => {
+                reject(err)
+            })
+        })
+        function saveUser(user){
+            user._id = uid
+            daoUser.save(user).then(rst => {
+                resolve(user)
+            })
+            if (typeof(progress) == 'function'){
+                progress('requested')
+            }
+        }
+    })
 }
 
 module.exports = srvUser

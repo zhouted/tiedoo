@@ -16,6 +16,12 @@ class UserForm extends BaseForm{
         super.onReady()
         this.initImg()
     }
+    initEvents(){
+        super.initEvents()
+        router.$main.on('changed.user', (e, user) => {
+            this.reload()
+        })
+    }
     initImg(){
         this.$imgIpt.inputImg({
             aspectRatio: 1 / 1

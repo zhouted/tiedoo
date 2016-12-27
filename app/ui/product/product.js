@@ -54,7 +54,7 @@ class ProductPage extends ListPage{
         return $item.data('id')
     }
     get btns(){
-        return tfn.merge({}, super.btns, {
+        return tfn.clone(super.btns, {
             onShowChecked: '.btn.show-checked',
             onClearChecked: '.btn.clear-checked',
             onCheckAllPages: '.btn.check-allpages',
@@ -96,7 +96,7 @@ class ProductPage extends ListPage{
         this.checkAllPages()
     }
     checkAllPages(){
-        let param = tfn.merge({}, this._param)
+        let param = tfn.clone(this._param)
         param.paging = null
         srvProduct.load(param).then((pds) => {
             let $btn = this.$checkAllPages

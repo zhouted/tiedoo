@@ -147,7 +147,7 @@ srvUser.loadComp = function() {
 }
 
 srvUser.save = function(data) {
-    let user = tfn.merge({}, data)
+    let user = tfn.clone(data)
     if (user.comp){
         let comp = user.comp; delete user.comp
         for (let k in comp){
@@ -176,8 +176,8 @@ srvUser.loadImg = function(id, size){
     return daoUserImg.findById(id, size)
 }
 
-// 下载用户信息from云端
-srvUser.download = function(progress){
+// 下载用户数据from云端
+srvUser.download = function(cb){
     let uid = srvUser._token.uid
     let account = srvUser._token.account
     let token = srvUser._token.token
@@ -200,8 +200,8 @@ srvUser.download = function(progress){
             daoUser.save(user).then(rst => {
                 resolve(user)
             })
-            if (typeof(progress) == 'function'){
-                progress('requested')
+            if (typeof(cb) == 'function'){
+                cb('user')
             }
         }
     })

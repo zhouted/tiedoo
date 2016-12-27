@@ -23,7 +23,7 @@ class ModalForm extends BaseForm{
         })
     }
     get btns(){
-        return tfn.merge({}, super.btns, {
+        return tfn.clone(super.btns, {
             onConfirm: '.btn.confirm, .btn-confirm',
         })
     }

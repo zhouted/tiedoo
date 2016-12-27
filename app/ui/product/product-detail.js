@@ -122,7 +122,7 @@ class ProductDetailPage extends BasePage {
     }
     getPageData(){
         let data = this.paneBasic.getFormData()
-        data = tfn.merge({}, this._data, data)
+        data = tfn.clone(this._data, data)
         if (data.tags){//标签s：字符串转为数组
             data.tags = data.tags.split(',').map(tag => $.trim(tag))
         }

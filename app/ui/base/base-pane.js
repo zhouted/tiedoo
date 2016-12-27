@@ -110,7 +110,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         return {}
     }
     load(exParam){
-        let param = tfn.merge({}, this.defaultParam, this._stub, exParam)
+        let param = tfn.clone(this.defaultParam, this._stub, exParam)
         return this._load(param)
     }
     reload(exParam){

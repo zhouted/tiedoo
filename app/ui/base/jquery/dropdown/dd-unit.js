@@ -4,7 +4,7 @@ const srvSetting = require(appPath+'/service/setting.js')
 //Dropdown Units: 计量单位
 class DdUnit extends DdGrid{
     get defaultOpts(){
-        return tfn.merge({}, super.defaultOpts, {
+        return tfn.clone(super.defaultOpts, {
             limit: 100,
             width: 160,
         })

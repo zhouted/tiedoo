@@ -63,7 +63,7 @@ function catesToTreeNodes(cates, opts){
         opts.checkCode && checkNodeExpand(cate, opts.checkCode)
     }
     if (opts.unclassified){
-        nodes.push(tfn.merge({}, unclassified))
+        nodes.push(tfn.clone(unclassified))
     }
     return nodes
     function checkNodeExpand(node, checkCode){

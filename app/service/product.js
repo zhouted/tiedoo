@@ -1,7 +1,7 @@
 const daoProduct = require(appPath + '/dao/product.js')
 const daoProductImg = require(appPath + '/dao/product-img.js')
 const daoProductDiscard = require(appPath + '/dao/product-discard.js')
-
+const remotePd = require(appPath + '/service/remote/product.js')
 const srvProduct = {}
 const unclassified = require(appPath + '/service/category.js').unclassified
 
@@ -110,7 +110,7 @@ srvProduct.checkPdSpecCodes = function(pd){
     return p
 }
 //批量保存
-srvProduct.saves = function(pds, discard){
+srvProduct.saveAll = function(pds, discard){
     let dao = !discard? daoProduct : daoProductDiscard
     let p = new Promise((resolve, reject) => {
         checkCodes(pds).then(() => {
@@ -186,7 +186,7 @@ srvProduct.discardPdSpecs = function(pd, specIds){ // 作废产品指定的规�
     if (!pd || !pd.specs || !pd.specs.length) return 0
     if (!specIds || !specIds.length) return 0
     let specs = pd.specs; pd.specs = []
-    let pdBasic = tfn.merge({}, pd)//; delete pdBasic.specs
+    let pdBasic = tfn.clone(pd)//; delete pdBasic.specs
     let discard = [] //待废弃的规格数据
     for (let spec of specs) {// 分离要作废的和要保留的规格
         if (!spec) continue
@@ -242,7 +242,7 @@ srvProduct.restorePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定�
     if (!pdDiscard || !pdDiscard.specs || !pdDiscard.specs.length) return 0
     if (!specIds || !specIds.length) return 0
     let specs = pdDiscard.specs; pdDiscard.specs = []
-    let pdBasic = tfn.merge({}, pdDiscard)//; delete pdBasic.specs
+    let pdBasic = tfn.clone(pdDiscard)//; delete pdBasic.specs
     let restore = [] // 待恢复的规格数据
     for (let spec of specs) {// 分离要恢复的和要保留的规格
         if (!spec) continue
@@ -325,6 +325,53 @@ srvProduct.moveTo = function(pdIds, cate){
         cateCode = ''
     }
     return daoProduct.update({_id: {$in: pdIds}}, {$set:{categoryCode: cateCode}}, {multi: true})
+}
+
+srvProduct.download = function(token, cb){
+    return new Promise((resolve, reject) => {
+        remotePd.getAllPds(token).then(pds => {
+            let pMerges = pds.map(pd => mergePd(pd))
+            if (typeof(cb) == 'function'){
+                cb('product')
+            }
+            return Promise.all(pMerges).then((mergedPds) => {
+                return daoProduct.upsert(mergedPds).then(rst => {
+                    resolve(rst)
+                })
+            })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+    function mergePd(pd){
+        return new Promise((resolve, reject) => {
+            daoProduct.find({id: pd.id}).then(existPd => {
+                existPd = tfn.clone(existPd)//不clone得不到直接属性
+                existPd.specs = existPd.specs||[]
+                mergeSpecs(existPd.specs, pd.specs)
+                delete pd.specs
+                tfn.merge(existPd, pd)
+                resolve(existPd)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+        function mergeSpecs(existSpecs, specs){
+            for (let spec of specs){
+                for (let exist of existSpecs){
+                    if (exist.id === spec.id){
+                        tfn.merge(exist, spec)
+                        spec._id = spec._id
+                        break
+                    }
+                }
+                if (!spec._id){
+                    spec._id = srvProduct.newSpecId()
+                    existSpecs.push(spec)
+                }
+            }
+        }
+    }
 }
 
 module.exports = srvProduct

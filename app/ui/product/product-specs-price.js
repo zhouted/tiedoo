@@ -9,7 +9,7 @@ class ProductSpecsPrice extends BasePane{
         return this._$tplTr || (this._$tplTr = this.$table.find('tbody>script[type="text/html"][role="template"]'))
     }
     get btns(){
-        return tfn.merge({}, super.btns, {
+        return tfn.clone(super.btns, {
             onDetail: '.data-item>td',
         })
     }

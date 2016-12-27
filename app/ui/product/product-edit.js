@@ -24,7 +24,7 @@ class ProductPage extends ListPage{
         return $item.data('id')
     }
     get btns(){
-        return tfn.merge({}, super.btns, {
+        return tfn.clone(super.btns, {
             onDetail: '.product-item>tr>td',
         })
     }
@@ -239,7 +239,7 @@ class ProductPage extends ListPage{
             pd.specs = []
             for (let specItem of $specItems){
                 let $specItem = $(specItem)
-                let spec = tfn.merge({}, $specItem.data('spec'))
+                let spec = tfn.clone($specItem.data('spec'))
                 let specEx = $specItem.input('value')
                 tfn.merge(spec, specEx)//把修改合并到原始数据中
                 // if (!pd.specs.includes(spec)){//新增的加入进来
@@ -256,7 +256,7 @@ class ProductPage extends ListPage{
         return pds
     }
     doSave(data){
-        return srvProduct.saves(data).then(rst => {
+        return srvProduct.saveAll(data).then(rst => {
             tfn.tips('保存成功！')
             return rst
         }).catch(err => {

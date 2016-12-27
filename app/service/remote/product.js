@@ -3,6 +3,21 @@ const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 
 const remotePd = {}
 
+
+remotePd.getAllPds = function(token){
+    return new Promise((resolve, reject) => {
+        remotePd.getPdVersions(token).then(vers => {
+            let ids = vers.map(ver => ver&&ver.id)
+            return remotePd.getPdByIds(ids, token).then(pds => {
+                let products = toLocalPds(pds)
+                resolve(products)
+            })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
 remotePd.getPdVersions = function(token){
     let state = JSON.stringify(['f1', 'f3'])
     return remoteFn.request(remoteUrls.getPdVersions, {token, state})
@@ -11,6 +26,56 @@ remotePd.getPdVersions = function(token){
 remotePd.getPdByIds = function(ids, token){
     let data = JSON.stringify(ids)
     return remoteFn.request(remoteUrls.getPdByIds, {token, data})
+}
+
+function toLocalPds(pds){
+    let products = [], product
+    pds.sort((a,b) => a.cateNo>b.cateNo)
+    for (let pd of pds) {
+        if (!product || product.id !== pd.cateId){
+            product = {
+                id: pd.cateId,
+                code: pd.cateNo,
+                name: pd.chsName,
+                nameEn: pd.enName,
+                desc: pd.chsIntro,
+                descEn: pd.enIntro,
+                tariffNo: pd.tariffNo,
+                taxRebate: pd.fobRate,
+                imageId: pd.cateImageIds&&pd.cateImageIds[0],
+                specs: [],
+            }
+            if (pd.categoryVo){
+                product.category = {
+                    id: pd.categoryVo.cateId,
+                    code: pd.categoryVo.cateNo,
+                }
+            }
+            products.push(product)
+        }
+        let spec = {
+            id: pd.id,
+            code: pd.productNo,
+            name: pd.specification,
+            unit: pd.measurementUnit,
+            unitEn: pd.enMeasurementUnit,
+            cost: pd.purchasePrice,
+            price: pd.exPrice,
+            moq: pd.moq,
+            packUnit: pd.outerPackUnit,
+            packUnitEn: pd.enOuterPackUnit,
+            packNetWeight: pd.outerPackNetWeight,
+            packGrossWeight: pd.outerPackGrossWeight,
+            packLength: pd.outerPackLength,
+            packWidth: pd.outerPackWidth,
+            packHeight: pd.outerPackHeight,
+            packNum: pd.outerPackNum,
+            state: pd.state,
+            version: pd.version,
+        }
+        product.specs.push(spec)
+    }
+    return products
 }
 
 module.exports = remotePd

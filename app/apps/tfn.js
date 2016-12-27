@@ -177,6 +177,9 @@ function merge(){ //deep Object.assion
     }
     return Object.assign(arguments[0], merged)
 }
+exports.clone = function(){
+    return merge({}, ...arguments)
+}
 
 // Array扩展
 Array.prototype.popush = function(item, push = true){

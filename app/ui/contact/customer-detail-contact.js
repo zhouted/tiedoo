@@ -6,7 +6,7 @@ class CustomerDetailContactForm extends BaseForm {
         return this._$tpl || (this._$tpl = this.$form.find('#tplFs'))
     }
     get btns(){
-        return tfn.merge({}, super.btns, {onMoveUp: '.btn-move-up'})
+        return tfn.clone(super.btns, {onMoveUp: '.btn-move-up'})
     }
     render(customer){
         let $tpl = this.$tpl

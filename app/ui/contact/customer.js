@@ -9,7 +9,7 @@ class CustomerPage extends ListPage{
         return this._$tplTr || (this._$tplTr = this.$table.find('#tplTr'))
     }
     get btns(){
-        return tfn.merge({}, super.btns, {
+        return tfn.clone(super.btns, {
             onDetail: '.customer-item>td',
         })
     }

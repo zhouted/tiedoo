@@ -1,5 +1,6 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvUser = require(appPath+'/service/user.js')
+const srvProduct = require(appPath+'/service/product.js')
 
 class CompForm extends BaseForm{
     get btns(){
@@ -20,20 +21,32 @@ class CompForm extends BaseForm{
     }
     doDownload(){
         let $progress = this.$form.find('.progress').removeClass('hidden')
-        let $progressBar = $progress.find('.progress-bar').css('width', 0)
-        let progress = (step) => {
-            switch (step) {
-                case 'requested':
-                    $progressBar.css('width', '50%')
-                    break
-                case 'finished': default:
-                    $progressBar.css('width', '100%')
+        let $progressBar = $progress.find('.progress-bar')
+        let progress = (percent) => {
+            $progressBar.css('width', percent+'%')
+        }
+        let callback = (step, left) => {
+            if (step == 'user'){
+                progress(10)
+            }else if (step == 'product'){
+                progress(30)
             }
         }
-        srvUser.download(progress).then(user => {
-            progress('finished')
-            tfn.tips('下载完成！')
+
+        progress(0)//准备下载
+        let pUser = srvUser.download(callback)//先下载用户信息
+        pUser.then(user => {
+            progress(20)
             router.$main.trigger('changed.user', [user])
+            //下载产品
+            let pPd = srvProduct.download(user.token, callback).then(rst => {
+                progress(40)
+            })
+
+            return Promise.all([pPd]).then(rsts => {
+                progress(100)
+                tfn.tips('下载完成！')
+            })
         }).catch(err => {
             tfn.tips(err.message, 'danger')
         }).finally(() => {

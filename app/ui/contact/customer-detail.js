@@ -69,7 +69,7 @@ class CustomerDetailPage extends BasePage {
     getPageData(){
         let info = this.paneInfo.getFormData()
         let contacts = this.paneContact.getFormData()
-        let data = tfn.merge({}, info, {contacts})
+        let data = tfn.clone(info, {contacts})
         return data
     }
     doSave(data){

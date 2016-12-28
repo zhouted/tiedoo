@@ -1,7 +1,10 @@
 const daoProduct = require(appPath + '/dao/product.js')
 const daoProductImg = require(appPath + '/dao/product-img.js')
 const daoProductDiscard = require(appPath + '/dao/product-discard.js')
+
 const remotePd = require(appPath + '/service/remote/product.js')
+const remoteFile = require(appPath+'/service/remote/remote-file.js')
+
 const srvProduct = {}
 const unclassified = require(appPath + '/service/category.js').unclassified
 
@@ -34,9 +37,7 @@ srvProduct.loadById = function(id, discard, project){
 //保存
 srvProduct.save = function(pd, discard){
     if (pd && pd.specs && pd.specs.length){
-        pd.specs.sort((a, b) => {
-            return (a.code||'') > (b.code||'')
-        })
+        pd.specs.sortBy('code')
     }
     let dao = !discard? daoProduct : daoProductDiscard
     let p = new Promise((resolve, reject) => {
@@ -159,6 +160,9 @@ srvProduct.saveImg = function(file){
 }
 
 srvProduct.loadImg = function(id){
+    if (remoteFile.typeOfId(id)){//是云端文件
+        return remoteFile.loadImg(id)
+    }
     return daoProductImg.findById(id)
 }
 
@@ -200,9 +204,7 @@ srvProduct.discardPdSpecs = function(pd, specIds){ // 作废产品指定的规�
         daoProductDiscard.findOne({_id: pdBasic._id}).then(pdDiscard => {// 查询出现有产品
             pdDiscard = tfn.merge(pdDiscard||{}, pdBasic)
             pdDiscard.specs = discard.concat(pdDiscard.specs||[])
-            pdDiscard.specs.sort((a, b) => {
-                return (a.code||'') > (b.code||'')
-            })
+            pdDiscard.specs.sortBy('code')
             let p1 = daoProductDiscard.save(pdDiscard)
             return p1.then((rst) => {// 先把作废的规格保存到discard里，再保存或删除产品
                 let p2
@@ -256,9 +258,7 @@ srvProduct.restorePdSpecs = function(pdDiscard, specIds){ // 恢复产品指定�
         daoProduct.findOne({_id: pdBasic._id}).then(pd => {// 查询出现有产品，TODO:判断重复性
             pd = pd || pdBasic //不存在才恢复产品基本信息i
             pd.specs = restore.concat(pd.specs||[])
-            pd.specs.sort((a, b) => {
-                return (a.code||'') > (b.code||'')
-            })
+            pd.specs.sortBy('code')
             let p1 = daoProduct.save(pd)
             return p1.then((rst) => {// 先把要恢复的规格保存到product里，再保存或删除
                 let p2
@@ -327,7 +327,7 @@ srvProduct.moveTo = function(pdIds, cate){
     return daoProduct.update({_id: {$in: pdIds}}, {$set:{categoryCode: cateCode}}, {multi: true})
 }
 
-srvProduct.download = function(token, cb){
+srvProduct.download = function(token, cb){//从云端下载产品数据
     return new Promise((resolve, reject) => {
         remotePd.getAllPds(token).then(pds => {
             let pMerges = pds.map(pd => mergePd(pd))
@@ -335,7 +335,8 @@ srvProduct.download = function(token, cb){
                 cb('product')
             }
             return Promise.all(pMerges).then((mergedPds) => {
-                return daoProduct.upsert(mergedPds).then(rst => {
+                // return daoProduct.upsert(mergedPds).then(rst => {
+                return srvProduct.saveAll(mergedPds).then(rst => {
                     resolve(rst)
                 })
             })
@@ -345,8 +346,8 @@ srvProduct.download = function(token, cb){
     })
     function mergePd(pd){
         return new Promise((resolve, reject) => {
-            daoProduct.find({id: pd.id}).then(existPd => {
-                existPd = tfn.clone(existPd)//不clone得不到直接属性
+            daoProduct.findOne({id: pd.id}).then(existPd => {
+                existPd = existPd || {}
                 existPd.specs = existPd.specs||[]
                 mergeSpecs(existPd.specs, pd.specs)
                 delete pd.specs
@@ -361,7 +362,7 @@ srvProduct.download = function(token, cb){
                 for (let exist of existSpecs){
                     if (exist.id === spec.id){
                         tfn.merge(exist, spec)
-                        spec._id = spec._id
+                        spec._id = exist._id
                         break
                     }
                 }
@@ -370,6 +371,7 @@ srvProduct.download = function(token, cb){
                     existSpecs.push(spec)
                 }
             }
+            existSpecs.sortBy('code')
         }
     }
 }

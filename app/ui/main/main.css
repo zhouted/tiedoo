@@ -23,6 +23,7 @@
     overflow: auto;
 }
 
+#main .fixed-right,
 #main .fixed-x,
 #main .fixed-y{position: relative;}
 #main .fixed-x.fixed-y{z-index: 101;}

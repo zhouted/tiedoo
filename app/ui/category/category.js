@@ -15,7 +15,7 @@ class CategoryPage extends ListPage {
     }
     initEvents(){
         super.initEvents()
-        this.$page.on('changed.category', (e, cate) => {
+        router.$main.on('changed.category', (e, cate) => {
             this.reload().then(() => {
                 cate && this.$table.treetable('reveal', cate.code)
             })

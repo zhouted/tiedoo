@@ -3,7 +3,6 @@ const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 
 const remotePd = {}
 
-
 remotePd.getAllPds = function(token){
     return new Promise((resolve, reject) => {
         remotePd.getPdVersions(token).then(vers => {
@@ -30,7 +29,7 @@ remotePd.getPdByIds = function(ids, token){
 
 function toLocalPds(pds){
     let products = [], product
-    pds.sort((a,b) => a.cateNo>b.cateNo)
+    pds.sortBy('cateId')
     for (let pd of pds) {
         if (!product || product.id !== pd.cateId){
             product = {
@@ -43,6 +42,7 @@ function toLocalPds(pds){
                 tariffNo: pd.tariffNo,
                 taxRebate: pd.fobRate,
                 imageId: pd.cateImageIds&&pd.cateImageIds[0],
+                categoryCode: pd.categoryVo&&pd.categoryVo.cateNo,
                 specs: [],
             }
             if (pd.categoryVo){
@@ -55,9 +55,9 @@ function toLocalPds(pds){
         }
         let spec = {
             id: pd.id,
-            code: pd.productNo,
+            code: transSpecCode(pd.productNo, product.specs),
             name: pd.specification,
-            unit: pd.measurementUnit,
+            unit: pd.chsMeasurementUnit,
             unitEn: pd.enMeasurementUnit,
             cost: pd.purchasePrice,
             price: pd.exPrice,
@@ -75,7 +75,23 @@ function toLocalPds(pds){
         }
         product.specs.push(spec)
     }
-    return products
+    return products.sortBy('code')
+    function transSpecCode(productNo, specs){
+        let code = productNo||('0'+(specs.length+1))
+        let pos = code.indexOf('.')+1
+        if (!pos) pos = code.indexOf('-')+1
+        if (!pos) pos = code.indexOf('_')+1
+        if (pos){
+            code = code.substring(pos)
+        }
+        for (let spec of specs){
+            if (spec.code == code){
+                code += '-'+(specs.length+1)
+                break
+            }
+        }
+        return code
+    }
 }
 
 module.exports = remotePd

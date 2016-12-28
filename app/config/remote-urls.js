@@ -8,6 +8,7 @@ const urls = {
     checkAccount: basePath+'web/usermngt/user/mobileValidated',
     sendSmsCode: basePath+'web/usermngt/user/sendShortMsgCode',
     checkCompName: basePath+'web/usermngt/user/existsCompName',
+    getCategories: basePath+'web/workbench/category/loadalltree',
     getPdVersions: basePath+'web/workbench/product/getVersions',
     getPdByIds: basePath+'web/workbench/product/findByIds',
     downloadFile: basePath+'web/file/dl/',

@@ -194,3 +194,16 @@ Array.prototype.popush = function(item, push = true){
     }
     return this
 }
+Array.prototype.sortBy = function(field){
+    //按item的指定属性排序
+    if (field){
+        return this.sort(cb)
+    }
+    return this.sort()
+    function cb(a, b){
+        let x = a&&a[field], y = b&&b[field]
+        if (x>y) return 1
+        if (x<y) return -1
+        return 0
+    }
+}

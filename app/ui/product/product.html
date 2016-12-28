@@ -83,7 +83,8 @@
                                         </a>
                                     </th>
                                     <td class="fixed-x field-code">${tfn.fstr(product.code)}</td>
-                                    <td class="field-auto" colspan="10">${tfn.funit(product.name, product.nameEn)}</td>
+                                    <td class="field-auto" colspan="9">${tfn.funit(product.name, product.nameEn)}</td>
+                                    <td class="">品类：${tfn.fstr(product.categoryCode)}</td>
                                 </tr>
                             </tbody>
                         </script>
@@ -119,7 +120,7 @@
                 <div class="auto-scroll">
                     <ul class="ctree">
                         <li class="ctree-head open">
-                            <a class="fixed-y" href="javascript:;">
+                            <a class="fixed-y" href="javascript:;" style="z-index:10;">
                                 <span class="caption">全部品类</span>
                                 <span class="ctree-check pull-right"><input type="checkbox"></span>
                                 <span class="btn-category pull-right" title="品类管理">管理</span>

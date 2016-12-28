@@ -96,7 +96,7 @@ class ListPage extends BasePage{
             $tb = $tb.find('tbody')
         }
         if (expand === undefined){
-            expand = !$tb.is('.expanded')
+            expand = !$toggle.first().is('.expanded')
             //记住展开和收起状态
             $toggle.each((i, toggle) => {
                 let key = $(toggle).closest('tbody').index()
@@ -109,11 +109,11 @@ class ListPage extends BasePage{
         if (expand){
             $items.removeClass('hidden')
             $icon.removeClass('glyphicon-triangle-right').addClass('glyphicon-triangle-bottom')
-            $tb.addClass('expanded')
+            $tb.addClass('expanded'), $toggle.addClass('expanded')
         }else{
             $items.addClass('hidden')
             $icon.removeClass('glyphicon-triangle-bottom').addClass('glyphicon-triangle-right')
-            $tb.removeClass('expanded')
+            $tb.removeClass('expanded'), $toggle.removeClass('expanded')
         }
     }
     renderToggleGroups(){

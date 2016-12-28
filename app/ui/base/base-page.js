@@ -37,8 +37,10 @@ class BasePage extends BasePane{
             let $fixed = this.$scroll.find('.fixed-y')
             if (!$fixed.length) return
             this.$scroll.scroll(function(e){
-                $(this).find('.fixed-y').css('top', this.scrollTop)
-                $(this).find('.fixed-x').css('left', this.scrollLeft)
+                let $scroll = $(this)
+                $scroll.find('.fixed-y').css('top', this.scrollTop)
+                $scroll.find('.fixed-x').css('left', this.scrollLeft)
+                // $scroll.find('.fixed-right').css('right', this.scrollWidth-$scroll.width()-this.scrollLeft)
             });
         }
     }

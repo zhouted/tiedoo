@@ -1,10 +1,12 @@
 const daoUser = require(appPath + '/dao/user.js')
 const daoUserImg = require(appPath + '/dao/user-img.js')
 const daoToken = require(appPath + '/dao/token.js')
+
 const consts = require(appPath+'/apps/consts.js')
+const md5 = require('md5')
+
 const remoteUser = require(appPath + '/service/remote/user.js')
 const remoteFile = require(appPath+'/service/remote/remote-file.js')
-const md5 = require('md5')
 
 let srvUser = {
     _token: {}, //存放用户登录信息

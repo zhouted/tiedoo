@@ -22,14 +22,18 @@ class CompForm extends BaseForm{
     doDownload(){
         let $progress = this.$form.find('.progress').removeClass('hidden')
         let $progressBar = $progress.find('.progress-bar')
-        let progress = (percent) => {
-            $progressBar.css('width', percent+'%')
+        let progress = (p) => {
+            progress.percent += p||1
+            $progressBar.css('width', progress.percent+'%')
         }
+        progress.percent = 0
         let callback = (step, left) => {
             if (step == 'user'){
                 progress(10)
+            }else if (step == 'category'){
+                progress(10)
             }else if (step == 'product'){
-                progress(30)
+                progress(10)
             }
         }
 
@@ -40,11 +44,12 @@ class CompForm extends BaseForm{
             router.$main.trigger('changed.user', [user])
             //下载产品
             let pPd = srvProduct.download(user.token, callback).then(rst => {
-                progress(40)
+                progress(20)
+                router.$main.trigger('changed.product', [rst])
             })
 
             return Promise.all([pPd]).then(rsts => {
-                progress(100)
+                progress(100-progress.percent)
                 tfn.tips('下载完成！')
             })
         }).catch(err => {

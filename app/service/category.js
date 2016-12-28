@@ -2,6 +2,7 @@ const daoCate = require(appPath + '/dao/category.js')
 const daoProduct = require(appPath + '/dao/product.js')
 const daoProductDiscard = require(appPath + '/dao/product-discard.js')
 // const daoCateImg = require(appPath + '/dao/category-img.js')
+const remoteCate = require(appPath + '/service/remote/category.js')
 
 let srvCate = {}
 const unclassified = srvCate.unclassified = {id:'unclassified', code:'unclassified', text:'未分类'}
@@ -181,6 +182,41 @@ srvCate.removeOf = function({id, pcode, code}){
 
 srvCate.removeById = function(id){
     return daoCate.removeByIds(id)
+}
+
+srvCate.download = function(token, cb){//从云端下载品类数据
+    return new Promise((resolve, reject) => {
+        remoteCate.getCategories(token).then(cates => {
+            return daoCate.find({}).then(existCates => {
+                let mergedCates = mergeCates(existCates, cates)
+                if (typeof(cb) == 'function'){
+                    cb('category')
+                }
+                // return srvCate.saveAll(mergedCates).then(rst => {
+                return daoCate.upsert(mergedCates).then(rst => {
+                    resolve(rst)
+                })
+            })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+    function mergeCates(existCates, cates){
+        existCates = existCates || []
+        for (let cate of cates){
+            for (let exist of existCates){
+                if (exist.id === cate.id){
+                    tfn.merge(exist, cate)
+                    cate._id = exist._id
+                    break
+                }
+            }
+            if (!cate._id){
+                existCates.push(cate)
+            }
+        }
+        return existCates.sortBy('code')
+    }
 }
 
 module.exports = srvCate

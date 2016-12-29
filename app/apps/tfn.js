@@ -181,7 +181,34 @@ exports.clone = function(){
     return merge({}, ...arguments)
 }
 
+exports.contain = contain
+function contain(obj, keys){//判断obj是否“包含”keys所有的属性且值相等
+    if (!isObject(obj) || !isObject(keys)) return false
+    for (let k in keys){
+        if (!Object.is(obj[k], keys[k])) return false
+    }
+    return true
+}
+
 // Array扩展
+Array.prototype.itemOf = function(keys){//返回匹配keys值的item
+    for (let item of this){
+        if (contain(item, keys)) return item
+    }
+    return null
+}
+Array.prototype.sortBy = function(field){//按item的指定属性排序
+    if (field){
+        return this.sort(cb)
+    }
+    return this.sort()
+    function cb(a, b){
+        let x = a&&a[field], y = b&&b[field]
+        if (x>y) return 1
+        if (x<y) return -1
+        return 0
+    }
+}
 Array.prototype.popush = function(item, push = true){
     //为避免重复以及让再加入的移到后面
     //先移除已存在的item再push；push=false时仅移除item
@@ -193,17 +220,4 @@ Array.prototype.popush = function(item, push = true){
         this.push(item)
     }
     return this
-}
-Array.prototype.sortBy = function(field){
-    //按item的指定属性排序
-    if (field){
-        return this.sort(cb)
-    }
-    return this.sort()
-    function cb(a, b){
-        let x = a&&a[field], y = b&&b[field]
-        if (x>y) return 1
-        if (x<y) return -1
-        return 0
-    }
 }

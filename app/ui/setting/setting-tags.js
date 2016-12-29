@@ -2,7 +2,7 @@ const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvSetting = require(appPath+'/service/setting.js')
 
 const TAGS = srvSetting.TAGS
-const MAX_TAGS = 9 //最大标签数
+const MAX_TAGS = 99 //最大标签数
 class TagsForm extends BaseForm{
     prepare(){
         super.prepare()
@@ -14,6 +14,7 @@ class TagsForm extends BaseForm{
     initEvents(){
         super.initEvents()
         this.$form.on('change', 'input[name=tags]:last', e => this.tryAddMore(e.target))
+        router.$main.on('changed.setting.tags', e => this.reload())
     }
     doLoad(){
         return srvSetting.loadTags()

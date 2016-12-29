@@ -333,10 +333,10 @@
             $.extend(true, data, node)
         }
         focusNode.call(this, node)
-        while($node.is(_nodeDls)){
-            toggle(tree, node, 'expand')
-            $node = $node.parent().closest(_nodeDls)
-            node = getNode($node)
+        let $pNode = $node.parent().closest(_nodeDls)
+        while($pNode.is(_nodeDls)){
+            toggle(tree, getNode($pNode), 'expand')
+            $pNode = $pNode.parent().closest(_nodeDls)
         }
         return $node
     }

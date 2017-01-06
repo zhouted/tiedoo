@@ -34,7 +34,7 @@ class CompForm extends BaseForm{
         progress.percent = 0
         let callback = (step, left) => {
             let $step = $steps.find('.'+step)
-            $step.find('.status').text('下载中')
+            $step.find('.status').text('下载中...')
             switch (step){
                 case 'user': case 'tags': case 'units': case 'pack-units': progress(5); break
                 case 'category': progress(10); break

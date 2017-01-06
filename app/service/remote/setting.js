@@ -6,7 +6,7 @@ const remoteSetting = {}
 remoteSetting.getAllTags = function(token){
     return new Promise((resolve, reject) => {
         remoteFn.request(remoteUrls.getAllTags, {token}).then(data => {
-            let tags = toLocalTags(data)
+            let tags = toLocalTags(data&&data.tags)
             resolve(tags)
         }).catch(err => {
             reject(err)
@@ -14,7 +14,12 @@ remoteSetting.getAllTags = function(token){
     })
 }
 function toLocalTags(data){
-    return data&&data.tags
+    let tags = []
+    for (let item of data){
+        if (item && item.name)
+        tags.push(item.name)
+    }
+    return tags
 }
 
 remoteSetting.getAllUnits = function(token){

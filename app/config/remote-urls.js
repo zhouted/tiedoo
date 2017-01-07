@@ -12,6 +12,7 @@ const urls = {
     getAllTags: basePath+'web/workbench/product/getPresetLabels',//labels
     getAllUnits: basePath+'web/workbench/unit/getAllUnits',
     getAllPackUnits: basePath+'web/workbench/opunit/getAllUnits',
+    getAllContacts: basePath+'web/usermngt/contact/searchContactList',
     getCategories: basePath+'web/workbench/category/loadalltree',
     getPdVersions: basePath+'web/workbench/product/getVersions',
     getPdByIds: basePath+'web/workbench/product/findByIds',

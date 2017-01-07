@@ -1,3 +1,4 @@
+//@abandoned
 const DaoImg = require('./dao-img.js')
 
 let defaultSize = {width:180, height:180}

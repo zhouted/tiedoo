@@ -1,3 +1,5 @@
+//@abandoned
+
 const daoComp = require(appPath + '/dao/company.js')
 const daoCompImg = require(appPath + '/dao/company-img.js')
 

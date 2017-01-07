@@ -1,6 +1,7 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvUser = require(appPath+'/service/user.js')
 const srvSetting = require(appPath+'/service/setting.js')
+const srvCust = require(appPath+'/service/customer.js')
 const srvCate = require(appPath+'/service/category.js')
 const srvProduct = require(appPath+'/service/product.js')
 
@@ -38,7 +39,7 @@ class CompForm extends BaseForm{
             switch (step){
             case 'user': case 'tags': case 'units': case 'pack-units':
                 progress(5); break
-            case 'category':
+            case 'contact': case 'category':
                 progress(10); break
             case 'product':
                 progress(20); break
@@ -65,6 +66,11 @@ class CompForm extends BaseForm{
                 progress(5); $steps.find('.pack-units .status').text('已完成')
                 router.$main.trigger('changed.setting.units', [rst])
             })
+            // 下载客户和供应商
+            let pCust = srvCust.download(user.token, callback).then(rst => {
+                progress(10); $steps.find('.contact .status').text('已完成')
+                router.$main.trigger('changed.customer', [rst])
+            })
             //下载品类
             let pCate = srvCate.download(user.token, callback).then(rst => {
                 progress(10); $steps.find('.category .status').text('已完成')
@@ -72,11 +78,10 @@ class CompForm extends BaseForm{
             })
             //下载产品
             let pPd = srvProduct.download(user.token, callback).then(rst => {
-                progress(20); $steps.find('.product .status').text('已完成')
+                progress(10); $steps.find('.product .status').text('已完成')
                 router.$main.trigger('changed.product', [rst])
             })
-
-            return Promise.all([pTags, pUnit, pPackUnit, pCate, pPd]).then(() => {
+            return Promise.all([pCust, pTags, pUnit, pPackUnit, pCate, pPd]).then(() => {
                 progress(100-progress.percent)
                 tfn.tips('下载完成！')
                 $tips.text('')
@@ -90,7 +95,7 @@ class CompForm extends BaseForm{
 
         })
     }
-    onUpload(e, btn){
+    onUpload(){
         tfn.tips('该功能暂不开放。')
     }
 }

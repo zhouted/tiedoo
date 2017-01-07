@@ -14,7 +14,7 @@ exports.onReady = function({pid}) {
             rect.y = e.y
             rect.width = e.width
             rect.height = e.height
-            console.log(rect)
+            // console.log(rect)
             // if (e.width < 200 || e.hegiht < 200){
             //     e.preventDefault()
             //     $(this).cropper('setCropBoxData', {left:e.x, top:e.y, width:200, height:200})
@@ -52,7 +52,7 @@ exports.onReady = function({pid}) {
                 $srcIpt.trigger('done.cropper', [file])
                 $modal.modal('hide')
             }catch(err){
-                console.log(err)
+                console.error(err)
             }finally{
                 $confirm.button('reset')
             }

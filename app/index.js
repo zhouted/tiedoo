@@ -5,15 +5,15 @@ window.$ = window.jQuery = require('./ui/base/jquery/jquery.js')
 window.tfn = require('./apps/tfn.js')
 
 // global const vars:
-const appPath = window.app.getAppPath()
+window.appPath = window.app.getAppPath()
 // replace Promise with bluebird
-Promise = require('bluebird');
-const fs = require('fs')
-const path = require('path')
-const mkdirp = require('mkdirp')
+window.Promise = require('bluebird');
 // Promisify fs && mkdir
+window.fs = require('fs')
+window.path = require('path')
+let mkdirp = require('mkdirp')
 Promise.promisifyAll(fs)
-const mkdir = Promise.promisify(mkdirp)
+window.mkdir = Promise.promisify(mkdirp)
 
 // Inject plugins of jQuery
 require('./ui/base/bootstrap/js/bootstrap.js')
@@ -25,5 +25,5 @@ require('./ui/base/jquery/jquery.transports.js')
 window.tfn.template = require('./ui/base/jquery/jquery.template.js')
 
 // global router for ui
-const router = require('./ui/router.js')
+window.router = require('./ui/router.js')
 router.gohome()//let's go!

@@ -38,7 +38,7 @@
                 let src = this.files[0] && this.files[0].path
                 if (!src) return
                 showCropper(this)
-            }).on('close.cropper', function(e){
+            }).on('close.cropper', function(){
                 this.value = '' //重置file input
             })
         }

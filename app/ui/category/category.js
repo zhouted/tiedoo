@@ -83,7 +83,7 @@ class CategoryPage extends ListPage {
             router.$main.trigger('changed.category', [cate])
         })
     }
-    onBack(e, btn){
+    onBack(){
         router.loadMainPanel('product')
     }
 }

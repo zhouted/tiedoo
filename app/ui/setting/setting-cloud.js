@@ -32,14 +32,18 @@ class CompForm extends BaseForm{
             $progressBar.css('width', progress.percent+'%')
         }
         progress.percent = 0
-        let callback = (step, left) => {
+        let callback = (step) => {
             let $step = $steps.find('.'+step)
             $step.find('.status').text('下载中...')
             switch (step){
-                case 'user': case 'tags': case 'units': case 'pack-units': progress(5); break
-                case 'category': progress(10); break
-                case 'product': progress(20); break
-                default: progress(1); break
+            case 'user': case 'tags': case 'units': case 'pack-units':
+                progress(5); break
+            case 'category':
+                progress(10); break
+            case 'product':
+                progress(20); break
+            default:
+                progress(1); break
             }
         }
         progress(0); $steps.find('.status').text('未开始') //准备下载
@@ -53,7 +57,7 @@ class CompForm extends BaseForm{
                 router.$main.trigger('changed.setting.tags', [rst])
             })
             //下载Units&PackUnits
-            let pUnit = srvSetting.downloadUnits(user.token, callback).then(rst => {
+            let pUnit = srvSetting.downloadUnits(user.token, callback).then(() => {
                 progress(5); $steps.find('.units .status').text('已完成')
             })
             let pPackUnit = srvSetting.downloadPackUnits(user.token, callback)
@@ -72,7 +76,7 @@ class CompForm extends BaseForm{
                 router.$main.trigger('changed.product', [rst])
             })
 
-            return Promise.all([pTags, pUnit, pPackUnit, pCate, pPd]).then(rsts => {
+            return Promise.all([pTags, pUnit, pPackUnit, pCate, pPd]).then(() => {
                 progress(100-progress.percent)
                 tfn.tips('下载完成！')
                 $tips.text('')

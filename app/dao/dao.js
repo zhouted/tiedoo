@@ -116,7 +116,7 @@ class Dao{
     }
     upsert(docs){
         if (!Array.isArray(docs)){
-            return this.save(doc)
+            return this.save(docs)
         }
         let p = new Promise((resolve, reject) => {
             let pAll = docs.map(doc => this.save(doc))

@@ -4,7 +4,7 @@ Object.assign($.fn.twbsPagination.defaults, {first: '«', prev: '‹', next: '�
 
 const srvUser = require(appPath+'/service/user.js')
 
-exports.onReady = function({pid}){
+exports.onReady = function(){
     let $main = router.$main
     let $title = $main.find('.center-block .title')
     $main.on('opened.panel', (e, tab) => {

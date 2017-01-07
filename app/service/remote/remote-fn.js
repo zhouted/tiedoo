@@ -7,7 +7,7 @@ exports.request = function(url, data){
         }
         $.ajax({
             url, data, dataType: "json", type: "POST",
-        }).then((rsp, textStatus, jqXHR) => {
+        }).then(rsp => {
             // console.log(rsp)
             if (rsp && rsp.responseCode === 0){
                 return resolve(rsp.data)
@@ -16,7 +16,7 @@ exports.request = function(url, data){
             err.code = rsp&&rsp.responseCode||10000
             reject(err)
         }).catch((jqXHR, textStatus, errorThrown) => {
-            console.log(jqXHR, textStatus, errorThrown)
+            console.error(jqXHR, textStatus, errorThrown)
             let err = new Error(errorThrown||'无法连接服务器！')
             err.code = 10000
             reject(err)
@@ -32,11 +32,11 @@ function load(url, data, dataType = 'text'){
         }
         $.ajax({
             url, data, dataType, type: 'GET',
-        }).then((rsp, textStatus, jqXHR) => {
+        }).then(rsp => {
             // console.log(rsp)
             resolve(rsp)
         }).catch((jqXHR, textStatus, errorThrown) => {
-            console.log(jqXHR, textStatus, errorThrown)
+            console.error(jqXHR, textStatus, errorThrown)
             let err = new Error(errorThrown||'无法连接服务器！')
             err.code = 10000
             reject(err)

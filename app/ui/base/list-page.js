@@ -58,7 +58,7 @@ class ListPage extends BasePage{
             totalPages: paging.totalPages||1,
             currentPage: paging.pageNo||1,
             onPageClick: (e, pageNo)=>{
-                console.log(pageNo, e)
+                // console.log(pageNo, e)
                 let pagination = this.$paging.data('twbs-pagination')
                 if (pagination && pagination.options.currentPage !== pageNo) {
                     if (!this.onPaging(pageNo)){
@@ -75,14 +75,14 @@ class ListPage extends BasePage{
         this.reload({paging:{pageNo}})
         return true
     }
-    onSearch(e, btn){
+    onSearch(){
         let text = this.$searchIpt.val()
         this.doSearch(text)
     }
     doSearch(text){
         tfn.tips(text)
     }
-    onToggleAll(e){
+    onToggleAll(){
         this.doToggleGroup()
     }
     onToggleGroup(e){
@@ -152,10 +152,10 @@ class ListPage extends BasePage{
         return this.$itemOf(item).data('id')
     }
     checkOne(checked, $check, $tr){
-        console.log('checkOne')
+        console.warn('checkOne')
     }
     checkGroup(checked, $check, $tr){
-        console.log('checkGroup')
+        console.warn('checkGroup')
     }
     setAllChecks(checked){
         this.$table.find('input[type=checkbox]').prop('checked', checked)
@@ -217,7 +217,6 @@ class ListPage extends BasePage{
     }
     onSort(e){
         let sortBy = {}
-        let $sortable = $(e.target)
         for (let sort of this.$sortables){
             let $sort = $(sort), field = $sort.data('field')||'name'
             let $arrow = $sort.find('.sort-arrow')

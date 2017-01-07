@@ -55,7 +55,7 @@ $.fn.loadFile = function(filename, opts){
 function includer($scope){
     let $incs = $scope.find('INCLUDE');
     let promises = $incs.map(function(){
-        let $inc = $(this); opts = $inc.data();
+        let $inc = $(this), opts = $inc.data()
         let filename = $inc.attr('src');
         let promise = loader(filename, opts);
         promise.then($content => {
@@ -70,7 +70,7 @@ function includer($scope){
 // 把文件内容加载到 $inc
 function loader(filename, opts){
     let deferred = $.Deferred();
-    console.debug('loading '+filename);
+    // console.debug('loading '+filename);
     $.ajax(filename).then(data => {
         let contents = data;//.toString();
         let css, cssname = filename.replace(/.html$/, '.css')
@@ -83,13 +83,13 @@ function loader(filename, opts){
             tryLoadAll(contents)
         })
     }).catch((err)=>{
-        deferred.reject(err);
+        reject(err);
     });
     return deferred.promise();
 
     function resolve(data){
         deferred.resolve(data);
-        console.debug(filename + ' loaded!');
+        // console.debug(filename + ' loaded!');
     }
     function reject(err){
         deferred.reject(err);
@@ -99,7 +99,7 @@ function loader(filename, opts){
         try{
             $contents = $($contents);
         }catch(e){
-            console.log(e);
+            console.warn(e);
         }finally{
             addScript($contents, opts&&opts.id);
             if ($contents instanceof $){ // 递归加载
@@ -107,7 +107,7 @@ function loader(filename, opts){
                     resolve($contents)
                 }).catch(err => { // ignore errors
                     resolve($contents)
-                    console.log(err);
+                    console.warn(err);
                 });
             }else{//TODO: 不合法的html格式？
                 resolve($contents);

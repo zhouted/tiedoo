@@ -78,12 +78,12 @@ class ProductPage extends ListPage{
             // this.reload()
         })
     }
-    onShowChecked(e, btn){
+    onShowChecked(){
         this.load({pdIds: this.checkedPdIds}).then(() => {
             //TODO:隐藏未选中的规格？
         })
     }
-    onClearChecked(e, btn){
+    onClearChecked(){
         this.clearChecked()
     }
     clearChecked(){
@@ -92,7 +92,7 @@ class ProductPage extends ListPage{
         this.$checkAllPages.removeClass('be-checked')
         this.setAllChecks(false)
     }
-    onCheckAllPages(e, btn){
+    onCheckAllPages(){
         this.checkAllPages()
     }
     checkAllPages(){
@@ -123,7 +123,7 @@ class ProductPage extends ListPage{
         }).on('ctree:click', (e, ctree, cnode) => {
             cnode && this.load({categoryCode:cnode.code})
         })
-        router.$main.on('changed.category', (e, data) => {
+        router.$main.on('changed.category', () => {
             this.$ctree.cTree('refresh', treeOpt)
         })
         this.$page.find('.btn-category').click((e) => {
@@ -183,14 +183,14 @@ class ProductPage extends ListPage{
         if (!id) return
         this.toDetail(id)
     }
-    onAddNew(e, btn){
+    onAddNew(){
         // this.toDetail()
         let pdIds = this.checkedPdIds
         let specIds = this.checkedSpecIds
         this.clearChecked()
         router.loadMainPanel('productEdit', {pdIds, specIds})
     }
-    onEdit(e, btn){
+    onEdit(){
         let pdIds = this.checkedPdIds
         let specIds = this.checkedSpecIds
         if (!pdIds.length && !specIds.length){
@@ -199,7 +199,7 @@ class ProductPage extends ListPage{
         }
         router.loadMainPanel('productEdit', {pdIds, specIds})
     }
-    onToggleDiscarded(e, btn){
+    onToggleDiscarded(){
         this._discard = !this._discard
         let category = this._param.category
         this.load({category}).then(() => {
@@ -213,39 +213,39 @@ class ProductPage extends ListPage{
         })
         this.clearChecked()
     }
-    onToggleAside(e, btn){
+    onToggleAside(){
         this.toggleAside()
     }
     toggleAside(show){
-		var $toggle = this.$page.find('.toggle-category');
-		var $aside = this.$ctree.closest('aside');
-		var $main = $aside.prevAll();
-		if (show === undefined){
-		   show = !$aside.is(':visible');
-		}
-		var $icon = $toggle.find('.glyphicon');
-		// var showClass = 'glyphicon-backward';
-		// var hideClass = 'glyphicon-forward';
-		var rowClasses = 'col-xs-10'
-		if (!show){//隐藏左侧树
-			$icon.addClass('ts-x')//.removeClass(showClass).addClass(hideClass);
-			$toggle.data('toggling', true)
-			$aside.hide('slow', function(){
-				$main.removeClass(rowClasses)
-				// !page.editMode && $main.find('.hide-more').show();
-				$toggle.data('toggling', false)
-			});
-		}else{//显示左侧树
-			$icon.removeClass('ts-x')//.removeClass(hideClass).addClass(showClass);
-			$toggle.data('toggling', true)
-			$main.addClass(rowClasses)
-			// !page.editMode && $main.find('.hide-more').hide();
-			$aside.show('slow', function(){
-				$toggle.data('toggling', false)
-			})
-		}
-	}
-    onDiscard(e, btn){
+        var $toggle = this.$page.find('.toggle-category');
+        var $aside = this.$ctree.closest('aside');
+        var $main = $aside.prevAll();
+        if (show === undefined){
+            show = !$aside.is(':visible');
+        }
+        var $icon = $toggle.find('.glyphicon');
+        // var showClass = 'glyphicon-backward';
+        // var hideClass = 'glyphicon-forward';
+        var rowClasses = 'col-xs-10'
+        if (!show){//隐藏左侧树
+            $icon.addClass('ts-x')//.removeClass(showClass).addClass(hideClass);
+            $toggle.data('toggling', true)
+            $aside.hide('slow', function(){
+                $main.removeClass(rowClasses)
+                // !page.editMode && $main.find('.hide-more').show();
+                $toggle.data('toggling', false)
+            });
+        }else{//显示左侧树
+            $icon.removeClass('ts-x')//.removeClass(hideClass).addClass(showClass);
+            $toggle.data('toggling', true)
+            $main.addClass(rowClasses)
+            // !page.editMode && $main.find('.hide-more').hide();
+            $aside.show('slow', function(){
+                $toggle.data('toggling', false)
+            })
+        }
+    }
+    onDiscard(){
         let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要归档的记录！', 'warning')
@@ -255,12 +255,12 @@ class ProductPage extends ListPage{
             return
         }
         let p = srvProduct.discardSpecByIds(ids)
-        p.then((rst) => {
+        p.then(() => {
             this.clearChecked()
             this.reload()
         })
     }
-    onRestore(e, btn){
+    onRestore(){
         let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要还原的记录！', 'warning')
@@ -270,12 +270,12 @@ class ProductPage extends ListPage{
             return
         }
         let p = srvProduct.restoreSpecByIds(ids)
-        p.then((rst) => {
+        p.then(() => {
             this.clearChecked()
             this.reload()
         })
     }
-    onDelete(e, btn){
+    onDelete(){
         let ids = this.checkedSpecIds
         if (!ids.length){
             tfn.tips('请先选择要删除的记录！', 'warning')
@@ -285,12 +285,12 @@ class ProductPage extends ListPage{
             return
         }
         let p = srvProduct.removeSpecByIds(ids)
-        p.then((rst) => {
+        p.then(() => {
             this.clearChecked()
             this.reload()
         })
     }
-    onMove(e, btn){
+    onMove(){
         let ids = this.checkedPdIds
         if (!ids.length){
             tfn.tips('请先选择要修改的产品！', 'warning')

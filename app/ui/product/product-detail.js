@@ -55,10 +55,10 @@ class ProductDetailPage extends BasePage {
         }
         return true
     }
-    onBack(e, btn){
+    onBack(){
         router.loadMainPanel('product')
     }
-    onAddNew(e, btn){
+    onAddNew(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return false
             this._modified = false
@@ -95,7 +95,7 @@ class ProductDetailPage extends BasePage {
         this.$title.find('.bind-product-contact-name').text(product.contacts && product.contacts[0].name||'主要供应商')
     }
     renderSpec(spec){
-        console.log(spec)
+        // console.log(spec)
         this._data = this._data||{}
         let specs = this._data.specs = this._data.specs||[]
         let found = this.getSpecById(spec&&spec._id)

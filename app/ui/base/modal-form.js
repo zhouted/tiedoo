@@ -7,18 +7,18 @@ class ModalForm extends BaseForm{
     parentEvents(){
         super.parentEvents()
         // on modal show...
-        this.$modal.on('show.bs.modal', (e)=>{
+        this.$modal.on('show.bs.modal', ()=>{
             let stub = this.$modal.data('_spv')
             this.onShow(stub)
         })
-        this.$modal.on('shown.bs.modal', (e)=>{
+        this.$modal.on('shown.bs.modal', ()=>{
             this.onShown()
         })
         // on modal hide...
-        this.$modal.on('hide.bs.modal', (e)=>{
+        this.$modal.on('hide.bs.modal', ()=>{
             return this.onHide()
         })
-        this.$modal.on('hidden.bs.modal', (e)=>{
+        this.$modal.on('hidden.bs.modal', ()=>{
             this.onHidden()
         })
     }

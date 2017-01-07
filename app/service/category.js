@@ -10,7 +10,7 @@ const unclassified = srvCate.unclassified = {id:'unclassified', code:'unclassifi
 srvCate.load = function(param, project){
     let cond = {}
     if (param.key){
-        key = new RegExp('^'+param.key, 'i')
+        let key = new RegExp('^'+param.key, 'i')
         cond.$or = [{code: key}]
     }
     let sortBy = param.sortBy = param.sortBy||{code:1}
@@ -88,7 +88,7 @@ srvCate.save = function(cate){
         cate.code = nCode = cate.pcode + cate.scode
     }
     let p = new Promise((resolve, reject) => {
-        checkCode(cate, oCode).then(cnt => {
+        checkCode(cate, oCode).then(() => {
             return daoCate.save(cate).then(rst => {
                 if (!rst || !oCode){
                     return resolve(rst)
@@ -152,14 +152,14 @@ srvCate.save = function(cate){
         })
         //查找出所有下级产品，更改其编码
         let cond = {categoryCode: likey}
-        let p2 = daoProduct.find(cond, {category:1}).then(pds => {
+        daoProduct.find(cond, {category:1}).then(pds => {
             for (let pd of pds){
                 if (!pd.categoryCode) continue
                 pd.categoryCode = pd.categoryCode.replace(oCode, nCode)
             }
             daoProduct.upsert(pds)
         })
-        let p3 = daoProductDiscard.find(cond, {category:1}).then(pds => {
+        daoProductDiscard.find(cond, {category:1}).then(pds => {
             for (let pd of pds){
                 if (!pd.categoryCode) continue
                 pd.categoryCode = pd.categoryCode.replace(oCode, nCode)
@@ -170,13 +170,13 @@ srvCate.save = function(cate){
     }
 }
 
-srvCate.removeOf = function({id, pcode, code}){
-    return daoCate.removeByIds(id).then((rst) => {
+srvCate.removeOf = function({id, code}){
+    return daoCate.removeByIds(id).then(() => {
         //更改其下产品品类为未分类
         let cond = {categoryCode: new RegExp('^'+code)}
         let $set = {$set: {categoryCode: ''}}
-        let p1 = daoProduct.update(cond, $set, {multi: true})
-        let p2 = daoProductDiscard.update(cond, $set, {multi: true})
+        daoProduct.update(cond, $set, {multi: true})
+        daoProductDiscard.update(cond, $set, {multi: true})
     })
 }
 

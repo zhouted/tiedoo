@@ -8,7 +8,7 @@ const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
     window.show();
 })
 if (shouldQuit) {
-  app.quit()
+    app.quit()
 }
 
 // open browser window on app ready

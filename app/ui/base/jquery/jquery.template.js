@@ -12,7 +12,7 @@ $.fn.renderTpl = function(data, $to, fn){
         fn = $to.append;
     }
     for (let tpl of this) {
-        $tpl = $(tpl);
+        let $tpl = $(tpl);
         renderTpl($tpl, data, $to||$tpl, fn||$tpl.before);
     }
     return this;
@@ -57,7 +57,7 @@ function compile($tpl){
 function template($tpl, data, index = 0){
     var result;
     if (!($tpl instanceof jQuery)){
-        $tpl = $(tpl);
+        $tpl = $($tpl);
     }
     let render = compile($tpl);
     if ($.isArray(data)) {

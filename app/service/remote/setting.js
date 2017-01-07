@@ -16,8 +16,9 @@ remoteSetting.getAllTags = function(token){
 function toLocalTags(data){
     let tags = []
     for (let item of data){
-        if (item && item.name)
-        tags.push(item.name)
+        if (item && item.name){
+            tags.push(item.name)
+        }
     }
     return tags
 }

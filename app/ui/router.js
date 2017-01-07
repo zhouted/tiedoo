@@ -1,6 +1,6 @@
 const srvUser = require(appPath+'/service/user.js')
 
-var router = {
+const router = {
     get $body(){
         return $('body')
     },
@@ -70,7 +70,7 @@ router.loadModal = function(opts){
         let $content = $modal.find('.modal-body')
         if (opts.reload || !$content.children().length){
             if (!opts.content && opts.src){
-                $content.loadFile(opts.src, {id: opts.id}).then(() => {
+                $content.loadFile(opts.src, {id: opts.id}).then((rsp) => {
                     $modal.trigger('load.bs.modal', rsp)
                     opts.onLoad && opts.onLoad.call($modal[0], rsp)
                     $modal.modal('show')

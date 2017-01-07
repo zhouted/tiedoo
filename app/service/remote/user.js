@@ -54,7 +54,7 @@ remoteUser.register = function(data){
     let tradeType = 1 //外贸
     let ignoreImgCode = 1 //忽略图片验证码
     return new Promise((resolve, reject) => {
-        remoteUser.checkCompName(companyName).then(rst => {
+        remoteUser.checkCompName(companyName).then(() => {
             let param = {identity, pwd, companyName, regType, mobile, smsCode, tradeType, ignoreImgCode}//, SESSIONID: remoteUser.sessionId
             remoteFn.request(remoteUrls.register, param).then(rst => {
                 let user = toLocalUser(rst)
@@ -93,7 +93,7 @@ remoteUser.checkCompName = function(companyName){
 
 remoteUser.checkAccount = function(identity){
     return new Promise((resolve, reject) => {
-        remoteFn.request(remoteUrls.checkAccount, {identity}).then(rst => {
+        remoteFn.request(remoteUrls.checkAccount, {identity}).then(() => {
             resolve(0)
         }).catch(err => {
             if (err.code == 100){
@@ -105,10 +105,11 @@ remoteUser.checkAccount = function(identity){
 }
 
 function getNamesByLang(names, lang){
-    if (names && names.length)
-    for (let item of names){
-        if (item.lang === lang){
-            return item.name
+    if (names && names.length){
+        for (let item of names){
+            if (item.lang === lang){
+                return item.name
+            }
         }
     }
 }
@@ -137,7 +138,7 @@ function toLocalUser(data){
             nameEn: data.company.enName,
             addr: data.company.address,
             addrEn: data.company.enAddress,
-            tel: data.company.companyId,
+            tel: data.company.contact,
             fax: data.company.fax,
             web: data.company.website,
             tradeType: data.company.tradeType,

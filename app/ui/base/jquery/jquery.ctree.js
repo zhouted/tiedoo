@@ -99,7 +99,7 @@
         //get method
         var method = methods[action[0].toLowerCase()]
         if (!method){
-            log('Invalid cTree action "'+action+'"')
+            console.error('Invalid cTree action "'+action+'"')
             return this
         }
         //call method on this element
@@ -115,7 +115,7 @@
         var id = tree.id = tree.id||$tree.attr('id')
         if (!id){
             id = tree.id = newId()
-            log('Create a id "'+id+'"')
+            console.warn('Create a id "'+id+'"')
         }
         //options[id] = tree
         var tpls = tree.templates
@@ -140,7 +140,7 @@
     }
     function destory(){//销毁
         var $tree = this
-        var id = $tree.attr('id')
+        // var id = $tree.attr('id')
         //delete options[id]
         $tree.removeData(_rootKey)
         $tree.children().remove()
@@ -150,7 +150,7 @@
         var $tree = this
         var tree = getTree($tree)
         if (!tree){
-            log('cTree has not been initialized!')
+            console.error('cTree has not been initialized!')
             return this
         }
         tree.root = $.extend({}, _option.root)//清空跟节点
@@ -176,7 +176,7 @@
     function buildTree(tree, nodes, $p){//构建子树
         var cls = tree.classes
         $p = getBranch(tree, $p, true)
-        nodes.forEach(function(node, idx){
+        nodes.forEach(function(node){
             var $li = tree.templates.$node.clone(true, true)
             var text = node[tree.keys.text], nodeId = tree.id+'_'+encodeId(node.id)
             //tree.nodes[nodeId] = node
@@ -296,7 +296,7 @@
         var $tree = this
         var tree = getTree($tree)
         if (!tree){
-            log('Not initialized!')
+            console.warn('Not initialized!')
             return this
         }
         if (tree.keepFocus){
@@ -324,7 +324,7 @@
         var $tree = this
         var tree = getTree($tree)
         if (!tree){
-            log('Not initialized!')
+            console.warn('Not initialized!')
             return null
         }
         var $node = $locate(tree, data)
@@ -505,7 +505,7 @@
             return v.toString(16)
         })
     }
-    function log(msg){
-        console.log('cTree: '+msg)
-    }
+    // function log(msg){
+    //     console.log('cTree: '+msg)
+    // }
 })(jQuery)

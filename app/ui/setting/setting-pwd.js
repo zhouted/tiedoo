@@ -27,7 +27,7 @@ class PwdForm extends ModalForm{
                 // }
             // })
         })
-        this.$pwdAg.data('validator', (ipt) => {
+        this.$pwdAg.data('validator', () => {
             return this.$pwdAg.val() == this.$pwd.val()
         })
     }
@@ -41,7 +41,7 @@ class PwdForm extends ModalForm{
         let pwdOld = this.$pwdOld.val()
         let pwd = this.$pwd.val()
         return srvUser.changePasswd(pwdOld, pwd).then((rst) => {
-            console.log(rst)
+            // console.log(rst)
             this.$form[0].reset()
             this.$modal.modal('hide')
             return rst

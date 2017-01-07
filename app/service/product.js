@@ -11,7 +11,7 @@ const unclassified = require(appPath + '/service/category.js').unclassified
 srvProduct.load = function(param, project){
     let cond = {}
     if (param.key){// search key
-        key = new RegExp(param.key, 'i')
+        let key = new RegExp(param.key, 'i')
         cond.$or = [{code: key}, {name: key}, {nameEn: key}, {tags: param.key}]
     }
     if (param.categoryCode){// category code
@@ -49,7 +49,7 @@ srvProduct.save = function(pd, discard){
     })
     return p
 }
-srvProduct.checkPdCode = function(pd, exPdIds){
+srvProduct.checkPdCode = function(pd){
     let p = new Promise((resolve, reject) => {
         if (!pd.code){
             return reject(new Error('产品编码不能为空！'))
@@ -105,7 +105,7 @@ srvProduct.checkPdSpecCodes = function(pd){
                 resolve(0)
             }
         }).catch((err => {
-            console.log(err)
+            console.error(err)
         }))
     })
     return p

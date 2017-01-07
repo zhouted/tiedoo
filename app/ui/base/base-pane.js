@@ -20,14 +20,14 @@ class BasePane { // base page pane(panel view in tabpanel)
             let stub = $(e.target).data('_spv')
             this.onShow(stub)
         })
-        this.$navtab.on('shown.bs.tab', (e)=>{
+        this.$navtab.on('shown.bs.tab', ()=>{
             this.onShown()
         })
         // on parent panel hide...
-        this.$navtab.on('hide.bs.tab', (e)=>{
+        this.$navtab.on('hide.bs.tab', ()=>{
             return this.onHide()
         })
-        this.$navtab.on('hidden.bs.tab', (e)=>{
+        this.$navtab.on('hidden.bs.tab', ()=>{
             this.onHidden()
         })
     }
@@ -59,7 +59,7 @@ class BasePane { // base page pane(panel view in tabpanel)
     }
     initEvents(){
         // on changed
-        this.$page.on('change typeahead:change', 'input[name], textarea[name]', (e) => {
+        this.$page.on('change typeahead:change', 'input[name], textarea[name]', () => {
             this._modified = true
         })
     }
@@ -128,8 +128,8 @@ class BasePane { // base page pane(panel view in tabpanel)
             this.onLoaded({data})
             return data
         }).catch(err => {
-            console.log(err)
-        }).finally((data) => {
+            console.error(err)
+        }).finally(() => {
             this.onLoaded({param})
         })
     }
@@ -180,7 +180,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         p.then(rst => {
             this.onSaved(data, rst)
         }).catch(err => {
-            console.log(err)
+            console.error(err)
         }).finally(() => {
             this.onSavedFinal(e, btn)
         })
@@ -216,7 +216,7 @@ class BasePane { // base page pane(panel view in tabpanel)
         }
     }
     onSaved(data, rst){
-        console.log(rst)
+        // console.log(rst)
         this.rerender(data, rst)
         this._modified = false
         this._autoRead && this.toRead()
@@ -224,13 +224,13 @@ class BasePane { // base page pane(panel view in tabpanel)
     onSavedFinal(e, btn){
         $(btn).button('reset')
     }
-    onEdit(e, btn){
+    onEdit(){
         this.toEdit()
     }
     toEdit(){
         this.$page.input('edit')
     }
-    onRead(e, btn){
+    onRead(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return
             this._modified = false
@@ -241,7 +241,7 @@ class BasePane { // base page pane(panel view in tabpanel)
     toRead(){
         this.$page.input('read')
     }
-    onCancel(e, btn){
+    onCancel(){
         if (this._modified){
             if (!window.confirm('确认取消修改？')) return
         }

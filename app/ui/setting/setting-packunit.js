@@ -7,7 +7,7 @@ class PackUnitForm extends UnitForm{
         return srvSetting.loadPackUnits()
     }
     doSave(units){
-        return srvSetting.savePackUnits(units).then(rst => {
+        return srvSetting.savePackUnits(units).then(() => {
             tfn.tips('保存成功！')
             // router.$main.trigger('changed.setting.units', [units])
             return units

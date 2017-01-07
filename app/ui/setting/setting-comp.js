@@ -26,7 +26,7 @@ class CompForm extends BaseForm{
             if (!file || !file.path) return
             this.$img.attr('src', file.path);
             srvUser.saveImg(file).then(file => {
-                console.log(file)
+                // console.log(file)
                 this.$imgIpt.data('fileId', file._id)
                 this.$imgIpt.val('') //reset file input
                 this.$form.input('edit')

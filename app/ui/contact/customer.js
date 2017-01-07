@@ -15,7 +15,7 @@ class CustomerPage extends ListPage{
     }
     initEvents(){
         super.initEvents()
-        router.$main.on('changed.customer', (e, data) => {
+        router.$main.on('changed.customer', () => {
             this.reload()
         })
     }
@@ -53,8 +53,7 @@ class CustomerPage extends ListPage{
             return
         }
         let p = srvCust.removeByIds(ids)
-        p.then((rst) => {
-            console.log(rst)
+        p.then(() => {
             this.reload()
         })
     }

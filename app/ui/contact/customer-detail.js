@@ -20,11 +20,11 @@ class CustomerDetailPage extends BasePage {
     }
     get $scroll(){// 页面内的滚动区域
         // return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
-         return (this._$scroll = this.$page.find('.auto-scroll'))
+        return (this._$scroll = this.$page.find('.auto-scroll'))
     }
     initEvents(){
         super.initEvents()
-        this.$btnAddContact.click(e => {
+        this.$btnAddContact.click(() => {
             this.paneContact.addNew()
         })
         this.$subtabs.on('shown.bs.tab', (e)=>{
@@ -43,7 +43,7 @@ class CustomerDetailPage extends BasePage {
         }
         return true
     }
-    onBack(e, btn){
+    onBack(){
         router.loadMainPanel('customer')
     }
     doLoad(param){

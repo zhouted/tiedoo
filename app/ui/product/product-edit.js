@@ -1,6 +1,6 @@
 const ListPage = require(appPath+'/ui/base/list-page.js')
 const srvProduct = require(appPath+'/service/product.js')
-const srvCategory = require(appPath+'/service/category.js')
+// const srvCategory = require(appPath+'/service/category.js')
 require(appPath+'/ui/base/jquery/jquery.ctree.js')
 require(appPath+'/ui/base/jquery/dropdown/dd-unit.js')
 
@@ -67,7 +67,7 @@ class ProductPage extends ListPage{
                 }
             }, e => {
                 $(e.target).find('.btn.img-clear').addClass('hidden')
-            }).find('.btn.img-clear').click(e => {
+            }).find('.btn.img-clear').click(() => {
                 $ipt.data('fileId', '').change()
                 $img.attr('src', 'ui/images/default.png')
             })
@@ -242,12 +242,11 @@ class ProductPage extends ListPage{
                 let spec = tfn.clone($specItem.data('spec'))
                 let specEx = $specItem.input('value')
                 tfn.merge(spec, specEx)//把修改合并到原始数据中
-                // if (!pd.specs.includes(spec)){//新增的加入进来
-                    if (!tfn.isBlankObject(spec)){//不要啥都没填的
-                        spec._id = spec._id || srvProduct.newSpecId()
-                        pd.specs.push(spec)
-                    }
-                // }
+                //新增的加入进来
+                if (!tfn.isBlankObject(spec)){//不要啥都没填的
+                    spec._id = spec._id || srvProduct.newSpecId()
+                    pd.specs.push(spec)
+                }
             }
             if (!tfn.isBlankObject(pd)){
                 pds.push(pd)
@@ -281,7 +280,7 @@ class ProductPage extends ListPage{
             return Promise.reject(err)
         })
     }
-    onAddNew(e, btn){
+    onAddNew(){
         this.addNewPd()
     }
     onHide(){
@@ -292,10 +291,10 @@ class ProductPage extends ListPage{
         }
         return true
     }
-    onBack(e, btn){
+    onBack(){
         router.loadMainPanel('product')
     }
-    onPaging(pageNo, prePageNo){
+    onPaging(pageNo){
         if (this._modified){
             tfn.tips('请先保存修改！')
             return false

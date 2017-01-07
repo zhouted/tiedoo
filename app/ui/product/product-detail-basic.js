@@ -31,7 +31,7 @@ class ProductDetailBasicForm extends BaseForm {
             if (!file || !file.path) return
             this.$img.attr('src', file.path);
             srvProduct.saveImg(file).then(file => {
-                console.log(file)
+                // console.log(file)
                 this.$imgIpt.data('fileId', file._id)
                 this.$imgIpt.val('') //reset file input
                 this.$form.closest('.on-reading, .on-editing').input('edit')
@@ -41,7 +41,7 @@ class ProductDetailBasicForm extends BaseForm {
     initValidators(){
         super.initValidators()
         let $pdCode = this.$form.find('input.product-code')
-        $pdCode.data('validator', (ipt) => {
+        $pdCode.data('validator', () => {
             let pd = this.$form.input('values')
             let p = srvProduct.checkPdCode(pd)
             return p
@@ -81,7 +81,7 @@ class ProductDetailBasicForm extends BaseForm {
             this.$categoryCode.val(cnode.code)
             this.$categoryName.text(cnode.name)
         })
-        router.$main.on('changed.category', (e, data) => {
+        router.$main.on('changed.category', () => {
             this.$ctree.cTree('refresh', treeOpt)
         })
     }
@@ -105,7 +105,7 @@ class ProductDetailBasicForm extends BaseForm {
                 }
             })
         }
-        router.$main.on('changed.setting.tags', (e, data) => {
+        router.$main.on('changed.setting.tags', () => {
             loadTags()
         })
         loadTags()
@@ -132,8 +132,7 @@ class ProductDetailBasicForm extends BaseForm {
     }
     renderCate(){
         let node = {id: this.$categoryCode.val()}
-        let $node = this.$ctree.cTree('locate', node)
-        // let node = this.$ctree.cTree('get', $node)
+        this.$ctree.cTree('locate', node)
         this.$categoryName.text(node.name||'')
     }
     renderTags(){

@@ -45,7 +45,7 @@ srvUser.login = function(data) {
             token.uid = user._id
             token.ip = user.tokenIp
             token.token = user.token
-            return srvUser.autoLogin(token).then(a => {
+            return srvUser.autoLogin(token).then(() => {
                 resolve(user)
             }).catch(err => {
                 reject(err)
@@ -188,7 +188,7 @@ srvUser.download = function(cb){
         remoteUser.login({account, token, ip}).then(user => {
             saveUser(user)
         }).catch(err => {
-            console.log(err)
+            console.warn(err)
             srvUser.load().then(user => {
                 return remoteUser.login({account, pwd:user.pwd, encoded:'md5'}).then(user => {
                     saveUser(user)

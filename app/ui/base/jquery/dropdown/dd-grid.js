@@ -98,17 +98,17 @@ $.fn.autoDdGrid = function(options, ...datasets){
         options = datasets[0]
     }
     switch (method) {
-        case 'val':
-            return this.typeahead('val', options)
-        case 'refresh':
-            for (let ipt of this) {
-                $(ipt).typeahead('val', ipt.value)
-            }
-            break
-        default:
-            for (let ipt of this) {
-                initDdGrid(ipt, options, datasets)
-            }
+    case 'val':
+        return this.typeahead('val', options)
+    case 'refresh':
+        for (let ipt of this) {
+            $(ipt).typeahead('val', ipt.value)
+        }
+        break
+    default:
+        for (let ipt of this) {
+            initDdGrid(ipt, options, datasets)
+        }
     }
     return this
 }

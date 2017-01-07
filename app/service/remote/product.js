@@ -70,6 +70,7 @@ function toLocalPds(pds){
             packWidth: pd.outerPackWidth,
             packHeight: pd.outerPackHeight,
             packNum: pd.outerPackNum,
+            imageId: pd.imageIds&&pd.imageIds[0],
             state: pd.state,
             version: pd.version,
         }

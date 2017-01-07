@@ -42,7 +42,7 @@ class UnitForm extends BaseForm{
         return units
     }
     doSave(units){
-        return srvSetting.saveUnits(units).then(rst => {
+        return srvSetting.saveUnits(units).then(() => {
             tfn.tips('保存成功！')
             router.$main.trigger('changed.setting.units', [units])
             return units

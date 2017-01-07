@@ -24,7 +24,7 @@ class ProductSpecForm extends ModalForm {
             if (!file || !file.path) return
             this.$img.attr('src', file.path);
             srvProduct.saveImg(file).then(file => {
-                console.log(file)
+                // console.log(file)
                 this.$imgIpt.data('fileId', file._id)
                 this.$imgIpt.val('') //reset file input
                 this.$form.closest('.on-reading, .on-editing').input('edit')
@@ -41,7 +41,7 @@ class ProductSpecForm extends ModalForm {
         let $units = this.$form.find('input[name][data-dd-type]')
         $units.autoDdGrid('refresh')
     }
-    selectUnits(target, suggestion){
+    selectUnits(target){
         let $target = $(target)
         let $ipts = $target.closest('.input-group').find('input[name]')
         for (let ipt of $ipts){

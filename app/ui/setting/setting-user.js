@@ -28,7 +28,7 @@ class UserForm extends BaseForm{
         }).on('done.cropper', (e, file) => {
             this.$img.attr('src', file.data);
             srvUser.saveImg(file).then(file => {
-                console.log(file)
+                // console.log(file)
                 this.$imgIpt.data('fileId', file._id)
                 this.$form.input('edit')
             })

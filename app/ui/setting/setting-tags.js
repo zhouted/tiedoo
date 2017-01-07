@@ -1,7 +1,6 @@
 const BaseForm = require(appPath+'/ui/base/base-form.js')
 const srvSetting = require(appPath+'/service/setting.js')
 
-const TAGS = srvSetting.TAGS
 const MAX_TAGS = 99 //最大标签数
 class TagsForm extends BaseForm{
     prepare(){
@@ -25,7 +24,7 @@ class TagsForm extends BaseForm{
         this.tryAddMore()
         // this.$form.input('read', true)
     }
-    tryAddMore(ipt){
+    tryAddMore(){
         let $tags = this.$form.find('input[name=tags]')
         if ($tags.length >= MAX_TAGS){//不要太多
             tfn.tips('预置标签太多啦！')
@@ -44,7 +43,7 @@ class TagsForm extends BaseForm{
         return tags
     }
     doSave(tags){
-        return srvSetting.saveTags(tags).then(rst => {
+        return srvSetting.saveTags(tags).then(() => {
             tfn.tips('保存成功！')
             router.$main.trigger('changed.setting.tags', [tags])
             return tags

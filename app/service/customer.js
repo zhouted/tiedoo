@@ -6,7 +6,7 @@ let srvCust = {}
 srvCust.load = function(param, project){
     let cond = {}
     if (param.key){
-        key = new RegExp(param.key)
+        let key = new RegExp(param.key)
         cond.$or = [{name: key}, {'contacts.0.name': key}]
     }
     let sortBy = param.sortBy = param.sortBy||{name:1}

@@ -35,7 +35,7 @@ class LoginForm extends ModalForm {
         //手机验证码
         let $btnSms = this.$form.find('.btn.sms-code')
         let sending = false
-        $btnSms.click(e => {
+        $btnSms.click(() => {
             if (sending) return false
             let mobile = this.$account.val()
             if (!consts.RE_MOBILE.test(mobile)){
@@ -76,7 +76,7 @@ class LoginForm extends ModalForm {
                 $smsGroup.addClass('hidden')
             }
             if (isEmail || isMobile){
-                srvUser.checkAccount(val).then(rst => {
+                srvUser.checkAccount(val).then(() => {
                     this.showRegister()
                 }).catch(err => {
                     if (err == consts.ERR_USER_EXISTS){
@@ -88,13 +88,13 @@ class LoginForm extends ModalForm {
             }
             return isEmail || isMobile
         })
-        this.$pwdAg.data('validator', (ipt) => {
+        this.$pwdAg.data('validator', () => {
             return !this.$pwdAg.is(':visible') || (this.$pwdAg.val()===this.$pwd.val())
         })
-        this.$companyName.data('validator', (ipt) => {
+        this.$companyName.data('validator', () => {
             return !this.$companyName.is(':visible') || (this.$companyName.val() != '')
         })
-        this.$smsCode.data('validator', (ipt) => {
+        this.$smsCode.data('validator', () => {
             return !this.$smsCode.is(':visible') || (this.$smsCode.val() != '')
         })
     }
@@ -126,7 +126,7 @@ class LoginForm extends ModalForm {
         return data
     }
     doSave(data){ //doLogin 登录和注册 交互处理
-        return srvUser.login(data).then(rst => {
+        return srvUser.login(data).then(() => {
             if (data.pwdAg) {//新注册用首次登录
                 this.showFirst()
             }else{

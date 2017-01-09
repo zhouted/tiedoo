@@ -33,52 +33,56 @@ class CompForm extends BaseForm{
             $progressBar.css('width', progress.percent+'%')
         }
         progress.percent = 0
-        let callback = (step) => {
+        progress(0) //准备下载
+        $steps.find('.status').text('等待下载...')
+        let callback = (step, stage) => {
             let $step = $steps.find('.'+step)
-            $step.find('.status').text('下载中...')
-            switch (step){
-            case 'user': case 'tags': case 'units': case 'pack-units':
-                progress(5); break
-            case 'contact': case 'category':
-                progress(10); break
-            case 'product':
-                progress(20); break
-            default:
-                progress(1); break
+            let $status = $step.find('.status')
+            switch (stage){
+            case 'merging':
+                $status.text('合并数据...'); break
+            case 'merged':
+                $status.text('保存数据...'); break
+            case 'images':
+                $status.text('下载图片...'); break
+            case 'done': default:
+                $status.text('下载完成')
             }
+            progress(5)
+            // switch (step){
+            // case 'user': case 'tags': case 'units': case 'pack-units':
+            //     progress(5); break
+            // case 'contact': case 'category':
+            //     progress(10); break
+            // case 'product':
+            //     progress(10); break
+            // default:
+            //     progress(1); break
+            // }
         }
-        progress(0); $steps.find('.status').text('未开始') //准备下载
         let pUser = srvUser.download(callback)//先下载用户信息
         pUser.then(user => {
-            progress(5); $steps.find('.user .status').text('已完成')
             router.$main.trigger('changed.user', [user])
             //下载tags
             let pTags = srvSetting.downloadTags(user.token, callback).then(rst => {
-                progress(5); $steps.find('.tags .status').text('已完成')
                 router.$main.trigger('changed.setting.tags', [rst])
             })
             //下载Units&PackUnits
-            let pUnit = srvSetting.downloadUnits(user.token, callback).then(() => {
-                progress(5); $steps.find('.units .status').text('已完成')
-            })
+            let pUnit = srvSetting.downloadUnits(user.token, callback)
             let pPackUnit = srvSetting.downloadPackUnits(user.token, callback)
             Promise.all([pUnit, pPackUnit]).then(rst => {
-                progress(5); $steps.find('.pack-units .status').text('已完成')
                 router.$main.trigger('changed.setting.units', [rst])
             })
             // 下载客户和供应商
             let pCust = srvCust.download(user.token, callback).then(rst => {
-                progress(10); $steps.find('.contact .status').text('已完成')
                 router.$main.trigger('changed.customer', [rst])
             })
             //下载品类
             let pCate = srvCate.download(user.token, callback).then(rst => {
-                progress(10); $steps.find('.category .status').text('已完成')
                 router.$main.trigger('changed.category', [rst])
             })
             //下载产品
             let pPd = srvProduct.download(user.token, callback).then(rst => {
-                progress(10); $steps.find('.product .status').text('已完成')
                 router.$main.trigger('changed.product', [rst])
             })
             return Promise.all([pCust, pTags, pUnit, pPackUnit, pCate, pPd]).then(() => {

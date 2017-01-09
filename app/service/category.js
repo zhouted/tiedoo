@@ -187,13 +187,13 @@ srvCate.removeById = function(id){
 srvCate.download = function(token, cb){//从云端下载品类数据
     return new Promise((resolve, reject) => {
         remoteCate.getCategories(token).then(cates => {
+            cb && cb('category', 'merging')
             return daoCate.find({}).then(existCates => {
                 let mergedCates = mergeCates(existCates, cates)
-                if (typeof(cb) == 'function'){
-                    cb('category')
-                }
+                cb && cb('category', 'merged')
                 // return srvCate.saveAll(mergedCates).then(rst => {
                 return daoCate.upsert(mergedCates).then(rst => {
+                    cb && cb('category', 'done')
                     resolve(rst)
                 })
             })

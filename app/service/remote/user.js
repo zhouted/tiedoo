@@ -1,4 +1,3 @@
-
 const remoteUrls = require(appPath+'/config/remote-urls.js')
 const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 const consts = require(appPath+'/apps/consts.js')

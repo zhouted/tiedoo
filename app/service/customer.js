@@ -27,16 +27,16 @@ srvCust.removeByIds = function(ids){
     return daoCust.removeByIds(ids)
 }
 
-srvCust.download = function(token, cb){//从云端下载品类数据
+srvCust.download = function(token, cb){//从云端下载客户数据
     return new Promise((resolve, reject) => {
         remoteContact.getAllContacts(token).then(({customers}) => {
+            cb && cb('contact', 'merging')
             return daoCust.find({}).then(existCusts => {
                 let mergedCusts = mergeCates(existCusts, customers)
-                if (typeof(cb) == 'function'){
-                    cb('contact')
-                }
+                cb && cb('contact', 'merged')
                 // return srvCate.saveAll(mergedCates).then(rst => {
                 return daoCust.upsert(mergedCusts).then(rst => {
+                    cb && cb('contact', 'done')
                     resolve(rst)
                 })
             })

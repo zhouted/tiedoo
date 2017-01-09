@@ -199,12 +199,10 @@ srvUser.download = function(cb){
         })
         function saveUser(user){
             user._id = uid
-            daoUser.save(user).then(rst => {
+            daoUser.save(user).then(() => {
+                cb && cb('user', 'done')
                 resolve(user)
             })
-            if (typeof(cb) == 'function'){
-                cb('user')
-            }
         }
     })
 }

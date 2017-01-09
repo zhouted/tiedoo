@@ -5,7 +5,8 @@ const remoteFn = require(appPath+'/service/remote/remote-fn.js')
 const filePath = app.getPath('userData')+'/Files/'
 mkdir(filePath) //预建Files文件夹
 
-exports.loadImg = function(id){//获取远端文件并保存到本地
+exports.loadImg = loadImg
+function loadImg(id){//获取远端文件并保存到本地
     return new Promise((resolve, reject) => {
         let path = filePath + id
         let file = {path}
@@ -23,6 +24,11 @@ exports.loadImg = function(id){//获取远端文件并保存到本地
             reject(err)
         })
     })
+}
+
+exports.downloadImgs = function(imgIds){
+    let promises = imgIds.map(id => loadImg(id))
+    return Promise.all(promises)
 }
 
 exports.typeOfId = function(id){//根据id前缀判断其类型

@@ -328,16 +328,20 @@ srvProduct.moveTo = function(pdIds, cate){
 }
 
 srvProduct.download = function(token, cb){//从云端下载产品数据
+    let imgIds = [] //收集图片ids
     return new Promise((resolve, reject) => {
         remotePd.getAllPds(token).then(pds => {
+            cb && cb('product', 'merging')
             let pMerges = pds.map(pd => mergePd(pd))
-            if (typeof(cb) == 'function'){
-                cb('product')
-            }
             return Promise.all(pMerges).then((mergedPds) => {
+                cb && cb('product', 'merged')
                 // return daoProduct.upsert(mergedPds).then(rst => {
                 return srvProduct.saveAll(mergedPds).then(rst => {
-                    resolve(rst)
+                    cb && cb('product', 'images')
+                    return remoteFile.downloadImgs(imgIds).then(() => {
+                        cb && cb('product', 'done')
+                        resolve(rst)
+                    })
                 })
             })
         }).catch(err => {
@@ -345,6 +349,7 @@ srvProduct.download = function(token, cb){//从云端下载产品数据
         })
     })
     function mergePd(pd){
+        pd.imageId && imgIds.push(pd.imageId)
         return new Promise((resolve, reject) => {
             daoProduct.findOne({id: pd.id}).then(existPd => {
                 existPd = existPd || {}
@@ -359,6 +364,7 @@ srvProduct.download = function(token, cb){//从云端下载产品数据
         })
         function mergeSpecs(existSpecs, specs){
             for (let spec of specs){
+                spec.imageId && imgIds.push(spec.imageId)
                 for (let exist of existSpecs){
                     if (exist.id === spec.id){
                         tfn.merge(exist, spec)

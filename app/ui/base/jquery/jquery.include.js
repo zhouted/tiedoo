@@ -9,7 +9,7 @@
 // }
 
 // 加载文件：如果指定id则检查唯一性（即只加载一次）；默认覆盖this下的内容（可指定jQuery DOM操作方法）
-// usage: $('#div').loadFile('a.html');
+// usage: $('#div').loadFile('a.html', {id: 'pid'});
 $.fn.loadFile = function(filename, opts){
     opts = opts || {}
     if (typeof(opts) == 'string'){
@@ -33,23 +33,6 @@ $.fn.loadFile = function(filename, opts){
         }
     });
 }
-
-// 把html文件追加到this下，如果指定id则检查唯一性（即只加载一次）
-// usage: $('body').addFile('a.html');
-// $.fn.addFile = function(filename, opts){
-//     let id = opts&&opts.id;
-//     if (id){// 如果指定id则检查唯一性
-//         let $exists = this.find('#'+id);
-//         if ($exists && $exists.length){//存在即不再加载
-//             let deferred = $.Deferred();
-//             deferred.resolve($exists);
-//             return deferred.promise();
-//         }
-//     }
-//     return loader(filename, opts).then($content => {
-//         this.append($content);
-//     });
-// }
 
 // 处理 $scope 下的所有<include>标签：用src指向的文件内容替换之
 function includer($scope){
@@ -98,7 +81,7 @@ function loader(filename, opts){
     function tryLoadAll(contents){
         let pid = opts&&opts.id
         let $contents = tryContents(contents, pid)
-        addScript($contents, pid);
+        $contents = addScript($contents, pid);
         if ($contents instanceof $){ // 递归加载
             includer($contents).then(() => {
                 resolve($contents)
@@ -123,8 +106,6 @@ function loader(filename, opts){
     }
     // 为加载内容附加同名js文件，同时处理content's id
     function addScript($contents, pid){
-        // let oid = setContentId($contents, id)
-        // let pid = id||oid
         let aScript = `<script>(function(){
             let p = require('./${filename.replace(/.html$/, '.js')}')
             if (typeof(p)=='function'){
@@ -136,32 +117,12 @@ function loader(filename, opts){
                 p.onReady && p.onReady({pid:'${pid}'})
             })})()</script>`
         if ($contents instanceof $){
-            // if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
-            //     let oidRg = new RegExp('#'+oid, 'g')
-            //     $contents.siblings('script,style').each(function(){
-            //         let $script = $(this);
-            //         $script.text($script.text().replace(oidRg, '#'+id));
-            //     });
-            // }
             $.merge($contents, $(aScript));
         }else{
             $contents += aScript;
         }
+        return $contents
     }
-
-    // function setContentId($contents, id){
-    //     let oid
-    //     if ($contents instanceof $){
-    //         let $first = $contents.filter('[id]').first()
-    //         if ($first.length){
-    //             oid = $first.attr('id')
-    //         }else{
-    //             $first = $contents.first()
-    //         }
-    //         id && $first.attr('id', id);// 如果指定了新的id则设置到第一个元素上
-    //     }
-    //     return oid //返回原oid
-    // }
 }
 
 // if (module){

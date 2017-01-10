@@ -3,7 +3,7 @@
     "productName": "Tiedoo",
     "description": "Tiedoo",
     "homepage": "http://www.tiedoo.com",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "main": "app.js",
     "author": "Tiedoo",
     "copyright": "© 2016, Tiedoo Tech. Inc. Ltd.",

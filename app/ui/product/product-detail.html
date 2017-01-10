@@ -1,4 +1,4 @@
-<div class="ui-page on-reading" id="productDetail">
+<div class="ui-page on-reading" id="${pid}">
     <!-- Header toolbar -->
     <div class="panel-heading topbar">
         <div class="panel-title">
@@ -19,27 +19,27 @@
     </div>
     <div class="panel-body">
         <div class="auto-scroll">
-            <include src="ui/product/product-detail-basic.html"></include>
+            <include src="ui/product/product-detail-basic.html" data-id="${pid}Basic"></include>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation"><a href="#productSpecsInfoPanel" role="tab" data-toggle="tab">规格信息</a></li>
-              <li role="presentation"><a href="#productSpecsPricePanel" role="tab" data-toggle="tab">价格信息</a></li>
-              <li role="presentation"><a href="#productSpecsPackPanel" role="tab" data-toggle="tab">包装信息</a></li>
-              <li role="presentation"><a href="#productSpecsQuotaPanel" role="tab" data-toggle="tab">销售记录</a></li>
+              <li role="presentation"><a href="#${pid}SpecsInfoPanel" role="tab" data-toggle="tab">规格信息</a></li>
+              <li role="presentation"><a href="#${pid}SpecsPricePanel" role="tab" data-toggle="tab">价格信息</a></li>
+              <li role="presentation"><a href="#${pid}SpecsPackPanel" role="tab" data-toggle="tab">包装信息</a></li>
+              <li role="presentation"><a href="#${pid}SpecsQuotaPanel" role="tab" data-toggle="tab">销售记录</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="productSpecsInfoPanel">
-                    <include src="ui/product/product-specs-info.html" data-id="productSpecsInfo"></include>
+                <div role="tabpanel" class="tab-pane active" id="${pid}SpecsInfoPanel">
+                    <include src="ui/product/product-specs-info.html" data-id="${pid}SpecsInfo"></include>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="productSpecsPricePanel">
-                    <include src="ui/product/product-specs-price.html" data-id="productSpecsPrice"></include>
+                <div role="tabpanel" class="tab-pane" id="${pid}SpecsPricePanel">
+                    <include src="ui/product/product-specs-price.html" data-id="${pid}SpecsPrice"></include>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="productSpecsPackPanel">
-                    <include src="ui/product/product-specs-pack.html" data-id="productSpecsPack"></include>
+                <div role="tabpanel" class="tab-pane" id="${pid}SpecsPackPanel">
+                    <include src="ui/product/product-specs-pack.html" data-id="${pid}SpecsPack"></include>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="productSpecsPricePanel">
-                    <!-- <include src="ui/product/product-specs-quotation.html" data-id="productSpecsPrice"></include> -->
+                <div role="tabpanel" class="tab-pane" id="${pid}SpecsPricePanel">
+                    <!-- <include src="ui/product/product-specs-quotation.html" data-id="${pid}SpecsPrice"></include> -->
                 </div>
             </div>
         </div>

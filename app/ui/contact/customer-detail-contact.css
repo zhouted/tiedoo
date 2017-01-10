@@ -1,7 +1,7 @@
-#customerDetailContact .contact-item fieldset{}
-#customerDetailContact .contact-item .btn-delete{position:absolute; z-index:100; display:none; top:1px; right:3px; font-size:16px;}
-.on-editing #customerDetailContact .contact-item:hover .btn-delete{display:inline-block;}
-#customerDetailContact .contact-item .btn-move-up{position:absolute; z-index:100; display:none; top:10px; left:50%; font-size:16px;}
-.on-editing #customerDetailContact .contact-item:hover .btn-move-up{display:inline-block; opacity:0.5;}
-.on-editing #customerDetailContact .contact-item .btn-move-up:hover{display:inline-block; opacity:1;}
-#customerDetailContact .contact-item:nth-child(1) .btn-move-up{display:inline-block !important; opacity:1 !important;}
+#pid .contact-item fieldset{}
+#pid .contact-item .btn-delete{position:absolute; z-index:100; display:none; top:1px; right:3px; font-size:16px;}
+.on-editing #pid .contact-item:hover .btn-delete{display:inline-block;}
+#pid .contact-item .btn-move-up{position:absolute; z-index:100; display:none; top:10px; left:50%; font-size:16px;}
+.on-editing #pid .contact-item:hover .btn-move-up{display:inline-block; opacity:0.5;}
+.on-editing #pid .contact-item .btn-move-up:hover{display:inline-block; opacity:1;}
+#pid .contact-item:nth-child(1) .btn-move-up{display:inline-block !important; opacity:1 !important;}

@@ -15,7 +15,8 @@ const router = {
         {key: 'quota', name: '业务报价', src: 'ui/quota/quota.html'},
         {key: 'customer', name: '客户管理', src: 'ui/contact/customer.html'},
         {key: 'customerDetail', name: '客户详情', src: 'ui/contact/customer-detail.html'},
-        {key: 'supplier', name: '供应商', src: 'ui/contact/supplier.html'},
+        {key: 'supplier', name: '供应商', src: 'ui/contact/customer.html'},
+        {key: 'supplierDetail', name: '供应商详情', src: 'ui/contact/customer-detail.html'},
         {key: 'setting', name: '设置', src: 'ui/setting/setting.html'},
     ],
 }

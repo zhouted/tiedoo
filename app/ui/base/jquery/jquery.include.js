@@ -95,29 +95,36 @@ function loader(filename, opts){
         deferred.reject(err);
     }
     // 尝试加载进一步包含的文件
-    function tryLoadAll($contents){
+    function tryLoadAll(contents){
+        let pid = opts&&opts.id
+        let $contents = tryContents(contents, pid)
+        addScript($contents, pid);
+        if ($contents instanceof $){ // 递归加载
+            includer($contents).then(() => {
+                resolve($contents)
+            }).catch(err => { // ignore errors
+                resolve($contents)
+                console.warn(err);
+            });
+        }else{//TODO: 不合法的html格式？
+            resolve($contents);
+        }
+    }
+    //试图把contents转为jQuery对象，同时处理pid
+    function tryContents(contents, pid){
+        contents = contents.replace(new RegExp('#pid', 'g'), '#'+pid)
+        let $contents = contents.replace(new RegExp('\\$\\{pid\\}', 'g'), pid)
         try{
             $contents = $($contents);
         }catch(e){
             console.warn(e);
-        }finally{
-            addScript($contents, opts&&opts.id);
-            if ($contents instanceof $){ // 递归加载
-                includer($contents).then(() => {
-                    resolve($contents)
-                }).catch(err => { // ignore errors
-                    resolve($contents)
-                    console.warn(err);
-                });
-            }else{//TODO: 不合法的html格式？
-                resolve($contents);
-            }
         }
+        return $contents
     }
     // 为加载内容附加同名js文件，同时处理content's id
-    function addScript($contents, id){
-        let oid = setContentId($contents, id)
-        let pid = id||oid
+    function addScript($contents, pid){
+        // let oid = setContentId($contents, id)
+        // let pid = id||oid
         let aScript = `<script>(function(){
             let p = require('./${filename.replace(/.html$/, '.js')}')
             if (typeof(p)=='function'){
@@ -129,32 +136,32 @@ function loader(filename, opts){
                 p.onReady && p.onReady({pid:'${pid}'})
             })})()</script>`
         if ($contents instanceof $){
-            if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
-                let oidRg = new RegExp('#'+oid, 'g')
-                $contents.siblings('script,style').each(function(){
-                    let $script = $(this);
-                    $script.text($script.text().replace(oidRg, '#'+id));
-                });
-            }
+            // if (oid && id){// 替换内嵌脚本及样式可能用到的contents'id
+            //     let oidRg = new RegExp('#'+oid, 'g')
+            //     $contents.siblings('script,style').each(function(){
+            //         let $script = $(this);
+            //         $script.text($script.text().replace(oidRg, '#'+id));
+            //     });
+            // }
             $.merge($contents, $(aScript));
         }else{
             $contents += aScript;
         }
     }
 
-    function setContentId($contents, id){
-        let oid
-        if ($contents instanceof $){
-            let $first = $contents.filter('[id]').first()
-            if ($first.length){
-                oid = $first.attr('id')
-            }else{
-                $first = $contents.first()
-            }
-            id && $first.attr('id', id);// 如果指定了新的id则设置到第一个元素上
-        }
-        return oid //返回原oid
-    }
+    // function setContentId($contents, id){
+    //     let oid
+    //     if ($contents instanceof $){
+    //         let $first = $contents.filter('[id]').first()
+    //         if ($first.length){
+    //             oid = $first.attr('id')
+    //         }else{
+    //             $first = $contents.first()
+    //         }
+    //         id && $first.attr('id', id);// 如果指定了新的id则设置到第一个元素上
+    //     }
+    //     return oid //返回原oid
+    // }
 }
 
 // if (module){

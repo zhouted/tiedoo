@@ -14,7 +14,7 @@ class UnitForm extends BaseForm{
         super.initEvents()
         this.$form.on('change', 'input[name=name]:last', e => this.tryAddMore(e.target))
         this.$form.on('change', 'input[name=nameEn]:last', e => this.tryAddMore(e.target))
-        router.$main.on('changed.setting.units', e => this.reload())
+        router.$main.on('changed.setting.units', () => this.reload())
     }
     doLoad(){
         return srvSetting.loadUnits()

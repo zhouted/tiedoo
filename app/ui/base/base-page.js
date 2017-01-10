@@ -4,7 +4,7 @@ class BasePage extends BasePane{
         super.parentEvents()
         // on parent's panel resize
         let resizing = false
-        this.$tabpanel.on('resize.td.page', (e) => {
+        this.$tabpanel.on('resize.td.page', () => {
             if (resizing) return
             if (!this.$tabpanel.is(':visible')) return
             resizing = true;
@@ -21,6 +21,13 @@ class BasePage extends BasePane{
     get autosubs(){// 自动传播到下级的事件
         return {onShow:true}
     }
+    $subPane(id){
+        let pid = this.pid
+        if (id.search(pid) < 0) {
+            id = pid + id
+        }
+        return this.$page.find('#'+id)
+    }
     get $subtabs(){// 页面内的子nav-tabs
         return this._$subtabs || (this._$subtabs = $(this.$page.find('.nav-tabs>li>a[role=tab]')))
     }
@@ -36,7 +43,7 @@ class BasePage extends BasePane{
         if (this.$scroll.length){
             let $fixed = this.$scroll.find('.fixed-y')
             if (!$fixed.length) return
-            this.$scroll.scroll(function(e){
+            this.$scroll.scroll(function(){
                 let $scroll = $(this)
                 $scroll.find('.fixed-y').css('top', this.scrollTop)
                 $scroll.find('.fixed-x').css('left', this.scrollLeft)

@@ -1,8 +1,8 @@
-#productSpecsPrice .table>thead>tr>th.field-auto{width: auto;}
-#productSpecsPrice .table>thead>tr>th.field-code{width: 100px;}
-#productSpecsPrice .table>thead>tr>th.field-name{width: 280px;}
-#productSpecsPrice .table>thead>tr>th.field-unit{width: 100px;}
-#productSpecsPrice .table>thead>tr>th.field-num{width: 120px; text-align: right;}
+#pid .table>thead>tr>th.field-auto{width: auto;}
+#pid .table>thead>tr>th.field-code{width: 100px;}
+#pid .table>thead>tr>th.field-name{width: 280px;}
+#pid .table>thead>tr>th.field-unit{width: 100px;}
+#pid .table>thead>tr>th.field-num{width: 120px; text-align: right;}
 
-#productSpecsPrice .table>tbody>tr>td{cursor: pointer;}
-#productSpecsPrice .table>tbody>tr>td.field-num{text-align: right;}
+#pid .table>tbody>tr>td{cursor: pointer;}
+#pid .table>tbody>tr>td.field-num{text-align: right;}

@@ -14,12 +14,12 @@ $.fn.spv = function(act, opts) {
     let $content = this.first() // 只支持一个
 
     switch (act) {
-        case 'tabs':
-            initTabs($content, opts)
-            break
-        case 'open':
-        default:
-            openPanel($content, opts)
+    case 'tabs':
+        initTabs($content, opts)
+        break
+    case 'open':
+    default:
+        openPanel($content, opts)
     }
 
     return this
@@ -61,7 +61,7 @@ function openPanel($content, opts){
     if (!$panel.length){
         let src = $tab.attr('src')
         $panel = $('<div role="tabpanel" class="tab-pane panel panel-default"></div>').attr('id', id)
-        $panel.loadFile(src).then(() => {
+        $panel.loadFile(src, opts.key).then(() => {
             $content.append($panel)
             $tab.tab('show')
         })

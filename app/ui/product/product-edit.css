@@ -1,28 +1,28 @@
-#productEdit .product-list thead>tr>th{background-color: #eee; text-align: left;}
-#productEdit .product-list thead>tr>th.field-auto{width: auto;}
-#productEdit .product-list thead>tr>th.field-check{width: 22px; text-align: center;}
-#productEdit .product-list thead>tr>th.field-img{width: 50px; text-align: center;}
-#productEdit .product-list thead>tr>th.field-code{width: 100px;}
-#productEdit .product-list thead>tr>th.field-name{width: 200px;}
-#productEdit .product-list thead>tr>th.field-unit{width: 120px;}
-#productEdit .product-list thead>tr>th.field-num{width: 100px; text-align: right;}
-#productEdit .product-list thead>tr>th.field-size{width: 160px; text-align: center;}
-#productEdit .product-list thead>tr>th.field-weight{width: 120px; text-align: center;}
-/*#productEdit .product-item tr>td{cursor: pointer;}*/
-#productEdit .product-item tr>th.field-check{text-align: center;}
-#productEdit .product-item tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
-#productEdit .product-item tr>td.field-num{text-align: right;}
-#productEdit .product-item tr>td.field-size{text-align: center;}
-#productEdit .product-item tr>td.field-weight{text-align: center;}
+#pid .product-list thead>tr>th{background-color: #eee; text-align: left;}
+#pid .product-list thead>tr>th.field-auto{width: auto;}
+#pid .product-list thead>tr>th.field-check{width: 22px; text-align: center;}
+#pid .product-list thead>tr>th.field-img{width: 50px; text-align: center;}
+#pid .product-list thead>tr>th.field-code{width: 100px;}
+#pid .product-list thead>tr>th.field-name{width: 200px;}
+#pid .product-list thead>tr>th.field-unit{width: 120px;}
+#pid .product-list thead>tr>th.field-num{width: 100px; text-align: right;}
+#pid .product-list thead>tr>th.field-size{width: 160px; text-align: center;}
+#pid .product-list thead>tr>th.field-weight{width: 120px; text-align: center;}
+/*#pid .product-item tr>td{cursor: pointer;}*/
+#pid .product-item tr>th.field-check{text-align: center;}
+#pid .product-item tr>th.field-img{text-align: center; vertical-align: middle; padding-top: 3px; padding-bottom: 3px;}
+#pid .product-item tr>td.field-num{text-align: right;}
+#pid .product-item tr>td.field-size{text-align: center;}
+#pid .product-item tr>td.field-weight{text-align: center;}
 
-#productEdit .product-item tr.product-item-basic>th,
-#productEdit .product-item tr.product-item-basic>td{background-color: #eff4fa; font-size:16px;}
-#productEdit .product-item tr.product-item-spec>th.fixed-x,
-#productEdit .product-item tr.product-item-spec>td.fixed-x{background-color: #eff4fa;}
+#pid .product-item tr.product-item-basic>th,
+#pid .product-item tr.product-item-basic>td{background-color: #eff4fa; font-size:16px;}
+#pid .product-item tr.product-item-spec>th.fixed-x,
+#pid .product-item tr.product-item-spec>td.fixed-x{background-color: #eff4fa;}
 
-#productEdit .product-item .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
-#productEdit .product-item .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
+#pid .product-item .product-item-basic .field-img>a>img{max-width: 32px; max-height: 32px; }
+#pid .product-item .product-item-spec  .field-img>a>img{max-width: 26px; max-height: 26px; }
 
-#productEdit .product-item .btn.img-clear{position:absolute; top:0; left:0; padding:1px;}
+#pid .product-item .btn.img-clear{position:absolute; top:0; left:0; padding:1px;}
 
-/*#productEdit>.panel-body>.auto-scroll{min-height: 360px;}*/
+/*#pid>.panel-body>.auto-scroll{min-height: 360px;}*/

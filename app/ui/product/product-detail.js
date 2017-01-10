@@ -13,19 +13,19 @@ class ProductDetailPage extends BasePage {
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
     get paneBasic(){
-        return this._paneBasic || (this._paneBasic = this.$page.find('#productDetailBasic').data('page'))
+        return this._paneBasic || (this._paneBasic = this.$subPane('Basic').data('page'))
     }
     get paneSpec(){
-        return this._paneSpec || (this._paneSpec = this.$page.find('#productDetailSpecModal').data('page'))
+        return this._paneSpec || (this._paneSpec = this.$subPane('SpecModal').data('page'))
     }
     get paneSpecsInfo(){
-        return this._paneSpecsInfo || (this._paneSpecsInfo = this.$page.find('#productSpecsInfo').data('page'))
+        return this._paneSpecsInfo || (this._paneSpecsInfo = this.$subPane('SpecsInfo').data('page'))
     }
     get paneSpecsPrice(){
-        return this._paneSpecsPrice || (this._paneSpecsPrice = this.$page.find('#productSpecsPrice').data('page'))
+        return this._paneSpecsPrice || (this._paneSpecsPrice = this.$subPane('SpecsPrice').data('page'))
     }
     get paneSpecsPack(){
-        return this._paneSpecsPack || (this._paneSpecsPack = this.$page.find('#productSpecsPack').data('page'))
+        return this._paneSpecsPack || (this._paneSpecsPack = this.$subPane('SpecsPack').data('page'))
     }
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))

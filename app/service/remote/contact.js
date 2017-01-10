@@ -5,7 +5,7 @@ const remoteContact = {}
 
 remoteContact.getAllContacts = function(token){
     return new Promise((resolve, reject) => {
-        remoteFn.request(remoteUrls.getAllContacts, {token}).then(data => {
+        remoteFn.request(remoteUrls.getAllContacts, {token, pageSize:9999}).then(data => {
             let {customers, suppliers} = toLocalContacts(data)
             resolve({customers, suppliers})
         }).catch(err => {

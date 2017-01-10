@@ -1,7 +1,7 @@
 class BasePane { // base page pane(panel view in tabpanel)
     constructor({pid}){
-        this._pid = '#'+pid //pane/page identify
-        $(this._pid).data('page', this)
+        this._pid = pid //pane/page identify
+        this.$page.data('page', this)
         this.prepare()
         this.parentEvents()
     }
@@ -34,8 +34,11 @@ class BasePane { // base page pane(panel view in tabpanel)
     get pid(){// page id
         return this._pid
     }
+    get sharpId(){// id with sharp
+        return '#'+this._pid
+    }
     get $page(){// this page
-        return this._$page || (this._$page = $(this._pid))
+        return this._$page || (this._$page = $(this.sharpId))
     }
     get $parentPage(){// parent page
         return this.$page.parent().closest('.ui-page')
@@ -134,7 +137,6 @@ class BasePane { // base page pane(panel view in tabpanel)
         })
     }
     doLoad(param){
-        // this.setFormData(data)
     }
     render(data){
     }

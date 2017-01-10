@@ -33,7 +33,7 @@ class CustomerPage extends ListPage{
         this.load({key: text})
     }
     toDetail(id){
-        router.loadMainPanel('customerDetail', {_id:id})
+        router.loadMainPanel(this.pid+'Detail', {_id:id})
     }
     onDetail(e, target){
         let id = this.getItemId(target)

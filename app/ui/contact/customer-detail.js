@@ -6,14 +6,17 @@ class CustomerDetailPage extends BasePage {
         super.prepare()
         this._forceLoad = true
     }
+    get pType(){
+        return this._pType || (this._pType = this._pid.replace('Detail',''))
+    }
     get $title(){
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
     get paneInfo(){
-        return this._paneInfo || (this._paneInfo = this.$page.find('#customerDetailInfo').data('page'))
+        return this._paneInfo || (this._paneInfo = this.$subPane('Info').data('page'))
     }
     get paneContact(){
-        return this._paneContact || (this._paneContact = this.$page.find('#customerDetailContact').data('page'))
+        return this._paneContact || (this._paneContact = this.$subPane('Contact').data('page'))
     }
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
@@ -44,7 +47,7 @@ class CustomerDetailPage extends BasePage {
         return true
     }
     onBack(){
-        router.loadMainPanel('customer')
+        router.loadMainPanel(this.pType)
     }
     doLoad(param){
         return srvCust.loadById(param._id)

@@ -30,8 +30,8 @@ exports.onReady = function(){
 
     $(window).on('resize', onResize)
     function onResize(){
-        let height = window.innerHeight - $('#topbar').height() - 2 - 2;
-        $('#sidebar').css('height', height)
+        let height = window.innerHeight - $('#mainTopbar').height() - 2 - 2;
+        $('#mainSidebar').css('height', height)
         $('main.tab-content').css('height', height)
         $('main.tab-content>.tab-pane').css('height', height).trigger('resize.td.page')
     }

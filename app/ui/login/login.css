@@ -3,7 +3,7 @@ html{/*Perfect Full Page Background Image*/
     background-size: cover;
 }
 
-#login>.middle-block {width: 300px;}
-#login .form-control:not([type=button]){background-color: #fff}
-#login .form-control::-webkit-input-placeholder{color: #999;}
-#login .text-static{color: #fff;}
+#pid>.middle-block {width: 300px;}
+#pid .form-control:not([type=button]){background-color: #fff}
+#pid .form-control::-webkit-input-placeholder{color: #999;}
+#pid .text-static{color: #fff;}

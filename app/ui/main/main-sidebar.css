@@ -1,30 +1,30 @@
-#sidebar>ul{
+#pid>ul{
     color: #fff;
     text-align: center;
     background-color: #4e5f6f;
 }
 
-#sidebar>ul>li{
+#pid>ul>li{
     padding: 10px 4px;
 }
 
-#sidebar>ul>li:hover{
+#pid>ul>li:hover{
     background-color: #000;
 }
 
-#sidebar>ul>li>a{
+#pid>ul>li>a{
     color: #fff;
     text-decoration:none;
 }
 
-#sidebar>ul>li>a>.glyphicon{
+#pid>ul>li>a>.glyphicon{
     color: #52c2e8;
     font-size: 32px;
 }
 
-#sidebar>ul>li>a>.caption{
+#pid>ul>li>a>.caption{
     font-size: 16px;
 }
-/*#sidebar>ul>li>a>img{
+/*#pid>ul>li>a>img{
     padding: 10px 10px 0px 10px;
 }*/

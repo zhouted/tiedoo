@@ -14,7 +14,7 @@
      * This revision now includes sending headers, resolves the stack overflow in abort(), and sets the status text
      * into the response if the request is unsuccessful.
      */
-    $.ajaxTransport("+*", function(options, originalOptions, jqXHR){
+    $.ajaxTransport("+*", function(options/*, originalOptions, jqXHR*/){
         // Test for the conditions that mean we can/want to send/receive blobs or arraybuffers - we need XMLHttpRequest
         // level 2 (so feature-detect against window.FormData), feature detect against window.Blob or window.ArrayBuffer,
         // and then check to see if the dataType is blob/arraybuffer or the data itself is a Blob/ArrayBuffer

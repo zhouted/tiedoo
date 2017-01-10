@@ -505,7 +505,4 @@
             return v.toString(16)
         })
     }
-    // function log(msg){
-    //     console.log('cTree: '+msg)
-    // }
 })(jQuery)

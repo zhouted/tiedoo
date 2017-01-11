@@ -10,6 +10,9 @@ srvCust.load = function(param, project){
         let key = new RegExp(param.key)
         cond.$or = [{name: key}, {'contacts.0.name': key}]
     }
+    if (param.group){
+        cond.group = param.group
+    }
     let sortBy = param.sortBy = param.sortBy||{name:1}
     let paging = param.paging = param.paging||{pageSize:10}
     return daoCust.find(cond, project, sortBy, paging)
@@ -29,7 +32,7 @@ srvCust.removeByIds = function(ids){
 
 srvCust.download = function(token, cb){//从云端下载客户数据
     return new Promise((resolve, reject) => {
-        remoteContact.getAllContacts(token).then(({customers}) => {
+        remoteContact.getAllContacts(token).then(customers => {
             cb && cb('contact', 'merging')
             return daoCust.find({}).then(existCusts => {
                 let mergedCusts = mergeCates(existCusts, customers)
@@ -61,6 +64,5 @@ srvCust.download = function(token, cb){//从云端下载客户数据
         return existCusts
     }
 }
-
 
 module.exports = srvCust

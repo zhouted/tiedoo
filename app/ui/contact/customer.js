@@ -13,6 +13,16 @@ class CustomerPage extends ListPage{
             onDetail: '.customer-item>td',
         })
     }
+    get group(){
+        return this._pid[0]//return c-customer or s-supplier
+    }
+    get groupName(){
+        return (this.group==='s')? '供应商' : '客户'
+    }
+    prepare(){
+        super.prepare()
+        this.$page.find('.customer-group-name').text(this.groupName)
+    }
     initEvents(){
         super.initEvents()
         router.$main.on('changed.customer', () => {
@@ -20,7 +30,7 @@ class CustomerPage extends ListPage{
         })
     }
     get defaultParam(){
-        return tfn.merge(super.defaultParam, {paging:{pageSize:10}})
+        return tfn.merge(super.defaultParam, {group: this.group, paging:{pageSize:10}})
     }
     doLoad(param){
         return srvCust.load(param)

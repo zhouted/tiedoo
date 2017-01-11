@@ -6,8 +6,8 @@ const remoteContact = {}
 remoteContact.getAllContacts = function(token){
     return new Promise((resolve, reject) => {
         remoteFn.request(remoteUrls.getAllContacts, {token, pageSize:9999}).then(data => {
-            let {customers, suppliers} = toLocalContacts(data)
-            resolve({customers, suppliers})
+            let comps = toLocalContacts(data)
+            resolve(comps)
         }).catch(err => {
             reject(err)
         })
@@ -15,20 +15,19 @@ remoteContact.getAllContacts = function(token){
 }
 
 function toLocalContacts(data){
-    let customers = [], suppliers = []
-    let comp
-    data.sortBy('company')
+    // let customers = [], suppliers = []
+    let comps = [], compMaps = {}, comp
+    // data.sortBy('company')
     for (let item of data) {
-        if (!item || !item.group || (item.group !== 'c' && item.group !== 's')){
-            continue
+        let compKey = item && (item.company+':'+item.group)
+        if (!compKey || !item.group || (item.group !== 'c' && item.group !== 's')){
+            continue //跳过非公司级联系人
         }
-        if (!comp || comp.name !== item.company){
-            comp = {id: item.id, name: item.company, contacts: []}
-            if (item.group === 'c'){
-                customers.push(comp)
-            }else{
-                suppliers.push(comp)
-            }
+        comp = compMaps[compKey]
+        if (!comp){
+            comp = {id: item.id, group: item.group, name: item.company, contacts: []}
+            compMaps[compKey] = comp
+            comps.push(comp)
         }
         comp.alias = comp.alias || item.companyNo
         comp.tel = comp.tel || item.officePhone
@@ -43,9 +42,9 @@ function toLocalContacts(data){
         comp.labels = comp.labels || item.level
         comp.imageId = comp.imageId || item.avatarId
         comp.remark = comp.remark || item.remark
-        // kind: '',
-        // staffies: '',
-        // amount: '',
+        // comp.kind: '',
+        // comp.staffies: '',
+        // comp.amount: '',
         let contact = {
             id: item.id,
             name: item.name,
@@ -58,7 +57,7 @@ function toLocalContacts(data){
         }
         comp.contacts.push(contact)
     }
-    return {customers, suppliers}
+    return comps
 }
 
 module.exports = remoteContact

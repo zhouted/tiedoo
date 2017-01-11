@@ -3,7 +3,7 @@
         <div class="pull-right" style="max-width:230px; margin-left:10px;">
             <!-- <div class="form-group" style="margin:0;"> -->
                 <div class="input-group">
-                    <input type="search" class="form-control" placeholder="客户名称、联系人">
+                    <input type="search" class="form-control" placeholder="公司名称、联系人">
                     <span class="input-group-btn">
                         <button type="button" class="btn search btn-primary">
                             <span class="glyphicon glyphicon-search"></span>
@@ -24,7 +24,10 @@
                 <thead>
                     <tr>
                         <th class="fixed-y" width="20px"><input type="checkbox"></th>
-                        <th class="fixed-y sortable" data-field="name" width="200px"><span class="sort-arrow">↑</span>客户名称</th>
+                        <th class="fixed-y sortable" data-field="name" width="200px">
+                            <span class="sort-arrow">↑</span>
+                            <span class="customer-group-name"></span>名称
+                        </th>
                         <th class="fixed-y" data-field="addr" width="auto">联系地址</th>
                         <th class="fixed-y" data-field="tel" width="120px">联系电话</th>
                         <th class="fixed-y" data-field="fax" width="120px">传真</th>

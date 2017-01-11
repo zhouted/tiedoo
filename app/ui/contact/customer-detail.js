@@ -2,13 +2,6 @@ const BasePage = require(appPath+'/ui/base/base-page.js')
 const srvCust = require(appPath+'/service/customer.js')
 
 class CustomerDetailPage extends BasePage {
-    prepare(){
-        super.prepare()
-        this._forceLoad = true
-    }
-    get pType(){
-        return this._pType || (this._pType = this._pid.replace('Detail',''))
-    }
     get $title(){
         return this._$title || (this._$title = this.$page.find('.panel-title'))
     }
@@ -24,6 +17,27 @@ class CustomerDetailPage extends BasePage {
     get $scroll(){// 页面内的滚动区域
         // return this._$scroll || (this._$scroll = this.$page.find('.auto-scroll'))
         return (this._$scroll = this.$page.find('.auto-scroll'))
+    }
+    get group(){
+        return this._group || this._pid[0]//return c-customer or s-supplier
+    }
+    set group(group){
+        this._group = group
+    }
+    get groupName(){
+        return (this.group==='s')? '供应商' : '客户'
+    }
+    prepare(){
+        super.prepare()
+        this._forceLoad = true
+        this.$page.find('.customer-group-name').text(this.groupName)
+        if (this.group==='s'){
+            this.$page.find('.customer-quotation-tab').addClass('hidden')
+            this.$page.find('.customer-suproduct-tab').removeClass('hidden')
+        }else{
+            this.$page.find('.customer-quotation-tab').removeClass('hidden')
+            this.$page.find('.customer-suproduct-tab').addClass('hidden')
+        }
     }
     initEvents(){
         super.initEvents()
@@ -47,7 +61,8 @@ class CustomerDetailPage extends BasePage {
         return true
     }
     onBack(){
-        router.loadMainPanel(this.pType)
+        let detailPanelKey = (this.group==='s')? 'supplier':'customer'
+        router.loadMainPanel(detailPanelKey)
     }
     doLoad(param){
         return srvCust.loadById(param._id)
@@ -59,12 +74,13 @@ class CustomerDetailPage extends BasePage {
         if (!data || !data._id){
             this.toEdit()
         }else{
+            this.group = data.group
             this.toRead()
         }
     }
     renderTitle(customer){
         customer = customer || {}
-        this.$title.find('.bind-customer-name').text(customer.name||'客户名称')
+        this.$title.find('.bind-customer-name').text(customer.name||'公司名称')
         this.$title.find('.bind-customer-createdAt').text(tfn.fdate(customer.createdAt||new Date()))
         // this.$title.find('.bind-customer-creator').text(customer.creator||'创建者')
         this.$title.find('.bind-customer-contact-name').text(customer.contacts && customer.contacts[0].name||'首要联系人')
@@ -72,7 +88,7 @@ class CustomerDetailPage extends BasePage {
     getPageData(){
         let info = this.paneInfo.getFormData()
         let contacts = this.paneContact.getFormData()
-        let data = tfn.clone(info, {contacts})
+        let data = tfn.clone(info, {contacts}, {group: this.group})
         return data
     }
     doSave(data){

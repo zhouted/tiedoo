@@ -2,7 +2,7 @@
     <!-- Header toolbar -->
     <div class="panel-heading topbar">
         <div class="panel-title">
-            <label class="panel-title-main text-center"><span class="bind-customer-name">客户公司名称</span></label>
+            <label class="panel-title-main text-center"><span class="bind-customer-name">公司名称</span></label>
             <span class="panel-title-sub">
                 <label>创建时间：</label><span class="bind-customer-createdAt">0000/00/00</span>
                 <label>首要联系人：</label><span class="bind-customer-contact-name">首要联系人</span>
@@ -18,9 +18,14 @@
     </div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs topbar" role="tablist">
-      <li role="presentation"><a href="#${pid}InfoPanel" role="tab" data-toggle="tab">客户信息</a></li>
+      <li role="presentation">
+          <a href="#${pid}InfoPanel" role="tab" data-toggle="tab">
+              <span class="customer-group-name"></span>信息
+          </a>
+      </li>
       <li role="presentation"><a href="#${pid}ContactPanel" role="tab" data-toggle="tab">联系人</a></li>
-      <li role="presentation"><a href="#${pid}Quotation" role="tab" data-toggle="tab">报价记录</a></li>
+      <li role="presentation" class="customer-quotation-tab"><a href="#${pid}Quotation" role="tab" data-toggle="tab">报价记录</a></li>
+      <li role="presentation" class="customer-suproduct-tab"><a href="#${pid}SupProduct" role="tab" data-toggle="tab">供应产品</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">

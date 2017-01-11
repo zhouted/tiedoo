@@ -25,6 +25,7 @@
               <li role="presentation"><a href="#${pid}SpecsInfoPanel" role="tab" data-toggle="tab">规格信息</a></li>
               <li role="presentation"><a href="#${pid}SpecsPricePanel" role="tab" data-toggle="tab">价格信息</a></li>
               <li role="presentation"><a href="#${pid}SpecsPackPanel" role="tab" data-toggle="tab">包装信息</a></li>
+              <li role="presentation"><a href="#${pid}SpecsSupdPanel" role="tab" data-toggle="tab">供应商信息</a></li>
               <li role="presentation"><a href="#${pid}SpecsQuotaPanel" role="tab" data-toggle="tab">销售记录</a></li>
             </ul>
             <!-- Tab panes -->
@@ -37,6 +38,9 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="${pid}SpecsPackPanel">
                     <include src="ui/product/product-specs-pack.html" data-id="${pid}SpecsPack"></include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="${pid}SpecsSupdPanel">
+                    <include src="ui/product/product-specs-supd.html" data-id="${pid}SpecsSupd"></include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="${pid}SpecsPricePanel">
                     <!-- <include src="ui/product/product-specs-quotation.html" data-id="${pid}SpecsPrice"></include> -->

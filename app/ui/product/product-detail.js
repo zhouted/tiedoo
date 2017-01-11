@@ -27,6 +27,9 @@ class ProductDetailPage extends BasePage {
     get paneSpecsPack(){
         return this._paneSpecsPack || (this._paneSpecsPack = this.$subPane('SpecsPack').data('page'))
     }
+    get paneSpecsSupd(){
+        return this._paneSpecsSupd || (this._paneSpecsSupd = this.$subPane('SpecsSupd').data('page'))
+    }
     get $btnAddContact(){
         return this._$btnAddContact || (this._$btnAddContact = this.$page.find('.btn.add-contact'))
     }
@@ -81,6 +84,7 @@ class ProductDetailPage extends BasePage {
         this.paneSpecsInfo && this.paneSpecsInfo.render(data&&data.specs)
         this.paneSpecsPrice && this.paneSpecsPrice.render(data&&data.specs)
         this.paneSpecsPack && this.paneSpecsPack.render(data&&data.specs)
+        this.paneSpecsSupd && this.paneSpecsSupd.render(data&&data.specs)
         if (!data || !data._id){
             this.toEdit()
         }else{

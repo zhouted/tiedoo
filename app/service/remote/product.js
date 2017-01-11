@@ -75,6 +75,27 @@ function toLocalPds(pds){
             version: pd.version,
         }
         product.specs.push(spec)
+        let suppliers = spec.suppliers = []
+        for (let sup of pd.suppliers||[]){
+            if (!sup) continue
+            let supplier = {
+                supName: sup.supName,
+                supAlias: sup.supNo,
+                supPdNo: sup.supPdNo,
+                supMoq: sup.supMoq,
+                supPrice: sup.supPrice,
+                supPriceCurr: sup.supPriceCurr,
+                supOfferDate: sup.supOfferDate,
+                supValidity: sup.supValidity,
+                supDealDay: sup.supDealDay,
+                supDealPlace: sup.supDealPlace,
+            }
+            if (sup.isMain){
+                suppliers.splice(0, 0, supplier)
+            }else{
+                suppliers.push(supplier)
+            }
+        }
     }
     return products.sortBy('code')
     function transSpecCode(productNo, specs){

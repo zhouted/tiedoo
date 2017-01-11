@@ -1,0 +1,38 @@
+<div id="${pid}" >
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table data-list table-hover" style="table-layout:fixed;">
+                <thead>
+                    <tr>
+                        <th class="field-code">规格编号</th>
+                        <th class="field-alias">供应商简称</th>
+                        <th class="field-name">供应商名称</th>
+                        <th class="field-code">供应商货号</th>
+                        <th class="field-price">报价</th>
+                        <th class="field-num">起订量</th>
+                        <th class="field-date">报价日期</th>
+                        <th class="field-num">有效期</th>
+                        <th class="field-num">交货期</th>
+                        <th class="field-auto">交货地点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script type="text/html" role="template" data-bind="data">
+                        <tr class="data-item" data-id="${data._id}">
+                            <td class="field-code">${tfn.fstr(data.code)}</td>
+                            <td class="field-alias">${tfn.fstr(data.supAlias)}</td>
+                            <td class="field-name">${tfn.fstr(data.supName)}</td>
+                            <td class="field-code">${tfn.fstr(data.supPdNo)}</td>
+                            <td class="field-price">${tfn.fnum(data.supPrice)}${tfn.fstr(data.supPriceCurr)}</td>
+                            <td class="field-num">${tfn.fnum(data.moq)}</td>
+                            <td class="field-date">${tfn.fdate(data.supOfferDate)}</td>
+                            <td class="field-num">${tfn.fnum(data.supValidity)}</td>
+                            <td class="field-num">${tfn.fnum(data.supDealDay)}</td>
+                            <td class="field-auto">${tfn.fstr(data.supDealPlace)}</td>
+                        </tr>
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

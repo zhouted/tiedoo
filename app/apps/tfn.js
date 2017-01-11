@@ -30,14 +30,17 @@ function numToStr(num, fixed){
 }
 exports.fdate = dateToStr
 function dateToStr(date){
+    date = new Date(date)
     return (date instanceof Date) && date.toLocaleDateString() || date || ''
 }
 exports.ftime = timeToStr
 function timeToStr(date){
+    date = new Date(date)
     return (date instanceof Date) && date.toLocaleTimeString() || date || ''
 }
 exports.fdatetime = dateToLStr
 function dateToLStr(date){
+    date = new Date(date)
     return (date instanceof Date) && date.toLocaleString() || date || ''
 }
 exports.funit = funit
@@ -62,6 +65,17 @@ function fweight(net, cross){
     cross = numToStr(cross)||'-'
     return net+'/'+cross
 }
+
+// function toDate(val){
+//     if (!(val instanceof Date)){
+//         val = new Date(val)
+//     }
+//     if (val instanceof Date){
+//         return val
+//     }else{
+//         return null
+//     }
+// }
 
 exports.tips = tips // 弹出提示信息（几秒钟后自动消失）
 function tips(msg, type, complete) {//type:对应bootstrap的alert-*：'success'是成功信息，'danger'是失败信息,'info'是普通信息,'warning'是警告信息

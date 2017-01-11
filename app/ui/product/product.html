@@ -107,7 +107,7 @@
                                 <td class="field-size">${tfn.fsize(spec.packLength, spec.packWidth, spec.packHeight)}</td>
                                 <td class="field-weight">${tfn.fweight(spec.packNetWeight, spec.packGrossWeight)}</td>
                                 <td class="field-num">${tfn.fnum(spec.packNum)}</td>
-                                <td class="field-supplier">${tfn.fstr(spec.supplier)}</td>
+                                <td class="field-supplier">${tfn.fstr(spec.suppliers&&spec.suppliers[0]&&spec.suppliers[0].supName)}</td>
                             </tr>
                         </script>
                     </table>
